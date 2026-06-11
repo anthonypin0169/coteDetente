@@ -1,0 +1,46 @@
+.header{
+    height: 225px;
+    display: flex;
+    align-items: center;
+    background: rgb(194, 194, 194);
+    &__left{
+        width: 33%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 50px;
+        &--search-bar{
+            
+        }
+        &--home{
+            
+        }
+        &--services{
+            
+        }
+        &--event{
+            
+        }
+    }
+    &__center{
+        width: 34%;
+        display: flex;
+        justify-content: center;
+        &--logo{
+            width: 175px;
+            height: 175px;   
+        }
+    }
+    &__right{
+        width: 33%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &--gift-card{
+            
+        }
+        &--shopping-card{
+            
+        }
+    }
+}

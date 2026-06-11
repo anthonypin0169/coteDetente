@@ -10,6 +10,7 @@ import Makeup from "./pages/makeup"
 import Event from "./pages/event"
 import GiftCard from "./pages/giftCard"
 import Contact from "./pages/contact"
+import "./index.css"
 
 function App() {
 return (

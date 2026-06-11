@@ -1,7 +1,11 @@
 import "./logo.scss"
 
-export default function Logo() {
+export default function Logo ({src, alt="coté-détente", className="logo"}) {
     return (
-     console.log("test")
+        <img
+        src={src}
+        alt={alt}
+        className={className}
+        />
     )
 }

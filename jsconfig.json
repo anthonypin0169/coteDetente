@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
+    "paths": {
+      "@/*": ["front/src/*"]
+    }
+  },
+  "include": ["front/src/**/*", "*.js", "*.jsx"],
+  "exclude": ["node_modules"]
+}

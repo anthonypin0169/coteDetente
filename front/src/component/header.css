@@ -1,1 +1,28 @@
-/*# sourceMappingURL=header.css.map */
+.header {
+  height: 225px;
+  display: flex;
+  align-items: center;
+  background: rgb(194, 194, 194);
+}
+.header__left {
+  width: 33%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+.header__center {
+  width: 34%;
+  display: flex;
+  justify-content: center;
+}
+.header__center--logo {
+  width: 175px;
+  height: 175px;
+}
+.header__right {
+  width: 33%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}/*# sourceMappingURL=header.css.map */
