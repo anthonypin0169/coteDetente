@@ -1,1 +1,45 @@
-/*# sourceMappingURL=modal.css.map */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 25%;
+  background-color: white;
+  animation: slideIn 200ms cubic-bezier(0.33, 1.09, 1, 0.84);
+}
+.modal__search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 30px 0;
+}
+.modal__search-bar--input {
+  width: 250px;
+  height: 60px;
+  border-radius: 7px;
+  border: none;
+  box-shadow: 1px 2px 4px;
+}
+.modal__search-bar--close-btn {
+  width: 25px;
+  height: 25px;
+}
+.modal__results {
+  margin-left: 25px;
+}
+
+@keyframes slideIn {
+  from {
+    left: -25%;
+  }
+  to {
+    left: 0;
+  }
+}/*# sourceMappingURL=modal.css.map */

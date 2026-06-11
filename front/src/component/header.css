@@ -11,6 +11,11 @@
   align-items: center;
   gap: 50px;
 }
+.header__left--search-bar {
+  width: 75px;
+  height: 50px;
+  font-size: 20px;
+}
 .header__center {
   width: 34%;
   display: flex;
