@@ -7,12 +7,28 @@
 
 .modal {
   position: fixed;
+  background-color: white;
+}
+.modal--side {
   top: 0;
   left: 0;
   height: 100%;
   width: 25%;
-  background-color: white;
-  animation: slideIn 200ms cubic-bezier(0.33, 1.09, 1, 0.84);
+  box-shadow: 1px 4px 20px rgb(176, 176, 176);
+  animation: slideFromLeft 200ms cubic-bezier(0.33, 1.09, 1, 0.84);
+}
+.modal--center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 60dvh;
+  width: 45%;
+  border-radius: 8px;
+  box-shadow: 1px 2px 8px rgb(95, 95, 95);
+  animation: slideFromTop 200ms cubic-bezier(0.33, 1.09, 1, 0.84);
+}
+.modal {
+  /*Modale de la barre de recherche*/
 }
 .modal__search-bar {
   display: flex;
@@ -25,7 +41,7 @@
   height: 60px;
   border-radius: 7px;
   border: none;
-  box-shadow: 1px 2px 4px;
+  box-shadow: 1px 2px 4px rgb(95, 95, 95);
 }
 .modal__search-bar--close-btn {
   width: 25px;
@@ -34,12 +50,99 @@
 .modal__results {
   margin-left: 25px;
 }
+.modal {
+  /*Modale de connexion administrateur*/
+}
+.modal__login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  margin: 20px 0;
+}
+.modal__login--close-btn {
+  font-size: 20px;
+  background: transparent;
+  border: none;
+  align-self: flex-end;
+  margin: 2% 6% 0 0;
+}
+.modal__login--title {
+  margin-top: 10px;
+}
+.modal__login--input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60%;
+  gap: 30px;
+}
+.modal__login--btn {
+  width: 220px;
+  height: 50px;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  box-shadow: 1px 2px 4px rgb(95, 95, 95);
+  margin: 20px 0;
+}
+.modal .login-input {
+  width: 100%;
+  height: 60px;
+  border-radius: 7px;
+  border: none;
+  box-shadow: 1px 2px 4px rgb(95, 95, 95);
+}
+.modal {
+  /*Modale du panier*/
+}
+.modal__basket {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  gap: 30px;
+}
+.modal__basket--title {
+  align-self: flex-start;
+  margin-left: 10%;
+}
+.modal__basket--purchases {
+  width: 80%;
+  height: 60%;
+  border-radius: 8px;
+  box-shadow: 1px 2px 4px rgb(95, 95, 95);
+}
+.modal__basket--btn {
+  display: flex;
+  gap: 50px;
+  margin: 20px 0 50px 0;
+}
 
-@keyframes slideIn {
+.basket-btn {
+  width: 220px;
+  height: 50px;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  box-shadow: 1px 2px 4px rgb(95, 95, 95);
+}
+
+@keyframes slideFromLeft {
   from {
     left: -25%;
   }
   to {
     left: 0;
+  }
+}
+@keyframes slideFromTop {
+  from {
+    top: 30%;
+    opacity: 0;
+  }
+  to {
+    top: 50%;
+    opacity: 1;
   }
 }/*# sourceMappingURL=modal.css.map */

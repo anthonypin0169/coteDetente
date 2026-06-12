@@ -11,6 +11,7 @@ import Event from "./pages/event"
 import GiftCard from "./pages/giftCard"
 import Contact from "./pages/contact"
 import "./index.css"
+import "./variables.scss"
 
 function App() {
 return (

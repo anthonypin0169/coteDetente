@@ -7,12 +7,27 @@
 
 .modal {
     position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 25%;
     background-color: white;
-    animation: slideIn 200ms cubic-bezier(.33,1.09,1,.84);
+    &--side {
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 25%;
+        box-shadow: 1px 4px 20px rgb(176, 176, 176);
+        animation: slideFromLeft 200ms cubic-bezier(.33, 1.09, 1, .84);
+    }
+    &--center {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 60dvh;
+        width: 45%;
+        border-radius: 8px;
+        box-shadow: 1px 2px 8px rgb(95, 95, 95);
+        animation: slideFromTop 200ms cubic-bezier(.33, 1.09, 1, .84);
+    }
+
+    /*Modale de la barre de recherche*/
     &__search-bar{
         display: flex;
         align-items: center;
@@ -23,7 +38,7 @@
             height:60px ;
             border-radius: 7px;
             border: none;
-            box-shadow: 1px 2px 4px;
+            box-shadow: 1px 2px 4px rgb(95, 95, 95);
         }
         &--close-btn{
             width: 25px;
@@ -33,8 +48,88 @@
     &__results{
         margin-left: 25px;
     }
+
+    /*Modale de connexion administrateur*/
+    &__login{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+        margin: 20px 0;
+        &--close-btn{
+            font-size: 20px;
+            background: transparent;
+            border: none;
+            align-self: flex-end;
+            margin: 2% 6% 0 0;
+        }
+        &--title{
+            margin-top: 10px;
+        }
+        &--input{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 60%;
+            gap: 30px;
+        }
+        &--btn{
+            width: 220px;
+            height: 50px;
+            border: none;
+            border-radius: 5px;
+            background: transparent;
+            box-shadow: 1px 2px 4px rgb(95, 95, 95);
+            margin: 20px 0;
+        }
+    }
+    .login-input{
+        width: 100%;
+        height: 60px;   
+        border-radius: 7px;
+        border: none;
+        box-shadow: 1px 2px 4px rgb(95, 95, 95);
+    }
+
+    /*Modale du panier*/
+    &__basket{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        gap: 30px;
+        &--title{
+            align-self: flex-start;
+            margin-left: 10%;
+        }
+        &--purchases{
+            width: 80%;
+            height: 60%;
+            border-radius: 8px;
+            box-shadow: 1px 2px 4px rgb(95, 95, 95);
+
+        }
+        &--btn{
+            display: flex;
+            gap: 50px;
+            margin: 20px 0 50px 0;
+        }
+    }
 }
-@keyframes slideIn {
+.basket-btn{
+    width: 220px;
+    height: 50px;
+    border: none;
+    border-radius: 5px;
+    background: transparent;
+    box-shadow: 1px 2px 4px rgb(95, 95, 95);
+}
+@keyframes slideFromLeft {
     from { left: -25%; }
     to { left: 0; }
+}
+
+@keyframes slideFromTop {
+    from { top: 30%; opacity: 0; }
+    to { top: 50%; opacity: 1; }
 }

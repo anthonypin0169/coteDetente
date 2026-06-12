@@ -1,33 +1,49 @@
 .header {
-  height: 225px;
+  height: 18dvh;
   display: flex;
   align-items: center;
-  background: rgb(194, 194, 194);
+  background: var(--color-grey-chrome);
+  font-size: 26px;
 }
 .header__left {
   width: 33%;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 50px;
+  gap: 45px;
 }
 .header__left--search-bar {
-  width: 75px;
-  height: 50px;
-  font-size: 20px;
+  background: transparent;
+  border: none;
+  font-size: 30px;
 }
 .header__center {
   width: 34%;
+  height: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .header__center--logo {
-  width: 175px;
-  height: 175px;
+  height: 90%;
+  width: auto;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 .header__right {
   width: 33%;
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 50px;
+}
+.header__right--shopping-card {
+  background: transparent;
+  border: none;
+  font-size: 30px;
+}
+
+.links {
+  text-decoration: none;
+  color: var(--color-oak-dark);
 }/*# sourceMappingURL=header.css.map */
