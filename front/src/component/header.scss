@@ -14,6 +14,7 @@
             background: transparent;
             border: none;
             font-size: 30px;
+            cursor: pointer;
         }
         &--home{
             
@@ -50,10 +51,42 @@
             background: transparent;
             border: none;
             font-size: 30px;
+            cursor: pointer;
         }
     }
 }
+
+/*Styles couleurs et soulignement*/
 .links{
     text-decoration: none;
     color: var(--color-oak-dark);
+}
+.links:hover{
+    color: var(--color-plum);   
+}
+.links::after{
+    content: "";
+    display: block;
+    width: 0px;
+    height: 2px;
+    background: var(--color-plum); 
+    margin: 3px auto 0 auto;
+    border-radius: 2px;
+    transition: width 0.2s ease-in-out;
+}
+.links:hover::after{
+    width: 100%;
+    color: var(--color-plum);   
+}
+.links.active {
+    color: var(--color-plum);
+}
+.links.active::after {
+    width: 100%;
+}
+
+/*Annul du soulignement sur les icones*/
+.header__left--search-bar::after,
+.header__right--shopping-card::after {
+    display: none;
 }

@@ -1,0 +1,78 @@
+.footer{
+    height: 22dvh;
+    display: flex;
+    background: var(--color-grey-text);
+    color: var(--color-background);
+    font-size: 20px;
+    
+}
+.footer-container{
+    width: 90%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    &__h4{
+        margin-right: 40px;
+    }
+    &__planning{
+        width: 25%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        &--li{
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+    &__links{
+        width: 33%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 10%;
+        &--contact{
+
+        }
+        &--mentions{
+            
+        }
+        &--conditions{
+            
+        }
+    }
+    &__follows{
+        width: 25%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        &--instagram{
+            width: 50px;
+            height: 50px;
+        }
+        &--facebook{
+            width: 75px;
+            height: 75px;
+            margin-left: -3%;
+        }
+    }
+}
+
+/*Ecrasement des styles imposés par Nav*/
+.footer-container__links {
+    .links {
+        color: var(--color-background);
+        
+        &:hover {
+            color: var(--color-oak-light);
+        }
+        
+        &::after {
+            background-color: transparent;
+        }
+        
+        &.active {
+            color: var(--color-oak-light);
+        }
+    }
+}

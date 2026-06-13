@@ -1,4 +1,4 @@
-import Nav from "./nav"
+import NavLink from "./nav"
 import Logo from "./logo"
 import testLogo2 from "../assets/images/testLogo2.png"
 import Modal from "./modal"
@@ -70,17 +70,17 @@ export default function Header() {
 
             <div className="header__left">
                 <button className="header__left--search-bar fa-solid fa-magnifying-glass links" onClick={() => setIsSearchOpen(true)}></button>
-                <Nav text="Accueil" to="/" className="header__left--home links"/>
-                <Nav text="Prestations" to="/prestations" className="header__left--services links"/>
-                <Nav text="Évènement" to="/evenements" className="header__left--event links"/>
+                <NavLink text="Accueil" to="/" className="header__left--home links"/>
+                <NavLink text="Prestations" to="/prestations" className="header__left--services links"/>
+                <NavLink text="Évènement" to="/evenements" className="header__left--event links"/>
             </div>
 
             <div className="header__center">
-                <Logo src={testLogo2} className="header__center--logo" onClick={() => setIsLoginOpen(true)}/>
+                <Logo src={testLogo2} alt={"coté-détente"} className="header__center--logo" onClick={() => setIsLoginOpen(true)}/>
             </div>
 
             <div className="header__right">
-                <Nav text="Carte cadeau" to="/carte-cadeau" className="header__right--gift-card links"/>
+                <NavLink text="Carte cadeau" to="/carte-cadeau" className="header__right--gift-card links"/>
                 <button className="header__right--shopping-card fa-solid fa-basket-shopping links" onClick={() => setIsBasketOpen(true)}></button>
             </div>
         </header>

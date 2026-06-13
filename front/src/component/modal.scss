@@ -7,7 +7,7 @@
 
 .modal {
     position: fixed;
-    background-color: white;
+    background-color: var(--color-background);
     &--side {
         top: 0;
         left: 0;

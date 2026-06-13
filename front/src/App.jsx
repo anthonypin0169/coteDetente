@@ -10,6 +10,8 @@ import Makeup from "./pages/makeup"
 import Event from "./pages/event"
 import GiftCard from "./pages/giftCard"
 import Contact from "./pages/contact"
+import Conditions from "./pages/conditions"
+import Mentions from "./pages/mentions"
 import "./index.css"
 import "./variables.scss"
 
@@ -29,7 +31,11 @@ return (
 
         <Route path="/evenements" element={<Event />} />
         <Route path="/carte-cadeau" element={<GiftCard />} />
+
         <Route path="/contact" element={<Contact />} />
+        <Route path="/mentions" element={<Mentions />} />
+        <Route path="/conditions" element={<Conditions />} />
+
     </Routes>
 
     <Footer />

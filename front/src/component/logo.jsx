@@ -1,6 +1,6 @@
 import "./logo.scss"
 
-export default function Logo ({src, alt="coté-détente", className="logo", onClick}) {
+export default function Logo ({src, alt, className="logo", onClick}) {
     return (
         <img
         src={src}
