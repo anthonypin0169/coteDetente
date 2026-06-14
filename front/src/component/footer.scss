@@ -1,38 +1,18 @@
 .footer{
     height: 22dvh;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
     background: var(--color-grey-text);
     color: var(--color-background);
     font-size: 20px;
-    
-}
-.footer-container{
-    width: 90%;
-    height: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin: 0 auto;
-    &__h4{
-        margin-right: 40px;
-    }
-    &__planning{
-        width: 25%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        &--li{
-            display: flex;
-            justify-content: space-between;
-        }
-    }
     &__links{
-        width: 33%;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        margin-left: 10%;
         &--contact{
-
+    
         }
         &--mentions{
             
@@ -42,24 +22,48 @@
         }
     }
     &__follows{
-        width: 25%;
         display: flex;
         flex-direction: column;
         justify-content: center;
         &--instagram{
-            width: 50px;
-            height: 50px;
+            display: flex;
+            gap: 15px;
         }
         &--facebook{
-            width: 75px;
-            height: 75px;
-            margin-left: -3%;
+            display: flex;
+            gap: 5px;
+            align-items: end;
         }
     }
 }
-
+.footer-container{
+    display: flex;  
+    &__h4{
+        margin: 0 80px 0 30px;
+    }
+    &__planning{
+        display: flex;
+        
+        flex-direction: column;
+        justify-content: center;
+        &--li{
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+        }
+    }
+}
+.instagram-icon{
+    width: 50px;
+    height: 50px;
+}
+.facebook-icon{
+    width: 75px;
+    height: 75px;
+    margin-left: -4%;
+}
 /*Ecrasement des styles imposés par Nav*/
-.footer-container__links {
+.footer__links {
     .links {
         color: var(--color-background);
         
