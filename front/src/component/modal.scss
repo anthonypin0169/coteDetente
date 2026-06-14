@@ -98,9 +98,11 @@
         align-items: center;
         height: 100%;
         gap: 30px;
+        position: relative;
+        z-index: 100;
         &--title{
             align-self: flex-start;
-            margin-left: 10%;
+            margin: 5% 0 0 10%;
         }
         &--purchases{
             width: 80%;

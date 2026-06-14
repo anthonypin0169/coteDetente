@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from "react"
 import "./carrousel.scss"
 
-
 export default function Carrousel({images = [], mode, className}) {
     
     const [currentIndex, setCurrentIndex] = useState(0)

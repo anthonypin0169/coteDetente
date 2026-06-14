@@ -4,7 +4,80 @@
      object-fit: contain;
 }
 .home__services {
+  display: flex;
+  justify-content: center;
   position: relative;
-  z-index: 100;
+  z-index: 90;
+  padding: 250px 0 200px 0;
   box-shadow: 0 -8px 10px -4px;
+}
+.home__services--link {
+  font-size: 50px;
+  position: relative;
+  z-index: 90;
+  padding: 1px;
+  border-radius: 50px;
+  background: var(--color-background);
+}
+.home__services--img {
+  width: 812px;
+  height: 606px;
+  position: absolute;
+  z-index: 80;
+  top: -40px;
+}
+.home__company-profile {
+  padding: 50px 0;
+  box-shadow: 0 10px 15px -10px;
+  position: relative;
+  z-index: 89;
+}
+.home__company-profile--h2 {
+  font-size: 32px;
+  margin: 50px 0 20px 70px;
+}
+.home__staff-profile {
+  display: flex;
+  justify-content: center;
+  gap: 200px;
+  padding: 200px 0;
+  background: white;
+}
+.home__staff-profile--pics {
+  width: 200px;
+  aspect-ratio: 4/5;
+  border-radius: 125px;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.home__staff-profile--title {
+  font-size: 26px;
+  margin-bottom: 0;
+}
+.home__staff-profile--speciality {
+  font-size: 24px;
+  margin: 10px 0;
+}
+.home__staff-profile--text {
+  max-width: 280px;
+  font-size: 22px;
+}
+.home__customers-review {
+  height: 200px;
+  box-shadow: 0 -5px 10px -5px;
+  position: relative;
+  z-index: 89;
+}
+.company-carrousel-container {
+  float: right;
+  margin: 10px 80px 80px 80px;
+  width: 500px;
+  aspect-ratio: 4/5;
+  box-shadow: 5px 5px 8px;
+  border-radius: 5px;
+}
+
+.group__company-text {
+  margin-left: 70px;
+  font-size: 26px;
 }/*# sourceMappingURL=home.css.map */

@@ -102,10 +102,12 @@
   align-items: center;
   height: 100%;
   gap: 30px;
+  position: relative;
+  z-index: 100;
 }
 .modal__basket--title {
   align-self: flex-start;
-  margin-left: 10%;
+  margin: 5% 0 0 10%;
 }
 .modal__basket--purchases {
   width: 80%;
