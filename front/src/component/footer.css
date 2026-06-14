@@ -2,23 +2,40 @@
 .footer {
   height: 22dvh;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5%;
   background: var(--color-grey-text);
   color: var(--color-background);
   font-size: 20px;
 }
+.footer__links {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.footer__follows {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.footer__follows--instagram {
+  display: flex;
+  gap: 15px;
+}
+.footer__follows--facebook {
+  display: flex;
+  gap: 5px;
+  align-items: end;
+}
 
 .footer-container {
-  width: 90%;
-  height: 100%;
   display: flex;
-  justify-content: space-between;
-  margin: 0 auto;
 }
 .footer-container__h4 {
-  margin-right: 40px;
+  margin: 0 80px 0 30px;
 }
 .footer-container__planning {
-  width: 25%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -26,40 +43,30 @@
 .footer-container__planning--li {
   display: flex;
   justify-content: space-between;
+  gap: 30px;
 }
-.footer-container__links {
-  width: 33%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: 10%;
-}
-.footer-container__follows {
-  width: 25%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.footer-container__follows--instagram {
+
+.instagram-icon {
   width: 50px;
   height: 50px;
 }
-.footer-container__follows--facebook {
+
+.facebook-icon {
   width: 75px;
   height: 75px;
-  margin-left: -3%;
+  margin-left: -4%;
 }
 
 /*Ecrasement des styles imposés par Nav*/
-.footer-container__links .links {
+.footer__links .links {
   color: var(--color-background);
 }
-.footer-container__links .links:hover {
+.footer__links .links:hover {
   color: var(--color-oak-light);
 }
-.footer-container__links .links::after {
+.footer__links .links::after {
   background-color: transparent;
 }
-.footer-container__links .links.active {
+.footer__links .links.active {
   color: var(--color-oak-light);
 }/*# sourceMappingURL=footer.css.map */

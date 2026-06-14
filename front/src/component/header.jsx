@@ -72,7 +72,7 @@ export default function Header() {
                 <button className="header__left--search-bar fa-solid fa-magnifying-glass links" onClick={() => setIsSearchOpen(true)}></button>
                 <NavLink text="Accueil" to="/" className="header__left--home links"/>
                 <NavLink text="Prestations" to="/prestations" className="header__left--services links"/>
-                <NavLink text="Évènement" to="/evenements" className="header__left--event links"/>
+                <NavLink text="Évènements" to="/evenements" className="header__left--event links"/>
             </div>
 
             <div className="header__center">

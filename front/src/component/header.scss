@@ -3,7 +3,9 @@
     display: flex;
     align-items: center;
     background: var(--color-grey-chrome);
-    font-size: 26px;
+    box-shadow: 0 5px 15px;
+    position: relative;
+    z-index: 100;
     &__left{
         width: 33%;
         display: flex;
@@ -59,6 +61,7 @@
 /*Styles couleurs et soulignement*/
 .links{
     text-decoration: none;
+    font-size: 26px;
     color: var(--color-oak-dark);
 }
 .links:hover{

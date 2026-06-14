@@ -1,1 +1,10 @@
-/*# sourceMappingURL=home.css.map */
+.home__carrousel {
+  height: 800px;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.home__services {
+  position: relative;
+  z-index: 100;
+  box-shadow: 0 -8px 10px -4px;
+}/*# sourceMappingURL=home.css.map */
