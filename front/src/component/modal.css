@@ -15,6 +15,7 @@
   height: 100%;
   width: 25%;
   box-shadow: 1px 4px 20px rgb(176, 176, 176);
+  border: solid 1px var(--color-grey-chrome);
   animation: slideFromLeft 200ms cubic-bezier(0.33, 1.09, 1, 0.84);
 }
 .modal--center {
@@ -25,6 +26,7 @@
   width: 45%;
   border-radius: 8px;
   box-shadow: 1px 2px 8px rgb(95, 95, 95);
+  border: solid 1px var(--color-grey-chrome);
   animation: slideFromTop 200ms cubic-bezier(0.33, 1.09, 1, 0.84);
 }
 .modal {
@@ -114,6 +116,7 @@
   height: 60%;
   border-radius: 8px;
   box-shadow: 1px 2px 4px rgb(95, 95, 95);
+  border: solid 1px var(--color-grey-chrome);
 }
 .modal__basket--btn {
   display: flex;

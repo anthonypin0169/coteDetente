@@ -33,7 +33,6 @@
   z-index: 89;
 }
 .home__company-profile--h2 {
-  font-size: 32px;
   margin: 50px 0 20px 70px;
 }
 .home__staff-profile {
@@ -41,7 +40,11 @@
   justify-content: center;
   gap: 200px;
   padding: 200px 0;
-  background: white;
+  position: relative;
+  background-image: url("../assets/images/wallpaper.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+  background-position-y: top;
 }
 .home__staff-profile--pics {
   width: 200px;
@@ -65,15 +68,17 @@
 .home__customers-review {
   display: flex;
   justify-content: center;
+  gap: 300px;
   position: relative;
   z-index: 89;
   box-shadow: 0 -5px 10px -5px;
-  padding: 50px 0;
+  padding: 70px 0;
 }
 .home__customers-review--carrousel {
   width: 370px;
-  aspect-ratio: 5/4;
+  height: 340px;
   padding: 0 65px;
+  margin: 50px 0;
   border-radius: 15px;
   box-shadow: 3px 3px 5px;
 }
@@ -90,4 +95,15 @@
 .group__company-text {
   margin-left: 70px;
   font-size: 26px;
+}
+
+.home__customers-review--text {
+  font-size: 26px;
+}
+
+.home__customers-review--map {
+  width: 791px;
+  height: 512px;
+  border: solid 1px var(--color-grey-chrome);
+  box-shadow: 2px 2px 3px;
 }/*# sourceMappingURL=home.css.map */
