@@ -1,18 +1,20 @@
 import { useState, useEffect, useCallback } from "react"
 import "./carrousel.scss"
 
-export default function Carrousel({images = [], mode, className}) {
+export default function Carrousel({images = [], reviews = [], mode, className}) {
     
     const [currentIndex, setCurrentIndex] = useState(0)
 
+    const items = images.length > 0 ?  images : reviews
+
     const next = useCallback(
-        () => setCurrentIndex((prev)=>(prev+1) %images.length)
-        ,[images.length]
+        () => setCurrentIndex((prev)=>(prev+1) %items.length)
+        ,[items.length]
     )
 
     const prev = useCallback(
-        () => setCurrentIndex((prev) => (prev - 1 + images.length) % images.length),
-        [images.length]
+        () => setCurrentIndex((prev) => (prev - 1 + items.length) % items.length),
+        [items.length]
     )
 
     useEffect(()=>{
@@ -23,9 +25,16 @@ export default function Carrousel({images = [], mode, className}) {
     ,[currentIndex, mode, next]
     )
 
-    return (    
+    return (
         <div className={`carrousel ${className ?? ""}`}>
-            <img src={images[currentIndex]} alt={`slide ${currentIndex}`} className="carrousel__image" />
+            {images.length > 0 ? (
+                <img src={images[currentIndex]} alt={`slide ${currentIndex}`} className="carrousel__image" />
+            ) : (
+                <div className="carrousel__review">
+                    <h3 className="carrousel__review--title">{reviews[currentIndex]?.title}</h3>
+                    <p className="carrousel__review--text">{reviews[currentIndex]?.text}</p>
+                </div>
+            )}
             {mode === "manual" && (
                 <>
                     <button className="carrousel__btn--prev" onClick={prev}>&#8249;</button>

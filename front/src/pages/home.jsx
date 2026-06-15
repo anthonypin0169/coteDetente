@@ -42,7 +42,17 @@ export default function Home() {
             </section>
 
             <section className="home__customers-review">
-                <Carrousel className="home__customers-review--carrousel" />
+                <Carrousel mode={"manual"} reviews = {[
+                    {title: "Julie R.", text: "Institut très agréable, accueil toujours chaleureux. Les personnes sont disponibles, professionnelles, à l'écoute. Je recommande vivement leurs prestations."},
+                    {title: "Michelle B.", text: "Je fréquente cet Institut depuis de nombreuses années pour différentes prestations : les filles sont sympas, sérieuses. Jamais déçue, je recommande cet établissement"},
+                    {title: "Julie S.", text: "Une equipe aux petits soins. Discrètes, professionnelles et de bons conseils. Je recommande cet institut que ce soit pour l épilation, les soins ou les ongles"},
+                    {title: "Isabelle M.", text: "Ça fait 12 ans que je viens chez Côté Détente. Service personnalisé, Toujours le sourire. C'est un plaisir de venir pour un résultat toujours impeccable"},
+                    {title: "Léa V.", text: "J’ai eu la chance de faire un soin du visage avec Marine, c’était un agréablement moment qui m’a complètement détendue… Marine a des doigts de fée ! Vous pouvez prendre rdv dans cet institut sans hésitation !"},
+                    {title: "Eva M.", text: "J'ai été me faire masser grâce à un bon cadeaux par Marine, c'était merveilleux même au bout d'une demi heure grâce à ces mouvement apaisant et sa bienvellance je me suis presque endormis. Je recommande vraiment"},
+                    {title: "Fany D.", text: "Pas de mot pour dire combien c'était parfait. L'équipe au petit soin, le massage exactement ce qu'il me fallait, les produits avec une odeur de dingue et de super qualité.Merci à mes collègues (en or), ça fait partie des cadeaux dont je me souviendrais longtemps, et merci à l'équipe de côté détente."},
+                    {title: "Charlène B.", text: "Encore un grand merci à l'institut. Une heure de massage, un pur moment de détente qui m'a fait énormément de bien. Merci à l'esthéticienne qui a été au petit soin et respectueuse des demandes. Je recommande !"},
+                    {title: "Sarah A.", text: "Équipe très professionnelle, un institut où l’on est très bien accueillie et conseillée! Les gammes de produits utilisées sont de grande qualité, un savoir faire unique. Merci à Sabine et à ses collaboratrices !"}
+                ]}  className="home__customers-review--carrousel" />
             </section>
         </main>
     )

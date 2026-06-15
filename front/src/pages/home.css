@@ -63,11 +63,21 @@
   font-size: 22px;
 }
 .home__customers-review {
-  height: 200px;
-  box-shadow: 0 -5px 10px -5px;
+  display: flex;
+  justify-content: center;
   position: relative;
   z-index: 89;
+  box-shadow: 0 -5px 10px -5px;
+  padding: 50px 0;
 }
+.home__customers-review--carrousel {
+  width: 370px;
+  aspect-ratio: 5/4;
+  padding: 0 65px;
+  border-radius: 15px;
+  box-shadow: 3px 3px 5px;
+}
+
 .company-carrousel-container {
   float: right;
   margin: 10px 80px 80px 80px;
