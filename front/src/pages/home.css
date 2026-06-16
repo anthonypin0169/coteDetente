@@ -76,11 +76,12 @@
 }
 .home__customers-review--carrousel {
   width: 370px;
-  height: 340px;
+  height: 350px;
   padding: 0 65px;
   margin: 50px 0;
   border-radius: 15px;
   box-shadow: 3px 3px 5px;
+  background: var(--color-grey-chrome-modal);
 }
 
 .company-carrousel-container {
@@ -94,10 +95,6 @@
 
 .group__company-text {
   margin-left: 70px;
-  font-size: 26px;
-}
-
-.home__customers-review--text {
   font-size: 26px;
 }
 
