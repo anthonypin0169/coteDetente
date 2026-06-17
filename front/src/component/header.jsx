@@ -3,6 +3,8 @@ import Logo from "./logo"
 import testLogo2 from "../assets/images/testLogo2.png"
 import Modal from "./modal"
 import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { loginUser, clearError } from "@/store/authSlice"
 import "./header.scss"
 
 export default function Header() {
@@ -10,6 +12,21 @@ export default function Header() {
     const [isBasketOpen, setIsBasketOpen] = useState(false)
     const [isLoginOpen, setIsLoginOpen] = useState(false)
     const [query, setQuery] = useState("")
+    const [passwordState, setPasswordState] = useState("")
+    const [emailState, setEmailState] = useState("")
+
+    const dispatch = useDispatch()
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
+    const error = useSelector((state) => state.auth.error)
+
+    const handleLogin = () => {
+        dispatch(loginUser({"email" : emailState, "password" : passwordState}))
+            .then((result)=>{
+                if (result.meta.requestStatus === "fulfilled") {
+                    setIsLoginOpen(false)
+            }
+        })
+    }
 
     return (
         <header className="header">
@@ -34,23 +51,28 @@ export default function Header() {
                 </div>
             </Modal>
 
-            <Modal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} variant="center">
+            <Modal isOpen={isLoginOpen} onClose={() => {setIsLoginOpen(false); dispatch(clearError())}} variant="center">
                 <div className="modal__login">
                     <button className="modal__login--close-btn" type="button" 
-                    onClick={() => setIsLoginOpen(false)}>Retour</button>
+                    onClick={() => {setIsLoginOpen(false); dispatch(clearError())}}>Retour</button>
                     <h2 className="modal__login--title">Connexion administrateur</h2>
                     <div className="modal__login--input">
                         <input className="login-input"
                         type="text"
                         placeholder="email"
                         autoFocus
+                        value={emailState}
+                        onChange={(e) => setEmailState(e.target.value)}
                         />
                         <input className="login-input"
-                        type="text"
+                        type="password"
                         placeholder="Mot de passe"
+                        value={passwordState}
+                        onChange={(e) => setPasswordState(e.target.value)}
                         />
                     </div>
-                    <button className="modal__login--btn" >Se connecter</button>
+                    <button className="modal__login--btn" onClick={handleLogin}>Se connecter</button>
+                    <div className="modal__login--error-msg">{error ? <p>{error}</p> : null}</div>
                 </div>
             </Modal>
 

@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { getAllPhotos, createPhoto, deletePhoto } = require('../controllers/photoController');
+const { getAllPhotos, getPhotosByCategory, createPhoto, deletePhoto } = require('../controllers/photoController');
 const protect = require('../middleware/authMiddleware');
+const upload = require('../middleware/upload');
 
 /**
  * @swagger
@@ -17,32 +18,56 @@ router.get('/', getAllPhotos);
 
 /**
  * @swagger
+ * /api/photos/category/{category}:
+ *   get:
+ *     summary: Récupérer les photos par catégorie
+ *     tags: [Photos]
+ *     parameters:
+ *       - in: path
+ *         name: category
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [soins, epilation, maquillage, mains-pieds, evenement, carrousel-hero, carrousel-institut]
+ *     responses:
+ *       200:
+ *         description: Liste des photos filtrées par catégorie
+ */
+router.get('/category/:category', getPhotosByCategory);
+
+/**
+ * @swagger
  * /api/photos:
  *   post:
- *     summary: Ajouter une photo (authentifié)
+ *     summary: Ajouter une photo avec upload de fichier (authentifié)
  *     tags: [Photos]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
+ *             required: [image, category]
  *             properties:
- *               title:
+ *               image:
  *                 type: string
- *               url:
+ *                 format: binary
+ *               title:
  *                 type: string
  *               category:
  *                 type: string
+ *                 enum: [soins, epilation, maquillage, mains-pieds, evenement, carrousel-hero, carrousel-institut]
  *               description:
  *                 type: string
  *     responses:
  *       201:
  *         description: Photo créée
+ *       400:
+ *         description: Aucun fichier reçu
  */
-router.post('/', protect, createPhoto);
+router.post('/', protect, upload.single('image'), createPhoto);
 
 /**
  * @swagger

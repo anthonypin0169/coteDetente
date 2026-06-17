@@ -14,8 +14,11 @@ export const loginUser = createAsyncThunk(
                 throw new Error ("Identifiant incorrects")
             }
             const loginData = await loginResponse.json()
+            
             const token = loginData.token
+            const role = loginData.user.role
             localStorage.setItem("token", token)
+            localStorage.setItem("role", role)
 
             return { token, user : loginData.user }
             } catch(error) {
@@ -23,19 +26,33 @@ export const loginUser = createAsyncThunk(
             }
     }
 )
+const storedToken = localStorage.getItem("token")
+const hasToken = !!storedToken
+const storedRole = localStorage.getItem("role")
 
 const initialState = {
-    token: null,
-    isAuthenticated: false,
+    token: storedToken,
+    isAuthenticated: hasToken,
     isLoading: false,
     error: null,
-    role: null
+    role: storedRole
 }
 
 const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {},
+    reducers: {
+        logout : (state) => {
+            state.isAuthenticated = false
+            state.token = null
+            state.role = null
+            localStorage.removeItem("token")
+            localStorage.removeItem("role")
+        },
+        clearError : (state) => {
+            state.error = null
+        }
+    },
     extraReducers: (builder) => {
        builder.addCase(loginUser.pending, (state) =>{
         state.isLoading = true
@@ -55,4 +72,5 @@ const authSlice = createSlice({
     }
 })
 
+export const { logout, clearError } = authSlice.actions
 export default authSlice.reducer
