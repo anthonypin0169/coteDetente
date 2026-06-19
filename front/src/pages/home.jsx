@@ -17,7 +17,7 @@ export default function Home() {
     const isAuthenticated = useSelector((state)=> state.auth.isAuthenticated)
 
     const [carrouselHero, setCarrouselHero] = useState([])
-    const [carrouselInstitut, setSarrouselInstitut] = useState([])
+    const [carrouselInstitut, setCarrouselInstitut] = useState([])
     const [isModifyCarrouselOpen, setisModifyCarrouselOpen] = useState(false)
     const [modifyViewMode, setModifyViewMode] = useState("list")
     const [uploadCategory, setUploadCategory] = useState("")
@@ -39,7 +39,7 @@ export default function Home() {
                 }
                 
                 setCarrouselHero(heroResponseJson) 
-                setSarrouselInstitut(institutResponseJson)                
+                setCarrouselInstitut(institutResponseJson)                
 
             }catch(error){
                 return(error.message)
@@ -62,6 +62,17 @@ export default function Home() {
                 body : formData,
                 headers : { Authorization : `Bearer ${token}`}
             })
+            const uploadFormJson = await uploadForm.json()
+
+            if(uploadFormJson.category === "carrousel-hero"){
+                setCarrouselHero(prev =>[...prev, uploadFormJson])
+            } else {
+                setCarrouselInstitut(prev =>[...prev, uploadFormJson])
+            }
+
+            setModifyViewMode("list") 
+            setUploadDefinition("") 
+            setUploadFiles(null)
         }catch(error){
             return(error.message)
         }
@@ -105,7 +116,7 @@ export default function Home() {
                         <input onChange={(e) => setUploadFiles(e.target.files[0])} type="file" className="modal__upload-vue--upload" />
                         <input onChange={(e) => setUploadDefinition(e.target.value)} value={uploadDefinition} type="text" className="modal__upload-vue--alt" />
                         <button onClick={() => setModifyViewMode("list")} className="modal__upload-vue--return-btn">Retour</button>
-                        <button onClick={() => handleUpload} type="button" className="modal__upload-vue--send-btn">Valider</button>
+                        <button onClick={() => handleUpload()} type="button" className="modal__upload-vue--send-btn">Valider</button>
                     </div>
                 }
             </Modal>
