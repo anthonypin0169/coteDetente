@@ -76,7 +76,22 @@ export default function Home() {
         }catch(error){
             return(error.message)
         }
-        
+    }
+
+    const handleDelete = async (id) => {
+        try{
+            const deletePicture = await fetch (`http://localhost:5000/api/photos/${id}`, {
+                method : "DELETE",
+                headers : { Authorization : `Bearer ${token}`}
+            })
+            if(deletePicture.ok){
+                setCarrouselHero(prev => prev.filter(photo => photo._id !== id))
+                setCarrouselInstitut(prev => prev.filter(photo => photo._id !== id))
+            }
+
+        }catch(error){
+            return(error.message)
+        }
     }
 
     return (
@@ -93,19 +108,18 @@ export default function Home() {
                             {carrouselHero.map( photo => (
                                 <div key={photo._id} className="preview">
                                     <img src={photo.url} alt={photo.description}  className="preview__img"/>
-                                    <button  className="preview__btn">X</button>
+                                    <button onClick={ () => handleDelete(photo._id)} className="preview__btn">X</button>
                                 </div>
                             ))}
                         </div>
                         <button onClick={ () => {setModifyViewMode("upload"); setUploadCategory("carrousel-hero")}} className="modal__list-vue--btn">Ajouter</button>        
 
                         <h2 className="modal__list-vue--h2"></h2>
-                    
                         <div className="modal__list-vue--institut-list">
                             {carrouselInstitut.map( photo => (
                                 <div key={photo._id} className="preview">
                                     <img src={photo.url} alt={photo.description}  className="preview__img"/>
-                                    <button className="preview__btn">X</button>
+                                    <button onClick={ () => handleDelete(photo._id)} className="preview__btn">X</button>
                                 </div>
                             ))}
                         </div>
