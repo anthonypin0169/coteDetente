@@ -48,6 +48,36 @@ export default function Home() {
         loadImages()
     }, [])
 
+    const [titleState, setTitleState] = useState("")
+    const [paragraphState, setParagraphState] = useState([])
+
+    const [editModalIsOpen,setEditModalIsOpen] = useState(false)
+    const [editTitle, setEditTitle] = useState("")
+    const [editParagraph, setEditParagraph] = useState("")
+
+    useEffect (() => {
+        const loadText = async () =>{
+            try{
+                const paragraphResponse = await fetch ("http://localhost:5000/api/content/company-profile")
+                
+                if(paragraphResponse.ok){
+                    const paragraphResponseJson = await paragraphResponse.json()
+
+                    if(!paragraphResponseJson){
+                        throw new Error ("erreur dans la récuperation des textes")
+                    }
+                    
+                    setTitleState(paragraphResponseJson.title)
+                    setParagraphState(paragraphResponseJson.paragraphs)
+                }
+
+            }catch(error){
+                    return(error.message)
+            }
+        }
+        loadText()
+    },[])
+
     const token = useSelector((state) => state.auth.token)
 
     const handleUpload = async () => {
@@ -143,12 +173,35 @@ export default function Home() {
             </section>
 
             <section className="home__company-profile">
-                <h2 className="home__company-profile--h2">L'institut</h2>
+                <h2 className="home__company-profile--h2" >{titleState}</h2>
+                {isAuthenticated ? <button onClick={() => setEditModalIsOpen(true)} className="home__company-profile--btn btn">Modifier</button> : null}
+
                 <div className="home__company-profile--content">     
-                        <p className="company-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Asperiores adipisci explicabo delectus obcaecati exercitationem libero, pariatur corrupti error perspiciatis molestiae illo quidem corporis fugiat dicta! Quasi obcaecati perferendis esse incidunt, quae cum totam eius officia, optio non at, doloribus amet commodi molestias molestiae nulla! Fuga facere asperiores omnis nihil. Quam omnis voluptatibus minus voluptatum nam adipisci veritatis animi dolores dicta, fugiat laudantium quod corrupti qui in totam saepe dolor rerum, voluptates ea nisi nesciunt consequuntur quidem vitae? Voluptatibus, non explicabo perspiciatis illo quaerat iure! Non architecto laudantium repellat nulla, odit suscipit iste deleniti, ratione vel unde illo aperiam rerum? Autem excepturi maxime cumque odio cum magnam, obcaecati, dolorum molestias, porro veritatis voluptatem voluptates officiis? Et, consectetur, dignissimos fugit perferendis, possimus fugiat animi iure nisi rerum natus dolorum quod ad repellendus nihil voluptatem vitae. Nesciunt pariatur soluta ea illum mollitia optio rem architecto ipsam, necessitatibus, sint illo obcaecati dignissimos possimus ipsum.</p>
+                    {paragraphState.map((para, index) => (
+                        <p key={index} className="group__company-text">{para}</p>
+                    ))}
                     <Carrousel images={carrouselInstitut.map( p => p.url )} mode="auto" className="company-carrousel-container"/>
                 </div>
             </section>
+
+            <Modal isOpen={editModalIsOpen} onClose={() => setEditModalIsOpen(false)} variant ="modify">
+                <div className="modal__edit-modal">
+                    <div className="modal__edit-modal--bloc1">
+                        <h2 className="edit-modal-title">Entrez un titre :</h2>
+                        <input type="text" className="title-input"/>
+                    </div>
+
+                    <div className="modal__edit-modal--bloc2">
+                        <h2 className="edit-modal-title">Ecrivez un texte :</h2>
+                        <textarea className="textarea-paragraph"></textarea>
+                    </div>
+
+                    <div className="modal__edit-modal--btn">
+                        <button onClick={() => setEditModalIsOpen(false)} className="btn">Retour</button>
+                        <button type="button" className="btn">Valider</button>
+                    </div>
+                </div>
+            </Modal>
 
             <section className="home__staff-profile">
                 <StaffProfile src={portrait} title={"Charleen,"} speciality={"responsable de l'institut"} text= {"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Asperiores adipisci explicabo delectus obcaecati exercitationem libero"} className="home__staff-profile" />
