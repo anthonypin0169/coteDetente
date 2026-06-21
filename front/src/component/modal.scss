@@ -28,6 +28,17 @@
         border: solid 1px var(--color-grey-chrome);
         animation: slideFromTop 200ms cubic-bezier(.33, 1.09, 1, .84);
     }
+    &--modify {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 90dvh;
+        width: 80%;
+        border-radius: 8px;
+        box-shadow: 1px 2px 8px rgb(95, 95, 95);
+        border: solid 1px var(--color-grey-chrome);
+        animation: slideFromTop 200ms cubic-bezier(.33, 1.09, 1, .84);
+    }
 
     /*Modale de la barre de recherche*/
     &__search-bar{
@@ -83,6 +94,7 @@
             background: transparent;
             box-shadow: 1px 2px 4px rgb(95, 95, 95);
             margin: 20px 0;
+            font-size: 18px;
         }
     }
     .login-input{
@@ -116,17 +128,84 @@
         &--btn{
             display: flex;
             gap: 50px;
-            margin: 20px 0 50px 0;
+            margin: 20px 0 50px 0;   
+        }
+    }
+
+    /*Modale de modification des carrousels*/
+    &__list-vue{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        &--h2{
+            align-self: flex-start;
+            margin-left: 50px;
+        }
+        &--images-list{
+            width: 85%;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            scrollbar-width: auto;
+            box-shadow: 1px 1px 5px rgba(95, 95, 95, 0.429);
+            border-radius: 15px;
+        }
+        &--btn{
+            width: 220px;
+            height: 50px;
+            border: none;
+            border-radius: 5px;
+            background: var(--color-grey-chrome);
+            box-shadow: 1px 2px 4px rgb(95, 95, 95);
+            margin: 20px 0;
+            font-size: 18px;
+        }
+    }
+    &__upload-vue{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        &--upload{
+            width: 60%;
+            height: 40dvh;
+            border: 1px solid;
+            box-shadow: 1px 1px 5px rgba(95, 95, 95, 0.429);
+            border-radius: 15px;
+            margin: 50px 0;
+        }
+        &--alt{
+            width: 60%;
+            height: 60px;
+            font-size: 20px;
+            border-radius: 7px;
+            border: solid 1px var(--color-grey-chrome);
+            box-shadow: 1px 2px 4px rgb(95, 95, 95);
+            margin: 50px 0;
+        }
+        &--btn{
+            display: flex;
+            gap: 50px;
+            margin: 30px 0;
         }
     }
 }
-.basket-btn{
-    width: 220px;
-    height: 50px;
-    border: none;
-    border-radius: 5px;
-    background: transparent;
-    box-shadow: 1px 2px 4px rgb(95, 95, 95);
+.preview{
+    height: 200px;
+    width: 200px;
+    border-radius: 15px;
+    margin: 0 20px;
+    &__img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 15px;
+        position: relative;
+    }
+    &__btn{
+        position: relative;
+        bottom: 200px;
+        left: 170px;
+    }
 }
 @keyframes slideFromLeft {
     from { left: -25%; }

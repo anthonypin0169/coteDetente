@@ -8,3 +8,14 @@ body{
 h2{
     font-size: 40px;
 }
+.btn{
+    width: 220px;
+    height: 50px;
+    border: none;
+    border-radius: 5px;
+    background: var(--color-grey-chrome);
+    box-shadow: 1px 2px 4px rgb(95, 95, 95);
+    margin: 20px 0;
+    font-size: 18px;
+    align-self: center;
+}

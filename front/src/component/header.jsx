@@ -71,7 +71,7 @@ export default function Header() {
                         onChange={(e) => setPasswordState(e.target.value)}
                         />
                     </div>
-                    <button className="modal__login--btn" onClick={handleLogin}>Se connecter</button>
+                    <button className="btn" onClick={handleLogin} type="button">Se connecter</button>
                     <div className="modal__login--error-msg">{error ? <p>{error}</p> : null}</div>
                 </div>
             </Modal>
@@ -83,8 +83,8 @@ export default function Header() {
 
                     </div>
                     <div className="modal__basket--btn">
-                        <button className="basket-btn">Passer au paiment</button>
-                        <button className="basket-btn" type="button" 
+                        <button className="btn">Passer au paiment</button>
+                        <button className="btn" type="button" 
                         onClick={() => setIsBasketOpen(false)}>Continuer sur le site</button>
                     </div>    
                 </div>

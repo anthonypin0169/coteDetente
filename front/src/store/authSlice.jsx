@@ -27,15 +27,31 @@ export const loginUser = createAsyncThunk(
     }
 )
 const storedToken = localStorage.getItem("token")
-const hasToken = !!storedToken
 const storedRole = localStorage.getItem("role")
 
+const isTokenValid = () => {
+    if (!storedToken) return false
+    try {
+        const payload = JSON.parse(atob(storedToken.split('.')[1]))
+        return payload.exp > Date.now() / 1000
+    } catch {
+        return false
+    }
+}
+
+const tokenValid = isTokenValid()
+
+if (!tokenValid && storedToken) {
+    localStorage.removeItem("token")
+    localStorage.removeItem("role")
+}
+
 const initialState = {
-    token: storedToken,
-    isAuthenticated: hasToken,
+    token: tokenValid ? storedToken : null,
+    isAuthenticated: tokenValid,
     isLoading: false,
     error: null,
-    role: storedRole
+    role: tokenValid ? storedRole : null
 }
 
 const authSlice = createSlice({
