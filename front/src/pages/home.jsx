@@ -124,6 +124,33 @@ export default function Home() {
         }
     }
 
+    const handleTextUpdate = async () => {
+        try{    
+            const sendUpdateText = await fetch (`http://localhost:5000/api/content/${"company-profile"}`, {
+                method : "PUT",
+                body : JSON.stringify({
+                    "title": editTitle,
+                    "paragraphs": editParagraph.split("\n\n")
+                }),
+                headers : { 
+                    Authorization : `Bearer ${token}`, 
+                    "Content-Type": "application/json"
+                }
+            })
+
+            if(sendUpdateText.ok){
+                setTitleState(editTitle)
+                setParagraphState(editParagraph.split("\n\n"))
+                
+                setEditTitle("")
+                setEditParagraph("")
+                setEditModalIsOpen(false)
+            }
+        }catch(error){
+            return(error.message)
+        }
+    }
+
     return (
         <main className="home">
             <Carrousel images={carrouselHero.map( p => p.url )} mode="auto" className="home__carrousel" />
@@ -188,17 +215,17 @@ export default function Home() {
                 <div className="modal__edit-modal">
                     <div className="modal__edit-modal--bloc1">
                         <h2 className="edit-modal-title">Entrez un titre :</h2>
-                        <input type="text" className="title-input"/>
+                        <input type="text" className="title-input" onChange={(e) => setEditTitle(e.target.value)} value={editTitle}/>
                     </div>
 
                     <div className="modal__edit-modal--bloc2">
                         <h2 className="edit-modal-title">Ecrivez un texte :</h2>
-                        <textarea className="textarea-paragraph"></textarea>
+                        <textarea className="textarea-paragraph" onChange={(e) => setEditParagraph(e.target.value)} value={editParagraph}/>
                     </div>
 
                     <div className="modal__edit-modal--btn">
-                        <button onClick={() => setEditModalIsOpen(false)} className="btn">Retour</button>
-                        <button type="button" className="btn">Valider</button>
+                        <button onClick={() => setEditModalIsOpen(false)} type="button" className="btn">Retour</button>
+                        <button onClick={() => handleTextUpdate()} type="button" className="btn">Valider</button>
                     </div>
                 </div>
             </Modal>
