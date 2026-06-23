@@ -6,6 +6,7 @@ const photoRoutes = require('./routes/photoRoutes');
 const postRoutes = require('./routes/postRoutes');
 const giftCardRoutes = require('./routes/giftCardRoutes');
 const contentRoutes = require('./routes/contentRoutes');
+const staffRoutes = require('./routes/staffRoutes');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');
 
@@ -23,6 +24,7 @@ app.use('/api/photos', photoRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/giftcards', giftCardRoutes);
 app.use('/api/content', contentRoutes);
+app.use('/api/staff', staffRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 

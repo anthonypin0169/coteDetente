@@ -1,19 +1,16 @@
 import { useState, useEffect } from "react"
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
 import Carrousel from "@/component/carrousel"
 import StaffProfile from "@/component/staffProfile"
 import Modal from "../component/modal"
 import NavLink from "../component/nav"
 import planteCeltique1 from "../assets/images/planteCeltique1.png"
-import portrait from "../assets/images/portrait.jpg"
-import portrait1 from "../assets/images/portrait1.jpg"
-import portrait2 from "../assets/images/portrait2.jpg"
 import map from "../assets/images/map.png"
 import "./home.scss"
 
 export default function Home() {
 
-    const dispatch = useDispatch()
+   
     const isAuthenticated = useSelector((state)=> state.auth.isAuthenticated)
 
     const [carrouselHero, setCarrouselHero] = useState([])
@@ -48,39 +45,9 @@ export default function Home() {
         loadImages()
     }, [])
 
-    const [titleState, setTitleState] = useState("")
-    const [paragraphState, setParagraphState] = useState([])
+        const token = useSelector((state) => state.auth.token)
 
-    const [editModalIsOpen,setEditModalIsOpen] = useState(false)
-    const [editTitle, setEditTitle] = useState("")
-    const [editParagraph, setEditParagraph] = useState("")
-
-    useEffect (() => {
-        const loadText = async () =>{
-            try{
-                const paragraphResponse = await fetch ("http://localhost:5000/api/content/company-profile")
-                
-                if(paragraphResponse.ok){
-                    const paragraphResponseJson = await paragraphResponse.json()
-
-                    if(!paragraphResponseJson){
-                        throw new Error ("erreur dans la récuperation des textes")
-                    }
-                    
-                    setTitleState(paragraphResponseJson.title)
-                    setParagraphState(paragraphResponseJson.paragraphs)
-                }
-
-            }catch(error){
-                    return(error.message)
-            }
-        }
-        loadText()
-    },[])
-
-    const token = useSelector((state) => state.auth.token)
-
-    const handleUpload = async () => {
+        const handleUpload = async () => {
         const formData = new FormData()
         formData.append("image", uploadFiles)
         formData.append("description", uploadDefinition)
@@ -124,6 +91,36 @@ export default function Home() {
         }
     }
 
+    const [titleState, setTitleState] = useState("")
+    const [paragraphState, setParagraphState] = useState([])
+
+    const [editModalIsOpen,setEditModalIsOpen] = useState(false)
+    const [editTitle, setEditTitle] = useState("")
+    const [editParagraph, setEditParagraph] = useState("")
+
+    useEffect (() => {
+        const loadText = async () =>{
+            try{
+                const paragraphResponse = await fetch ("http://localhost:5000/api/content/company-profile")
+                
+                if(paragraphResponse.ok){
+                    const paragraphResponseJson = await paragraphResponse.json()
+
+                    if(!paragraphResponseJson){
+                        throw new Error ("erreur dans la récuperation des textes")
+                    }
+                    
+                    setTitleState(paragraphResponseJson.title)
+                    setParagraphState(paragraphResponseJson.paragraphs)
+                }
+
+            }catch(error){
+                    return(error.message)
+            }
+        }
+        loadText()
+    },[])
+
     const handleTextUpdate = async () => {
         try{    
             const sendUpdateText = await fetch (`http://localhost:5000/api/content/${"company-profile"}`, {
@@ -146,6 +143,97 @@ export default function Home() {
                 setEditParagraph("")
                 setEditModalIsOpen(false)
             }
+        }catch(error){
+            return(error.message)
+        }
+    }
+
+    const [isStaffModalOpen, setIsStaffModalOpen] = useState(false)
+    const [staffList, setStaffList] = useState([])
+    const [selectedStaffId, setSelectedStaffId] = useState("")
+
+    useEffect( () => {
+        const loadStaffData = async () => {
+            try{
+                const loadStaffDataResponse = await fetch ("http://localhost:5000/api/staff")
+                const staffDataJson = await loadStaffDataResponse.json()
+
+                if(loadStaffDataResponse.ok){
+                    setStaffList(staffDataJson)
+                }
+
+            }catch(error){
+                return(error.message)
+            }
+        }
+        loadStaffData()
+    },[])
+ 
+    const selectedMember = staffList.find(member => member._id === selectedStaffId)
+    const [ staffName,setStaffName] = useState("")    
+    const [ staffSpeciality,setStaffSpeciality] = useState("")
+    const [ staffText,setStaffText] = useState("")
+    const [ staffPhoto,setStaffPhoto] = useState([])    
+
+    const handleProfileUpdate = async () => {
+
+        const formData = new FormData()
+        formData.append("name", staffName)
+        formData.append("speciality", staffSpeciality)
+        formData.append("text", staffText)
+        formData.append("photo", staffPhoto) 
+
+        try{
+            const uploadProfile = await fetch (`http://localhost:5000/api/staff/${selectedStaffId}`,{
+                method : "PUT",
+                body : formData,
+                headers : { Authorization : `Bearer ${token}`}
+            })
+            const updatedMember = await uploadProfile.json()
+
+            if(uploadProfile.ok){
+                    setStaffList(prev => prev.map(member =>
+                        member._id === updatedMember._id ? updatedMember : member
+
+                    ))
+                }
+
+            setStaffName("")
+            setStaffSpeciality("")
+            setStaffText("")
+            setStaffPhoto(null)
+
+        }catch(error){
+            return(error.message)
+        }
+    }
+
+
+    const [staffCreateModalIsOpen, setStaffCreateModalIsOpen] = useState(false)
+
+    const handleStaffCreate = async () => {
+
+        const formData = new FormData()
+        formData.append("name", staffName)
+        formData.append("speciality", staffSpeciality)
+        formData.append("text", staffText)
+        formData.append("photo", staffPhoto) 
+
+        try{
+            const postProfile = await fetch ("http://localhost:5000/api/staff/",{
+                method : "POST",
+                body : formData,
+                headers : { Authorization : `Bearer ${token}`}
+            })
+            const postedMember = await postProfile.json()
+
+           
+
+            setStaffName("")
+            setStaffSpeciality("")
+            setStaffText("")
+            setStaffPhoto(null)
+
         }catch(error){
             return(error.message)
         }
@@ -231,9 +319,25 @@ export default function Home() {
             </Modal>
 
             <section className="home__staff-profile">
-                <StaffProfile src={portrait} title={"Charleen,"} speciality={"responsable de l'institut"} text= {"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Asperiores adipisci explicabo delectus obcaecati exercitationem libero"} className="home__staff-profile" />
-                <StaffProfile src={portrait1} title={"Sophie,"} speciality={"protésiste ongulaire"} text= {"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Asperiores adipisci explicabo delectus obcaecati exercitationem libero"} className="home__staff-profile" />
-                <StaffProfile src={portrait2} title={"Margot,"} speciality={"masseuse individuelle"} text= {"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Asperiores adipisci explicabo delectus obcaecati exercitationem libero"} className="home__staff-profile" />
+                
+                <Modal isOpen={isStaffModalOpen} onClose={() => setIsStaffModalOpen(false)} variant ="modify" >
+                    {selectedMember && 
+                        <div className="modal__edit-staff-profile">
+                            <input type="file" onChange={(e) => setStaffPhoto(e.target.files)} className="modal__edit-staff-profile--photo"/>
+                            <input type="text" onChange={(e) => setStaffName(e.target.value)} value={staffName} className="modal__edit-staff-profile--name"/>
+                            <input type="text" onChange={(e) => setStaffSpeciality(e.target.value)} value={staffSpeciality} className="modal__edit-staff-profile--speciality"/>
+                            <input type="text" onChange={(e) => setStaffText(e.target.value)} value={staffText} className="modal__edit-staff-profile--text"/>
+                            <button onClick={() => handleProfileUpdate()} type="button" className="btn">Valider</button>
+                        </div>
+                    }
+                </Modal>
+
+                {staffList.map(member => (
+                    <div key={member._id}>
+                        <StaffProfile  title={member.name} speciality={member.speciality} text={member.text} src={member.photoUrl}/>
+                        {isAuthenticated ? <button onClick={() => {setSelectedStaffId(member._id); setIsStaffModalOpen(true)}}className="home__modify-btn">Modifier</button> : null}
+                    </div>
+                ))} 
             </section>
 
             <section className="home__customers-review">
