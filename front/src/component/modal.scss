@@ -39,6 +39,17 @@
         border: solid 1px var(--color-grey-chrome);
         animation: slideFromTop 200ms cubic-bezier(.33, 1.09, 1, .84);
     }
+    &--add-staff {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 60dvh;
+        width: 30%;
+        border-radius: 8px;
+        box-shadow: 1px 2px 8px rgb(95, 95, 95);
+        border: solid 1px var(--color-grey-chrome);
+        animation: slideFromTop 200ms cubic-bezier(.33, 1.09, 1, .84);
+    }
 
     /*Modale de la barre de recherche*/
     &__search-bar{
@@ -215,6 +226,34 @@
             display: flex;
             gap: 50px;
             margin: 30px 0;
+        }
+    }
+    &__create-staff-profile{
+        &--photo{
+
+        }
+        &--name{
+
+        }
+        &--speciality{
+
+        }
+        &--text{
+
+        }
+    }
+    &__edit-staff-profile{
+        &--photo{
+
+        }
+        &--name{
+
+        }
+        &--speciality{
+
+        }
+        &--text{
+            
         }
     }
 }

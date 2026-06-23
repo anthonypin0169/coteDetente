@@ -45,6 +45,7 @@ export default function Home() {
         loadImages()
     }, [])
 
+
         const token = useSelector((state) => state.auth.token)
 
         const handleUpload = async () => {
@@ -75,6 +76,7 @@ export default function Home() {
         }
     }
 
+
     const handleDelete = async (id) => {
         try{
             const deletePicture = await fetch (`http://localhost:5000/api/photos/${id}`, {
@@ -98,6 +100,7 @@ export default function Home() {
     const [editTitle, setEditTitle] = useState("")
     const [editParagraph, setEditParagraph] = useState("")
 
+
     useEffect (() => {
         const loadText = async () =>{
             try{
@@ -120,6 +123,7 @@ export default function Home() {
         }
         loadText()
     },[])
+
 
     const handleTextUpdate = async () => {
         try{    
@@ -148,6 +152,7 @@ export default function Home() {
         }
     }
 
+
     const [isStaffModalOpen, setIsStaffModalOpen] = useState(false)
     const [staffList, setStaffList] = useState([])
     const [selectedStaffId, setSelectedStaffId] = useState("")
@@ -169,6 +174,7 @@ export default function Home() {
         loadStaffData()
     },[])
  
+
     const selectedMember = staffList.find(member => member._id === selectedStaffId)
     const [ staffName,setStaffName] = useState("")    
     const [ staffSpeciality,setStaffSpeciality] = useState("")
@@ -226,8 +232,11 @@ export default function Home() {
                 headers : { Authorization : `Bearer ${token}`}
             })
             const postedMember = await postProfile.json()
-
-           
+            
+            if(postProfile.ok){
+                setStaffList(prev =>[...prev, postedMember])
+                setStaffCreateModalIsOpen(false)
+            }
 
             setStaffName("")
             setStaffSpeciality("")
@@ -238,6 +247,23 @@ export default function Home() {
             return(error.message)
         }
     }
+
+
+    const handleStaffDelete = async (id) => {
+        try{
+            const deleteStaffCard = await fetch (`http://localhost:5000/api/staff/${id}`, {
+                method : "DELETE",
+                headers : { Authorization : `Bearer ${token}`}
+            })
+            if(deleteStaffCard.ok){
+                setStaffList(prev => prev.filter(staffCard => staffCard._id !== id))
+            }
+
+        }catch(error){
+            return(error.message)
+        }
+    }
+
 
     return (
         <main className="home">
@@ -320,10 +346,20 @@ export default function Home() {
 
             <section className="home__staff-profile">
                 
+                {isAuthenticated ? <button onClick={() => setStaffCreateModalIsOpen(true)} type="button" className="btn">Ajouter un membre</button> : null }
+
+                <Modal isOpen={staffCreateModalIsOpen} onClose={() => setStaffCreateModalIsOpen(false)} variant ="add-staff" >
+                    <input type="file" onChange={(e) => setStaffPhoto(e.target.files[0])} className="modal__create-staff-profile--photo"/>
+                    <input type="text" onChange={(e) => setStaffName(e.target.value)} value={staffName} className="modal__create-staff-profile--name"/>
+                    <input type="text" onChange={(e) => setStaffSpeciality(e.target.value)} value={staffSpeciality} className="modal__create-staff-profile--speciality"/>
+                    <input type="text" onChange={(e) => setStaffText(e.target.value)} value={staffText} className="modal__create-staff-profile--text"/>
+                    <button onClick={() => handleStaffCreate()} type="button" className="btn">Valider</button>
+                </Modal>
+
                 <Modal isOpen={isStaffModalOpen} onClose={() => setIsStaffModalOpen(false)} variant ="modify" >
                     {selectedMember && 
                         <div className="modal__edit-staff-profile">
-                            <input type="file" onChange={(e) => setStaffPhoto(e.target.files)} className="modal__edit-staff-profile--photo"/>
+                            <input type="file" onChange={(e) => setStaffPhoto(e.target.files[0])} className="modal__edit-staff-profile--photo"/>
                             <input type="text" onChange={(e) => setStaffName(e.target.value)} value={staffName} className="modal__edit-staff-profile--name"/>
                             <input type="text" onChange={(e) => setStaffSpeciality(e.target.value)} value={staffSpeciality} className="modal__edit-staff-profile--speciality"/>
                             <input type="text" onChange={(e) => setStaffText(e.target.value)} value={staffText} className="modal__edit-staff-profile--text"/>
@@ -334,6 +370,7 @@ export default function Home() {
 
                 {staffList.map(member => (
                     <div key={member._id}>
+                        {isAuthenticated ?<button onClick={() => handleStaffDelete(member._id)}className="home__delete-btn">X</button> : null}
                         <StaffProfile  title={member.name} speciality={member.speciality} text={member.text} src={member.photoUrl}/>
                         {isAuthenticated ? <button onClick={() => {setSelectedStaffId(member._id); setIsStaffModalOpen(true)}}className="home__modify-btn">Modifier</button> : null}
                     </div>
