@@ -200,7 +200,6 @@ export default function Home() {
             if(uploadProfile.ok){
                     setStaffList(prev => prev.map(member =>
                         member._id === updatedMember._id ? updatedMember : member
-
                     ))
                 }
 
@@ -325,6 +324,7 @@ export default function Home() {
                 </div>
             </section>
 
+
             <Modal isOpen={editModalIsOpen} onClose={() => setEditModalIsOpen(false)} variant ="modify">
                 <div className="modal__edit-modal">
                     <div className="modal__edit-modal--bloc1">
@@ -344,25 +344,53 @@ export default function Home() {
                 </div>
             </Modal>
 
+
             <section className="home__staff-profile">
                 
-                {isAuthenticated ? <button onClick={() => setStaffCreateModalIsOpen(true)} type="button" className="btn">Ajouter un membre</button> : null }
+                {isAuthenticated ? <button onClick={() => setStaffCreateModalIsOpen(true)} type="button" className="home__staff-profile--add-member-btn">Ajouter un membre</button> : null }
 
-                <Modal isOpen={staffCreateModalIsOpen} onClose={() => setStaffCreateModalIsOpen(false)} variant ="add-staff" >
-                    <input type="file" onChange={(e) => setStaffPhoto(e.target.files[0])} className="modal__create-staff-profile--photo"/>
-                    <input type="text" onChange={(e) => setStaffName(e.target.value)} value={staffName} className="modal__create-staff-profile--name"/>
-                    <input type="text" onChange={(e) => setStaffSpeciality(e.target.value)} value={staffSpeciality} className="modal__create-staff-profile--speciality"/>
-                    <input type="text" onChange={(e) => setStaffText(e.target.value)} value={staffText} className="modal__create-staff-profile--text"/>
-                    <button onClick={() => handleStaffCreate()} type="button" className="btn">Valider</button>
+                <Modal isOpen={staffCreateModalIsOpen} onClose={() => setStaffCreateModalIsOpen(false)} variant ="staff" >
+                    <div className="modal__create-staff-profile">
+                        <div className="modal__create-staff-profile--photo">
+                            <h2 className="staff-profile-h2">Choisissez une photo :</h2>
+                            <input type="file" onChange={(e) => setStaffPhoto(e.target.files[0])} className="staff-profile-upload"/>
+                        </div>
+                        <div className="modal__create-staff-profile--name">
+                            <h2 className="staff-profile-h2">Entrez un nom :</h2>
+                            <input type="text" onChange={(e) => setStaffName(e.target.value)} value={staffName} className="create-staff-profile-input"/>
+                        </div>
+                        <div className="modal__create-staff-profile--speciality">
+                            <h2 className="staff-profile-h2">Entrez une spécialité :</h2>
+                            <input type="text" onChange={(e) => setStaffSpeciality(e.target.value)} value={staffSpeciality} className="create-staff-profile-input"/>
+                        </div>
+                        <div className="modal__create-staff-profile--text">
+                            <h2 className="modal__create-staff-profile--text-h2 staff-profile-h2">Entrez un texte court :</h2>
+                            <textarea onChange={(e) => setStaffText(e.target.value)} value={staffText} className="create-staff-profile-text"/>
+                        </div>
+                        <button onClick={() => handleStaffCreate()} type="button" className="btn">Valider</button>
+                    </div>
                 </Modal>
 
-                <Modal isOpen={isStaffModalOpen} onClose={() => setIsStaffModalOpen(false)} variant ="modify" >
+
+                <Modal isOpen={isStaffModalOpen} onClose={() => setIsStaffModalOpen(false)} variant ="staff" >
                     {selectedMember && 
                         <div className="modal__edit-staff-profile">
-                            <input type="file" onChange={(e) => setStaffPhoto(e.target.files[0])} className="modal__edit-staff-profile--photo"/>
-                            <input type="text" onChange={(e) => setStaffName(e.target.value)} value={staffName} className="modal__edit-staff-profile--name"/>
-                            <input type="text" onChange={(e) => setStaffSpeciality(e.target.value)} value={staffSpeciality} className="modal__edit-staff-profile--speciality"/>
-                            <input type="text" onChange={(e) => setStaffText(e.target.value)} value={staffText} className="modal__edit-staff-profile--text"/>
+                            <div className="modal__edit-staff-profile--photo">
+                                <h2 className="staff-profile-h2">Modifiez la photo :</h2>
+                                <input type="file" onChange={(e) => setStaffPhoto(e.target.files[0])} className="staff-profile-upload"/>
+                            </div>
+                            <div className="modal__edit-staff-profile--name">
+                                <h2 className="staff-profile-h2">Modifiez un nom :</h2>
+                                <input type="text" onChange={(e) => setStaffName(e.target.value)} value={staffName} className="create-staff-profile-input"/>
+                            </div>
+                            <div className="modal__edit-staff-profile--speciality">
+                                <h2 className="staff-profile-h2">Modifiez une spécialité :</h2>
+                                <input type="text" onChange={(e) => setStaffSpeciality(e.target.value)} value={staffSpeciality} className="create-staff-profile-input"/>
+                            </div>
+                            <div className="modal__edit-staff-profile--text">
+                                <h2 className="staff-profile-h2">Modifiez un texte :</h2>
+                                <textarea type="text" onChange={(e) => setStaffText(e.target.value)} value={staffText} className="create-staff-profile-text"/>
+                            </div>
                             <button onClick={() => handleProfileUpdate()} type="button" className="btn">Valider</button>
                         </div>
                     }
@@ -370,7 +398,7 @@ export default function Home() {
 
                 {staffList.map(member => (
                     <div key={member._id}>
-                        {isAuthenticated ?<button onClick={() => handleStaffDelete(member._id)}className="home__delete-btn">X</button> : null}
+                        {isAuthenticated ?<button onClick={() => handleStaffDelete(member._id)}className="modal__edit-staff-profile--delete-btn">X</button> : null}
                         <StaffProfile  title={member.name} speciality={member.speciality} text={member.text} src={member.photoUrl}/>
                         {isAuthenticated ? <button onClick={() => {setSelectedStaffId(member._id); setIsStaffModalOpen(true)}}className="home__modify-btn">Modifier</button> : null}
                     </div>
