@@ -396,22 +396,32 @@ export default function Home() {
                     }
                 </Modal>
 
-                {staffList.map(member => (
+                <div className="home__staff-profile--list">
+                    {staffList.map(member => (
+                        <div key={member._id}>
+                            {isAuthenticated ?<button onClick={() => handleStaffDelete(member._id)}className="modal__edit-staff-profile--delete-btn">X</button> : null}
+                            <StaffProfile  title={member.name} speciality={member.speciality} text={member.text} src={member.photoUrl}/>
+                            {isAuthenticated ? <button onClick={() => {setSelectedStaffId(member._id); setIsStaffModalOpen(true)}}className="home__modify-btn">Modifier</button> : null}
+                        </div>
+                    ))}
+                </div>
+
+                <Carrousel mode="manual" className="home__staff-profile--carrousel" slides={staffList.map(member => (
                     <div key={member._id}>
                         {isAuthenticated ?<button onClick={() => handleStaffDelete(member._id)}className="modal__edit-staff-profile--delete-btn">X</button> : null}
                         <StaffProfile  title={member.name} speciality={member.speciality} text={member.text} src={member.photoUrl}/>
                         {isAuthenticated ? <button onClick={() => {setSelectedStaffId(member._id); setIsStaffModalOpen(true)}}className="home__modify-btn">Modifier</button> : null}
                     </div>
-                ))} 
+                ))} />
             </section>
 
             <section className="home__customers-review">
-                <div>
+                <div className="home__customers-review--info">
                     <h2>Pour nous retrouver</h2>
                     <img src={map} alt="carte" className="home__customers-review--map" />
                     <h3 className="home__customers-review--text">261 Rue de Schutterwald, 01000 Saint-Denis-lès-Bourg</h3>
                 </div>
-                <div>
+                <div className="home__customers-review--reviews">
                     <h2>Nos avis clients</h2>
                     <Carrousel mode={"manual"} reviews = {[
                         {title: "Fany D.", text: "Pas de mot pour dire combien c'était parfait. L'équipe au petit soin, le massage exactement ce qu'il me fallait, les produits avec une odeur de dingue et de super qualité. Merci à mes collègues (en or), ça fait partie des cadeaux dont je me souviendrais longtemps, et merci à l'équipe de côté détente."},

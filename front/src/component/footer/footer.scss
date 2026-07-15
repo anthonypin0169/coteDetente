@@ -1,29 +1,36 @@
 .footer{
-    height: 22dvh;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    padding: 0 5%;
+    justify-content: center;
+    gap: 20px;
+    height: auto;
+    padding: 24px 20px;
     background: var(--color-grey-text);
     color: var(--color-background);
-    font-size: 20px;
+    font-size: 16px;
+    .footer-container{
+        display: none;
+    }
     &__links{
         display: flex;
         flex-direction: column;
+        align-items: center;
         justify-content: center;
         &--contact{
-    
+
         }
         &--mentions{
-            
+
         }
         &--conditions{
-            
+
         }
     }
     &__follows{
         display: flex;
         flex-direction: column;
+        align-items: center;
         justify-content: center;
         &--instagram{
             display: flex;
@@ -35,32 +42,46 @@
             align-items: end;
         }
     }
-}
-.footer-container{
-    display: flex;  
-    &__h4{
-        margin: 0 80px 0 30px;
+    @media (min-width: 768px){
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 0 5%;
+        height: 18dvh;
     }
-    &__planning{
-        display: flex;
-        
-        flex-direction: column;
-        justify-content: center;
-        &--li{
+    /*Les horaires (footer-container) ont besoin de la largeur d'un grand
+    écran pour ne pas passer les heures à la ligne ; reste masqué jusque-là,
+    cohérent avec le header qui reste replié jusqu'à 1440px (voir header.scss)*/
+    @media (min-width: 1440px){
+        justify-content: space-between;
+        height: 22dvh;
+        font-size: 20px;
+        .footer-container{
             display: flex;
-            justify-content: space-between;
-            gap: 30px;
+        }
+        &__links{
+            align-items: flex-start;
+        }
+        &__follows{
+            align-items: flex-start;
         }
     }
 }
 .instagram-icon{
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
+    @media (min-width: 1440px){
+        width: 50px;
+        height: 50px;
+    }
 }
 .facebook-icon{
-    width: 75px;
-    height: 75px;
+    width: 60px;
+    height: 60px;
     margin-left: -4%;
+    @media (min-width: 1440px){
+        width: 75px;
+        height: 75px;
+    }
 }
 /*Ecrasement des styles imposés par Nav*/
 .footer__links {

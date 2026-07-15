@@ -2,6 +2,7 @@
     position: relative;
     overflow: hidden;
     z-index: 50;
+    box-sizing: border-box;
     &__image {
         width: 100%;
         height: 100%;
@@ -20,6 +21,18 @@
     &__btn--prev { left: 10px; }
     &__btn--next { right: 10px; }
 
+    &__slide{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        padding: 0 24px;
+        @media (min-width: 1024px){
+            padding: 0 40px;
+        }
+    }
     &__review{
         &--title{
             margin-top: 40px;

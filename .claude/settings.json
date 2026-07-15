@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(PLAYWRIGHT_MODULE=/c/Users/Anthony/AppData/Local/npm-cache/_npx/e41f203b7505f1fb/node_modules/playwright node \"C:\\\\Users\\\\Anthony\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--repo-pro-cotedetente\\\\272ed46a-25a4-4b9b-936a-34f588036d44\\\\scratchpad\\\\admin_modals.js\")"
+    ]
+  }
+}

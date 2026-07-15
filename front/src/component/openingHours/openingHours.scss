@@ -1,0 +1,38 @@
+.footer-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    &__h4{
+        margin: 0 0 8px 0;
+    }
+    &__planning{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 4px;
+        &--li{
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            width: 100%;
+            max-width: 260px;
+        }
+    }
+    @media (min-width: 1024px){
+        flex-direction: row;
+        align-items: initial;
+        gap: 0;
+        &__h4{
+            margin: 0 80px 0 30px;
+        }
+        &__planning{
+            gap: 0;
+            &--li{
+                gap: 30px;
+                width: auto;
+                max-width: none;
+            }
+        }
+    }
+}

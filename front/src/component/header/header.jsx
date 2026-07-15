@@ -1,5 +1,6 @@
 import NavLink from "../nav/nav"
 import Logo from "../logo/logo"
+import OpeningHours from "../openingHours/openingHours"
 import testLogo2 from "../../assets/images/testLogo2.png"
 import Modal from "../modal/modal"
 import { useState } from "react"
@@ -39,7 +40,7 @@ export default function Header() {
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     />
-                    <button className="modal__search-bar--close-btn fa-solid fa-xmark" type="button" 
+                    <button className="modal__search-bar--close-btn fa-solid fa-xmark" type="button"
                     onClick={() => setIsSearchOpen(false)}></button>
                 </div>
                 <div className="modal__results">
@@ -49,6 +50,17 @@ export default function Header() {
                         <p>Résultats pour {query}</p>
                     )}
                 </div>
+
+                <div className="modal__search-links">
+                    <NavLink text="Accueil" to="/" className="modal__search-links--home links"/>
+                    <NavLink text="Prestations" to="/prestations" className="modal__search-links--services links"/>
+                    <NavLink text="Évènements" to="/evenements" className="modal__search-links--event links"/>
+                    <NavLink text="Carte cadeau" to="/carte-cadeau" className="modal__search-links--gift-card links"/>
+                    <button className="modal__search-links--basket fa-solid fa-basket-shopping links" type="button"
+                    onClick={() => setIsBasketOpen(true)}></button>
+                </div>
+
+                <OpeningHours />
             </Modal>
 
             <Modal isOpen={isLoginOpen} onClose={() => {setIsLoginOpen(false); dispatch(clearError())}} variant="center">

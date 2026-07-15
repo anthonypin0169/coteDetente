@@ -1,69 +1,121 @@
 .header{
-    height: 18dvh;
+    height: 60px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
     background: var(--color-grey-chrome);
     box-shadow: 0 5px 15px;
     position: relative;
     z-index: 100;
     &__left{
-        width: 33%;
+        width: auto;
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
         gap: 45px;
         &--search-bar{
             background: transparent;
             border: none;
-            font-size: 30px;
+            font-size: 24px;
             cursor: pointer;
         }
-        &--home{
-            
-        }
-        &--services{
-            
-        }
+        &--home,
+        &--services,
         &--event{
-            
+            display: none;
         }
     }
     &__center{
-        width: 34%;
+        width: auto;
         height: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
         &--logo{
-            height: 90%;   
+            height: 70%;
             width: auto;
             object-fit: contain;
         }
     }
     &__right{
-        width: 33%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 50px;
-        &--gift-card{
-            
+        display: none;
+    }
+    /*Le header reste replié (recherche + logo) jusqu'à 1440px : la rangée de
+    liens (gap 45px) + les 3 NavLinks ne tiennent pas dans les 33% dispo à 1024px.*/
+    @media (min-width: 1440px){
+        height: 8vw;
+        padding: 0;
+        &__left{
+            width: 33%;
+            justify-content: center;
+            &--search-bar{
+                font-size: 30px;
+            }
+            &--home,
+            &--services,
+            &--event{
+                display: inline-block;
+            }
         }
-        &--shopping-card{
-            background: transparent;
-            border: none;
-            font-size: 30px;
-            margin-bottom: 7px;
-            cursor: pointer;
+        &__center{
+            width: 34%;
+            &--logo{
+                height: 90%;
+            }
         }
+        &__right{
+            width: 33%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            &--shopping-card{
+                background: transparent;
+                border: none;
+                font-size: 30px;
+                margin-bottom: 7px;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+/*Liens dupliqués dans la modale de recherche (visibles tant que le header est replié)*/
+.modal__search-links{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin: 20px 0;
+    &--basket{
+        background: transparent;
+        border: none;
+        font-size: 26px;
+        cursor: pointer;
+    }
+    @media (min-width: 1440px){
+        display: none;
+    }
+}
+.modal .footer-container{
+    display: flex;
+    margin: 20px 0;
+}
+@media (min-width: 1440px){
+    .modal .footer-container{
+        display: none;
     }
 }
 
 /*Styles couleurs et soulignement*/
 .links{
     text-decoration: none;
-    font-size: 26px;
+    font-size: 20px;
     color: var(--color-oak-dark);
+    @media (min-width: 1440px){
+        font-size: 26px;
+    }
 }
 .links:hover{
     color: var(--color-plum);   

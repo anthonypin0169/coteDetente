@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback } from "react"
 import "./carrousel.scss"
 
-export default function Carrousel({images = [], reviews = [], mode, className}) {
-    
-    
+export default function Carrousel({images = [], reviews = [], slides = [], mode, className}) {
+
+
     const [currentIndex, setCurrentIndex] = useState(0)
-    
-    const items = images.length > 0 ?  images : reviews
-    
+
+    const items = slides.length > 0 ? slides : images.length > 0 ? images : reviews
+
        
     const next = useCallback(
         () => { 
@@ -33,7 +33,9 @@ export default function Carrousel({images = [], reviews = [], mode, className}) 
     
         return (
             <div className={`carrousel ${className ?? ""}`}>
-                {images.length > 0 ? (
+                {slides.length > 0 ? (
+                    <div className="carrousel__slide">{slides[currentIndex]}</div>
+                ) : images.length > 0 ? (
                     <img src={images[currentIndex]} alt={`slide ${currentIndex}`} className="carrousel__image" />
                 ) : (
                     <div className="carrousel__review">
