@@ -38,10 +38,22 @@
         }
     }
     &__right{
-        display: none;
+        width: auto;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        &--gift-card{
+            display: none;
+        }
+        &--shopping-card{
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
     }
-    /*Le header reste replié (recherche + logo) jusqu'à 1440px : la rangée de
-    liens (gap 45px) + les 3 NavLinks ne tiennent pas dans les 33% dispo à 1024px.*/
+    /*Le header reste replié (recherche + logo + panier) jusqu'à 1440px : la
+    rangée de liens (gap 45px) + les 3 NavLinks ne tiennent pas dans les 33%
+    dispo à 1024px.*/
     @media (min-width: 1440px){
         height: 8vw;
         padding: 0;
@@ -62,15 +74,13 @@
         }
         &__right{
             width: 33%;
-            display: flex;
             justify-content: center;
-            align-items: center;
             gap: 50px;
+            &--gift-card{
+                display: inline-block;
+            }
             &--shopping-card{
-                background: transparent;
-                border: none;
                 margin-bottom: 7px;
-                cursor: pointer;
             }
         }
     }
@@ -80,14 +90,9 @@
 .modal__search-links{
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
     gap: 20px;
-    margin: 20px 0;
-    &--basket{
-        background: transparent;
-        border: none;
-        cursor: pointer;
-    }
+    margin: 20px 0 20px 20px;
     @media (min-width: 1440px){
         display: none;
     }
@@ -142,26 +147,24 @@
 qualifié par la balise passe devant .links, qui est aussi posée sur ces boutons
 pour la couleur/le hover.*/
 button.header__left--search-bar,
-button.modal__search-links--basket{
-    font-size: 24px;
-}
 button.header__right--shopping-card{
-    font-size: 30px;
+    font-size: 24px;
 }
 @media (min-width: 768px){
     button.header__left--search-bar,
-    button.modal__search-links--basket{
+    button.header__right--shopping-card{
         font-size: 26px;
     }
 }
 @media (min-width: 1024px){
     button.header__left--search-bar,
-    button.modal__search-links--basket{
+    button.header__right--shopping-card{
         font-size: 28px;
     }
 }
 @media (min-width: 1440px){
-    button.header__left--search-bar{
+    button.header__left--search-bar,
+    button.header__right--shopping-card{
         font-size: 30px;
     }
 }

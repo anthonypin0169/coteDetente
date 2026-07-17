@@ -56,8 +56,6 @@ export default function Header() {
                     <NavLink text="Prestations" to="/prestations" className="modal__search-links--services links"/>
                     <NavLink text="Évènements" to="/evenements" className="modal__search-links--event links"/>
                     <NavLink text="Carte cadeau" to="/carte-cadeau" className="modal__search-links--gift-card links"/>
-                    <button className="modal__search-links--basket fa-solid fa-basket-shopping links" type="button"
-                    onClick={() => setIsBasketOpen(true)}></button>
                 </div>
 
                 <OpeningHours />

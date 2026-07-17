@@ -267,7 +267,7 @@ export default function Home() {
     return (
         <main className="home">
             <Carrousel images={carrouselHero.map( p => p.url )} mode="auto" className="home__carrousel" />
-            {isAuthenticated ? <button onClick={() => setisModifyCarrouselOpen(true)} className="home__modify-btn">Modifier</button> : null}
+            {isAuthenticated ? <button onClick={() => setisModifyCarrouselOpen(true)} className="home__modify-btn btn">Modifier</button> : null}
 
             <Modal isOpen={isModifyCarrouselOpen} onClose={() => setisModifyCarrouselOpen(false)} variant ="modify">
                 {modifyViewMode === "list" ? 
@@ -347,7 +347,7 @@ export default function Home() {
 
             <section className="home__staff-profile">
                 
-                {isAuthenticated ? <button onClick={() => setStaffCreateModalIsOpen(true)} type="button" className="home__staff-profile--add-member-btn">Ajouter un membre</button> : null }
+                {isAuthenticated ? <button onClick={() => setStaffCreateModalIsOpen(true)} type="button" className="home__staff-profile--add-member-btn btn">Ajouter un membre</button> : null }
 
                 <Modal isOpen={staffCreateModalIsOpen} onClose={() => setStaffCreateModalIsOpen(false)} variant ="staff" >
                     <div className="modal__create-staff-profile">
@@ -401,7 +401,7 @@ export default function Home() {
                         <div key={member._id}>
                             {isAuthenticated ?<button onClick={() => handleStaffDelete(member._id)}className="modal__edit-staff-profile--delete-btn">X</button> : null}
                             <StaffProfile  title={member.name} speciality={member.speciality} text={member.text} src={member.photoUrl}/>
-                            {isAuthenticated ? <button onClick={() => {setSelectedStaffId(member._id); setIsStaffModalOpen(true)}}className="home__modify-btn">Modifier</button> : null}
+                            {isAuthenticated ? <button onClick={() => {setSelectedStaffId(member._id); setIsStaffModalOpen(true)}}className="home__modify-btn btn">Modifier</button> : null}
                         </div>
                     ))}
                 </div>
@@ -410,7 +410,7 @@ export default function Home() {
                     <div key={member._id}>
                         {isAuthenticated ?<button onClick={() => handleStaffDelete(member._id)}className="modal__edit-staff-profile--delete-btn">X</button> : null}
                         <StaffProfile  title={member.name} speciality={member.speciality} text={member.text} src={member.photoUrl}/>
-                        {isAuthenticated ? <button onClick={() => {setSelectedStaffId(member._id); setIsStaffModalOpen(true)}}className="home__modify-btn">Modifier</button> : null}
+                        {isAuthenticated ? <button onClick={() => {setSelectedStaffId(member._id); setIsStaffModalOpen(true)}}className="home__modify-btn btn">Modifier</button> : null}
                     </div>
                 ))} />
             </section>

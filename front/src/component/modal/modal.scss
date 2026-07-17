@@ -34,6 +34,10 @@
         border: solid 1px var(--color-grey-chrome);
         animation: slideFromTop 200ms cubic-bezier(.33, 1.09, 1, .84);
         overflow-y: auto;
+        @media (min-width: 768px) {
+            height: 50dvh;
+            width: 60%;
+        }
         @media (min-width: 1024px) {
             height: 60dvh;
             width: 45%;
@@ -76,11 +80,13 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        justify-self: center;
+        width: 85%;
         gap: 12px;
-        margin: 20px 0;
+        margin: 30px 0 15px 0;
         &--input{
             flex: 1;
-            min-width: 0;
+            width: 80%;
             height: 50px;
             border-radius: 7px;
             border: none;
@@ -107,7 +113,7 @@
         }
     }
     &__results{
-        margin-left: 12px;
+        margin: 0 0 20px 8%;
         @media (min-width: 1440px) {
             margin-left: 25px;
         }
@@ -175,6 +181,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: space-around;
         height: 100%;
         gap: 16px;
         position: relative;
@@ -185,7 +192,7 @@
         }
         &--purchases{
             width: 90%;
-            height: 50%;
+            height: 150px;
             border-radius: 8px;
             box-shadow: 1px 2px 4px rgb(95, 95, 95);
             border: solid 1px var(--color-grey-chrome);
@@ -227,7 +234,7 @@
             height: 160px;
             display: flex;
             align-items: center;
-            scrollbar-width: auto;
+            overflow: scroll;
             box-shadow: 1px 1px 5px rgba(95, 95, 95, 0.429);
             border-radius: 15px;
         }
@@ -357,6 +364,10 @@
             align-items: flex-start;
             gap: 8px;
         }
+        &--text{
+            display: flex;
+            flex-direction: column;
+        }
         @media (min-width: 1024px) {
             gap: 25px;
             margin: 0 50px;
@@ -381,6 +392,10 @@
             flex-direction: column;
             align-items: flex-start;
             gap: 8px;
+        }
+        &--text{
+            display: flex;
+            flex-direction: column;
         }
         &--delete-btn{
             width: 25px;
@@ -407,28 +422,29 @@
 }
 .preview{
     height: 120px;
-    width: 120px;
     border-radius: 15px;
-    margin: 0 8px;
+    margin: 0 10px;
+    position: relative;
     &__img{
-        width: 100%;
         height: 100%;
         object-fit: cover;
         border-radius: 15px;
-        position: relative;
     }
     &__btn{
-        position: relative;
-        bottom: 120px;
-        left: 95px;
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        border-radius: 5px;
+        border: none;
+        box-shadow: 1px 1px 3px;
     }
     @media (min-width: 1024px) {
         height: 200px;
         width: 200px;
         margin: 0 20px;
         &__btn{
-            bottom: 200px;
-            left: 170px;
+            top: 10px;
+            right: 10px;
         }
     }
 }
@@ -457,8 +473,9 @@
     }
 }
 .create-staff-profile-input{
-    width: 100%;
+    width: 90%;
     height: 36px;
+    align-self: center;
     @media (min-width: 1024px) {
         width: 40%;
         height: 40px;
@@ -477,8 +494,9 @@
     }
 }
 .create-staff-profile-text{
-    width: 100%;
+    width: 90%;
     height: 12dvh;
+    align-self: center;
     @media (min-width: 1024px) {
         height: 15dvh;
     }

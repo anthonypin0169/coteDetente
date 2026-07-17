@@ -1,19 +1,12 @@
 .home{
+    display: flex;
+    flex-direction: column;
     &__carrousel{
         height: 220px;
         object-fit: contain;
     }
     &__modify-btn{
-        width: 220px;
-        height: 50px;
-        border: none;
-        border-radius: 5px;
-        background: var(--color-grey-chrome);
-        box-shadow: 1px 2px 4px rgb(95, 95, 95);
-        display: flex;
         margin: 24px auto;
-        align-items: center;
-        justify-content: center;
     }
     &__services{
         display: flex;
@@ -30,7 +23,7 @@
             background: var(--color-background);
         }
         &--img{
-            width: 70vw;
+            width: 275px;
             height: auto;
             position: absolute;
             z-index: 80;
@@ -45,6 +38,7 @@
         display: flex;
         flex-direction: column;
         &--h2{
+            align-self: center;
             margin: 20px 0 16px 0;
         }
         &--content{
@@ -62,7 +56,7 @@
         padding: 60px 20px;
         position: relative;
         background-image: url("../../assets/images/wallpaper.jpg");
-        background-attachment: scroll;
+        background-attachment: fixed;
         background-size: cover;
         background-position-y: top;
         &--list{
@@ -89,13 +83,7 @@
             max-width: 200px;
         }
         &--add-member-btn{
-            width: 220px;
-            height: 50px;
-            border: none;
-            border-radius: 5px;
-            box-shadow: 1px 2px 4px rgb(95, 95, 95);
             margin: 16px 0;
-            align-self: center;
         }
     }
     &__customers-review{
@@ -133,14 +121,14 @@
         &__services{
             padding: 100px 0 80px 0;
             &--img{
-                width: 55vw;
+                width: 423px;
                 top: -30px;
             }
         }
     }
     @media (min-width: 1024px){
         &__carrousel{
-            height: 800px;
+            height: 615px;
         }
         &__modify-btn{
             margin: 40px auto;
@@ -155,9 +143,6 @@
         }
         &__company-profile{
             padding: 50px 0;
-            &--h2{
-                margin: 50px 0 20px 100px;
-            }
             &--content{
                 flex-direction: row;
                 align-items: normal;
@@ -169,7 +154,6 @@
             justify-content: center;
             gap: 200px;
             padding: 200px 0;
-            background-attachment: fixed;
             &--list{
                 display: flex;
                 justify-content: center;
