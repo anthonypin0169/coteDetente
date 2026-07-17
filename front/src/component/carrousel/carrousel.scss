@@ -15,8 +15,17 @@
         transform: translateY(-50%);
         background: transparent;
         border: none;
-        font-size: 3rem;
+        font-size: 2.25rem;
         cursor: pointer;
+        @media (min-width: 768px){
+            font-size: 2.5rem;
+        }
+        @media (min-width: 1024px){
+            font-size: 2.75rem;
+        }
+        @media (min-width: 1440px){
+            font-size: 3rem;
+        }
     }
     &__btn--prev { left: 10px; }
     &__btn--next { right: 10px; }
@@ -36,9 +45,6 @@
     &__review{
         &--title{
             margin-top: 40px;
-        }
-        &--text{
-            font-size: 22px;
         }
     }
 }

@@ -5,8 +5,51 @@ body{
     background-color: var(--color-background);
     color: var(--color-grey-text);
 }
+h1{
+    font-size: 28px;
+}
 h2{
-    font-size: 40px;
+    font-size: 24px;
+}
+h3{
+    font-size: 20px;
+}
+h4{
+    font-size: 17px;
+}
+p,
+button,
+input,
+textarea,
+.links{
+    font-size: 15px;
+}
+label{
+    font-size: 14px;
+}
+@media (min-width: 768px){
+    h1{ font-size: 32px; }
+    h2{ font-size: 28px; }
+    h3{ font-size: 22px; }
+    h4{ font-size: 18px; }
+    p, button, input, textarea, .links{ font-size: 16px; }
+    label{ font-size: 14px; }
+}
+@media (min-width: 1024px){
+    h1{ font-size: 36px; }
+    h2{ font-size: 32px; }
+    h3{ font-size: 24px; }
+    h4{ font-size: 19px; }
+    p, button, input, textarea, .links{ font-size: 17px; }
+    label{ font-size: 15px; }
+}
+@media (min-width: 1440px){
+    h1{ font-size: 40px; }
+    h2{ font-size: 36px; }
+    h3{ font-size: 26px; }
+    h4{ font-size: 20px; }
+    p, button, input, textarea, .links{ font-size: 18px; }
+    label{ font-size: 15px; }
 }
 .btn{
     width: 220px;
@@ -16,6 +59,5 @@ h2{
     background: var(--color-grey-chrome);
     box-shadow: 1px 2px 4px rgb(95, 95, 95);
     margin: 20px 0;
-    font-size: 18px;
     align-self: center;
 }

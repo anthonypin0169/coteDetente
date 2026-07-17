@@ -17,7 +17,6 @@
         &--search-bar{
             background: transparent;
             border: none;
-            font-size: 24px;
             cursor: pointer;
         }
         &--home,
@@ -49,9 +48,6 @@
         &__left{
             width: 33%;
             justify-content: center;
-            &--search-bar{
-                font-size: 30px;
-            }
             &--home,
             &--services,
             &--event{
@@ -73,7 +69,6 @@
             &--shopping-card{
                 background: transparent;
                 border: none;
-                font-size: 30px;
                 margin-bottom: 7px;
                 cursor: pointer;
             }
@@ -91,7 +86,6 @@
     &--basket{
         background: transparent;
         border: none;
-        font-size: 26px;
         cursor: pointer;
     }
     @media (min-width: 1440px){
@@ -111,11 +105,7 @@
 /*Styles couleurs et soulignement*/
 .links{
     text-decoration: none;
-    font-size: 20px;
     color: var(--color-oak-dark);
-    @media (min-width: 1440px){
-        font-size: 26px;
-    }
 }
 .links:hover{
     color: var(--color-plum);   
@@ -145,4 +135,33 @@
 .header__left--search-bar::after,
 .header__right--shopping-card::after {
     display: none;
+}
+
+/*Tailles des icônes fa-* : pictogrammes, pas du texte, donc échelle propre
+(mais toujours définie sur les 4 formats pour rester fluide) ; le sélecteur
+qualifié par la balise passe devant .links, qui est aussi posée sur ces boutons
+pour la couleur/le hover.*/
+button.header__left--search-bar,
+button.modal__search-links--basket{
+    font-size: 24px;
+}
+button.header__right--shopping-card{
+    font-size: 30px;
+}
+@media (min-width: 768px){
+    button.header__left--search-bar,
+    button.modal__search-links--basket{
+        font-size: 26px;
+    }
+}
+@media (min-width: 1024px){
+    button.header__left--search-bar,
+    button.modal__search-links--basket{
+        font-size: 28px;
+    }
+}
+@media (min-width: 1440px){
+    button.header__left--search-bar{
+        font-size: 30px;
+    }
 }

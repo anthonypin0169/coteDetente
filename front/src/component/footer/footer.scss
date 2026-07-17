@@ -8,7 +8,7 @@
     padding: 24px 20px;
     background: var(--color-grey-text);
     color: var(--color-background);
-    font-size: 16px;
+    font-size: 15px;
     .footer-container{
         display: none;
     }
@@ -47,6 +47,10 @@
         justify-content: space-around;
         padding: 0 5%;
         height: 18dvh;
+        font-size: 16px;
+    }
+    @media (min-width: 1024px){
+        font-size: 17px;
     }
     /*Les horaires (footer-container) ont besoin de la largeur d'un grand
     écran pour ne pas passer les heures à la ligne ; reste masqué jusque-là,
@@ -54,7 +58,7 @@
     @media (min-width: 1440px){
         justify-content: space-between;
         height: 22dvh;
-        font-size: 20px;
+        font-size: 18px;
         .footer-container{
             display: flex;
         }
