@@ -85,6 +85,10 @@
         &--add-member-btn{
             margin: 16px 0;
         }
+        .staff-container{
+            display: flex;
+            flex-direction: column;
+        }
     }
     &__customers-review{
         display: flex;
@@ -114,7 +118,40 @@
             background: var(--color-grey-chrome-modal);
         }
     }
-    @media (min-width: 768px){
+}
+/*Gros lien d'appel à l'action : qualifié par la balise pour passer devant
+.links (posée par NavLink sur le même élément), échelle propre mais définie
+sur les 4 formats.*/
+a.home__services--link{
+    font-size: 22px;
+}
+.company-carrousel-container{
+    width: 100%;
+    max-width: 320px;
+    margin: 16px auto;
+    aspect-ratio: 4 / 5;
+    box-shadow: 5px 5px 8px;
+    border-radius: 5px;
+}
+.company-text{
+    width: 100%;
+    margin-left: 0;
+}
+.home__customers-review--map{
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border: solid 1px var(--color-grey-chrome);
+    box-shadow: 2px 2px 3px;
+}
+
+/*=====================================================
+    768px
+=====================================================*/
+@media (min-width: 768px){
+    .home{
         &__carrousel{
             height: 400px;
         }
@@ -126,7 +163,16 @@
             }
         }
     }
-    @media (min-width: 1024px){
+    a.home__services--link{
+        font-size: 32px;
+    }
+}
+
+/*=====================================================
+    1024px
+=====================================================*/
+@media (min-width: 1024px){
+    .home{
         &__carrousel{
             height: 615px;
         }
@@ -143,10 +189,15 @@
         }
         &__company-profile{
             padding: 50px 0;
+            width: 80%;
+            box-shadow: none;
+            align-self: center;
             &--content{
                 flex-direction: row;
                 align-items: normal;
                 gap: 0;
+                display: flex;
+                justify-content: space-around;
             }
         }
         &__staff-profile{
@@ -196,7 +247,29 @@
             }
         }
     }
-    @media (min-width: 1440px){
+    a.home__services--link{
+        font-size: 50px;
+    }
+    .company-carrousel-container{
+        width: 500px;
+        max-width: none;
+        margin: 10px 0 80px 80px;
+    }
+    .company-text{
+        width: 60%;
+        margin-left: 100px;
+    }
+    .home__customers-review--map{
+        width: 42vw;
+        max-width: none;
+    }
+}
+
+/*=====================================================
+    1440px
+=====================================================*/
+@media (min-width: 1440px){
+    .home{
         &__customers-review--carrousel{
             width: 370px;
             max-width: none;
@@ -204,58 +277,8 @@
             padding: 0 65px;
         }
     }
-}
-/*Gros lien d'appel à l'action : qualifié par la balise pour passer devant
-.links (posée par NavLink sur le même élément), échelle propre mais définie
-sur les 4 formats.*/
-a.home__services--link{
-    font-size: 22px;
-}
-@media (min-width: 768px){
-    a.home__services--link{
-        font-size: 32px;
-    }
-}
-@media (min-width: 1024px){
-    a.home__services--link{
-        font-size: 50px;
-    }
-}
-.company-carrousel-container{
-    width: 100%;
-    max-width: 320px;
-    margin: 16px auto;
-    aspect-ratio: 4 / 5;
-    box-shadow: 5px 5px 8px;
-    border-radius: 5px;
-    @media (min-width: 1024px){
-        width: 500px;
-        max-width: none;
-        margin: 10px 80px 80px 80px;
-    }
-}
-.company-text{
-    width: 100%;
-    margin-left: 0;
-    @media (min-width: 1024px){
-        width: 60%;
-        margin-left: 100px;
-    }
-}
-.home__customers-review--map{
-    width: 100%;
-    max-width: 320px;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-    border: solid 1px var(--color-grey-chrome);
-    box-shadow: 2px 2px 3px;
-    @media (min-width: 1024px){
-        width: 42vw;
-        max-width: none;
-    }
     /*Dimensions fixes d'origine (791x512), pensées pour du grand écran*/
-    @media (min-width: 1440px){
+    .home__customers-review--map{
         width: 791px;
         height: 512px;
     }

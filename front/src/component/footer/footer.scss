@@ -5,7 +5,7 @@
     justify-content: center;
     gap: 20px;
     height: auto;
-    padding: 24px 20px;
+    padding: 24px 0;
     background: var(--color-grey-text);
     color: var(--color-background);
     font-size: 15px;
@@ -32,33 +32,36 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        
         &--instagram{
             display: flex;
             gap: 15px;
+            color: var(--color-background);
+            text-decoration: none;
+            &:hover {
+                color: var(--color-oak-light);
+            }
         }
         &--facebook{
             display: flex;
             gap: 5px;
             align-items: end;
+            color: var(--color-background);
+            text-decoration: none;
+            &:hover {
+                color: var(--color-oak-light);
+            }
         }
     }
+    /*Les horaires (footer-container) et l'alignement "déplié" basculent en
+    même temps que le header (voir header.scss) : à partir de 768px, on est
+    sur la version header/footer complète, la modale ne sert plus qu'à la
+    recherche.*/
     @media (min-width: 768px){
         flex-direction: row;
-        justify-content: space-around;
-        padding: 0 5%;
-        height: 18dvh;
-        font-size: 16px;
-    }
-    @media (min-width: 1024px){
-        font-size: 17px;
-    }
-    /*Les horaires (footer-container) ont besoin de la largeur d'un grand
-    écran pour ne pas passer les heures à la ligne ; reste masqué jusque-là,
-    cohérent avec le header qui reste replié jusqu'à 1440px (voir header.scss)*/
-    @media (min-width: 1440px){
         justify-content: space-between;
-        height: 22dvh;
-        font-size: 18px;
+        font-size: 16px;
+        padding: 20px 5%;
         .footer-container{
             display: flex;
         }
@@ -68,6 +71,14 @@
         &__follows{
             align-items: flex-start;
         }
+    }
+    @media (min-width: 1024px){
+        font-size: 17px;
+        padding: 35px 5%;
+    }
+    @media (min-width: 1440px){
+        font-size: 18px;
+        padding: 50px 5%;
     }
 }
 .instagram-icon{
@@ -91,7 +102,7 @@
 .footer__links {
     .links {
         color: var(--color-background);
-        
+
         &:hover {
             color: var(--color-oak-light);
         }

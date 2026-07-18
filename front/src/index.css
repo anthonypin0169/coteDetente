@@ -25,7 +25,7 @@ textarea,
     font-size: 15px;
 }
 label{
-    font-size: 14px;
+    font-size: 17px;
 }
 .btn{
         width: 145px;
@@ -42,8 +42,9 @@ label{
     h2{ font-size: 28px; }
     h3{ font-size: 22px; }
     h4{ font-size: 18px; }
-    p, button, input, textarea, .links{ font-size: 16px; }
-    label{ font-size: 14px; }
+    p, button, input, textarea { font-size: 16px; }
+    .links{ font-size: 18px; }
+    label{ font-size: 18px; }
     .btn{
         width: 170px;
         height: 40px;
@@ -54,8 +55,9 @@ label{
     h2{ font-size: 32px; }
     h3{ font-size: 24px; }
     h4{ font-size: 19px; }
-    p, button, input, textarea, .links{ font-size: 17px; }
-    label{ font-size: 15px; }
+    p, button, input, textarea{ font-size: 17px; }
+    .links{ font-size: 22px; }
+    label{ font-size: 19px; }
     .btn{
         width: 195px;
         height: 45px;
@@ -66,8 +68,9 @@ label{
     h2{ font-size: 36px; }
     h3{ font-size: 26px; }
     h4{ font-size: 20px; }
-    p, button, input, textarea, .links{ font-size: 18px; }
-    label{ font-size: 15px; }
+    p, button, input, textarea{ font-size: 18px; }
+    .links{ font-size: 26px; }
+    label{ font-size: 20px; }
     .btn{
         width: 220px;
         height: 50px;

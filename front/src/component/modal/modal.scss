@@ -8,18 +8,29 @@
 .modal {
     position: fixed;
     background-color: var(--color-background);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
     &--side {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         top: 0;
         left: 0;
         height: 100%;
-        width: 92vw;
+        width: 80vw;
+        max-width: 340px;
         box-shadow: 1px 4px 20px rgb(176, 176, 176);
         border: solid 1px var(--color-grey-chrome);
         animation: slideFromLeft 200ms cubic-bezier(.33, 1.09, 1, .84);
         overflow-y: auto;
         /*Reste large tant que la modale contient les liens dupliqués du header (voir header.scss)*/
-        @media (min-width: 1440px) {
-            width: 25%;
+        @media (min-width: 768px) {
+            width: 35%;
+            max-width: none;
+            justify-content: start;
         }
     }
     &--center {
@@ -35,11 +46,9 @@
         animation: slideFromTop 200ms cubic-bezier(.33, 1.09, 1, .84);
         overflow-y: auto;
         @media (min-width: 768px) {
-            height: 50dvh;
             width: 60%;
         }
         @media (min-width: 1024px) {
-            height: 60dvh;
             width: 45%;
         }
     }
@@ -49,29 +58,33 @@
         transform: translate(-50%, -50%);
         height: 85dvh;
         width: 92vw;
+        max-height: 85dvh;
         border-radius: 8px;
         box-shadow: 1px 2px 8px rgb(95, 95, 95);
         border: solid 1px var(--color-grey-chrome);
         animation: slideFromTop 200ms cubic-bezier(.33, 1.09, 1, .84);
         overflow-y: auto;
         @media (min-width: 1024px) {
-            height: 90dvh;
             width: 80%;
+            max-height: 90dvh;
         }
     }
     &--staff {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        height: 80dvh;
-        width: 92vw;
+        width: 80%;
+        padding: 20px 10px;
         border-radius: 25px;
         box-shadow: 1px 2px 8px rgb(95, 95, 95);
         border: solid 1px var(--color-grey-chrome);
         animation: slideFromTop 200ms cubic-bezier(.33, 1.09, 1, .84);
         overflow-y: auto;
+        @media (min-width: 768px) {
+            width: 60%;
+        }
         @media (min-width: 1024px) {
-            width: 30%;
+            width: 47%;
         }
     }
 
@@ -79,8 +92,8 @@
     &__search-bar{
         display: flex;
         align-items: center;
+        align-self: center;
         justify-content: space-between;
-        justify-self: center;
         width: 85%;
         gap: 12px;
         margin: 30px 0 15px 0;
@@ -97,13 +110,11 @@
             height: 22px;
             flex-shrink: 0;
         }
-        @media (min-width: 1440px) {
-            justify-content: space-around;
+        @media (min-width: 1440px) { 
             gap: 0;
             margin: 30px 0;
             &--input{
                 flex: none;
-                width: 250px;
                 height: 60px;
             }
             &--close-btn{
@@ -113,9 +124,9 @@
         }
     }
     &__results{
-        margin: 0 0 20px 8%;
-        @media (min-width: 1440px) {
-            margin-left: 25px;
+        margin: 0 0 150px 8%;
+        @media (min-width: 768px) {
+            margin: 0 0 30px 8%;
         }
     }
 
@@ -211,7 +222,6 @@
             }
             &--purchases{
                 width: 80%;
-                height: 60%;
             }
             &--btn{
                 gap: 50px;
@@ -234,7 +244,8 @@
             height: 160px;
             display: flex;
             align-items: center;
-            overflow: scroll;
+            overflow-x: auto;
+            overflow-y: hidden;
             box-shadow: 1px 1px 5px rgba(95, 95, 95, 0.429);
             border-radius: 15px;
         }
@@ -248,6 +259,7 @@
             margin: 16px 0;
         }
         @media (min-width: 1024px) {
+            
             &--h2{
                 margin-left: 50px;
             }
@@ -273,6 +285,11 @@
             box-shadow: 1px 1px 5px rgba(95, 95, 95, 0.429);
             border-radius: 15px;
             margin: 24px 0;
+            &::file-selector-button{
+                border: none;
+                background: var(--color-background);
+                color: var(--color-grey-text);
+            }
         }
         &--alt{
             width: 90%;
@@ -390,12 +407,16 @@
         &--speciality{
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            width: 90%;
+            align-self: center;
             gap: 8px;
         }
         &--text{
             display: flex;
             flex-direction: column;
+            width: 90%;
+            align-self: center;
+            gap: 15px;
         }
         &--delete-btn{
             width: 25px;
@@ -421,11 +442,14 @@
     }
 }
 .preview{
+    width: 120px;
     height: 120px;
+    flex-shrink: 0;
     border-radius: 15px;
     margin: 0 10px;
     position: relative;
     &__img{
+        width: 100%;
         height: 100%;
         object-fit: cover;
         border-radius: 15px;
@@ -439,8 +463,8 @@
         box-shadow: 1px 1px 3px;
     }
     @media (min-width: 1024px) {
-        height: 200px;
         width: 200px;
+        height: 200px;
         margin: 0 20px;
         &__btn{
             top: 10px;
@@ -473,12 +497,15 @@
     }
 }
 .create-staff-profile-input{
-    width: 90%;
+    width: 100%;
     height: 36px;
     align-self: center;
     @media (min-width: 1024px) {
         width: 40%;
         height: 40px;
+    }
+    @media (min-width: 1024px) {
+        width: 50%;
     }
 }
 .staff-profile-upload{
@@ -487,6 +514,15 @@
     box-shadow: 1px 1px 5px rgba(95, 95, 95, 0.429);
     border-radius: 100px;
     margin: 16px 16px 0 0;
+    overflow: hidden;
+    color: transparent;
+    cursor: pointer;
+    &::file-selector-button{
+        border: none;
+        background: var(--color-background);
+        color: transparent;
+        cursor: pointer;
+    }
     @media (min-width: 1024px) {
         height: 150px;
         width: 150px;
@@ -494,7 +530,7 @@
     }
 }
 .create-staff-profile-text{
-    width: 90%;
+    width: 100%;
     height: 12dvh;
     align-self: center;
     @media (min-width: 1024px) {

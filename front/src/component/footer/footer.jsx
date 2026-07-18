@@ -15,14 +15,22 @@ export default function Footer() {
                     <NavLink text="Conditions générales de ventes" to="/conditions"     className="footer__links--conditions"/>
                 </div>
                 <div className="footer__follows">
-                    <div className="footer__follows--instagram">
+                    <a 
+                    href="https://www.instagram.com/institutcotedetente_/" 
+                    target="blank"
+                    rel="noopener noreferrer"
+                    className="footer__follows--instagram">
                         <Logo src={instagramLogo} alt={"Logo Instagram"} className="instagram-icon"/>
                         <p>Rejoignez nous sur Instagram</p>
-                    </div>                        
-                    <div className="footer__follows--facebook">
+                    </a>                        
+                    <a 
+                    href="https://www.facebook.com/institut.cotedetente01/"
+                    target="blank" 
+                    rel="noopener noreferrer"
+                    className="footer__follows--facebook">
                         <Logo src={facebookLogo} alt={"Logo Facebook"} className="facebook-icon"/>
                         <p>Rejoignez nous sur Facebook</p>
-                    </div>        
+                    </a>        
                 </div>
             
         </footer>
