@@ -29,10 +29,13 @@ router.get('/', getAllTypes)
  *         multipart/form-data:
  *           schema:
  *             type: object
- *             required: [name]
+ *             required: [name, route]
  *             properties:
  *               name:
  *                 type: string
+ *               route:
+ *                 type: string
+ *                 enum: [/soins, /maquillage, /epilation, /mains-et-pieds]
  *               photo:
  *                 type: string
  *                 format: binary
@@ -64,6 +67,9 @@ router.post('/', protect, upload.single('photo'), createType)
  *             properties:
  *               name:
  *                 type: string
+ *               route:
+ *                 type: string
+ *                 enum: [/soins, /maquillage, /epilation, /mains-et-pieds]
  *               photo:
  *                 type: string
  *                 format: binary

@@ -54,6 +54,7 @@ exports.updateType = async (req, res) => {
     }
 
     if (req.body.name !== undefined) type.name = req.body.name
+    if (req.body.route !== undefined) type.route = req.body.route
 
     await type.save()
     res.json(type)

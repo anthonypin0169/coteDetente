@@ -25,6 +25,7 @@
         justify-content: center;
         margin-top: -7vw;
         transform: scale(1.02);
+        transition: all 400ms ease-in-out;
         &--text{
             position: absolute;
             color: #ffffff;
@@ -48,6 +49,15 @@
         height: 65vw;
         clip-path: polygon(0 0, 100% 10%, 100% 100%, 0% 91%);
     }
+}
+.banner:hover .banner__div{
+    filter: brightness(0.4); 
+}
+.banner:hover .banner__div:hover{
+    filter: brightness(1); 
+    transform: scale(1.4);
+    position: relative;
+    z-index: 1;
 }
 @media(min-width : 768px){
     .banner{

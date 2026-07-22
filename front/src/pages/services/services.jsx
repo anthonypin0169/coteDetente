@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useSelector } from "react-redux"
 import "./services.scss"
 
 export default function Services() {
@@ -23,6 +24,10 @@ export default function Services() {
         }
         loadTypes()
     },[])
+
+    const isAuthenticated = useSelector((state)=> state.auth.isAuthenticated)
+    const [modalIsOpen, setModalIsOpen] = useState(false)
+
     return (
         <main className="services">
             <h1 className="services__title">Prestations</h1>
