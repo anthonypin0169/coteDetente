@@ -35,6 +35,34 @@ export default function Services() {
     const [typeRoute ,setTypeRoute] = useState("")
     const [typePhoto ,setTypePhoto] = useState(null)    
 
+    const token = useSelector((state) => state.auth.token)
+
+    const handleUpload = async () => {
+        const formData = new FormData()
+        formData.append("name", typeName)
+        formData.append("route", typeRoute)
+        formData.append("photo", typePhoto)
+
+        try{
+            const uploadForm = await fetch (`/api/types/${selectedTypeId}`,{
+                method : "PUT",
+                body : formData,
+                headers : { Authorization : `Bearer ${token}`}
+            })
+            const updatedType = await uploadForm.json()
+            if(uploadForm.ok){
+                setTypes(prev => prev.map(type => type._id === updatedType._id ? updatedType : type))
+            }
+
+            setModifyViewMode("list") 
+            setTypeName("")
+            setTypeRoute("") 
+            setTypePhoto(null)
+        }catch(error){
+            return(error.message)
+        }
+    }
+
     return (
         <main className="services">
             <h1 className="services__title">Prestations</h1>
@@ -68,6 +96,8 @@ export default function Services() {
 
                         <label htmlFor="type-photo" className="services__modal-edit-view--label">Image</label>
                         <input type="file" id="type-photo" className="services__modal-edit-view--input" onChange={(e) => setTypePhoto(e.target.files[0])}/>
+
+                        <button onClick={() => handleUpload()}>Valider</button>
                     </div>
                 }
             </Modal>

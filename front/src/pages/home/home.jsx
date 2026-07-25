@@ -24,11 +24,11 @@ export default function Home() {
     useEffect( () => {
         const loadImages = async () => {
             try{
-                const heroResponse = await fetch ("http://localhost:5000/api/photos/category/carrousel-hero")
+                const heroResponse = await fetch ("/api/photos/category/carrousel-hero")
                 const heroResponseJson = await heroResponse.json()
                            
 
-                const institutResponse = await fetch ("http://localhost:5000/api/photos/category/carrousel-institut")
+                const institutResponse = await fetch ("/api/photos/category/carrousel-institut")
                 const institutResponseJson = await institutResponse.json()
                 
                 if(!institutResponseJson || !heroResponseJson){
@@ -55,7 +55,7 @@ export default function Home() {
         formData.append("category", uploadCategory)
 
         try{
-            const uploadForm = await fetch ("http://localhost:5000/api/photos",{
+            const uploadForm = await fetch ("/api/photos",{
                 method : "POST",
                 body : formData,
                 headers : { Authorization : `Bearer ${token}`}
@@ -79,7 +79,7 @@ export default function Home() {
 
     const handleDelete = async (id) => {
         try{
-            const deletePicture = await fetch (`http://localhost:5000/api/photos/${id}`, {
+            const deletePicture = await fetch (`/api/photos/${id}`, {
                 method : "DELETE",
                 headers : { Authorization : `Bearer ${token}`}
             })
@@ -104,7 +104,7 @@ export default function Home() {
     useEffect (() => {
         const loadText = async () =>{
             try{
-                const paragraphResponse = await fetch ("http://localhost:5000/api/content/company-profile")
+                const paragraphResponse = await fetch ("/api/content/company-profile")
                 
                 if(paragraphResponse.ok){
                     const paragraphResponseJson = await paragraphResponse.json()
@@ -127,7 +127,7 @@ export default function Home() {
 
     const handleTextUpdate = async () => {
         try{    
-            const sendUpdateText = await fetch (`http://localhost:5000/api/content/${"company-profile"}`, {
+            const sendUpdateText = await fetch (`/api/content/${"company-profile"}`, {
                 method : "PUT",
                 body : JSON.stringify({
                     "title": editTitle,
@@ -160,7 +160,7 @@ export default function Home() {
     useEffect( () => {
         const loadStaffData = async () => {
             try{
-                const loadStaffDataResponse = await fetch ("http://localhost:5000/api/staff")
+                const loadStaffDataResponse = await fetch ("/api/staff")
                 const staffDataJson = await loadStaffDataResponse.json()
 
                 if(loadStaffDataResponse.ok){
@@ -190,7 +190,7 @@ export default function Home() {
         formData.append("photo", staffPhoto) 
 
         try{
-            const uploadProfile = await fetch (`http://localhost:5000/api/staff/${selectedStaffId}`,{
+            const uploadProfile = await fetch (`/api/staff/${selectedStaffId}`,{
                 method : "PUT",
                 body : formData,
                 headers : { Authorization : `Bearer ${token}`}
@@ -225,7 +225,7 @@ export default function Home() {
         formData.append("photo", staffPhoto) 
 
         try{
-            const postProfile = await fetch ("http://localhost:5000/api/staff/",{
+            const postProfile = await fetch ("/api/staff/",{
                 method : "POST",
                 body : formData,
                 headers : { Authorization : `Bearer ${token}`}
@@ -250,7 +250,7 @@ export default function Home() {
 
     const handleStaffDelete = async (id) => {
         try{
-            const deleteStaffCard = await fetch (`http://localhost:5000/api/staff/${id}`, {
+            const deleteStaffCard = await fetch (`/api/staff/${id}`, {
                 method : "DELETE",
                 headers : { Authorization : `Bearer ${token}`}
             })
