@@ -278,7 +278,7 @@ export default function Home() {
                             {carrouselHero.map( photo => (
                                 <div key={photo._id} className="preview">
                                     <img src={photo.url} alt={photo.description}  className="preview__img"/>
-                                    <button onClick={ () => handleDelete(photo._id)} className="preview__btn">X</button>
+                                    <button onClick={() => handleDelete(photo._id)} className="preview__btn">X</button>
                                 </div>
                             ))}
                         </div>

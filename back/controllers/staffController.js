@@ -22,7 +22,7 @@ exports.createStaff = async (req, res) => {
         .resize({ width: 800, withoutEnlargement: true })
         .avif({ quality: 60 })
         .toFile(outputPath)
-      photoUrl = `${req.protocol}://${req.get('host')}/uploads/${filename}`
+      photoUrl = `/uploads/${filename}`
     }
     const member = await Staff.create({ ...req.body, photoUrl })
     res.status(201).json(member)
@@ -48,7 +48,7 @@ exports.updateStaff = async (req, res) => {
         .resize({ width: 800, withoutEnlargement: true })
         .avif({ quality: 60 })
         .toFile(outputPath)
-      member.photoUrl = `${req.protocol}://${req.get('host')}/uploads/${filename}`
+      member.photoUrl = `/uploads/${filename}`
     }
 
     if (req.body.name !== undefined) member.name = req.body.name

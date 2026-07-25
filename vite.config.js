@@ -10,5 +10,17 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./front/src', import.meta.url))
     },
     dedupe: ['react', 'react-dom', 'react-router-dom']
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true
+      },
+      '/uploads': {
+        target: 'http://localhost:5000',
+        changeOrigin: true
+      }
+    }
   }
 })

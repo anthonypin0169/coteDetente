@@ -24,7 +24,7 @@ exports.createType = async (req, res) => {
         .resize({ width: 1200, withoutEnlargement: true })
         .avif({ quality: 60 })
         .toFile(outputPath)
-      photoUrl = `${req.protocol}://${req.get('host')}/uploads/${filename}`
+      photoUrl = `/uploads/${filename}`
     }
     const type = await Type.create({ ...req.body, photoUrl })
     res.status(201).json(type)
@@ -50,7 +50,7 @@ exports.updateType = async (req, res) => {
         .resize({ width: 1200, withoutEnlargement: true })
         .avif({ quality: 60 })
         .toFile(outputPath)
-      type.photoUrl = `${req.protocol}://${req.get('host')}/uploads/${filename}`
+      type.photoUrl = `/uploads/${filename}`
     }
 
     if (req.body.name !== undefined) type.name = req.body.name

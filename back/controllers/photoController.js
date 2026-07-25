@@ -33,7 +33,7 @@ exports.createPhoto = async (req, res) => {
       .avif({ quality: 60 })
       .toFile(outputPath);
 
-    const url = `${req.protocol}://${req.get('host')}/uploads/${filename}`;
+    const url = `/uploads/${filename}`;
     const photo = await Photo.create({ ...req.body, url });
     res.status(201).json(photo);
   } catch (error) {
