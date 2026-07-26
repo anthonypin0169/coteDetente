@@ -56,7 +56,6 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        height: 85dvh;
         width: 92vw;
         max-height: 85dvh;
         border-radius: 8px;
@@ -65,8 +64,12 @@
         animation: slideFromTop 200ms cubic-bezier(.33, 1.09, 1, .84);
         overflow-y: auto;
         @media (min-width: 1024px) {
-            width: 80%;
+            width: 70%;
             max-height: 90dvh;
+        }
+        @media (min-width: 1440px) {
+            width: 60%;
+            
         }
     }
     &--staff {

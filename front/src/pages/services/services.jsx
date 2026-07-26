@@ -67,26 +67,28 @@ export default function Services() {
         <main className="services">
             <h1 className="services__title">Prestations</h1>
             {isAuthenticated &&
-                <button className="services__btn" onClick={() => setModalIsOpen(true)}>Modifier</button>
+                <button className="services__btn btn" onClick={() => setModalIsOpen(true)}>Modifier</button>
             }
             <Modal isOpen={modalIsOpen} onClose={() => setModalIsOpen(false)} variant="modify" >
                 {modifyViewMode === "list" ?
                     <div className="services__modal-list-view">
+                        <h2 className="services__modal-title">Liste des liens :</h2>
                         {types.map((type)=>( 
                             <div key={type._id} className="services__modal-list-view--card">
                                 <h2 className="list-view-card-title">{type.name}</h2>
                                 <img src={type.photoUrl} alt={type.name} className="list-view-card-img"/>
-                                <button onClick={() => {setModifyViewMode("edit"); setSelectedTypeId(type._id); setTypeName(type.name); setTypeRoute(type.route)}}>Modifier</button>
+                                <button onClick={() => {setModifyViewMode("edit"); setSelectedTypeId(type._id); setTypeName(type.name); setTypeRoute(type.route)}} className="list-view-card-btn btn">Modifier</button>
                             </div>
                         ))}
                     </div> 
                     :
                     <div className="services__modal-edit-view">
+                        <h2 className="services__modal-title">Reglez vos paramètres :</h2>
                         <label htmlFor="type-name" className="services__modal-edit-view--label">Titre</label>
                         <input type="text" id="type-name" value={typeName} onChange={(e) => setTypeName(e.target.value)} className="services__modal-edit-view--input" />
 
                         <label htmlFor="type-route" className="services__modal-edit-view--label">Redirection</label>
-                        <select id="type-route" value={typeRoute} onChange={(e) => setTypeRoute(e.target.value)}>
+                        <select id="type-route" value={typeRoute} onChange={(e) => setTypeRoute(e.target.value)} className="services__modal-edit-view--option">
                             <option value="/soins">Soins</option>
                             <option value="/maquillage">Maquillage</option>
                             <option value="/epilation">Epilation et bronzage</option>
@@ -95,9 +97,9 @@ export default function Services() {
 
 
                         <label htmlFor="type-photo" className="services__modal-edit-view--label">Image</label>
-                        <input type="file" id="type-photo" className="services__modal-edit-view--input" onChange={(e) => setTypePhoto(e.target.files[0])}/>
+                        <input type="file" id="type-photo" className="services__modal-edit-view--upload" onChange={(e) => setTypePhoto(e.target.files[0])}/>
 
-                        <button onClick={() => handleUpload()}>Valider</button>
+                        <button className="services__modal-edit-view--btn btn" onClick={() => handleUpload()}>Valider</button>
                     </div>
                 }
             </Modal>

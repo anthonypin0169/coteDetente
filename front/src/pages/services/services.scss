@@ -7,6 +7,52 @@
     &__title{
         margin-bottom: 50px;
     }
+    &__modal-title{
+        margin-top: 4vw;
+    }
+    &__modal-list-view{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        &--card{
+            width: 80%;
+            height: 20%;
+            display: flex;
+            flex-direction: column;
+        }
+    }
+    .list-view-card-title{
+
+    }
+    .list-view-card-img{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: 10px;
+        box-shadow: 2px 2px 5px;
+    }
+    .list-view-card-btn{
+        align-self: center;
+        
+    }
+    &__modal-edit-view{
+        display: flex;
+        flex-direction: column;
+        justify-self: center;
+        width: 80%; 
+        &--label{            
+            margin: 4vw 0 2vw 0;
+        }
+        &--input{
+            height: 7vw;      
+        }
+        &--option{
+            height: 8vw;
+        }
+        &--upload{
+            width: fit-content;
+        }
+    }
 }
 .banner{
     display: flex;
@@ -85,6 +131,36 @@
             width: 110%;
             height: 100%;
             clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+        }
+    }
+    .services{
+        &__modal-edit-view{
+            &--label{
+                margin: 3vw 0 2vw 0;
+            }
+            &--input{
+                height: 5vw;
+            }
+            &--option{
+                height: 5vw;
+            }
+        }
+    }       
+}
+@media(min-width:1024px){
+    .services{
+        &__modal-list-view{
+            &--card{
+                width: 60%;
+            }
+        }
+        &__modal-edit-view{
+            &--input{
+                height: 4vw;
+            }
+            &--option{
+                height: 4vw;
+            }
         }
     }
 }
