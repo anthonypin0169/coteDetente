@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: center;
     gap: 20px;
-    height: auto;
+    height: 100vh;
     padding: 24px 0;
     background: var(--color-grey-text);
     color: var(--color-background);
@@ -61,7 +61,7 @@
         flex-direction: row;
         justify-content: space-between;
         font-size: 16px;
-        padding: 20px 5%;
+        height: 77vh;
         .footer-container{
             display: flex;
         }
@@ -74,11 +74,9 @@
     }
     @media (min-width: 1024px){
         font-size: 17px;
-        padding: 35px 5%;
     }
     @media (min-width: 1440px){
         font-size: 18px;
-        padding: 50px 5%;
     }
 }
 .instagram-icon{

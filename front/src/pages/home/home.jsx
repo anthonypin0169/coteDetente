@@ -263,7 +263,7 @@ export default function Home() {
         }
     }
 
-
+    
     return (
         <main className="home">
             <Carrousel images={carrouselHero.map( p => p.url )} mode="auto" className="home__carrousel" />
@@ -308,6 +308,22 @@ export default function Home() {
             </Modal>
 
             <section className="home__services">
+
+                <div className="home__services--card-group">
+                        <div className={`card ? "flipped" : "" `}>
+                            <div className="card__front">
+                                <div className="card__front--img"></div>
+                                <h2 className="card__front--title">Exemple titre</h2>
+                                <h3 className="card__front--text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempore, voluptate!</h3>
+                            </div>
+                            <div className="card__back">
+                                <h2 className="card__back--title">Exemple titre</h2>
+                                <h3 className="card__back--text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempore, voluptate! Pariatur architecto exercitationem ullam eligendi voluptate dolor eum deserunt enim?</h3>
+                                <button className="btn">Découvrir</button>
+                            </div>
+                        </div>
+                </div>
+
                 <img src={planteCeltique1} alt="dessin de plante" className="home__services--img" />
                 <NavLink text="Découvrez nos prestations" to="/prestations" className="home__services--link" /> 
             </section>
