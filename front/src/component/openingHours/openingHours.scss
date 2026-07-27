@@ -19,7 +19,10 @@
             max-width: 260px;
         }
     }
-    @media (min-width: 1024px){
+}
+
+@media (min-width: 1024px){
+    .footer-container{
         flex-direction: row;
         align-items: initial;
         gap: 0;

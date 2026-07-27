@@ -51,10 +51,70 @@
             cursor: pointer;
         }
     }
+}
+
+/*Liens dupliqués dans la modale de recherche (visibles tant que le header est replié)*/
+.modal__search-links{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 20px;
+    margin: 20px 0 170px 20px;
+}
+.modal .footer-container{
+    display: flex;
+    margin: 20px 0;
+}
+
+/*Styles couleurs et soulignement*/
+.links{
+    text-decoration: none;
+    color: var(--color-oak-dark);
+}
+.links:hover{
+    color: var(--color-plum);
+}
+.links::after{
+    content: "";
+    display: block;
+    width: 0px;
+    height: 2px;
+    background: var(--color-plum);
+    margin: 3px auto 0 auto;
+    border-radius: 2px;
+    transition: width 0.2s ease-in-out;
+}
+.links:hover::after{
+    width: 100%;
+    color: var(--color-plum);
+}
+.links.active {
+    color: var(--color-plum);
+}
+.links.active::after {
+    width: 100%;
+}
+
+/*Annul du soulignement sur les icones*/
+.header__left--search-bar::after,
+.header__right--shopping-card::after {
+    display: none;
+}
+
+/*Tailles des icônes fa-* : pictogrammes, pas du texte, donc échelle propre
+(mais toujours définie sur les 4 formats pour rester fluide) ; le sélecteur
+qualifié par la balise passe devant .links, qui est aussi posée sur ces boutons
+pour la couleur/le hover.*/
+button.header__left--search-bar,
+button.header__right--shopping-card{
+    font-size: 20px;
+}
+
+@media (min-width: 768px){
     /*Le header reste replié (recherche + logo + panier) jusqu'à 768px, puis
     bascule sur la version dépliée (liens + carte cadeau visibles dans le
     header) ; la modale de recherche ne sert plus alors qu'à la recherche.*/
-    @media (min-width: 768px){
+    .header{
         padding: 0;
         justify-content: space-between;
         background: var(--color-grey-chrome-opacity);
@@ -91,8 +151,19 @@
             }
         }
     }
-    @media (min-width: 1024px){
-        
+    .modal__search-links{
+        display: none;
+    }
+    .modal .footer-container{
+        display: none;
+    }
+    button.header__left--search-bar,
+    button.header__right--shopping-card{
+        font-size: 22px;
+    }
+}
+@media (min-width: 1024px){
+    .header{
         &__left{
             gap: 20%;
         }
@@ -100,80 +171,7 @@
             white-space: nowrap;
             gap: 20%;
         }
-    }    
-}
-
-/*Liens dupliqués dans la modale de recherche (visibles tant que le header est replié)*/
-.modal__search-links{
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    gap: 20px;
-    margin: 20px 0 170px 20px;
-    @media (min-width: 768px){
-        display: none;
     }
-}
-.modal .footer-container{
-    display: flex;
-    margin: 20px 0;
-}
-@media (min-width: 768px){
-    .modal .footer-container{
-        display: none;
-    }
-}
-
-/*Styles couleurs et soulignement*/
-.links{
-    text-decoration: none;
-    color: var(--color-oak-dark);
-}
-.links:hover{
-    color: var(--color-plum);   
-}
-.links::after{
-    content: "";
-    display: block;
-    width: 0px;
-    height: 2px;
-    background: var(--color-plum); 
-    margin: 3px auto 0 auto;
-    border-radius: 2px;
-    transition: width 0.2s ease-in-out;
-}
-.links:hover::after{
-    width: 100%;
-    color: var(--color-plum);   
-}
-.links.active {
-    color: var(--color-plum);
-}
-.links.active::after {
-    width: 100%;
-}
-
-/*Annul du soulignement sur les icones*/
-.header__left--search-bar::after,
-.header__right--shopping-card::after {
-    display: none;
-}
-
-/*Tailles des icônes fa-* : pictogrammes, pas du texte, donc échelle propre
-(mais toujours définie sur les 4 formats pour rester fluide) ; le sélecteur
-qualifié par la balise passe devant .links, qui est aussi posée sur ces boutons
-pour la couleur/le hover.*/
-button.header__left--search-bar,
-button.header__right--shopping-card{
-    font-size: 20px;
-}
-@media (min-width: 768px){
-    button.header__left--search-bar,
-    button.header__right--shopping-card{
-        font-size: 22px;
-    }
-}
-@media (min-width: 1024px){
     button.header__left--search-bar,
     button.header__right--shopping-card{
         font-size: 24px;

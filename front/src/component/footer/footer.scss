@@ -32,7 +32,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        
+
         &--instagram{
             display: flex;
             gap: 15px;
@@ -53,11 +53,41 @@
             }
         }
     }
+}
+.instagram-icon{
+    width: 40px;
+    height: 40px;
+}
+.facebook-icon{
+    width: 60px;
+    height: 60px;
+    margin-left: -4%;
+}
+/*Ecrasement des styles imposés par Nav*/
+.footer__links {
+    .links {
+        color: var(--color-background);
+
+        &:hover {
+            color: var(--color-oak-light);
+        }
+
+        &::after {
+            background-color: transparent;
+        }
+
+        &.active {
+            color: var(--color-oak-light);
+        }
+    }
+}
+
+@media (min-width: 768px){
     /*Les horaires (footer-container) et l'alignement "déplié" basculent en
     même temps que le header (voir header.scss) : à partir de 768px, on est
     sur la version header/footer complète, la modale ne sert plus qu'à la
     recherche.*/
-    @media (min-width: 768px){
+    .footer{
         flex-direction: row;
         justify-content: space-between;
         font-size: 16px;
@@ -72,45 +102,22 @@
             align-items: flex-start;
         }
     }
-    @media (min-width: 1024px){
+}
+@media (min-width: 1024px){
+    .footer{
         font-size: 17px;
     }
-    @media (min-width: 1440px){
+}
+@media (min-width: 1440px){
+    .footer{
         font-size: 18px;
     }
-}
-.instagram-icon{
-    width: 40px;
-    height: 40px;
-    @media (min-width: 1440px){
+    .instagram-icon{
         width: 50px;
         height: 50px;
     }
-}
-.facebook-icon{
-    width: 60px;
-    height: 60px;
-    margin-left: -4%;
-    @media (min-width: 1440px){
+    .facebook-icon{
         width: 75px;
         height: 75px;
-    }
-}
-/*Ecrasement des styles imposés par Nav*/
-.footer__links {
-    .links {
-        color: var(--color-background);
-
-        &:hover {
-            color: var(--color-oak-light);
-        }
-        
-        &::after {
-            background-color: transparent;
-        }
-        
-        &.active {
-            color: var(--color-oak-light);
-        }
     }
 }

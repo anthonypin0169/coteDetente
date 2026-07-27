@@ -1,0 +1,131 @@
+import { useState, useEffect } from "react"
+import { useSelector } from "react-redux"
+import Modal from "@/component/modal/modal"
+import NavLink from "@/component/nav/nav"
+import planteCeltique1 from "@/assets/images/planteCeltique1.png"
+import "./HighlightCards.scss"
+
+export default function HighlightCards() {
+
+    const token = useSelector((state) => state.auth.token)
+
+    const [selectedCardId, setSelectedCardId] = useState("")
+    const [highlightCardList, setHighlightCardList] = useState([])
+    const [ frontTitleState,setFrontTitleState] = useState("")
+    const [ frontTextState,setFrontTextState] = useState("")
+    const [ backTitleState,setBackTitleState] = useState("")
+    const [ backTextState,setBackTextState] = useState("")
+    const [ photoUrlState,setPhotoUrlState] = useState([])
+
+    useEffect(()=>{
+        const loadHighlightCards = async () => {
+            try{
+                const data = await fetch ("/api/highlight-cards")
+                const dataJson = await data.json()
+
+                setHighlightCardList(dataJson)
+            }catch(error){
+                return(error.message)
+            }
+        }
+        loadHighlightCards()
+    },[])
+
+    const modifyHighlightCards = async () => {
+
+            const formData = new FormData()
+            formData.append("frontTitle", frontTitleState)
+            formData.append("frontText", frontTextState)
+            formData.append("backTitle", backTitleState)
+            formData.append("backText", backTextState)
+            formData.append("photo", photoUrlState)
+
+            try{
+            const uploadProfile = await fetch (`/api/highlight-cards/${selectedCardId}`,{
+                method : "PUT",
+                body : formData,
+                headers : { Authorization : `Bearer ${token}`}
+            })
+            const updatedMember = await uploadProfile.json()
+
+            if(uploadProfile.ok){
+                    setHighlightCardList(prev => prev.map(highlightCard =>
+                        highlightCard._id === updatedMember._id ? updatedMember : highlightCard
+                    ))
+                }
+            }catch(error){
+                return(error.message)
+            }
+        }
+
+        const [highlightModalIsOpen, setHighlightModalIsOpen] = useState(false)
+        const [highlightViewMode, setHighlightViewMode] = useState("list")
+
+    return (
+        <section className="home__services">
+            <div className="home__services--card-group">
+                {highlightCardList.map(highlightCard => (
+                    <div className="card" key={highlightCard._id}>
+                        <div className="card__front">
+                            <img src={highlightCard.photoUrl} alt={highlightCard.frontTitle} className="card__front--img"/>
+                            <h2 className="card__front--title">{highlightCard.frontTitle}</h2>
+                            <h3 className="card__front--text">{highlightCard.frontText}</h3>
+                        </div>
+                        <div className="card__back">
+                            <h2 className="card__back--title">{highlightCard.backTitle}</h2>
+                            <h3 className="card__back--text">{highlightCard.backText}</h3>
+                            <button className="btn">Découvrir</button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+            <button onClick={() => setHighlightModalIsOpen(true)} className="btn">Modifier</button>
+            <img src={planteCeltique1} alt="dessin de plante" className="home__services--img" />
+            <NavLink text="Découvrez nos prestations" to="/prestations" className="home__services--link" />
+
+            <Modal isOpen={highlightModalIsOpen} onClose={() => setHighlightModalIsOpen(false)} variant ="modify">
+                {highlightViewMode === "list" ?
+                    <div className="highlight-modal-list-vue">
+                        {highlightCardList.map(highlightCard => (
+                            <div className="card" key={highlightCard._id} onClick={() => {
+                                setSelectedCardId(highlightCard._id)
+                                setHighlightViewMode("edit")
+                                setFrontTitleState(highlightCard.frontTitle)
+                                setFrontTextState(highlightCard.frontText)
+                                setBackTitleState(highlightCard.backTitle)
+                                setBackTextState(highlightCard.backText)
+                            }}>
+                                <img src={highlightCard.photoUrl} alt={highlightCard.frontTitle} className="card__img"/>
+                                <h2 className="card__title">{highlightCard.frontTitle}</h2>
+                                <h3 className="card__text">{highlightCard.frontText}</h3>
+                            </div>
+                        ))}
+                    </div>
+                :
+                    <div className="highlight-modal-card-vue">
+                        <div className="highlight-modal-card-vue">
+                            <label htmlFor="highlight-photo" className="highlight-modal-card-vue__front--label">Choisir une photo :</label>
+                            <input type="file" id="highlight-photo"  className="highlight-modal-card-vue__front--upload" onChange={(e) => setPhotoUrlState(e.target.files[0])} />
+
+                            <label htmlFor="highlight-front-title" className="highlight-modal-card-vue__label">Titre :</label>
+                            <input type="text" id="highlight-front-title" className="highlight-modal-card-vue__input" onChange={(e) => setFrontTitleState(e.target.value)} value={frontTitleState}/>
+
+                            <label htmlFor="highlight-front-text" className="highlight-modal-card-vue__">Texte :</label>
+                            <input type="text" id="highlight-front-text" className="highlight-modal-card-vue__input" onChange={(e) => setFrontTextState(e.target.value)} value={frontTextState}/>
+
+                            <label htmlFor="highlight-back-title" className="highlight-modal-card-vue_label">Titre :</label>
+                            <input type="text" id="highlight-back-title" className="highlight-modal-card-vue__input" onChange={(e) => setBackTitleState(e.target.value)} value={backTitleState}/>
+
+                            <label htmlFor="highlight-back-text" className="highlight-modal-card-vue_label">Texte :</label>
+                            <input type="text" id="highlight-back-text" className="highlight-modal-card-vue__input" onChange={(e) => setBackTextState(e.target.value)} value={backTextState}/>
+                            <div>
+                                <button onClick={() => setHighlightViewMode("list")}className="btn">Retour</button>
+                                <button onClick={() => {modifyHighlightCards(); setHighlightModalIsOpen(false)}}className="btn">Valider</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </Modal>
+        </section>
+    )
+}

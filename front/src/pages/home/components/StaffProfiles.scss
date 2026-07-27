@@ -1,0 +1,71 @@
+.home__staff-profile{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 60px 20px;
+    position: relative;
+    background-image: url("../../../assets/images/wallpaper.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    background-position-y: top;
+    &--list{
+        display: none;
+    }
+    &--carrousel{
+        width: 100%;
+        max-width: 320px;
+        height: 420px;
+    }
+    &--pics{
+        width: 130px;
+        aspect-ratio: 4 / 5;
+        border-radius: 125px;
+        object-fit: contain;
+    }
+    &--title{
+        margin-bottom: 0;
+    }
+    &--speciality{
+        margin: 8px 0;
+    }
+    &--text{
+        max-width: 200px;
+    }
+    &--add-member-btn{
+        margin: 16px 0;
+    }
+    .staff-container{
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media (min-width: 1024px){
+    .home__staff-profile{
+        flex-direction: row;
+        justify-content: center;
+        gap: 200px;
+        padding: 200px 0;
+        &--list{
+            display: flex;
+            justify-content: center;
+            gap: 200px;
+        }
+        &--carrousel{
+            display: none;
+        }
+        &--pics{
+            width: 200px;
+        }
+        &--speciality{
+            margin: 10px 0;
+        }
+        &--text{
+            max-width: 280px;
+        }
+        &--add-member-btn{
+            margin: 20px 0;
+        }
+    }
+}

@@ -1,0 +1,20 @@
+.home__carrousel{
+    height: 30vh;
+    object-fit: contain;
+}
+
+@media (min-width: 768px){
+    .home__carrousel{
+        height: 50vh;
+    }
+}
+@media (min-width: 1024px){
+    .home__carrousel{
+        height: 70vh;
+    }
+}
+@media (min-width: 1440px){
+    .home__carrousel{
+        height: 90vh;
+    }
+}

@@ -1,0 +1,79 @@
+.home__customers-review{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 24px;
+    position: relative;
+    z-index: 89;
+    box-shadow: 0 -5px 10px -5px;
+    padding: 40px 20px;
+    &--info{
+        order: 2;
+        text-align: center;
+    }
+    &--reviews{
+        order: 1;
+        text-align: center;
+    }
+    &--carrousel{
+        width: 100%;
+        max-width: 320px;
+        height: 300px;
+        padding: 0 40px;
+        margin: 16px auto;
+        border-radius: 15px;
+        box-shadow: 3px 3px 5px;
+        background: var(--color-grey-chrome-modal);
+    }
+    &--map{
+        width: 100%;
+        max-width: 320px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        border: solid 1px var(--color-grey-chrome);
+        box-shadow: 2px 2px 3px;
+    }
+}
+
+@media (min-width: 1024px){
+    .home__customers-review{
+        flex-direction: row;
+        gap: 8vw;
+        padding: 70px 0;
+        &--info{
+            order: 0;
+        }
+        &--reviews{
+            order: 0;
+        }
+        /*Tient sur 1024px avec des tailles fluides ; les dimensions fixes
+        d'origine (370x350) ne rentrent qu'à partir de 1440px, voir plus bas*/
+        &--carrousel{
+            width: 32vw;
+            max-width: none;
+            height: 300px;
+            padding: 0 40px;
+            margin: 50px 0;
+        }
+        &--map{
+            width: 42vw;
+            max-width: none;
+        }
+    }
+}
+@media (min-width: 1440px){
+    .home__customers-review{
+        &--carrousel{
+            width: 370px;
+            max-width: none;
+            height: 350px;
+            padding: 0 65px;
+        }
+        /*Dimensions fixes d'origine (791x512), pensées pour du grand écran*/
+        &--map{
+            width: 791px;
+            height: 512px;
+        }
+    }
+}
