@@ -10,6 +10,7 @@ const staffRoutes = require('./routes/staffRoutes');
 const typeRoutes = require('./routes/typeRoutes');
 const sousTypeRoutes = require('./routes/sousTypeRoutes');
 const prestationRoutes = require('./routes/prestationRoutes');
+const highlightCardRoutes = require('./routes/highlightCardRoutes');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');
 
@@ -31,6 +32,7 @@ app.use('/api/staff', staffRoutes);
 app.use('/api/types', typeRoutes);
 app.use('/api/sous-types', sousTypeRoutes);
 app.use('/api/prestations', prestationRoutes);
+app.use('/api/highlight-cards', highlightCardRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 

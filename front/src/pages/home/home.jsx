@@ -10,9 +10,11 @@ import "./home.scss"
 
 export default function Home() {
 
-   
+    // Authentification
     const isAuthenticated = useSelector((state)=> state.auth.isAuthenticated)
+    const token = useSelector((state) => state.auth.token)
 
+    // Bloc carrousel
     const [carrouselHero, setCarrouselHero] = useState([])
     const [carrouselInstitut, setCarrouselInstitut] = useState([])
     const [isModifyCarrouselOpen, setisModifyCarrouselOpen] = useState(false)
@@ -26,17 +28,17 @@ export default function Home() {
             try{
                 const heroResponse = await fetch ("/api/photos/category/carrousel-hero")
                 const heroResponseJson = await heroResponse.json()
-                           
+
 
                 const institutResponse = await fetch ("/api/photos/category/carrousel-institut")
                 const institutResponseJson = await institutResponse.json()
-                
+
                 if(!institutResponseJson || !heroResponseJson){
                     throw new Error ("erreur dans la récuperation des photos")
                 }
-                
-                setCarrouselHero(heroResponseJson) 
-                setCarrouselInstitut(institutResponseJson)                
+
+                setCarrouselHero(heroResponseJson)
+                setCarrouselInstitut(institutResponseJson)
 
             }catch(error){
                 return(error.message)
@@ -45,10 +47,7 @@ export default function Home() {
         loadImages()
     }, [])
 
-
-        const token = useSelector((state) => state.auth.token)
-
-        const handleUpload = async () => {
+    const handleUpload = async () => {
         const formData = new FormData()
         formData.append("image", uploadFiles)
         formData.append("description", uploadDefinition)
@@ -68,14 +67,13 @@ export default function Home() {
                 setCarrouselInstitut(prev =>[...prev, uploadFormJson])
             }
 
-            setModifyViewMode("list") 
-            setUploadDefinition("") 
+            setModifyViewMode("list")
+            setUploadDefinition("")
             setUploadFiles(null)
         }catch(error){
             return(error.message)
         }
     }
-
 
     const handleDelete = async (id) => {
         try{
@@ -93,6 +91,58 @@ export default function Home() {
         }
     }
 
+    // Bloc cartes mises en avant
+    const [selectedCardId, setSelectedCardId] = useState("")
+    const [highlightCardList, setHighlightCardList] = useState([])
+    const selectedCard = highlightCardList.find(highlightCard => highlightCard._id === selectedCardId)
+    const [ frontTitleState,setFrontTitleState] = useState("")
+    const [ frontTextState,setFrontTextState] = useState("")
+    const [ backTitleState,setBackTitleState] = useState("")
+    const [ backTextState,setBackTextState] = useState("")
+    const [ photoUrlState,setPhotoUrlState] = useState([])
+
+    useEffect(()=>{
+        const loadHighlightCards = async () => {
+            try{
+                const data = await fetch ("/api/highlight-cards")
+                const dataJson = await data.json()
+
+                setHighlightCardList(dataJson)
+            }catch(error){
+                return(error.message)
+            }
+        }
+        loadHighlightCards()
+    },[])
+
+    const modifyHighlightCards = async () => {
+
+            const formData = new FormData()
+            formData.append("frontTitle", frontTitleState)
+            formData.append("frontText", frontTextState)
+            formData.append("backTitle", backTitleState)
+            formData.append("backText", backTextState)
+            formData.append("photo", photoUrlState)
+
+            try{
+            const uploadProfile = await fetch (`/api/highlight-cards/${selectedCardId}`,{
+                method : "PUT",
+                body : formData,
+                headers : { Authorization : `Bearer ${token}`}
+            })
+            const updatedMember = await uploadProfile.json()
+
+            if(uploadProfile.ok){
+                    setHighlightCardList(prev => prev.map(highlightCard =>
+                        highlightCard._id === updatedMember._id ? updatedMember : highlightCard
+                    ))
+                }
+            }catch(error){
+                return(error.message)
+            }
+        }
+
+    // Bloc profil entreprise
     const [titleState, setTitleState] = useState("")
     const [paragraphState, setParagraphState] = useState([])
 
@@ -100,19 +150,18 @@ export default function Home() {
     const [editTitle, setEditTitle] = useState("")
     const [editParagraph, setEditParagraph] = useState("")
 
-
     useEffect (() => {
-        const loadText = async () =>{
+        const loadText = async () => {
             try{
                 const paragraphResponse = await fetch ("/api/content/company-profile")
-                
+
                 if(paragraphResponse.ok){
                     const paragraphResponseJson = await paragraphResponse.json()
 
                     if(!paragraphResponseJson){
                         throw new Error ("erreur dans la récuperation des textes")
                     }
-                    
+
                     setTitleState(paragraphResponseJson.title)
                     setParagraphState(paragraphResponseJson.paragraphs)
                 }
@@ -124,17 +173,16 @@ export default function Home() {
         loadText()
     },[])
 
-
     const handleTextUpdate = async () => {
-        try{    
+        try{
             const sendUpdateText = await fetch (`/api/content/${"company-profile"}`, {
                 method : "PUT",
                 body : JSON.stringify({
                     "title": editTitle,
                     "paragraphs": editParagraph.split("\n\n")
                 }),
-                headers : { 
-                    Authorization : `Bearer ${token}`, 
+                headers : {
+                    Authorization : `Bearer ${token}`,
                     "Content-Type": "application/json"
                 }
             })
@@ -142,7 +190,7 @@ export default function Home() {
             if(sendUpdateText.ok){
                 setTitleState(editTitle)
                 setParagraphState(editParagraph.split("\n\n"))
-                
+
                 setEditTitle("")
                 setEditParagraph("")
                 setEditModalIsOpen(false)
@@ -152,7 +200,7 @@ export default function Home() {
         }
     }
 
-
+    // Bloc staff
     const [isStaffModalOpen, setIsStaffModalOpen] = useState(false)
     const [staffList, setStaffList] = useState([])
     const [selectedStaffId, setSelectedStaffId] = useState("")
@@ -173,13 +221,13 @@ export default function Home() {
         }
         loadStaffData()
     },[])
- 
+
 
     const selectedMember = staffList.find(member => member._id === selectedStaffId)
-    const [ staffName,setStaffName] = useState("")    
+    const [ staffName,setStaffName] = useState("")
     const [ staffSpeciality,setStaffSpeciality] = useState("")
     const [ staffText,setStaffText] = useState("")
-    const [ staffPhoto,setStaffPhoto] = useState([])    
+    const [ staffPhoto,setStaffPhoto] = useState([])
 
     const handleProfileUpdate = async () => {
 
@@ -187,7 +235,7 @@ export default function Home() {
         formData.append("name", staffName)
         formData.append("speciality", staffSpeciality)
         formData.append("text", staffText)
-        formData.append("photo", staffPhoto) 
+        formData.append("photo", staffPhoto)
 
         try{
             const uploadProfile = await fetch (`/api/staff/${selectedStaffId}`,{
@@ -213,7 +261,6 @@ export default function Home() {
         }
     }
 
-
     const [staffCreateModalIsOpen, setStaffCreateModalIsOpen] = useState(false)
 
     const handleStaffCreate = async () => {
@@ -222,7 +269,7 @@ export default function Home() {
         formData.append("name", staffName)
         formData.append("speciality", staffSpeciality)
         formData.append("text", staffText)
-        formData.append("photo", staffPhoto) 
+        formData.append("photo", staffPhoto)
 
         try{
             const postProfile = await fetch ("/api/staff/",{
@@ -231,7 +278,7 @@ export default function Home() {
                 headers : { Authorization : `Bearer ${token}`}
             })
             const postedMember = await postProfile.json()
-            
+
             if(postProfile.ok){
                 setStaffList(prev =>[...prev, postedMember])
                 setStaffCreateModalIsOpen(false)
@@ -246,7 +293,6 @@ export default function Home() {
             return(error.message)
         }
     }
-
 
     const handleStaffDelete = async (id) => {
         try{
@@ -263,14 +309,15 @@ export default function Home() {
         }
     }
 
-    
+
     return (
         <main className="home">
+            {/* Bloc carrousel */}
             <Carrousel images={carrouselHero.map( p => p.url )} mode="auto" className="home__carrousel" />
             {isAuthenticated ? <button onClick={() => setisModifyCarrouselOpen(true)} className="home__modify-btn btn">Modifier</button> : null}
 
             <Modal isOpen={isModifyCarrouselOpen} onClose={() => setisModifyCarrouselOpen(false)} variant ="modify">
-                {modifyViewMode === "list" ? 
+                {modifyViewMode === "list" ?
                     <div className="modal__list-vue">
 
                         <h2 className="modal__list-vue--h2">Liste d'images du slider "Bannière" :</h2>
@@ -282,7 +329,7 @@ export default function Home() {
                                 </div>
                             ))}
                         </div>
-                        <button onClick={ () => {setModifyViewMode("upload"); setUploadCategory("carrousel-hero")}} className="btn">Ajouter</button>        
+                        <button onClick={ () => {setModifyViewMode("upload"); setUploadCategory("carrousel-hero")}} className="btn">Ajouter</button>
 
                         <h2 className="modal__list-vue--h2">Liste d'images du slider "Institut" :</h2>
                         <div className="modal__list-vue--images-list">
@@ -295,7 +342,7 @@ export default function Home() {
                         </div>
                         <button onClick={ () => {setModifyViewMode("upload"); setUploadCategory("carrousel-institut")}} className="btn">Ajouter</button>
                     </div>
-                    : 
+                    :
                     <div className="modal__upload-vue">
                         <input onChange={(e) => setUploadFiles(e.target.files[0])} type="file" className="modal__upload-vue--upload" />
                         <input onChange={(e) => setUploadDefinition(e.target.value)} value={uploadDefinition} type="text" className="modal__upload-vue--alt" placeholder="Entrez une description :"/>
@@ -307,32 +354,35 @@ export default function Home() {
                 }
             </Modal>
 
+            {/* Bloc cartes mises en avant */}
             <section className="home__services">
-
                 <div className="home__services--card-group">
-                        <div className={`card ? "flipped" : "" `}>
+                    {highlightCardList.map(highlightCard => (
+                        <div className="card" key={highlightCard._id}>
                             <div className="card__front">
-                                <div className="card__front--img"></div>
-                                <h2 className="card__front--title">Exemple titre</h2>
-                                <h3 className="card__front--text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempore, voluptate!</h3>
+                                <img src={highlightCard.photoUrl} alt={highlightCard.frontTitle} className="card__front--img"/>
+                                <h2 className="card__front--title">{highlightCard.frontTitle}</h2>
+                                <h3 className="card__front--text">{highlightCard.frontText}</h3>
                             </div>
                             <div className="card__back">
-                                <h2 className="card__back--title">Exemple titre</h2>
-                                <h3 className="card__back--text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempore, voluptate! Pariatur architecto exercitationem ullam eligendi voluptate dolor eum deserunt enim?</h3>
+                                <h2 className="card__back--title">{highlightCard.backTitle}</h2>
+                                <h3 className="card__back--text">{highlightCard.backText}</h3>
                                 <button className="btn">Découvrir</button>
                             </div>
                         </div>
+                    ))}
                 </div>
 
                 <img src={planteCeltique1} alt="dessin de plante" className="home__services--img" />
-                <NavLink text="Découvrez nos prestations" to="/prestations" className="home__services--link" /> 
+                <NavLink text="Découvrez nos prestations" to="/prestations" className="home__services--link" />
             </section>
 
+            {/* Bloc profil entreprise */}
             <section className="home__company-profile">
                 <h2 className="home__company-profile--h2" >{titleState}</h2>
                 {isAuthenticated ? <button onClick={() => setEditModalIsOpen(true)} className="home__company-profile--btn btn">Modifier</button> : null}
 
-                <div className="home__company-profile--content">     
+                <div className="home__company-profile--content">
                     {paragraphState.map((para, index) => (
                         <p key={index} className="group__company-text">{para}</p>
                     ))}
@@ -361,8 +411,9 @@ export default function Home() {
             </Modal>
 
 
+            {/* Bloc staff */}
             <section className="home__staff-profile">
-                
+
                 {isAuthenticated ? <button onClick={() => setStaffCreateModalIsOpen(true)} type="button" className="home__staff-profile--add-member-btn btn">Ajouter un membre</button> : null }
 
                 <Modal isOpen={staffCreateModalIsOpen} onClose={() => setStaffCreateModalIsOpen(false)} variant ="staff" >
@@ -389,7 +440,7 @@ export default function Home() {
 
 
                 <Modal isOpen={isStaffModalOpen} onClose={() => setIsStaffModalOpen(false)} variant ="staff" >
-                    {selectedMember && 
+                    {selectedMember &&
                         <div className="modal__edit-staff-profile">
                             <div className="modal__edit-staff-profile--photo">
                                 <label htmlFor="edit-staff-photo" className="staff-profile-h2">Modifiez la photo :</label>
@@ -431,6 +482,7 @@ export default function Home() {
                 ))} />
             </section>
 
+            {/* Bloc avis clients */}
             <section className="home__customers-review">
                 <div className="home__customers-review--info">
                     <h2>Pour nous retrouver</h2>

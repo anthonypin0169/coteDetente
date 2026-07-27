@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     &__carrousel{
-        height: 220px;
+        height: 30vh;
         object-fit: contain;
     }
     &__modify-btn{
@@ -159,7 +159,7 @@ a.home__services--link{
 @media (min-width: 768px){
     .home{
         &__carrousel{
-            height: 400px;
+            height: 50vh;
         }
         &__services{
             padding: 100px 0 80px 0;
@@ -173,9 +173,9 @@ a.home__services--link{
                 width: 80%;
                 .card{
                     position: relative; perspective: 1000px; 
-                    width: 28%;
+                    min-width: clamp(180px, 25vw, 380px);
+                    min-height: clamp(320px, 45vw, 420px);
                     aspect-ratio: 3 / 4;
-                    min-height: clamp(280px, 35vw, 420px);
                     &__front{
                         display: flex;
                         flex-direction: column;
@@ -235,7 +235,7 @@ a.home__services--link{
 @media (min-width: 1024px){
     .home{
         &__carrousel{
-            height: 615px;
+            height: 70vh;
         }
         &__modify-btn{
             margin: 40px auto;
@@ -331,6 +331,9 @@ a.home__services--link{
 =====================================================*/
 @media (min-width: 1440px){
     .home{
+        &__carrousel{
+            height: 90vh;
+        }
         &__customers-review--carrousel{
             width: 370px;
             max-width: none;
