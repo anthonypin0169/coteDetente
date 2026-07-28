@@ -23,6 +23,9 @@
         z-index: 80;
         top: -20px;
     }
+    &--modify-btn{
+        display: none;
+    }
 }
 /*Gros lien d'appel à l'action : qualifié par la balise pour passer devant
 .links (posée par NavLink sur le même élément), échelle propre mais définie
@@ -38,10 +41,141 @@ a.home__services--link{
             width: 423px;
             top: -30px;
         }
+        &--modify-btn{
+            display: block;
+        }
         &--card-group{
             display: flex;
             justify-content: space-between;
-            width: 80%;
+            width: 90%;
+            max-width: 1250px;
+            .card{
+                position: relative;
+                perspective: 1000px;
+                min-width: clamp(150px, 22vw, 320px);
+                min-height: clamp(280px, 40vw, 380px);
+                aspect-ratio: 3 / 4;
+                margin: 0 10px;
+                &__front{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 15px;
+                    box-shadow: 2px 2px 5px;
+                    background: #ffffff;
+                    padding: 5%;
+                    &--img{
+                        width: 70%;
+                        aspect-ratio: 4 / 4;
+                        background: black;
+                        border-radius: 50%;
+                    }
+                    &--title{
+                        text-align: center;
+                    }
+                    &--text{
+                        margin: 0 5%;
+                        text-align: center;
+                    }
+                }
+                &__back{
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    border-radius: 15px;
+                    box-shadow: 2px 2px 5px;
+                    background: #ffffff;
+                    padding: 5%;
+                    &--title{
+                        text-align: center;
+                    }
+                    &--text{
+                        margin: 0 5%;
+                        text-align: center;
+                    }
+                }
+            }
+            .card__front, .card__back {
+                position: absolute;
+                inset: 0;
+                backface-visibility: hidden;
+                transition: transform 0.6s;
+            }
+            .card__back { transform: rotateY(180deg); }
+            .card:hover .card__front { transform: rotateY(-180deg); }
+            .card:hover .card__back { transform: rotateY(0deg); }
+        }
+    }
+    a.home__services--link{
+        font-size: 32px;
+    }
+    .highlight-modal-list-vue{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .modal-card{
+        width: 80%;
+        height: 40vw;
+        margin: 3vw 0;
+        box-shadow: 2px 2px 5px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        &__img{
+            object-fit: contain;
+            width: 60%;
+            height: 60%;
+        }
+    }
+    .highlight-modal-card-vue{
+        display: flex;
+        flex-direction: column;
+        &__content{
+            display: flex;
+            justify-content: space-evenly;
+            &--front{
+                display: flex;
+                flex-direction: column;
+                width: 30%;
+            }
+            &--back{
+                display: flex;
+                flex-direction: column;
+                width: 30%;
+            }
+        }
+        .highlight-h3{
+            margin-bottom: 1vw;
+        }
+        .highlight-label{
+            margin: 1vw 0 0 0;                
+        }
+        .highlight-input{     
+            height: 2vw;  
+        }
+        .highlight-upload{
+            margin-top: 1vw;  
+        } 
+        &__btn-container{
+            display: flex;
+            align-self: center;
+            gap: 2vw;
+        }
+    }
+}
+@media (min-width: 1024px){
+    .home__services{
+        padding: 250px 0 200px 0;
+        &--img{
+            width: 812px;
+            height: 606px;
+            top: -40px;
+        }
+        &--card-group{
+            width: 95%;
             .card{
                 position: relative;
                 perspective: 1000px;
@@ -63,10 +197,11 @@ a.home__services--link{
                         border-radius: 50%;
                     }
                     &--title{
-
+                        white-space: nowrap;
                     }
                     &--text{
                         margin: 0 5%;
+                        white-space: nowrap;
                     }
                 }
                 &__back{
@@ -84,31 +219,33 @@ a.home__services--link{
                     }
                 }
             }
-            .card__front, .card__back {
-                position: absolute;
-                inset: 0;
-                backface-visibility: hidden;
-                transition: transform 0.6s;
-            }
-            .card__back { transform: rotateY(180deg); }
-            .card:hover .card__front { transform: rotateY(-180deg); }
-            .card:hover .card__back { transform: rotateY(0deg); }
-        }
-    }
-    a.home__services--link{
-        font-size: 32px;
-    }
-}
-@media (min-width: 1024px){
-    .home__services{
-        padding: 250px 0 200px 0;
-        &--img{
-            width: 812px;
-            height: 606px;
-            top: -40px;
         }
     }
     a.home__services--link{
         font-size: 50px;
+    }
+    .highlight-modal-list-vue{
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+    .modal-card{
+        width: 500px;
+        height: 15vw;
+        margin: 3vw 1vw;
+        box-shadow: 2px 2px 5px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        flex-shrink: 0;
+        &__img{
+            object-fit: contain;
+            width: 200px;
+            height: 60%;
+        }
+        &__content{
+            white-space: nowrap;
+        }
     }
 }
