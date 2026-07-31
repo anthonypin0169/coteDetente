@@ -14,16 +14,14 @@
     &--reviews{
         order: 1;
         text-align: center;
+        align-self: center;
     }
     &--carrousel{
         width: 100%;
         max-width: 320px;
         height: 300px;
-        padding: 0 40px;
         margin: 16px auto;
-        border-radius: 15px;
-        box-shadow: 3px 3px 5px;
-        background: var(--color-grey-chrome-modal);
+        overflow: visible;
     }
     &--map{
         width: 100%;
@@ -38,7 +36,6 @@
 
 @media (min-width: 1024px){
     .home__customers-review{
-        flex-direction: row;
         gap: 8vw;
         padding: 70px 0;
         &--info{
@@ -53,7 +50,6 @@
             width: 32vw;
             max-width: none;
             height: 300px;
-            padding: 0 40px;
             margin: 50px 0;
         }
         &--map{
@@ -68,7 +64,6 @@
             width: 370px;
             max-width: none;
             height: 350px;
-            padding: 0 65px;
         }
         /*Dimensions fixes d'origine (791x512), pensées pour du grand écran*/
         &--map{
