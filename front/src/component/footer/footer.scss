@@ -4,78 +4,76 @@
     align-items: center;
     justify-content: center;
     gap: 20px;
-    height: 100vh;
-    padding: 24px 0;
     background: var(--color-grey-text);
     color: var(--color-background);
     font-size: 15px;
-    .footer-container{
+    &__institut-icon{
+        width: 250px;
+        height: 160px;
         display: none;
     }
-    &__links{
+    &__map-container{
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        &--contact{
-
+        &--img{
+            width: 300px;
+            height: 220px;
         }
-        &--mentions{
-
-        }
-        &--conditions{
-
+        &--text{
+            margin: 20px;
         }
     }
-    &__follows{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-
-        &--instagram{
-            display: flex;
-            gap: 15px;
-            color: var(--color-background);
-            text-decoration: none;
-            &:hover {
-                color: var(--color-oak-light);
-            }
+    &__content-container{
+        &--planning{
+            display: none;
         }
-        &--facebook{
+        &--links{
             display: flex;
-            gap: 5px;
-            align-items: end;
-            color: var(--color-background);
-            text-decoration: none;
-            &:hover {
-                color: var(--color-oak-light);
-            }
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
     }
 }
-.instagram-icon{
-    width: 40px;
-    height: 40px;
+.instagram-container{
+    display: flex;
+    gap: 15px;
+    color: var(--color-background);
+    text-decoration: none;
+    &:hover {
+        color: var(--color-oak-light);
+    }
+    &__icon{
+        width: 40px;
+        height: 40px;
+    }
 }
-.facebook-icon{
-    width: 60px;
-    height: 60px;
-    margin-left: -4%;
+.facebook-container{
+    display: flex;
+    gap: 5px;
+    align-items: end;
+    color: var(--color-background);
+    text-decoration: none;
+    &:hover {
+        color: var(--color-oak-light);
+    }
+    &__icon{
+        width: 60px;
+        height: 60px;
+        margin-left: -4%;
+    }
 }
 /*Ecrasement des styles imposés par Nav*/
-.footer__links {
+.footer__content-container--links {
     .links {
         color: var(--color-background);
-
         &:hover {
             color: var(--color-oak-light);
         }
-
         &::after {
             background-color: transparent;
         }
-
         &.active {
             color: var(--color-oak-light);
         }
@@ -83,23 +81,21 @@
 }
 
 @media (min-width: 768px){
-    /*Les horaires (footer-container) et l'alignement "déplié" basculent en
-    même temps que le header (voir header.scss) : à partir de 768px, on est
-    sur la version header/footer complète, la modale ne sert plus qu'à la
-    recherche.*/
     .footer{
         flex-direction: row;
         justify-content: space-between;
         font-size: 16px;
         height: 77vh;
-        .footer-container{
-            display: flex;
+        &__institut-icon{
+            display: block;
         }
-        &__links{
-            align-items: flex-start;
-        }
-        &__follows{
-            align-items: flex-start;
+        &__content-container{
+            &--planning{
+                display: block;
+            }
+            &--links{
+                align-items: flex-start;
+            }
         }
     }
 }
@@ -112,11 +108,11 @@
     .footer{
         font-size: 18px;
     }
-    .instagram-icon{
+    .instagram-container__icon{
         width: 50px;
         height: 50px;
     }
-    .facebook-icon{
+    .facebook-container__icon{
         width: 75px;
         height: 75px;
     }

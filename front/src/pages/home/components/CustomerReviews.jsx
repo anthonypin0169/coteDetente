@@ -1,5 +1,4 @@
 import Carrousel from "@/component/carrousel/carrousel"
-import map from "@/assets/images/map.png"
 import "./CustomerReviews.scss"
 
 export default function CustomerReviews() {
@@ -18,11 +17,6 @@ export default function CustomerReviews() {
                     {name: "Charlène B.",rating: 5, text: "Encore un grand merci à l'institut. Une heure de massage, un pur moment de détente qui m'a fait énormément de bien. Merci à l'esthéticienne qui a été au petit soin et respectueuse des demandes. Je recommande !"},
                     {name: "Sarah A.",rating: 5, text: "Équipe très professionnelle, un institut où l’on est très bien accueillie et conseillée! Les gammes de produits utilisées sont de grande qualité, un savoir faire unique. Merci à Sabine et à ses collaboratrices !"}
                 ]}  className="home__customers-review--carrousel" />
-            </div>
-            <div className="home__customers-review--info">
-                <h2>Pour nous retrouver</h2>
-                <img src={map} alt="carte" className="home__customers-review--map" />
-                <h3 className="home__customers-review--text">261 Rue de Schutterwald, 01000 Saint-Denis-lès-Bourg</h3>
             </div>
         </section>
     )

@@ -81,7 +81,7 @@ export default function HeroCarrousel({ carrouselInstitut, setCarrouselInstitut 
 
     return (
         <>
-            <Carrousel images={carrouselHero.map( p => p.url )} mode="auto" className="home__carrousel" />
+            <Carrousel images={carrouselHero.map( p => p.url )} mode="auto" className="home__carrousel" id="home-top-carrousel"/>
             {isAuthenticated ? <button onClick={() => setisModifyCarrouselOpen(true)} className="home__modify-btn btn">Modifier</button> : null}
 
             <Modal isOpen={isModifyCarrouselOpen} onClose={() => setisModifyCarrouselOpen(false)} variant ="modify">

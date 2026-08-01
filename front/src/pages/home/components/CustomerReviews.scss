@@ -6,11 +6,8 @@
     position: relative;
     z-index: 89;
     box-shadow: 0 -5px 10px -5px;
-    padding: 40px 20px;
-    &--info{
-        order: 2;
-        text-align: center;
-    }
+    padding: 40px 20px 80px 20px;
+
     &--reviews{
         order: 1;
         text-align: center;
@@ -23,24 +20,12 @@
         margin: 16px auto;
         overflow: visible;
     }
-    &--map{
-        width: 100%;
-        max-width: 320px;
-        height: auto;
-        display: block;
-        margin: 0 auto;
-        border: solid 1px var(--color-grey-chrome);
-        box-shadow: 2px 2px 3px;
-    }
 }
 
 @media (min-width: 1024px){
     .home__customers-review{
         gap: 8vw;
         padding: 70px 0;
-        &--info{
-            order: 0;
-        }
         &--reviews{
             order: 0;
         }
@@ -52,10 +37,6 @@
             height: 300px;
             margin: 50px 0;
         }
-        &--map{
-            width: 42vw;
-            max-width: none;
-        }
     }
 }
 @media (min-width: 1440px){
@@ -64,11 +45,6 @@
             width: 370px;
             max-width: none;
             height: 350px;
-        }
-        /*Dimensions fixes d'origine (791x512), pensées pour du grand écran*/
-        &--map{
-            width: 791px;
-            height: 512px;
         }
     }
 }

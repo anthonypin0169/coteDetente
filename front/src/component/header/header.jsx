@@ -1,6 +1,5 @@
 import NavLink from "../nav/nav"
 import Logo from "../logo/logo"
-import OpeningHours from "../openingHours/openingHours"
 import testLogo2 from "../../assets/images/testLogo2.png"
 import Modal from "../modal/modal"
 import { useState } from "react"
@@ -56,9 +55,7 @@ export default function Header() {
                     <NavLink text="Évènements" to="/evenements" className="modal__search-links--event links"/>
                     <NavLink text="Carte cadeau" to="/carte-cadeau" className="modal__search-links--gift-card links"/>
                 </div>
-
-                <OpeningHours />
-            </Modal>
+            </Modal> 
 
             <Modal isOpen={isLoginOpen} onClose={() => {setIsLoginOpen(false); dispatch(clearError())}} variant="center">
                 <div className="modal__login">
