@@ -8,8 +8,6 @@
     color: var(--color-background);
     font-size: 15px;
     &__institut-icon{
-        width: 250px;
-        height: 160px;
         display: none;
     }
     &__map-container{
@@ -19,25 +17,49 @@
         &--img{
             width: 300px;
             height: 220px;
+            z-index: 1;
         }
         &--text{
             margin: 20px;
         }
     }
     &__content-container{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .footer-content-container-title{
+            align-self: center;        
+        }
         &--planning{
-            display: none;
+            width: 80%;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+        .content-container-li{
+            display: flex;
+            justify-content: space-between;
+            max-width: 500px;
         }
         &--links{
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            margin: 70px 0;
+            width: 80%;
+            .footer-navlink{
+                align-self: flex-start;
+            }
         }
     }
 }
 .instagram-container{
     display: flex;
+    margin-top: 70px;
     gap: 15px;
     color: var(--color-background);
     text-decoration: none;
@@ -61,7 +83,7 @@
     &__icon{
         width: 60px;
         height: 60px;
-        margin-left: -4%;
+        margin-left: -3%;
     }
 }
 /*Ecrasement des styles imposés par Nav*/
@@ -86,15 +108,28 @@
         justify-content: space-between;
         font-size: 16px;
         height: 77vh;
+        position: relative;
         &__institut-icon{
             display: block;
+            width: 200px;
+            height: 120px;
+            position: absolute;
+            left: 2%;
+            top: 2%;
+        }
+        &__map-container{
+            align-self: end;
         }
         &__content-container{
             &--planning{
-                display: block;
+                
             }
             &--links{
                 align-items: flex-start;
+                margin: 40px 0;
+            }
+            .instagram-container{
+                margin-top: 40px;
             }
         }
     }
@@ -102,11 +137,46 @@
 @media (min-width: 1024px){
     .footer{
         font-size: 17px;
+        &__institut-icon{
+            display: block;
+            width: 300px;
+            height: 220px;
+            position: absolute;
+            left: 2%;
+            top: 2%;
+        }
+        &__map-container{
+            align-self: center;
+        }
+        &__content-container{
+            width: 80%;
+            &--links{
+                margin: 20px 0 40px 0;
+            }
+        }
+        &__links{
+            &--h4{
+                align-self: center;
+            }
+        }
     }
 }
 @media (min-width: 1440px){
     .footer{
         font-size: 18px;
+        &__institut-icon{
+            position: initial;
+            margin: 0 1%;
+        }
+        &__map-container{
+            align-self: start;
+            margin-top: 10px;
+        }
+        &__content-container{
+            &--planning{
+                margin-top: 40px;
+            }
+        }
     }
     .instagram-container__icon{
         width: 50px;
