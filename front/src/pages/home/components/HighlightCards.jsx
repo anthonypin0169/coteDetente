@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
 import Modal from "@/component/modal/modal"
 import NavLink from "@/component/nav/nav"
-import planteCeltique1 from "@/assets/images/planteCeltique1.png"
 import "./HighlightCards.scss"
 
 export default function HighlightCards() {
@@ -80,10 +79,10 @@ export default function HighlightCards() {
                     </div>
                 ))}
             </div>
-            <button onClick={() => setHighlightModalIsOpen(true)} className="home__services--modify-btn btn">Modifier</button>
-            {!isAuthenticated &&
-                <img src={planteCeltique1} alt="dessin de plante" className="home__services--img" />
+            {isAuthenticated &&
+                <button onClick={() => setHighlightModalIsOpen(true)} className="home__services--modify-btn btn">Modifier</button>
             }
+        
             <NavLink text="Découvrez nos prestations" to="/prestations" className="home__services--link" />
 
             <Modal isOpen={highlightModalIsOpen} onClose={() => setHighlightModalIsOpen(false)} variant ="modify">

@@ -168,11 +168,11 @@ a.home__services--link{
 }
 @media (min-width: 1024px){
     .home__services{
-        padding: 250px 0 200px 0;
+        padding: 150px 0 150px 0;
         &--img{
             width: 812px;
             height: 606px;
-            top: -40px;
+            top: 500px;
         }
         &--card-group{
             width: 95%;
@@ -223,6 +223,7 @@ a.home__services--link{
     }
     a.home__services--link{
         font-size: 50px;
+        margin-top: 150px;
     }
     .highlight-modal-list-vue{
         flex-direction: row;

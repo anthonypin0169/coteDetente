@@ -4,6 +4,7 @@ import HighlightCards from "./components/HighlightCards"
 import CompanyProfile from "./components/CompanyProfile"
 import StaffProfiles from "./components/StaffProfiles"
 import CustomerReviews from "./components/CustomerReviews"
+import Map from "../../component/map/map"    
 import "./home.scss"
 
 export default function Home() {
@@ -39,6 +40,7 @@ export default function Home() {
             <CompanyProfile carrouselInstitut={carrouselInstitut} />
             <StaffProfiles />
             <CustomerReviews />
+            <Map />
         </main>
     )
 }
