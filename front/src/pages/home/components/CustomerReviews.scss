@@ -19,6 +19,16 @@
         height: 300px;
         margin: 16px auto;
         overflow: visible;
+        .carrousel__btn--prev{
+            top: 115%;
+            left: -30px;
+            transform: translateY(-50%);
+        }
+        .carrousel__btn--next{
+            top: 115%;
+            right: -30px;
+            transform: translateY(-50%);
+        }
     }
 }
 
@@ -36,6 +46,14 @@
             max-width: none;
             height: 300px;
             margin: 50px 0;
+            .carrousel__btn--prev{
+                left: -95%;
+                top: 50%;
+            }
+            .carrousel__btn--next{
+                right: -103%;
+                top: 50%;
+            }
         }
     }
 }

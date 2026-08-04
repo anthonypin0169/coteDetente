@@ -37,6 +37,9 @@ a.home__services--link{
 @media (min-width: 768px){
     .home__services{
         padding: 100px 0 80px 0;
+        &--link{
+            margin-top: 50px;
+        }
         &--img{
             width: 423px;
             top: -30px;

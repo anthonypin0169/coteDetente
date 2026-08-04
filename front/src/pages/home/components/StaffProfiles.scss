@@ -16,6 +16,13 @@
         width: 100%;
         max-width: 320px;
         height: 420px;
+        overflow: visible;
+        .carrousel__btn--prev{
+
+        }
+        .carrousel__btn--next{
+
+        }
     }
     &--pics{
         width: 130px;
@@ -50,7 +57,7 @@
         &--list{
             display: flex;
             justify-content: center;
-            gap: 200px;
+            gap: 10vw;
         }
         &--carrousel{
             display: none;

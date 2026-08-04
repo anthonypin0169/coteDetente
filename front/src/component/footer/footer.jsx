@@ -20,11 +20,11 @@ export default function Footer() {
                 </div>
 
                 <div className="footer__top--nav">
-                    <h4>Navigation</h4>
-                    <NavLink text="Accueil" to="/" className="footer-navlink"/>
-                    <NavLink text="Prestations" to="/prestations" className="footer-navlink"/>
-                    <NavLink text="Évènements" to="/evenements" className="footer-navlink"/>
-                    <NavLink text="Contactez nous" to="/contact" className="footer-navlink"/>
+                    <h4 className="footer__top--nav__title">Navigation</h4>
+                    <NavLink text="Accueil" to="/" className="footer-navlink footer-nav-links"/>
+                    <NavLink text="Prestations" to="/prestations" className="footer-navlink footer-nav-links"/>
+                    <NavLink text="Évènements" to="/evenements" className="footer-navlink footer-nav-links"/>
+                    <NavLink text="Contactez nous" to="/contact" className="footer-navlink footer-nav-links"/>
                 </div>
 
                 <div className="footer__top--search">
@@ -55,8 +55,8 @@ export default function Footer() {
                 </div>
 
                 <div className="footer__bottom--legal">
-                    <NavLink text="Mentions légales" to="/mentions" className="footer-navlink"/>
-                    <NavLink text="Conditions générales de ventes" to="/conditions" className="footer-navlink"/>
+                    <NavLink text="Mentions légales" to="/mentions" className="footer-navlink legal-links"/>
+                    <NavLink text="Conditions générales de ventes" to="/conditions" className="footer-navlink legal-links"/>
                     <p>Politique de confidentialité</p>
                 </div>
             </div>

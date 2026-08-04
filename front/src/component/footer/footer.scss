@@ -11,6 +11,8 @@
     &__top{
         display: flex;
         flex-direction: column;
+        align-self: center;
+        width: 80%;
         &--info{
             display: flex;
             flex-direction: column;
@@ -22,6 +24,18 @@
         &--search{
             display: flex;
             flex-direction: column;
+            &__input{
+                border-radius: 5px;
+                border: none;
+                margin-bottom: 20px;
+                width: 60%;
+            }
+        }
+        .content-container-li{
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            list-style: none;
         }
     }
     &__bottom{
@@ -32,6 +46,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            .legal-links{
+                font-size: 18px;
+            }
         }
     }
 }
@@ -81,10 +98,24 @@
         color: var(--color-oak-light);
     }
 }
-
+@media (min-width: 550px){
+    .footer{
+        &__top{
+            width: 50%;
+            &--search{
+                &__input{
+                    width: 100%;
+                }
+            }
+            .content-container-li{
+                width: 100%;
+            }
+        }
+    }
+}
 @media (min-width: 768px){
     .footer{
-        height: 77vh;
+        height: 83vh;
         &__institut-icon{
             display: block;
             width: 200px;
@@ -92,19 +123,49 @@
         }
         &__top{
             flex-direction: row;
+            width: 100%;
+            align-self: normal;
             flex: 9;
+            margin-left: 0;
             & > div{
                 flex: 1;
             }
+            &--info{
+                margin: 15px 0 0 2vw;
+            }
+            &--nav{
+                margin: 5px 0 0 2vw;
+                &__title{
+                    font-size: 26px;
+                }
+                .footer-nav-links{
+                    margin: 10px 0;
+                }
+            }
+            &--search{
+                margin: 40px 0 0 2vw;
+                &__input{
+                    width: 80%;
+                }
+            }
+        .content-container-li{
+            width: 90%;
+        }
         }
         &__bottom{
             flex-direction: row;
-            justify-content: space-between;
             align-items: center;
+            justify-content: center;
+            gap: 3vw;
             flex: 1;
             &--legal{
                 flex-direction: row;
-                gap: 20px;
+                gap: 3vw;
+            }
+            .social-links-container{
+                display: flex;
+                gap: 3vw;
+                margin-bottom: 5px;
             }
         }
     }
@@ -112,6 +173,10 @@
 @media (min-width: 1024px){
     .footer{
         font-size: 17px;
+        &__institut-icon{
+            width: 200px;
+            height: 150px;
+        }
     }
 }
 @media (min-width: 1440px){
@@ -119,7 +184,10 @@
         font-size: 18px;
         &__institut-icon{
             width: 300px;
-            height: 220px;
+            height: 230px;
+        }
+        .content-container-li{
+            width: 84%;
         }
     }
 }
