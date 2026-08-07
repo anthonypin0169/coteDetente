@@ -24,13 +24,24 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    &--reverse{
+        flex-direction: row-reverse;
+    }
+    .prestation-list-container{
+        width: 60%;
+    }
     &__prestations{
         width: 100%;
         &--text{
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             white-space: nowrap;
             width: 100%;
+            &--infos{
+                width: 25%;
+                display: flex;
+                justify-content: space-between;
+            }
         }
     }
     &__img{

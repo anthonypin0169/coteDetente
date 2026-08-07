@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { getAllPrestations, getPrestationsBySousType, createPrestation, updatePrestation, deletePrestation } = require('../controllers/prestationController')
+const { getAllPrestations, getPrestationsByGroup, createPrestation, updatePrestation, deletePrestation } = require('../controllers/prestationController')
 const protect = require('../middleware/authMiddleware')
 
 /**
@@ -17,21 +17,21 @@ router.get('/', getAllPrestations)
 
 /**
  * @swagger
- * /api/prestations/sous-type/{sousTypeId}:
+ * /api/prestations/group/{groupId}:
  *   get:
- *     summary: Récupérer les prestations d'un sous-type donné
+ *     summary: Récupérer les prestations d'un groupe donné
  *     tags: [Prestations]
  *     parameters:
  *       - in: path
- *         name: sousTypeId
+ *         name: groupId
  *         required: true
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Liste des prestations du sous-type
+ *         description: Liste des prestations du groupe
  */
-router.get('/sous-type/:sousTypeId', getPrestationsBySousType)
+router.get('/group/:groupId', getPrestationsByGroup)
 
 /**
  * @swagger
@@ -46,13 +46,15 @@ router.get('/sous-type/:sousTypeId', getPrestationsBySousType)
  *         application/json:
  *           schema:
  *             type: object
- *             required: [name, sousType]
+ *             required: [name, group]
  *             properties:
  *               name:
  *                 type: string
- *               text:
+ *               price:
  *                 type: string
- *               sousType:
+ *               duration:
+ *                 type: string
+ *               group:
  *                 type: string
  *     responses:
  *       201:
@@ -82,9 +84,11 @@ router.post('/', protect, createPrestation)
  *             properties:
  *               name:
  *                 type: string
- *               text:
+ *               price:
  *                 type: string
- *               sousType:
+ *               duration:
+ *                 type: string
+ *               group:
  *                 type: string
  *     responses:
  *       200:

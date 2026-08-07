@@ -1,5 +1,6 @@
 const Type = require('../models/type')
 const SousType = require('../models/sousType')
+const Group = require('../models/group')
 const Prestation = require('../models/prestation')
 const sharp = require('sharp')
 const path = require('path')
@@ -76,7 +77,18 @@ exports.deleteType = async (req, res) => {
 
     const sousTypes = await SousType.find({ type: type._id })
     const sousTypeIds = sousTypes.map(sousType => sousType._id)
-    await Prestation.deleteMany({ sousType: { $in: sousTypeIds } })
+
+    const groups = await Group.find({ sousType: { $in: sousTypeIds } })
+    const groupIds = groups.map(group => group._id)
+    groups.forEach(group => {
+      if (group.photoUrl) {
+        const filepath = path.join('uploads', path.basename(group.photoUrl))
+        if (fs.existsSync(filepath)) fs.unlinkSync(filepath)
+      }
+    })
+
+    await Prestation.deleteMany({ group: { $in: groupIds } })
+    await Group.deleteMany({ sousType: { $in: sousTypeIds } })
     await SousType.deleteMany({ type: type._id })
 
     await type.deleteOne()

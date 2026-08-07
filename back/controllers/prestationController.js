@@ -9,9 +9,9 @@ exports.getAllPrestations = async (req, res) => {
   }
 }
 
-exports.getPrestationsBySousType = async (req, res) => {
+exports.getPrestationsByGroup = async (req, res) => {
   try {
-    const prestations = await Prestation.find({ sousType: req.params.sousTypeId })
+    const prestations = await Prestation.find({ group: req.params.groupId })
     res.json(prestations)
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -33,8 +33,9 @@ exports.updatePrestation = async (req, res) => {
     if (!prestation) return res.status(404).json({ message: 'Prestation introuvable' })
 
     if (req.body.name !== undefined) prestation.name = req.body.name
-    if (req.body.text !== undefined) prestation.text = req.body.text
-    if (req.body.sousType !== undefined) prestation.sousType = req.body.sousType
+    if (req.body.price !== undefined) prestation.price = req.body.price
+    if (req.body.duration !== undefined) prestation.duration = req.body.duration
+    if (req.body.group !== undefined) prestation.group = req.body.group
 
     await prestation.save()
     res.json(prestation)

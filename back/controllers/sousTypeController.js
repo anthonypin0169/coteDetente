@@ -1,5 +1,8 @@
 const SousType = require('../models/sousType')
+const Group = require('../models/group')
 const Prestation = require('../models/prestation')
+const path = require('path')
+const fs = require('fs')
 
 exports.getAllSousTypes = async (req, res) => {
   try {
@@ -50,7 +53,16 @@ exports.deleteSousType = async (req, res) => {
     const sousType = await SousType.findById(req.params.id)
     if (!sousType) return res.status(404).json({ message: 'Sous-type introuvable' })
 
-    await Prestation.deleteMany({ sousType: sousType._id })
+    const groups = await Group.find({ sousType: sousType._id })
+    const groupIds = groups.map(group => group._id)
+    await Prestation.deleteMany({ group: { $in: groupIds } })
+    groups.forEach(group => {
+      if (group.photoUrl) {
+        const filepath = path.join('uploads', path.basename(group.photoUrl))
+        if (fs.existsSync(filepath)) fs.unlinkSync(filepath)
+      }
+    })
+    await Group.deleteMany({ sousType: sousType._id })
     await sousType.deleteOne()
     res.json({ message: 'Sous-type supprimé' })
   } catch (error) {
