@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import Modal from "@/component/modal/modal"
@@ -63,6 +63,38 @@ export default function Services() {
         }
     }
 
+    const [expandedTypeId, setExpandedTypeId] = useState(null)
+    const [caresTypes, setCaresTypes] = useState([])
+    const bannerRef = useRef(null)
+
+    useEffect(() => {
+        if (!expandedTypeId) return
+
+        const handleClickOutside = (e) => {
+            if (bannerRef.current && !bannerRef.current.contains(e.target)) {
+                setExpandedTypeId(null)
+            }
+        }
+
+        document.addEventListener("click", handleClickOutside)
+        return () => document.removeEventListener("click", handleClickOutside)
+    }, [expandedTypeId])
+
+    const handleCaresTypes = async (id) => {
+        try{
+            const loadCaresTypes = await fetch (`/api/sous-types/type/${id}`)
+            const response = await loadCaresTypes.json()
+
+            if(!response){
+                    throw new Error ("erreur dans la récuperation des types")
+                }
+
+                setCaresTypes(response)
+        }catch(error){
+            return(error.message)
+        }
+    }
+
     return (
         <main className="services">
             <h1 className="services__title">Prestations</h1>
@@ -103,13 +135,28 @@ export default function Services() {
                     </div>
                 }
             </Modal>
-            <section className="banner">
-                {types.map((type)=>(    
-                    <Link to={type.route} key={type._id} className="banner__div">
-                        <h2 className="banner__div--text">{type.name}</h2>
-                        <img src={type.photoUrl} alt={type.name} className="banner__div--image"/>
-                    </Link>
+            <section className="banner" ref={bannerRef}>
+                {types.map((type)=>(
+                    type.route === "/soins" ? (
+                        <div key={type._id} className={`banner__div ${expandedTypeId === type._id ? "banner__div--expanded" : ""}`} onClick={() => {setExpandedTypeId(type._id); handleCaresTypes(type._id)}}>
+                            <h2 className="banner__div--text">{type.name}</h2>
+                            <img src={type.photoUrl} alt={type.name} className="banner__div--image"/>
+                        </div>
+                    ):(
+                        <Link to={type.route} key={type._id} className="banner__div">
+                            <h2 className="banner__div--text">{type.name}</h2>
+                            <img src={type.photoUrl} alt={type.name} className="banner__div--image"/>
+                        </Link>
+                    )
                 ))}
+                <div className={`banner__sous-types ${expandedTypeId ? "banner__sous-types--open" : ""}`}>
+                    {caresTypes.map((careType)=>(
+                        <Link to={careType.route} key={careType._id} className="banner__sous-types--link">
+                            <h3>{careType.name}</h3>
+                        </Link>
+                    ))}
+                    <button onClick={() => setExpandedTypeId(null)} className="banner__sous-types--back-btn">Retour</button>
+                </div>
             </section>
         </main>
     )

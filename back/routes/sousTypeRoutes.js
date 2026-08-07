@@ -52,6 +52,8 @@ router.get('/type/:typeId', getSousTypesByType)
  *                 type: string
  *               intro:
  *                 type: string
+ *               route:
+ *                 type: string
  *               type:
  *                 type: string
  *     responses:

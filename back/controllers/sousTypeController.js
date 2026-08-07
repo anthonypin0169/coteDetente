@@ -35,6 +35,7 @@ exports.updateSousType = async (req, res) => {
 
     if (req.body.name !== undefined) sousType.name = req.body.name
     if (req.body.intro !== undefined) sousType.intro = req.body.intro
+    if (req.body.route !== undefined) sousType.route = req.body.route
     if (req.body.type !== undefined) sousType.type = req.body.type
 
     await sousType.save()

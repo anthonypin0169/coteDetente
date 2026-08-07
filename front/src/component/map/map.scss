@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 3vw;
     &__img{
         width: 40vw;
         aspect-ratio: 5/3;
@@ -10,5 +11,10 @@
     &__text{
         margin: 20px;
         text-align: center;
+    }
+}
+@media(min-width: 1024px){
+    .map-container{
+        margin-bottom: 9vw;
     }
 }

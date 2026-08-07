@@ -18,10 +18,16 @@
         height: 420px;
         overflow: visible;
         .carrousel__btn--prev{
-
+            position: relative;
+            bottom: 55%;
+            left: 2%;
+            font-size: 40px;
         }
         .carrousel__btn--next{
-
+            position: relative;
+            bottom: 55%;
+            left: 75%;
+            font-size: 40px;
         }
     }
     &--pics{

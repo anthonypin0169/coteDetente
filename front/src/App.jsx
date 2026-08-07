@@ -24,7 +24,7 @@ return (
         <Route path="/" element={<Home />} />
         <Route path="/prestations" element={<Services />} />
 
-        <Route path="/soins" element={<Cares />} />
+        <Route path="/soins/:sousTypeSlug" element={<Cares />} />
         <Route path="/epilation" element={<Epilation />} />
         <Route path="/mains-et-pieds" element={<HandsAndFoots />} />
         <Route path="/maquillage" element={<Makeup />} />
