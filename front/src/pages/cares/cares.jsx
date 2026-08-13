@@ -60,8 +60,6 @@ export default function Cares() {
                 (error.message)
             }
     }
-
-    const [editingSousTypeId, setEditingSousTypeId] = useState(null)
     
 
     /* Récuperer les groupes d'un sous-type */
@@ -115,6 +113,7 @@ export default function Cares() {
     const [modalVue, setModalVue] = useState("sousTypes")
     const [selectedSousTypeId, setSelectedSousTypeId] = useState("")
     const [modalGroups, setModalGroups] = useState([])
+    const [editingSousTypeId, setEditingSousTypeId] = useState(null)
 
     useEffect(() => {
         if (!selectedSousTypeId) return
@@ -139,6 +138,11 @@ export default function Cares() {
 
     /* Vue 3 */
     const [selectedGroupId, setSelectedGroupId] = useState("")
+    const [editingPrestaId, setEditingPrestaId] = useState(null)
+    const [actualPrestaName, setActualPrestaName] = useState("")
+    const [actualPrestaPrice, setActualPrestaPrice] = useState("")
+    const [actualPrestaDuration, setActualPrestaDuration] = useState("")
+
 
 
     return (
@@ -147,7 +151,7 @@ export default function Cares() {
 
             <section className="cares__section">
                 {isAuthenticated &&
-                    <button onClick={() => setModalIsOpen(true)} className="btn">Modifier</button>
+                    <button type="button" onClick={() => setModalIsOpen(true)} className="btn">Modifier</button>
                 }
                 {groups.map((bloc, i) => (
                     <div className="cares__section--type" key={bloc._id}>
@@ -185,17 +189,17 @@ export default function Cares() {
                                         <label htmlFor="sous-type-title">Choisir un titre :</label>
                                         <input id="sous-type-title" type="text" value={actualSousTypeName} onChange={(e)=> setActualSousTypeName(e.target.value)}/>
                                         <div>
-                                            <button onClick={() => setEditingSousTypeId(null)}>Retour</button>
-                                            <button onClick={() => {handleUpdateSousType(type._id) ; setEditingSousTypeId(false)}}>Valider le titre</button>
-                                            <button onClick={() => {setModalVue("groups"); setSelectedSousTypeId(type._id)}}>Modifier le contenu</button>
+                                            <button type="button" onClick={() => setEditingSousTypeId(null)}>Retour</button>
+                                            <button type="button" onClick={() => {handleUpdateSousType(type._id) ; setEditingSousTypeId(null)}}>Valider le titre</button>
+                                            <button type="button" onClick={() => {setModalVue("groups"); setSelectedSousTypeId(type._id)}}>Modifier le contenu</button>
                                         </div>
                                     </div>
                                 :
                                     <div>
                                         <p>{type.name}</p>
                                         <div>
-                                            <button onClick={() => {setEditingSousTypeId(type._id) ; setActualSousTypeName(type.name)}}>Modifier le titre</button>
-                                            <button onClick={() => {setModalVue("groups"); setSelectedSousTypeId(type._id)}}>Modifier le contenu</button>
+                                            <button type="button" onClick={() => {setEditingSousTypeId(type._id) ; setActualSousTypeName(type.name)}}>Modifier le titre</button>
+                                            <button type="button" onClick={() => {setModalVue("groups"); setSelectedSousTypeId(type._id)}}>Modifier le contenu</button>
                                         </div>
                                     </div>
                                 }
@@ -212,27 +216,42 @@ export default function Cares() {
                                 <input type="text" id="description-edit"/>
                                 <label htmlFor="photo-edit">Modifier la photo</label>
                                 <input type="file" id="photo-edit"/>
-                                <button onClick={() => {setModalVue("prestations") ; setSelectedGroupId(group._id)}} className="btn">Modifier les prestations</button>
+                                <button type="button" onClick={() => {setModalVue("prestations") ; setSelectedGroupId(group._id)}} className="btn">Modifier les prestations</button>
                             </div>
                         ))}
                         <div>
-                            <button onClick={() => setModalVue("sousTypes")} className="btn">Retour</button>
-                            <button className="btn">Ajouter un groupe</button>
+                            <button type="button" onClick={() => setModalVue("sousTypes")} className="btn">Retour</button>
+                            <button type="button" className="btn">Ajouter un groupe</button>
                         </div>
                     </div>
                 : 
                     <div>
-                        {prestations.filter(p => p.group === selectedGroupId).map((presta) => {
+                        {prestations.filter(p => p.group === selectedGroupId).map((presta) => (
                             <div key={presta._id}>
-                                <input id="presta-name" type="text" value={presta.name}/>
-                                <input id="presta-price" type="text" value={presta.price}/>
-                                <input id="presta-time" type="text" value={presta.duration}/>
-
-                                <button>Supprimer la prestation</button>
+                                {editingPrestaId === presta._id ?
+                                <div>
+                                    <div>
+                                        <input id="presta-name" type="text" value={actualPrestaName} onChange={(e) => setActualPrestaName(e.target.value)}/>
+                                        <input id="presta-price" type="text" value={actualPrestaPrice} onChange={(e) => setActualPrestaPrice(e.target.value)}/>
+                                        <input id="presta-time" type="text" value={actualPrestaDuration} onChange={(e) => setActualPrestaDuration(e.target.value)}/>
+                                    </div>
+                                    <div>
+                                        <button type="button" onClick={() => setEditingPrestaId(null)}>Retour</button>
+                                        <button>Supprimer la prestation</button>
+                                    </div>
+                                </div>
+                                :
+                                <div>
+                                    <p>{presta.name}</p>
+                                    <p>{presta.price}</p>
+                                    <p>{presta.duration}</p>
+                                    <button type="button" onClick={() => {setEditingPrestaId(presta._id) ; setActualPrestaName(presta.name) ; setActualPrestaPrice(presta.price) ; setActualPrestaDuration(presta.duration)}}>Modifier la prestation</button>
+                                </div>
+                                }
                             </div>
-                        })}
+                        ))}
                         <div>
-                            <button>Retour</button>
+                            <button type="button" onClick={() => setModalVue("groups")}>Retour</button>
                             <button>Ajouter une prestation</button>
                         </div>
                     </div>
