@@ -136,6 +136,62 @@ export default function Cares() {
     },[selectedSousTypeId])
 
 
+    /* Vue 2 */
+    /* Ajouter et supprimer un groupe */
+    const [newNameGroup, setNewNameGroup] = useState("")
+    const [newDescriptionGroup, setNewDescriptionGroup] = useState("")
+    const [newPhotoGroup, setNewPhotoGroup] = useState(null)
+    const [isAddingGroup, setIsAddingGroup] = useState(false)
+
+    /* Ajout */
+    const handleCreateGroup = async () => {
+
+        const formData = new FormData()
+        formData.append("name", newNameGroup)
+        formData.append("description", newDescriptionGroup)
+        formData.append("photo", newPhotoGroup)
+        formData.append("sousType", selectedSousTypeId)
+
+        try{
+            const sendNewGroupData = await fetch ("/api/groups", {
+                method : "POST",
+                body : formData,
+                headers : {Authorization : `Bearer ${token}`} 
+            })
+
+            const newGroupUploaded = await sendNewGroupData.json()
+            if (sendNewGroupData.ok){
+                setNewNameGroup("")
+                setNewDescriptionGroup("")
+                setNewPhotoGroup(null)
+                setModalGroups(prev => [...prev, newGroupUploaded])
+                setIsAddingGroup(false)
+            }
+
+        }catch(error){
+            (error.message)
+        }
+    }
+
+    /* Suppr */
+    const handleDeleteGroup = async (id) => {
+        
+        try{
+            const supprGroup = await fetch (`/api/groups/${id}`,{
+            method : "DELETE",
+            headers : {Authorization : `Bearer ${token}`}
+        })
+
+        if (supprGroup.ok){
+            setModalGroups(prev => prev.filter(g => g._id !== id))
+            setGroups(prev => prev.filter(g => g._id !== id))
+
+        }
+        }catch(error){
+            (error.message)
+        }
+    }
+
     /* Vue 3 */
     const [selectedGroupId, setSelectedGroupId] = useState("")
     const [editingPrestaId, setEditingPrestaId] = useState(null)
@@ -143,6 +199,59 @@ export default function Cares() {
     const [actualPrestaPrice, setActualPrestaPrice] = useState("")
     const [actualPrestaDuration, setActualPrestaDuration] = useState("")
 
+
+    /* Ajouter et supprimer une prestation */
+    const [newNamePresta, setNewNamePresta] = useState("")
+    const [newPrestaDuration, setNewPrestaDuration] = useState("")
+    const [newPricePresta, setNewPricePresta] = useState("")
+    const [isAddingPresta, setIsAddingPresta] = useState(false)
+
+    /* Ajout */
+    const handleCreatePresta = async () => {
+
+        const formData = new FormData()
+        formData.append("name", newNamePresta)
+        formData.append("price", newPricePresta)
+        formData.append("duration", newPrestaDuration)
+        formData.append("group", selectedGroupId)
+
+        try{
+            const sendNewPrestaData = await fetch ("/api/prestations", {
+                method : "POST",
+                body : formData,
+                headers : {Authorization : `Bearer ${token}`} 
+            })
+
+            const newPrestaUploaded = await sendNewPrestaData.json()
+            if (sendNewPrestaData.ok){
+                setNewNamePresta("")
+                setNewPrestaDuration("")
+                setNewPricePresta("")
+                setPrestations(prev => [...prev, newPrestaUploaded])
+                setIsAddingPresta(false)
+            }
+
+        }catch(error){
+            (error.message)
+        }
+    }
+
+    /* Suppr */
+    const handleDeletePresta = async (id) => {
+        
+        try{
+            const supprPresta = await fetch (`/api/prestations/${id}`,{
+            method : "DELETE",
+            headers : {Authorization : `Bearer ${token}`}
+        })
+
+        if (supprPresta.ok){
+            setPrestations(prev => prev.filter(g => g._id !== id))
+        }
+        }catch(error){
+            (error.message)
+        }
+    }
 
 
     return (
@@ -181,6 +290,7 @@ export default function Cares() {
 
             <Modal isOpen={modalIsOpen} onClose={() => {setModalIsOpen(false) ; setModalVue("sousTypes")}} variant="modify" >
                 {modalVue === "sousTypes" ?
+                /* Vue 1 */
                     <div>
                         {allSousTypes.map((type)=>(
                             <div key={type._id}>
@@ -205,55 +315,101 @@ export default function Cares() {
                                 }
                             </div>
                         ))}
+                
                     </div>
+                /* Vue 2 */    
                 : modalVue === "groups" ?
                     <div>
-                        {modalGroups.map((group) => (
-                            <div key={group._id}>
-                                <label htmlFor="title-edit">Modifier le nom du groupe</label>
-                                <input type="text" id="title-edit"/>
-                                <label htmlFor="description-edit">Modifier la description</label>
-                                <input type="text" id="description-edit"/>
-                                <label htmlFor="photo-edit">Modifier la photo</label>
-                                <input type="file" id="photo-edit"/>
-                                <button type="button" onClick={() => {setModalVue("prestations") ; setSelectedGroupId(group._id)}} className="btn">Modifier les prestations</button>
+                        {isAddingGroup ?
+                            <div>
+                                <div>
+                                    <label htmlFor="title-adding">Entrer un nom</label>
+                                    <input type="text" id="title-adding" value={newNameGroup} onChange={(e) => setNewNameGroup(e.target.value)}/>
+                                </div>
+                                <div>
+                                    <label htmlFor="description-adding">Entrer une description</label>
+                                    <input type="text" id="description-adding" value={newDescriptionGroup} onChange={(e) => setNewDescriptionGroup(e.target.value)}/>
+                                </div>
+                                <div>
+                                    <label htmlFor="photo-adding">Selectionner une photo</label>
+                                    <input type="text" id="photo-adding" onChange={(e) => setNewPhotoGroup(e.target.files[0])}/>
+                                </div>
+                                <button type="button" onClick={() => setIsAddingGroup(false)}>Retour</button>
+                                <button type="button" onClick={() => handleCreateGroup()}>Valider</button>
                             </div>
-                        ))}
-                        <div>
-                            <button type="button" onClick={() => setModalVue("sousTypes")} className="btn">Retour</button>
-                            <button type="button" className="btn">Ajouter un groupe</button>
-                        </div>
+                        :
+                            <div>
+                                {modalGroups.map((group) => (
+                                    <div key={group._id}>
+                                        <label htmlFor="title-edit">Modifier le nom du groupe</label>
+                                        <input type="text" id="title-edit"/>
+                                        <label htmlFor="description-edit">Modifier la description</label>
+                                        <input type="text" id="description-edit"/>
+                                        <label htmlFor="photo-edit">Modifier la photo</label>
+                                        <input type="file" id="photo-edit"/>
+                                        <button type="button" className="btn" onClick={() => handleDeleteGroup(group._id)}>Supprimer ce groupe</button>
+                                        <button type="button" onClick={() => {setModalVue("prestations") ; setSelectedGroupId(group._id)}} className="btn">Modifier les prestations</button>
+                                    </div>
+                                ))}
+                                <div>
+                                    <button type="button" onClick={() => setModalVue("sousTypes")} className="btn">Retour</button>
+                                    <button type="button" className="btn" onClick={() => setIsAddingGroup(true)}>Ajouter un groupe</button>
+                                </div>
+                            </div>
+                        }
                     </div>
+                /* Vue 3 */    
                 : 
                     <div>
-                        {prestations.filter(p => p.group === selectedGroupId).map((presta) => (
-                            <div key={presta._id}>
-                                {editingPrestaId === presta._id ?
+                        {isAddingPresta ? 
+                            <div>
                                 <div>
-                                    <div>
-                                        <input id="presta-name" type="text" value={actualPrestaName} onChange={(e) => setActualPrestaName(e.target.value)}/>
-                                        <input id="presta-price" type="text" value={actualPrestaPrice} onChange={(e) => setActualPrestaPrice(e.target.value)}/>
-                                        <input id="presta-time" type="text" value={actualPrestaDuration} onChange={(e) => setActualPrestaDuration(e.target.value)}/>
-                                    </div>
-                                    <div>
-                                        <button type="button" onClick={() => setEditingPrestaId(null)}>Retour</button>
-                                        <button>Supprimer la prestation</button>
-                                    </div>
+                                    <label htmlFor="presta-name-adding">Entrer un nom / descriptif</label>
+                                    <input type="text" id="presta-name-adding" value={newNamePresta} onChange={(e) => setNewNamePresta(e.target.value)}/>
                                 </div>
-                                :
                                 <div>
-                                    <p>{presta.name}</p>
-                                    <p>{presta.price}</p>
-                                    <p>{presta.duration}</p>
-                                    <button type="button" onClick={() => {setEditingPrestaId(presta._id) ; setActualPrestaName(presta.name) ; setActualPrestaPrice(presta.price) ; setActualPrestaDuration(presta.duration)}}>Modifier la prestation</button>
+                                    <label htmlFor="presta-price-adding">Entrer un prix</label>
+                                    <input type="text" id="presta-price-adding" value={newPricePresta} onChange={(e) => setNewPricePresta(e.target.value)}/>
                                 </div>
-                                }
+                                <div>
+                                    <label htmlFor="presta-time-adding">Entrer une durée</label>
+                                    <input type="file" id="presta-time-adding" value={newPrestaDuration} onChange={(e) => setNewPrestaDuration(e.target.value)}/>
+                                </div>
+                                <button type="button" onClick={() => setIsAddingPresta(false)}>Retour</button>
+                                <button type="button" onClick={() => handleCreatePresta()}>Valider</button>
                             </div>
-                        ))}
-                        <div>
-                            <button type="button" onClick={() => setModalVue("groups")}>Retour</button>
-                            <button>Ajouter une prestation</button>
-                        </div>
+                        : 
+                            <div>
+                            {prestations.filter(p => p.group === selectedGroupId).map((presta) => (
+                                <div key={presta._id}>
+                                    {editingPrestaId === presta._id ?
+                                    <div>
+                                        <div>
+                                            <input id="presta-name" type="text" value={actualPrestaName} onChange={(e) => setActualPrestaName(e.target.value)}/>
+                                            <input id="presta-price" type="text" value={actualPrestaPrice} onChange={(e) => setActualPrestaPrice(e.target.value)}/>
+                                            <input id="presta-time" type="text" value={actualPrestaDuration} onChange={(e) => setActualPrestaDuration(e.target.value)}/>
+                                        </div>
+                                        <div>
+                                            <button type="button" className="btn" onClick={() => setEditingPrestaId(null)}>Retour</button>
+                                            <button type="button" className="btn" onClick={() => handleDeletePresta(presta._id)}>Supprimer la prestation</button>
+                                        </div>
+                                    </div>
+                                    :
+                                    <div>
+                                        <p>{presta.name}</p>
+                                        <p>{presta.price}</p>
+                                        <p>{presta.duration}</p>
+                                        <button type="button" className="btn" onClick={() => {setEditingPrestaId(presta._id) ; setActualPrestaName(presta.name) ; setActualPrestaPrice(presta.price) ; setActualPrestaDuration(presta.duration)}}>Modifier la prestation</button>
+                                    </div>
+                                    }
+                                </div>
+                            ))}
+                                <div>
+                                    <button type="button" className="btn" onClick={() => setModalVue("groups")}>Retour</button>
+                                    <button type="button" className="btn" onClick={() => setIsAddingPresta(true)}>Ajouter une prestation</button>
+                                </div>        
+                            </div>
+                        }
                     </div>
                 }
             </Modal>
