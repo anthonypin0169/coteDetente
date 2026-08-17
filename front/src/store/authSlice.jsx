@@ -1,20 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { apiFetch } from '../utils/api'
 
 export const loginUser = createAsyncThunk(
     'auth/login',
     async (credentials, {rejectWithValue}) => {
         try{
-            const loginResponse = await fetch("/api/auth/login",{
-                method: "POST", 
-                headers: {"content-Type":"application/json"},
-                body: JSON.stringify(credentials)
+            const { ok, data: loginData } = await apiFetch("/api/auth/login", {
+                method: "POST",
+                body: credentials
             })
-            if(!loginResponse.ok){
+            if(!ok){
                 throw new Error ("Identifiant incorrects")
             }
-            const loginData = await loginResponse.json()
-            
+
             const token = loginData.token
             const role = loginData.user.role
             localStorage.setItem("token", token)

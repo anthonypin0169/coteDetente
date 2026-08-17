@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
 import Carrousel from "@/component/carrousel/carrousel"
 import Modal from "@/component/modal/modal"
+import { apiFetch } from "@/utils/api"
 import "./HeroCarrousel.scss"
 
 export default function HeroCarrousel({ carrouselInstitut, setCarrouselInstitut }) {
@@ -19,14 +20,13 @@ export default function HeroCarrousel({ carrouselInstitut, setCarrouselInstitut 
     useEffect( () => {
         const loadHeroImages = async () => {
             try{
-                const heroResponse = await fetch ("/api/photos/category/carrousel-hero")
-                const heroResponseJson = await heroResponse.json()
+                const { data } = await apiFetch("/api/photos/category/carrousel-hero")
 
-                if(!heroResponseJson){
+                if(!data){
                     throw new Error ("erreur dans la récuperation des photos")
                 }
 
-                setCarrouselHero(heroResponseJson)
+                setCarrouselHero(data)
 
             }catch(error){
                 return(error.message)
@@ -42,17 +42,16 @@ export default function HeroCarrousel({ carrouselInstitut, setCarrouselInstitut 
         formData.append("category", uploadCategory)
 
         try{
-            const uploadForm = await fetch ("/api/photos",{
+            const { data } = await apiFetch("/api/photos", {
                 method : "POST",
                 body : formData,
-                headers : { Authorization : `Bearer ${token}`}
+                token
             })
-            const uploadFormJson = await uploadForm.json()
 
             if(uploadCategory === "carrousel-hero"){
-                setCarrouselHero(prev =>[...prev, uploadFormJson])
+                setCarrouselHero(prev =>[...prev, data])
             } else {
-                setCarrouselInstitut(prev =>[...prev, uploadFormJson])
+                setCarrouselInstitut(prev =>[...prev, data])
             }
 
             setModifyViewMode("list")
@@ -65,11 +64,11 @@ export default function HeroCarrousel({ carrouselInstitut, setCarrouselInstitut 
 
     const handleDelete = async (id) => {
         try{
-            const deletePicture = await fetch (`/api/photos/${id}`, {
+            const { ok } = await apiFetch(`/api/photos/${id}`, {
                 method : "DELETE",
-                headers : { Authorization : `Bearer ${token}`}
+                token
             })
-            if(deletePicture.ok){
+            if(ok){
                 setCarrouselHero(prev => prev.filter(photo => photo._id !== id))
                 setCarrouselInstitut(prev => prev.filter(photo => photo._id !== id))
             }

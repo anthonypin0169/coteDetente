@@ -3,6 +3,7 @@ import { useSelector } from "react-redux"
 import Carrousel from "@/component/carrousel/carrousel"
 import StaffProfile from "@/component/staffProfile/staffProfile"
 import Modal from "@/component/modal/modal"
+import { apiFetch } from "@/utils/api"
 import "./StaffProfiles.scss"
 
 export default function StaffProfiles() {
@@ -17,11 +18,10 @@ export default function StaffProfiles() {
     useEffect( () => {
         const loadStaffData = async () => {
             try{
-                const loadStaffDataResponse = await fetch ("/api/staff")
-                const staffDataJson = await loadStaffDataResponse.json()
+                const { ok, data } = await apiFetch("/api/staff")
 
-                if(loadStaffDataResponse.ok){
-                    setStaffList(staffDataJson)
+                if(ok){
+                    setStaffList(data)
                 }
 
             }catch(error){
@@ -47,14 +47,13 @@ export default function StaffProfiles() {
         formData.append("photo", staffPhoto)
 
         try{
-            const uploadProfile = await fetch (`/api/staff/${selectedStaffId}`,{
+            const { ok, data: updatedMember } = await apiFetch(`/api/staff/${selectedStaffId}`, {
                 method : "PUT",
                 body : formData,
-                headers : { Authorization : `Bearer ${token}`}
+                token
             })
-            const updatedMember = await uploadProfile.json()
 
-            if(uploadProfile.ok){
+            if(ok){
                     setStaffList(prev => prev.map(member =>
                         member._id === updatedMember._id ? updatedMember : member
                     ))
@@ -81,14 +80,13 @@ export default function StaffProfiles() {
         formData.append("photo", staffPhoto)
 
         try{
-            const postProfile = await fetch ("/api/staff/",{
+            const { ok, data: postedMember } = await apiFetch("/api/staff", {
                 method : "POST",
                 body : formData,
-                headers : { Authorization : `Bearer ${token}`}
+                token
             })
-            const postedMember = await postProfile.json()
 
-            if(postProfile.ok){
+            if(ok){
                 setStaffList(prev =>[...prev, postedMember])
                 setStaffCreateModalIsOpen(false)
             }
@@ -105,11 +103,11 @@ export default function StaffProfiles() {
 
     const handleStaffDelete = async (id) => {
         try{
-            const deleteStaffCard = await fetch (`/api/staff/${id}`, {
+            const { ok } = await apiFetch(`/api/staff/${id}`, {
                 method : "DELETE",
-                headers : { Authorization : `Bearer ${token}`}
+                token
             })
-            if(deleteStaffCard.ok){
+            if(ok){
                 setStaffList(prev => prev.filter(staffCard => staffCard._id !== id))
             }
 

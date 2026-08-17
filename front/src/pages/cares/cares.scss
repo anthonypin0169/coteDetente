@@ -19,7 +19,7 @@
         }
     }
 }
-.prestenting{
+.presenting{
     
 }
 .content-bloc{
@@ -49,5 +49,178 @@
     &__img{
         width: 320px;
         aspect-ratio: 3/4;
+    }
+}
+
+/* CSS Boite modale */
+.cares-modal-labels{
+
+}
+.cares-modal-inputs{
+
+}
+.cares-modal-photo-input{
+
+}
+
+/* Vue 1 */
+.sous-types-vue{
+    &__full-container{
+
+    }
+    .sous-types-edit-container{
+        &__title-label{
+
+        }
+        &__title-input{
+
+        }
+        &__btn-bloc{
+            &--back-btn{
+
+            }   
+            &--ok-btn{
+
+            } 
+            &--modifiy-btn{
+
+            }
+        }
+    }
+    .sous-types-neutral-container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        &--title{
+            margin: 2vw 0 1vw 0;
+        }
+        &__btn-bloc{
+            display: flex;
+            gap: 2vw;
+            margin-bottom: 1vw;
+            &--title-modify-btn{
+                margin-top: 1vw;
+            }
+            &--content-modify-btn{
+                margin-top: 1vw;
+            }
+        }
+    }
+}
+
+/* Vue 2 */
+.group-vue{
+    &__add{
+        padding-top: 2vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        &--bloc{
+            width: 60%;
+            margin-top: 1vw;
+            display: flex;
+            justify-content: space-between;
+            gap: 1vw;
+        }
+        &--btn-bloc{
+            display: flex;
+            justify-self: center;
+            gap: 2vw;
+        }
+    }
+    &__edit{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .edit-list{
+            display: flex;
+            flex-direction: column;
+            gap: 1vw;
+            margin-top: 3vw;
+            &__item{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            &__btn-bloc{
+                width: 100%;
+                display: flex;
+                justify-content: space-around;
+                .suppr-and-modify-btn{
+                    margin-top: 1vw;
+                }
+            }
+        }
+        .edit-btn-bloc{
+            display: flex;
+            gap: 4vw;
+            &__back-btn{
+
+            }
+            &__add-btn{
+
+            }
+        }
+    }
+}
+
+/* Vue 3 */
+.prestation-vue{
+    &__new-add{
+        padding-top: 2vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        &--input-bloc{
+            width: 60%;
+            margin-top: 1vw;
+            display: flex;
+            justify-content: space-between;
+            gap: 1vw;
+        }
+        &--btn-container{
+            display: flex;
+            justify-self: center;
+            gap: 4vw;
+        }
+    }
+    &__edit-and-add{
+        &--btn-container{
+            display: flex;
+            justify-self: center;
+            gap: 4vw;
+        }
+        .edit-and-add-container{
+            &__edit-presta{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                &--input-bloc{
+                    width: 100%;
+                    margin-top: 1vw;
+                    display: flex;
+                    justify-content: center;
+                    gap: 1vw;
+                }
+                &--btn-bloc{
+                    display: flex;
+                    justify-self: center;
+                    gap: 2vw;
+                }
+            }
+            &__add-presta{
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                &--text-bloc{
+                    display: flex;
+                    justify-content: space-around;
+                    width: 50%;
+                }
+                &--modify-btn{
+                    
+                }
+            }
+        }
     }
 }

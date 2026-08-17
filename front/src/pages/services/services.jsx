@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import Modal from "@/component/modal/modal"
+import { apiFetch } from "@/utils/api"
 import "./services.scss"
 
 export default function Services() {
@@ -11,14 +12,13 @@ export default function Services() {
     useEffect(()=>{
         const loadTypes = async () => {
             try {
-                const typesResponse = await fetch ("/api/types")
-                const typesResponseJson = await typesResponse.json()
+                const { data } = await apiFetch("/api/types")
 
-                if(!typesResponseJson){
+                if(!data){
                     throw new Error ("erreur dans la récuperation des types")
                 }
 
-                setTypes(typesResponseJson)
+                setTypes(data)
 
             }catch(error){
                 (error.message)
@@ -44,13 +44,12 @@ export default function Services() {
         formData.append("photo", typePhoto)
 
         try{
-            const uploadForm = await fetch (`/api/types/${selectedTypeId}`,{
+            const { ok, data: updatedType } = await apiFetch(`/api/types/${selectedTypeId}`, {
                 method : "PUT",
                 body : formData,
-                headers : { Authorization : `Bearer ${token}`}
+                token
             })
-            const updatedType = await uploadForm.json()
-            if(uploadForm.ok){
+            if(ok){
                 setTypes(prev => prev.map(type => type._id === updatedType._id ? updatedType : type))
             }
 
@@ -82,14 +81,13 @@ export default function Services() {
 
     const handleCaresTypes = async (id) => {
         try{
-            const loadCaresTypes = await fetch (`/api/sous-types/type/${id}`)
-            const response = await loadCaresTypes.json()
+            const { data } = await apiFetch(`/api/sous-types/type/${id}`)
 
-            if(!response){
+            if(!data){
                     throw new Error ("erreur dans la récuperation des types")
                 }
 
-                setCaresTypes(response)
+                setCaresTypes(data)
         }catch(error){
             return(error.message)
         }

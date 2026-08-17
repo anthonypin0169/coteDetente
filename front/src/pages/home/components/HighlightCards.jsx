@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
 import Modal from "@/component/modal/modal"
 import NavLink from "@/component/nav/nav"
+import { apiFetch } from "@/utils/api"
 import "./HighlightCards.scss"
 
 export default function HighlightCards() {
@@ -20,10 +21,9 @@ export default function HighlightCards() {
     useEffect(()=>{
         const loadHighlightCards = async () => {
             try{
-                const data = await fetch ("/api/highlight-cards")
-                const dataJson = await data.json()
+                const { data } = await apiFetch("/api/highlight-cards")
 
-                setHighlightCardList(dataJson)
+                setHighlightCardList(data)
             }catch(error){
                 return(error.message)
             }
@@ -41,14 +41,13 @@ export default function HighlightCards() {
             formData.append("photo", photoUrlState)
 
             try{
-            const uploadProfile = await fetch (`/api/highlight-cards/${selectedCardId}`,{
+            const { ok, data: updatedMember } = await apiFetch(`/api/highlight-cards/${selectedCardId}`, {
                 method : "PUT",
                 body : formData,
-                headers : { Authorization : `Bearer ${token}`}
+                token
             })
-            const updatedMember = await uploadProfile.json()
 
-            if(uploadProfile.ok){
+            if(ok){
                     setHighlightCardList(prev => prev.map(highlightCard =>
                         highlightCard._id === updatedMember._id ? updatedMember : highlightCard
                     ))

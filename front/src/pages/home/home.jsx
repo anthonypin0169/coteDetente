@@ -4,7 +4,8 @@ import HighlightCards from "./components/HighlightCards"
 import CompanyProfile from "./components/CompanyProfile"
 import StaffProfiles from "./components/StaffProfiles"
 import CustomerReviews from "./components/CustomerReviews"
-import Map from "../../component/map/map"    
+import Map from "../../component/map/map"
+import { apiFetch } from "@/utils/api"
 import "./home.scss"
 
 export default function Home() {
@@ -17,14 +18,13 @@ export default function Home() {
     useEffect(() => {
         const loadInstitutImages = async () => {
             try{
-                const institutResponse = await fetch ("/api/photos/category/carrousel-institut")
-                const institutResponseJson = await institutResponse.json()
+                const { data } = await apiFetch("/api/photos/category/carrousel-institut")
 
-                if(!institutResponseJson){
+                if(!data){
                     throw new Error ("erreur dans la récuperation des photos")
                 }
 
-                setCarrouselInstitut(institutResponseJson)
+                setCarrouselInstitut(data)
 
             }catch(error){
                 return(error.message)

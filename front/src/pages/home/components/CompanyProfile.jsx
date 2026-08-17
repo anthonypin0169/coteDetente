@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
 import Carrousel from "@/component/carrousel/carrousel"
 import Modal from "@/component/modal/modal"
+import { apiFetch } from "@/utils/api"
 import "./CompanyProfile.scss"
 
 export default function CompanyProfile({ carrouselInstitut }) {
@@ -19,17 +20,15 @@ export default function CompanyProfile({ carrouselInstitut }) {
     useEffect (() => {
         const loadText = async () => {
             try{
-                const paragraphResponse = await fetch ("/api/content/company-profile")
+                const { ok, data } = await apiFetch("/api/content/company-profile")
 
-                if(paragraphResponse.ok){
-                    const paragraphResponseJson = await paragraphResponse.json()
-
-                    if(!paragraphResponseJson){
+                if(ok){
+                    if(!data){
                         throw new Error ("erreur dans la récuperation des textes")
                     }
 
-                    setTitleState(paragraphResponseJson.title)
-                    setParagraphState(paragraphResponseJson.paragraphs)
+                    setTitleState(data.title)
+                    setParagraphState(data.paragraphs)
                 }
 
             }catch(error){
@@ -41,19 +40,16 @@ export default function CompanyProfile({ carrouselInstitut }) {
 
     const handleTextUpdate = async () => {
         try{
-            const sendUpdateText = await fetch (`/api/content/${"company-profile"}`, {
+            const { ok } = await apiFetch("/api/content/company-profile", {
                 method : "PUT",
-                body : JSON.stringify({
+                body : {
                     "title": editTitle,
                     "paragraphs": editParagraph.split("\n\n")
-                }),
-                headers : {
-                    Authorization : `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                }
+                },
+                token
             })
 
-            if(sendUpdateText.ok){
+            if(ok){
                 setTitleState(editTitle)
                 setParagraphState(editParagraph.split("\n\n"))
 
