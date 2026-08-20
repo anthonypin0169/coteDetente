@@ -59,9 +59,6 @@
 .cares-modal-inputs{
 
 }
-.cares-modal-photo-input{
-
-}
 
 /* Vue 1 */
 .sous-types-vue{
@@ -69,13 +66,19 @@
 
     }
     .sous-types-edit-container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         &__title-label{
-
+            width: 40%;
         }
         &__title-input{
-
+            width: 40%;
         }
         &__btn-bloc{
+            width: 90%;
+            display: flex;
+            justify-content: space-around;
             &--back-btn{
 
             }   
@@ -110,6 +113,25 @@
 
 /* Vue 2 */
 .group-vue{
+    &__photo-input{
+        height: 110px;
+        width: 110px;
+        box-shadow: 1px 1px 5px rgba(95, 95, 95, 0.429);
+        border-radius: 100px;
+        margin-right: 2.5vw;
+        overflow: hidden;
+        color: transparent;
+        cursor: pointer;
+        &::file-selector-button{
+            border: none;
+            background: var(--color-background);
+            color: transparent;
+            cursor: pointer;
+        }
+        .photo-label{
+            align-self: center;
+        }
+    }
     &__add{
         padding-top: 2vw;
         display: flex;
@@ -132,15 +154,34 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        gap: 1vw;
         .edit-list{
             display: flex;
             flex-direction: column;
-            gap: 1vw;
+            justify-content: center;
             margin-top: 3vw;
+            width: 100%;
+            &__edit{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1vw;
+            }
+            &__neutral{
+                width: 100%;
+                &--name{
+                    margin-left: 3vw;                
+                }
+                &--description{
+                    margin-left: 3vw;                    
+                }
+            }
             &__item{
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+                width: 60%;
+                justify-self: center;
             }
             &__btn-bloc{
                 width: 100%;
@@ -218,9 +259,18 @@
                     width: 50%;
                 }
                 &--modify-btn{
-                    
+
                 }
             }
+        }
+    }
+}
+
+@media (min-width: 1024px){
+    .group-vue{
+        &__photo-input{
+            height: 150px;
+            width: 150px;
         }
     }
 }

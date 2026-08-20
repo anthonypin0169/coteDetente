@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import Modal from "@/component/modal/modal"
+import PhotoInput from "@/component/photoInput/photoInput"
 import { apiFetch } from "@/utils/api"
 import "./services.scss"
 
@@ -127,7 +128,7 @@ export default function Services() {
 
 
                         <label htmlFor="type-photo" className="services__modal-edit-view--label">Image</label>
-                        <input type="file" id="type-photo" className="services__modal-edit-view--upload" onChange={(e) => setTypePhoto(e.target.files[0])}/>
+                        <PhotoInput id="type-photo" className="services__modal-edit-view--upload" onChange={setTypePhoto}/>
 
                         <button className="services__modal-edit-view--btn btn" onClick={() => handleUpload()}>Valider</button>
                     </div>

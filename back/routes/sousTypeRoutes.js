@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { getAllSousTypes, getSousTypesByType, createSousType, updateSousType, deleteSousType } = require('../controllers/sousTypeController')
 const protect = require('../middleware/authMiddleware')
+const upload = require('../middleware/uploadSousTypeMedia')
 
 /**
  * @swagger
@@ -52,6 +53,8 @@ router.get('/type/:typeId', getSousTypesByType)
  *                 type: string
  *               intro:
  *                 type: string
+ *               pageTitle:
+ *                 type: string
  *               route:
  *                 type: string
  *               type:
@@ -78,7 +81,7 @@ router.post('/', protect, createSousType)
  *           type: string
  *     requestBody:
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
@@ -86,15 +89,25 @@ router.post('/', protect, createSousType)
  *                 type: string
  *               intro:
  *                 type: string
+ *               pageTitle:
+ *                 type: string
+ *               route:
+ *                 type: string
  *               type:
  *                 type: string
+ *               photo:
+ *                 type: string
+ *                 format: binary
+ *               video:
+ *                 type: string
+ *                 format: binary
  *     responses:
  *       200:
  *         description: Sous-type mis à jour
  *       404:
  *         description: Sous-type introuvable
  */
-router.put('/:id', protect, updateSousType)
+router.put('/:id', protect, upload.fields([{ name: 'photo', maxCount: 1 }, { name: 'video', maxCount: 1 }]), updateSousType)
 
 /**
  * @swagger

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux"
 import Carrousel from "@/component/carrousel/carrousel"
 import StaffProfile from "@/component/staffProfile/staffProfile"
 import Modal from "@/component/modal/modal"
+import PhotoInput from "@/component/photoInput/photoInput"
 import { apiFetch } from "@/utils/api"
 import "./StaffProfiles.scss"
 
@@ -125,7 +126,7 @@ export default function StaffProfiles() {
                 <div className="modal__create-staff-profile">
                     <div className="modal__create-staff-profile--photo">
                         <label htmlFor="create-staff-photo" className="staff-profile-h2">Choisissez une photo :</label>
-                        <input id="create-staff-photo" type="file" onChange={(e) => setStaffPhoto(e.target.files[0])} className="staff-profile-upload"/>
+                        <PhotoInput id="create-staff-photo" onChange={setStaffPhoto} className="staff-profile-upload"/>
                     </div>
                     <div className="modal__create-staff-profile--name">
                         <label htmlFor="create-staff-name" className="staff-profile-h2">Entrez un nom :</label>
@@ -149,7 +150,7 @@ export default function StaffProfiles() {
                     <div className="modal__edit-staff-profile">
                         <div className="modal__edit-staff-profile--photo">
                             <label htmlFor="edit-staff-photo" className="staff-profile-h2">Modifiez la photo :</label>
-                            <input id="edit-staff-photo" type="file" onChange={(e) => setStaffPhoto(e.target.files[0])} className="staff-profile-upload"/>
+                            <PhotoInput id="edit-staff-photo" onChange={setStaffPhoto} className="staff-profile-upload"/>
                         </div>
                         <div className="modal__edit-staff-profile--name">
                             <label htmlFor="edit-staff-name" className="staff-profile-h2">Modifiez un nom :</label>

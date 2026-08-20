@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
 import Carrousel from "@/component/carrousel/carrousel"
 import Modal from "@/component/modal/modal"
+import PhotoInput from "@/component/photoInput/photoInput"
 import { apiFetch } from "@/utils/api"
 import "./HeroCarrousel.scss"
 
@@ -111,7 +112,7 @@ export default function HeroCarrousel({ carrouselInstitut, setCarrouselInstitut 
                     </div>
                     :
                     <div className="modal__upload-vue">
-                        <input onChange={(e) => setUploadFiles(e.target.files[0])} type="file" className="modal__upload-vue--upload" />
+                        <PhotoInput onChange={setUploadFiles} className="modal__upload-vue--upload" />
                         <input onChange={(e) => setUploadDefinition(e.target.value)} value={uploadDefinition} type="text" className="modal__upload-vue--alt" placeholder="Entrez une description :"/>
                         <div className="modal__upload-vue--btn">
                             <button onClick={() => setModifyViewMode("list")} className="btn">Retour</button>

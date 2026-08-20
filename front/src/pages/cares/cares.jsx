@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
 import Modal from "@/component/modal/modal"
+import PhotoInput from "@/component/photoInput/photoInput"
 import { apiFetch } from "@/utils/api"
 
 export default function Cares() {
@@ -14,7 +15,7 @@ export default function Cares() {
     /* Récuperer les sous types, mettre à jour sur le sous type actuel et modifier son titre */
     const [allSousTypes, setAllSousTypes] = useState([])
     const [currentSousType, setCurrentSousType] = useState("")
-    const [actualSousTypeName,setActualSousTypeName] = useState("")
+    const [actualPageTitle, setActualPageTitle] = useState("")
 
     useEffect(()=>{
         const loadSousTypes = async () => {
@@ -36,11 +37,11 @@ export default function Cares() {
     },[sousTypeSlug])
 
 
-    /* Modifier le nom d'un sous-type et n'en cibler qu'un seul */
+    /* Modifier le grand titre de page d'un sous-type et n'en cibler qu'un seul */
     const handleUpdateSousType = async (id) => {
-        
+
         const formData = new FormData()
-        formData.append("name", actualSousTypeName)
+        formData.append("pageTitle", actualPageTitle)
 
         try{
             const { ok, data: updatedTitle } = await apiFetch(`/api/sous-types/${id}`, {
@@ -50,8 +51,11 @@ export default function Cares() {
             })
 
             if (ok){
-                setActualSousTypeName(updatedTitle.name)
+                setActualPageTitle(updatedTitle.pageTitle)
                 setAllSousTypes(prev => prev.map(t => t._id === updatedTitle._id ? updatedTitle : t))
+                if (currentSousType && currentSousType._id === updatedTitle._id) {
+                    setCurrentSousType(updatedTitle)
+                }
 
             }
 
@@ -170,7 +174,7 @@ export default function Cares() {
 
     /* Suppr */
     const handleDeleteGroup = async (id) => {
-        
+
         try{
             const { ok } = await apiFetch(`/api/groups/${id}`, {
             method : "DELETE",
@@ -187,6 +191,37 @@ export default function Cares() {
         }
     }
 
+    /* Modifier un groupe */
+    const [editingGroupId, setEditingGroupId] = useState(null)
+    const [actualGroupName, setActualGroupName] = useState("")
+    const [actualGroupDescription, setActualGroupDescription] = useState("")
+    const [actualGroupPhoto, setActualGroupPhoto] = useState(null)
+
+    const handleUpdateGroup = async (id) => {
+
+        const formData = new FormData()
+        formData.append("name", actualGroupName)
+        formData.append("description", actualGroupDescription)
+        if (actualGroupPhoto) formData.append("photo", actualGroupPhoto)
+
+        try{
+            const { ok, data: updatedGroup } = await apiFetch(`/api/groups/${id}`, {
+                method : "PUT",
+                body : formData,
+                token
+            })
+
+            if (ok){
+                setModalGroups(prev => prev.map(g => g._id === updatedGroup._id ? updatedGroup : g))
+                setGroups(prev => prev.map(g => g._id === updatedGroup._id ? updatedGroup : g))
+                setActualGroupPhoto(null)
+            }
+
+        }catch(error){
+            (error.message)
+        }
+    }
+
     /* Vue 3 */
     const [selectedGroupId, setSelectedGroupId] = useState("")
     const [editingPrestaId, setEditingPrestaId] = useState(null)
@@ -195,7 +230,7 @@ export default function Cares() {
     const [actualPrestaDuration, setActualPrestaDuration] = useState("")
 
 
-    /* Ajouter et supprimer une prestation */
+    /* Add, modif et supp une prestation */
     const [newNamePresta, setNewNamePresta] = useState("")
     const [newPrestaDuration, setNewPrestaDuration] = useState("")
     const [newPricePresta, setNewPricePresta] = useState("")
@@ -204,16 +239,15 @@ export default function Cares() {
     /* Ajout */
     const handleCreatePresta = async () => {
 
-        const formData = new FormData()
-        formData.append("name", newNamePresta)
-        formData.append("price", newPricePresta)
-        formData.append("duration", newPrestaDuration)
-        formData.append("group", selectedGroupId)
-
         try{
             const { ok, data: newPrestaUploaded } = await apiFetch("/api/prestations", {
                 method : "POST",
-                body : formData,
+                body : {
+                    name : newNamePresta,
+                    price : newPricePresta,
+                    duration : newPrestaDuration,
+                    group : selectedGroupId,
+                },
                 token
             })
 
@@ -229,7 +263,25 @@ export default function Cares() {
             (error.message)
         }
     }
-
+    /* Modif */
+    const handleUpdatePresta = async (id) => {
+        
+        try{
+            const { ok, data: updatedPresta } = await apiFetch(`/api/prestations/${id}`, { 
+                    method: "PUT", 
+                    body: {
+                        name: actualPrestaName,
+                        price: actualPrestaPrice,
+                        duration: actualPrestaDuration
+                    },
+                    token })
+            if(ok){
+                setPrestations(prev => prev.map(p => p._id === updatedPresta._id ? updatedPresta : p))
+            }
+        }catch(error){
+            (error.message)
+        }
+    }
     /* Suppr */
     const handleDeletePresta = async (id) => {
         
@@ -250,7 +302,7 @@ export default function Cares() {
 
     return (
         <main className="cares">
-         <h1 className="cares__title">Découvrez nos soins</h1>
+         <h1 className="cares__title">{currentSousType && currentSousType.pageTitle}</h1>
 
             <section className="cares__section">
                 {isAuthenticated &&
@@ -290,8 +342,8 @@ export default function Cares() {
                             <div className="sous-types-vue__full-container" key={type._id}>
                                 {editingSousTypeId === type._id ?
                                     <div className="sous-types-edit-container">
-                                        <label className="sous-types-edit-container__title-label" htmlFor="sous-type-title">Choisir un titre :</label>
-                                        <input className="sous-types-edit-container__title-input" id="sous-type-title" type="text" value={actualSousTypeName} onChange={(e)=> setActualSousTypeName(e.target.value)}/>
+                                        <label className="sous-types-edit-container__title-label" htmlFor="sous-type-title">Choisir un titre de page :</label>
+                                        <input className="sous-types-edit-container__title-input" id="sous-type-title" type="text" value={actualPageTitle} onChange={(e)=> setActualPageTitle(e.target.value)}/>
                                         <div className="sous-types-edit-container__btn-bloc">
                                             <button className="sous-types-edit-container__btn-bloc--back-btn btn" type="button" onClick={() => setEditingSousTypeId(null)}>Retour</button>
                                             <button className="sous-types-edit-container__btn-bloc--ok-btn btn" type="button" onClick={() => {handleUpdateSousType(type._id) ; setEditingSousTypeId(null)}}>Valider le titre</button>
@@ -302,7 +354,7 @@ export default function Cares() {
                                     <div className="sous-types-neutral-container">
                                         <h2 className="sous-types-neutral-container--title">{type.name}</h2>
                                         <div className="sous-types-neutral-container__btn-bloc">
-                                            <button className="sous-types-neutral-container__btn-bloc--title-modify-btn btn" type="button" onClick={() => {setEditingSousTypeId(type._id) ; setActualSousTypeName(type.name)}}>Modifier le titre</button>
+                                            <button className="sous-types-neutral-container__btn-bloc--title-modify-btn btn" type="button" onClick={() => {setEditingSousTypeId(type._id) ; setActualPageTitle(type.pageTitle)}}>Modifier le titre</button>
                                             <button className="sous-types-neutral-container__btn-bloc--content-modify-btn btn" type="button" onClick={() => {setModalVue("groups"); setSelectedSousTypeId(type._id)}}>Modifier le contenu</button>
                                         </div>
                                     </div>
@@ -325,8 +377,8 @@ export default function Cares() {
                                     <input className="cares-modal-inputs" type="text" id="description-adding" value={newDescriptionGroup} onChange={(e) => setNewDescriptionGroup(e.target.value)}/>
                                 </div>
                                 <div className="group-vue__add--bloc">
-                                    <label className="cares-modal-labels" htmlFor="photo-adding">Selectionner une photo</label>
-                                    <input className="cares-modal-photo-input" type="file" id="photo-adding" onChange={(e) => setNewPhotoGroup(e.target.files[0])}/>
+                                    <label className="cares-modal-labels photo-label" htmlFor="photo-adding">Selectionner une photo</label>
+                                    <PhotoInput id="photo-adding" className="group-vue__photo-input" onChange={setNewPhotoGroup}/>
                                 </div>
                                 <div className="group-vue__add--btn-bloc">
                                     <button className="btn" type="button" onClick={() => setIsAddingGroup(false)}>Retour</button>
@@ -337,22 +389,36 @@ export default function Cares() {
                             <div className="group-vue__edit">
                                 {modalGroups.map((group) => (
                                     <div className="edit-list" key={group._id}>
-                                        <div className="edit-list__item">
-                                            <label className="cares-modal-labels" htmlFor="title-edit">Modifier le nom du groupe</label>
-                                            <input className="cares-modal-inputs" type="text" id="title-edit"/>
-                                        </div>
-                                        <div className="edit-list__item">
-                                            <label className="cares-modal-labels" htmlFor="description-edit">Modifier la description</label>
-                                            <input className="cares-modal-inputs" type="text" id="description-edit"/>
-                                        </div>
-                                        <div className="edit-list__item">
-                                            <label className="cares-modal-labels" htmlFor="photo-edit">Modifier la photo</label>
-                                            <input className="cares-modal-photo-input" type="file" id="photo-edit"/>
-                                        </div>
-                                        <div className="edit-list__btn-bloc">
-                                            <button type="button" className="suppr-and-modify-btn btn" onClick={() => handleDeleteGroup(group._id)}>Supprimer ce groupe</button>
-                                            <button type="button" onClick={() => {setModalVue("prestations") ; setSelectedGroupId(group._id)}} className="suppr-and-modify-btn btn">Modifier les prestations</button>
-                                        </div>
+                                        {editingGroupId === group._id ?
+                                            <div className="edit-list__edit">
+                                                <div className="edit-list__item">
+                                                    <label className="cares-modal-labels" htmlFor="title-edit">Modifier le nom du groupe</label>
+                                                    <input className="cares-modal-inputs" type="text" id="title-edit" value={actualGroupName} onChange={(e) => setActualGroupName(e.target.value)}/>
+                                                </div>
+                                                <div className="edit-list__item">
+                                                    <label className="cares-modal-labels" htmlFor="description-edit">Modifier la description</label>
+                                                    <input className="cares-modal-inputs" type="text" id="description-edit" value={actualGroupDescription} onChange={(e) => setActualGroupDescription(e.target.value)}/>
+                                                </div>
+                                                <div className="edit-list__item">
+                                                    <label className="cares-modal-labels" htmlFor="photo-edit">Modifier la photo</label>
+                                                    <PhotoInput id="photo-edit" className="group-vue__photo-input" onChange={setActualGroupPhoto}/>
+                                                </div>
+                                                <div className="edit-list__btn-bloc">
+                                                    <button type="button" className="btn" onClick={() => setEditingGroupId(null)}>Retour</button>
+                                                    <button type="button" className="btn" onClick={() => {handleUpdateGroup(group._id) ; setEditingGroupId(null)}}>Valider</button>
+                                                </div>
+                                            </div>
+                                        :
+                                            <div className="edit-list__neutral">
+                                                <p className="edit-list__neutral--name">{group.name}</p>
+                                                <p className="edit-list__neutral--description">{group.description}</p>
+                                                <div className="edit-list__btn-bloc">
+                                                    <button type="button" className="suppr-and-modify-btn btn" onClick={() => {setEditingGroupId(group._id) ; setActualGroupName(group.name) ; setActualGroupDescription(group.description)}}>Modifier</button>
+                                                    <button type="button" className="suppr-and-modify-btn btn" onClick={() => handleDeleteGroup(group._id)}>Supprimer ce groupe</button>
+                                                    <button type="button" onClick={() => {setModalVue("prestations") ; setSelectedGroupId(group._id)}} className="suppr-and-modify-btn btn">Modifier les prestations</button>
+                                                </div>
+                                            </div>
+                                        }
                                     </div>
                                 ))}
                                 <div className="edit-btn-bloc">
@@ -397,6 +463,7 @@ export default function Cares() {
                                         </div>
                                         <div className="edit-and-add-container__edit-presta--btn-bloc">
                                             <button type="button" className="btn" onClick={() => setEditingPrestaId(null)}>Retour</button>
+                                            <button type="button" className="btn" onClick={() => {handleUpdatePresta(presta._id); setEditingPrestaId(null)}}>Valider</button>
                                             <button type="button" className="btn" onClick={() => handleDeletePresta(presta._id)}>Supprimer la prestation</button>
                                         </div>
                                     </div>

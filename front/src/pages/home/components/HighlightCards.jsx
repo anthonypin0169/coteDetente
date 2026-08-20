@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
 import Modal from "@/component/modal/modal"
 import NavLink from "@/component/nav/nav"
+import PhotoInput from "@/component/photoInput/photoInput"
 import { apiFetch } from "@/utils/api"
 import "./HighlightCards.scss"
 
@@ -110,7 +111,7 @@ export default function HighlightCards() {
                             <div className="highlight-modal-card-vue__content--front">
                                 <h3 className="highlight-h3">Face recto de la carte.</h3>
                                 <label htmlFor="highlight-photo" className="highlight-label">Choisir une photo :</label>
-                                <input type="file" id="highlight-photo"  className="highlight-upload" onChange={(e) => setPhotoUrlState(e.target.files[0])} />
+                                <PhotoInput id="highlight-photo" className="highlight-upload" onChange={setPhotoUrlState} />
 
                                 <label htmlFor="highlight-front-title" className="highlight-label">Titre :</label>
                                 <input type="text" id="highlight-front-title" className="highlight-input"  onChange={(e) => setFrontTitleState(e.target.value)} value={frontTitleState}/>
