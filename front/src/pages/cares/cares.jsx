@@ -363,7 +363,7 @@ export default function Cares() {
                         ))}
                 
                     </div>
-                /* Vue 2 */    
+                /* Vue 2 */ 
                 : modalVue === "groups" ?
                     <div className="group-vue">
                         {isAddingGroup ?
