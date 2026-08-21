@@ -142,56 +142,7 @@ export default function Epilation() {
     }
 
     /* Vue 2 */
-    /* Ajouter et supprimer un groupe */
-    const [newNameGroup, setNewNameGroup] = useState("")
-    const [newDescriptionGroup, setNewDescriptionGroup] = useState("")
-    const [newPhotoGroup, setNewPhotoGroup] = useState(null)
-    const [isAddingGroup, setIsAddingGroup] = useState(false)
-
-    const handleCreateGroup = async () => {
-
-        const formData = new FormData()
-        formData.append("name", newNameGroup)
-        formData.append("description", newDescriptionGroup)
-        formData.append("photo", newPhotoGroup)
-        formData.append("sousType", actualSousTypeId)
-
-        try{
-            const { ok, data: newGroupUploaded } = await apiFetch("/api/groups", {
-                method : "POST",
-                body : formData,
-                token
-            })
-
-            if (ok){
-                setNewNameGroup("")
-                setNewDescriptionGroup("")
-                setNewPhotoGroup(null)
-                setGroups(prev => [...prev, newGroupUploaded])
-                setIsAddingGroup(false)
-            }
-
-        }catch(error){
-            (error.message)
-        }
-    }
-
-    const handleDeleteGroup = async (id) => {
-
-        try{
-            const { ok } = await apiFetch(`/api/groups/${id}`, {
-                method : "DELETE",
-                token
-            })
-
-            if (ok){
-                setGroups(prev => prev.filter(g => g._id !== id))
-            }
-        }catch(error){
-            (error.message)
-        }
-    }
-
+    
     /* Modifier un groupe */
     const [editingGroupId, setEditingGroupId] = useState(null)
     const [actualGroupName, setActualGroupName] = useState("")
@@ -298,11 +249,65 @@ export default function Epilation() {
         }
     }
 
+    /* Retrouver chaque groupe par son rôle */
+    const prestaGroup = groups.find(g => g.role === "presta")
+    const forfaitGroup = groups.find(g => g.role === "forfait")
+    const bronzageGroup = groups.find(g => g.role === "bronzage")
+
+
+
     return (
         <main>
+            <h1>Épilations et bronzages</h1>
             {isAuthenticated &&
-                <button onClick={() => setModalIsOpen(true)}>Modifier</button>
+                <button className="btn" onClick={() => setModalIsOpen(true)}>Modifier</button>
             }
+
+            <section className="epilation-section">
+                <div className="epilation-section__presta-bloc">
+                    {prestations.filter(p => p.group === prestaGroup?._id).map((presta) => (
+                        <div key={presta._id} className="epilation-section__presta-bloc--item">
+                            <p className="item-title">{presta.name}</p>
+                            <div className="item-text">
+                                <p className="item-text__price">{presta.price}</p>
+                                <p className="item-text__duration">{presta.duration}</p>
+                            </div>
+                        </div>                        
+                    ))}
+                </div>
+                <div className="epilation-section__package-bloc">
+                    {prestations.filter(f => f.group === forfaitGroup?._id).map((presta) => (
+                        <div key={presta._id} className="epilation-section__package-bloc--item">
+                            <p className="item-title">{presta.name}</p>
+                            <div className="item-text">
+                                <p className="item-text__price">{presta.price}</p>
+                                <p className="item-text__duration">{presta.duration}</p>
+                            </div>
+                        </div>   
+                    ))}
+                </div>
+                <div className="epilation-section__image-bloc">
+                    <img src={sousType.photoUrl} alt="" className="epilation-section__image-bloc--photo"/>
+                </div>
+            </section>
+
+            <section className="tanning-section">
+                <div className="tanning-section__presta-bloc">
+                    {prestations.filter(f => f.group === bronzageGroup?._id).map((presta) => (
+                        <div key={presta._id} className="tanning-section__presta-bloc--item">
+                            <p className="item-title">{presta.name}</p>
+                            <div className="item-text">
+                                <p className="item-text__price">{presta.price}</p>
+                                <p className="item-text__duration">{presta.duration}</p>
+                            </div>
+                        </div>   
+                    ))}
+                </div>
+                <div className="tanning-section__video-bloc">
+                    <video src={sousType.videoUrl} autoPlay muted loop playsInline></video>
+                </div>
+            </section>
+
             <Modal isOpen={modalIsOpen} onClose={() => {setModalIsOpen(false) ; setModalVue("media")}} variant="modify">
                 
             {modalVue === "media" ?
@@ -322,26 +327,7 @@ export default function Epilation() {
             /* Vue 2 */   
             : modalVue === "groups" ?
                 <div className="group-vue">
-                    {isAddingGroup ?
-                        <div className="group-vue__add">
-                            <div className="group-vue__add--bloc">
-                                <label className="cares-modal-labels" htmlFor="title-adding">Entrer un nom</label>
-                                <input className="cares-modal-inputs" type="text" id="title-adding" value={newNameGroup} onChange={(e) => setNewNameGroup(e.target.value)}/>
-                            </div>
-                            <div className="group-vue__add--bloc">
-                                <label className="cares-modal-labels" htmlFor="description-adding">Entrer une description</label>
-                                <input className="cares-modal-inputs" type="text" id="description-adding" value={newDescriptionGroup} onChange={(e) => setNewDescriptionGroup(e.target.value)}/>
-                            </div>
-                            <div className="group-vue__add--bloc">
-                                <label className="cares-modal-labels photo-label" htmlFor="photo-adding">Selectionner une photo</label>
-                                <PhotoInput id="photo-adding" className="group-vue__photo-input" onChange={setNewPhotoGroup}/>
-                            </div>
-                            <div className="group-vue__add--btn-bloc">
-                                <button className="btn" type="button" onClick={() => setIsAddingGroup(false)}>Retour</button>
-                                <button className="btn" type="button" onClick={() => handleCreateGroup()}>Valider</button>
-                            </div>
-                        </div>
-                    :
+                    {
                         <div className="group-vue__edit">
                             {groups.map((group) => (
                                 <div className="edit-list" key={group._id}>
@@ -370,7 +356,6 @@ export default function Epilation() {
                                             <p className="edit-list__neutral--description">{group.description}</p>
                                             <div className="edit-list__btn-bloc">
                                                 <button type="button" className="suppr-and-modify-btn btn" onClick={() => {setEditingGroupId(group._id) ; setActualGroupName(group.name) ; setActualGroupDescription(group.description)}}>Modifier</button>
-                                                <button type="button" className="suppr-and-modify-btn btn" onClick={() => handleDeleteGroup(group._id)}>Supprimer ce groupe</button>
                                                 <button type="button" onClick={() => {setModalVue("prestations") ; setSelectedGroupId(group._id)}} className="suppr-and-modify-btn btn">Modifier les prestations</button>
                                             </div>
                                         </div>
@@ -379,7 +364,6 @@ export default function Epilation() {
                             ))}
                             <div className="edit-btn-bloc">
                                 <button type="button" onClick={() => setModalVue("media")} className="edit-btn-bloc__back-btn btn">Retour</button>
-                                <button type="button" className="edit-btn-bloc__add-btn btn" onClick={() => setIsAddingGroup(true)}>Ajouter un groupe</button>
                             </div>
                         </div>
                     }

@@ -1,0 +1,44 @@
+main{
+    padding-top: 10vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.epilation-section{
+    &__presta-bloc{
+        &--item{
+
+        }
+    }
+    &__package-bloc{
+        &-item{
+
+        }
+    }
+    &__image-bloc{
+        &--photo{
+            
+        }
+    }
+}
+.tanning-section{
+    &__presta-bloc{
+        &--item{
+
+        }
+    }
+    &__video-bloc{
+
+    }
+}
+.item-title{
+
+}
+.item-text{
+    &--price{
+
+    }
+    &--duration{
+
+    }
+}
