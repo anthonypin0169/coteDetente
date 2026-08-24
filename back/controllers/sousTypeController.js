@@ -91,10 +91,12 @@ exports.deleteSousType = async (req, res) => {
     const groupIds = groups.map(group => group._id)
     await Prestation.deleteMany({ group: { $in: groupIds } })
     groups.forEach(group => {
-      if (group.photoUrl) {
-        const filepath = path.join('uploads', path.basename(group.photoUrl))
-        if (fs.existsSync(filepath)) fs.unlinkSync(filepath)
-      }
+      ;[group.photoUrl, group.videoUrl].forEach(url => {
+        if (url) {
+          const filepath = path.join('uploads', path.basename(url))
+          if (fs.existsSync(filepath)) fs.unlinkSync(filepath)
+        }
+      })
     })
     await Group.deleteMany({ sousType: sousType._id })
     await sousType.deleteOne()

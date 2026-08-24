@@ -3,6 +3,7 @@ const router = express.Router()
 const { getAllGroups, getGroupsBySousType, createGroup, updateGroup, deleteGroup } = require('../controllers/groupController')
 const protect = require('../middleware/authMiddleware')
 const upload = require('../middleware/upload')
+const uploadMedia = require('../middleware/uploadSousTypeMedia')
 
 /**
  * @swagger
@@ -93,13 +94,16 @@ router.post('/', protect, upload.single('photo'), createGroup)
  *               photo:
  *                 type: string
  *                 format: binary
+ *               video:
+ *                 type: string
+ *                 format: binary
  *     responses:
  *       200:
  *         description: Groupe mis à jour
  *       404:
  *         description: Groupe introuvable
  */
-router.put('/:id', protect, upload.single('photo'), updateGroup)
+router.put('/:id', protect, uploadMedia.fields([{ name: 'photo', maxCount: 1 }, { name: 'video', maxCount: 1 }]), updateGroup)
 
 /**
  * @swagger

@@ -262,7 +262,7 @@ export default function Epilation() {
             {isAuthenticated &&
                 <button className="btn" onClick={() => setModalIsOpen(true)}>Modifier</button>
             }
-
+            
             <section className="epilation-section">
                 <div className="epilation-section__presta-bloc">
                     {prestations.filter(p => p.group === prestaGroup?._id).map((presta) => (

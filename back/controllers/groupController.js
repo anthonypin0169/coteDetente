@@ -46,19 +46,29 @@ exports.updateGroup = async (req, res) => {
     const group = await Group.findById(req.params.id)
     if (!group) return res.status(404).json({ message: 'Groupe introuvable' })
 
-    if (req.file) {
+    const photoFile = req.files?.photo?.[0]
+    if (photoFile) {
       if (group.photoUrl) {
-        const oldFilename = path.basename(group.photoUrl)
-        const oldPath = path.join('uploads', oldFilename)
+        const oldPath = path.join('uploads', path.basename(group.photoUrl))
         if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath)
       }
       const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.avif`
-      const outputPath = path.join('uploads', filename)
-      await sharp(req.file.buffer)
+      await sharp(photoFile.buffer)
         .resize({ width: 1200, withoutEnlargement: true })
         .avif({ quality: 60 })
-        .toFile(outputPath)
+        .toFile(path.join('uploads', filename))
       group.photoUrl = `/uploads/${filename}`
+    }
+
+    const videoFile = req.files?.video?.[0]
+    if (videoFile) {
+      if (group.videoUrl) {
+        const oldPath = path.join('uploads', path.basename(group.videoUrl))
+        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath)
+      }
+      const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}${path.extname(videoFile.originalname)}`
+      fs.writeFileSync(path.join('uploads', filename), videoFile.buffer)
+      group.videoUrl = `/uploads/${filename}`
     }
 
     if (req.body.name !== undefined) group.name = req.body.name
@@ -77,11 +87,12 @@ exports.deleteGroup = async (req, res) => {
     const group = await Group.findById(req.params.id)
     if (!group) return res.status(404).json({ message: 'Groupe introuvable' })
 
-    if (group.photoUrl) {
-      const filename = path.basename(group.photoUrl)
-      const filepath = path.join('uploads', filename)
-      if (fs.existsSync(filepath)) fs.unlinkSync(filepath)
-    }
+    ;[group.photoUrl, group.videoUrl].forEach(url => {
+      if (url) {
+        const filepath = path.join('uploads', path.basename(url))
+        if (fs.existsSync(filepath)) fs.unlinkSync(filepath)
+      }
+    })
 
     await Prestation.deleteMany({ group: group._id })
     await group.deleteOne()
