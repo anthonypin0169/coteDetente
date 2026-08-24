@@ -275,19 +275,21 @@ export default function Epilation() {
                         </div>                        
                     ))}
                 </div>
-                <div className="epilation-section__package-bloc">
-                    {prestations.filter(f => f.group === forfaitGroup?._id).map((presta) => (
-                        <div key={presta._id} className="epilation-section__package-bloc--item">
-                            <p className="item-title">{presta.name}</p>
-                            <div className="item-text">
-                                <p className="item-text__price">{presta.price}</p>
-                                <p className="item-text__duration">{presta.duration}</p>
-                            </div>
-                        </div>   
-                    ))}
-                </div>
-                <div className="epilation-section__image-bloc">
-                    <img src={sousType.photoUrl} alt="" className="epilation-section__image-bloc--photo"/>
+                <div className="epilation-section__package-container">
+                    <div className="epilation-section__package-container--presta-bloc">
+                        {prestations.filter(f => f.group === forfaitGroup?._id).map((presta) => (
+                            <div key={presta._id} className="epilation-section__package-container--presta-bloc--item">
+                                <p className="item-title">{presta.name}</p>
+                                <div className="item-text">
+                                    <p className="item-text__price">{presta.price}</p>
+                                    <p className="item-text__duration">{presta.duration}</p>
+                                </div>
+                            </div>   
+                        ))}
+                    </div>
+                    <div className="epilation-section__package-container--image-bloc">
+                        <img src={sousType.photoUrl} alt="" className="epilation-section__package-container--image-bloc--photo"/>
+                    </div>
                 </div>
             </section>
 
@@ -304,7 +306,7 @@ export default function Epilation() {
                     ))}
                 </div>
                 <div className="tanning-section__video-bloc">
-                    <video src={sousType.videoUrl} autoPlay muted loop playsInline></video>
+                    <video src={sousType.videoUrl} autoPlay muted loop playsInline className="tanning-section__video-bloc--video"></video>
                 </div>
             </section>
 
@@ -312,16 +314,20 @@ export default function Epilation() {
                 
             {modalVue === "media" ?
             /* Vue 1 */   
-                <div>
-                    <div>
-                        <label htmlFor="">Ajouter ou modifier une photo</label>
-                        <PhotoInput onChange={setNewSousTypePhoto}/>
-                        <label htmlFor="">Ajouter ou modifier une Video</label>
-                        <input type="file" onChange={(e) => setNewSousTypeVideo(e.target.files[0])}/>
+                <div className="media-vue">
+                    <div className="media-vue__input-bloc">
+                        <div className="media-vue__input-bloc--photo">
+                            <label className="cares-modal-labels" htmlFor="photo-input">Ajouter ou modifier une photo</label>
+                            <PhotoInput className="group-vue__photo-input" id="photo-input" onChange={setNewSousTypePhoto}/>
+                        </div>
+                        <div className="media-vue__input-bloc--video">
+                            <label className="cares-modal-labels" htmlFor="video-input">Ajouter ou modifier une Video</label>
+                            <input className="cares-modal-inputs" id="video-input" type="file" onChange={(e) => setNewSousTypeVideo(e.target.files[0])}/>
+                        </div>
                     </div>
-                    <div>
-                        <button type="button" onClick={() => {handleCreateMedia(); setModalVue("groups")}}>Valider</button>
-                        <button type="button" onClick={() => setModalVue("groups")}>Étape suivante</button>
+                    <div className="media-vue__btn-bloc">
+                        <button type="button" className="btn" onClick={() => {handleCreateMedia(); setModalVue("groups")}}>Valider</button>
+                        <button type="button" className="btn" onClick={() => setModalVue("groups")}>Étape suivante</button>
                     </div>
                 </div>
             /* Vue 2 */   
@@ -340,10 +346,6 @@ export default function Epilation() {
                                             <div className="edit-list__item">
                                                 <label className="cares-modal-labels" htmlFor="description-edit">Modifier la description</label>
                                                 <input className="cares-modal-inputs" type="text" id="description-edit" value={actualGroupDescription} onChange={(e) => setActualGroupDescription(e.target.value)}/>
-                                            </div>
-                                            <div className="edit-list__item">
-                                                <label className="cares-modal-labels" htmlFor="photo-edit">Modifier la photo</label>
-                                                <PhotoInput id="photo-edit" className="group-vue__photo-input" onChange={setActualGroupPhoto}/>
                                             </div>
                                             <div className="edit-list__btn-bloc">
                                                 <button type="button" className="btn" onClick={() => setEditingGroupId(null)}>Retour</button>
