@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { getAllPrestations, getPrestationsByGroup, createPrestation, updatePrestation, deletePrestation } = require('../controllers/prestationController')
 const protect = require('../middleware/authMiddleware')
+const uploadMedia = require('../middleware/uploadSousTypeMedia')
 
 /**
  * @swagger
@@ -78,7 +79,7 @@ router.post('/', protect, createPrestation)
  *           type: string
  *     requestBody:
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
@@ -90,13 +91,18 @@ router.post('/', protect, createPrestation)
  *                 type: string
  *               group:
  *                 type: string
+ *               description:
+ *                 type: string
+ *               video:
+ *                 type: string
+ *                 format: binary
  *     responses:
  *       200:
  *         description: Prestation mise à jour
  *       404:
  *         description: Prestation introuvable
  */
-router.put('/:id', protect, updatePrestation)
+router.put('/:id', protect, uploadMedia.single('video'), updatePrestation)
 
 /**
  * @swagger

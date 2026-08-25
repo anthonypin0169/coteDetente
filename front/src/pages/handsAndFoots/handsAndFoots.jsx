@@ -10,6 +10,7 @@ export default function HandsAndFoots() {
     const isAuthenticated = useSelector((state)=> state.auth.isAuthenticated)
     const token = useSelector((state) => state.auth.token)
 
+    
     /* Récuperer le type de la page */
     const [pageType, setPageType] = useState([])
     const actualTypeId = pageType._id
@@ -35,6 +36,7 @@ export default function HandsAndFoots() {
         }
         loadTypes()
     },[])
+
 
     /* Récuperer le sous-type correspondant */
     const [sousType, setSousType] = useState([])
@@ -109,7 +111,7 @@ export default function HandsAndFoots() {
     },[groups])
 
 
-        /* Boite modale */
+    /* Boite modale */
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const [modalVue, setModalVue] = useState("groups")
 
@@ -240,22 +242,63 @@ export default function HandsAndFoots() {
 
             <section className="gel-section">
                 <div className="gel-section__first-division">
-                    <div className="gel-section__first-division--video-bloc"></div>
-                    <div className="gel-section__first-division--presta-bloc"></div>
+                    <div className="gel-section__first-division--video-bloc">
+                        <video src={posesDeposeComblagesGroup?.videoUrl} autoPlay muted loop playsInline></video>
+                    </div>
+                    <div className="gel-section__first-division--presta-bloc">
+                        {prestations.filter((p) => p.group === posesDeposeComblagesGroup?._id).map((presta) => (
+                            <div key={presta._id} className="gel-section__first-division--presta-bloc--item">
+                                <p className="item-title">{presta.name}</p>
+                                <div className="item-text">
+                                    <p className="item-text--price">{presta.price}</p>
+                                    <p className="item-text--duration">{presta.duration}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
                 <div className="gel-section__second-division">
-                    <div className="gel-section__second-division--photo-bloc"></div>
-                    <div className="gel-section__second-division--text-bloc"></div>
+                    <div className="gel-section__second-division--photo-bloc">
+                        <img src={posesDeposeComblagesGroup?.photoUrl} alt="" />
+                    </div>
+                    <div className="gel-section__second-division--text-bloc">
+                        <p>{posesDeposeComblagesGroup?.description}</p>
+                    </div>
                 </div>
             </section>
             <section className="manucure-section">
                 <div className="manucure-section__first-division">
-                    <div className="manucure-section__first-division--presta-bloc"></div>
-                    <div className="manucure-section__first-division--video-bloc"></div>
+                    <div className="manucure-section__first-division--presta-bloc">
+                        {prestations.filter((p) => p.group === vernisMotifsGroup?._id).map((presta) => (
+                            <div key={presta._id} className="manucure-section__first-division--presta-bloc--item">
+                                <p className="item-title">{presta.name}</p>
+                                <div className="item-text">
+                                    <p className="item-text--price">{presta.price}</p>
+                                    <p className="item-text--duration">{presta.duration}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="manucure-section__first-division--video-bloc">
+                        <video src={vernisMotifsGroup?.videoUrl} autoPlay muted loop playsInline></video>
+                    </div>
                 </div>
+
                 <div className="manucure-section__second-division">
-                    <div className="manucure-section__second-division--text-bloc"></div>
-                    <div className="manucure-section__second-division--presta-bloc"></div>
+                    <div className="manucure-section__second-division--text-bloc">
+                        <p>{manucuresGroup?.description}</p>
+                    </div>
+                    <div className="manucure-section__second-division--presta-bloc">
+                        {prestations.filter((p) => p.group === manucuresGroup?._id).map((presta) => (
+                            <div key={presta._id} className="manucure-section__second-division--presta-bloc--item">
+                                <p className="item-title">{presta.name}</p>
+                                <div className="item-text">
+                                    <p className="item-text--price">{presta.price}</p>
+                                    <p className="item-text--duration">{presta.duration}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </section>
 

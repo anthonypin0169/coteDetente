@@ -94,6 +94,13 @@ exports.deleteGroup = async (req, res) => {
       }
     })
 
+    const prestations = await Prestation.find({ group: group._id })
+    prestations.forEach(prestation => {
+      if (prestation.videoUrl) {
+        const filepath = path.join('uploads', path.basename(prestation.videoUrl))
+        if (fs.existsSync(filepath)) fs.unlinkSync(filepath)
+      }
+    })
     await Prestation.deleteMany({ group: group._id })
     await group.deleteOne()
     res.json({ message: 'Groupe supprimé' })
