@@ -22,7 +22,13 @@ exports.getPrestationsByGroup = async (req, res) => {
 
 exports.createPrestation = async (req, res) => {
   try {
-    const prestation = await Prestation.create(req.body)
+    let videoUrl
+    if (req.file) {
+      const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}${path.extname(req.file.originalname)}`
+      fs.writeFileSync(path.join('uploads', filename), req.file.buffer)
+      videoUrl = `/uploads/${filename}`
+    }
+    const prestation = await Prestation.create({ ...req.body, videoUrl })
     res.status(201).json(prestation)
   } catch (error) {
     res.status(500).json({ message: error.message })

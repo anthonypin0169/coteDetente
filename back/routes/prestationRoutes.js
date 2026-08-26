@@ -44,7 +44,7 @@ router.get('/group/:groupId', getPrestationsByGroup)
  *       - bearerAuth: []
  *     requestBody:
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             required: [name, group]
@@ -57,11 +57,16 @@ router.get('/group/:groupId', getPrestationsByGroup)
  *                 type: string
  *               group:
  *                 type: string
+ *               description:
+ *                 type: string
+ *               video:
+ *                 type: string
+ *                 format: binary
  *     responses:
  *       201:
  *         description: Prestation créée
  */
-router.post('/', protect, createPrestation)
+router.post('/', protect, uploadMedia.single('video'), createPrestation)
 
 /**
  * @swagger

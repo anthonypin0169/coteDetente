@@ -114,21 +114,27 @@ export default function Makeup() {
     const [isAddingPresta, setIsAddingPresta] = useState(false)
 
     const handleCreatePresta = async () => {
+        const formData = new FormData()
+        formData.append("name", newNamePresta)
+        formData.append("price", newPricePresta)
+        formData.append("duration", newPrestaDuration)
+        formData.append("description", actualPrestaDescription)
+        formData.append("group", actualGroupId)
+        if (actualPrestaVideo) formData.append("video", actualPrestaVideo)
+
         try{
             const { ok, data : newPrestaUploaded } = await apiFetch("/api/prestations",{
                 method : "POST",
-                body: { 
-                        name : newNamePresta, 
-                        price : newPricePresta, 
-                        duration : newPrestaDuration, 
-                        group: actualGroupId 
-                    }, token
+                body: formData, 
+                token
             })
-            
+
             if(ok){
                 setNewNamePresta("")
                 setNewPricePresta("")
                 setNewPrestaDuration("")
+                setActualPrestaDescription("")
+                setActualPrestaVideo(null)
                 setPresta((prev)=>[...prev, newPrestaUploaded])
                 setIsAddingPresta(false)
             }
@@ -142,7 +148,7 @@ export default function Makeup() {
     const [actualPrestaPrice, setActualPrestaPrice] = useState("")
     const [actualPrestaDuration, setActualPrestaDuration] = useState("")
     const [actualPrestaDescription, setActualPrestaDescription] = useState("")
-    const [actualPrestaVideo, setActualPrestaVideo] = useState("")    
+    const [actualPrestaVideo, setActualPrestaVideo] = useState(null)    
     const [editingPrestaId, setEditingPrestaId] = useState("")
 
     const handleUpdatePresta = async (id) => {
@@ -190,7 +196,109 @@ export default function Makeup() {
 
     return (
         <main>
+            {isAuthenticated &&
+                <button className="btn" onClick={() => setModalIsOpen(true)}>Modifier</button>
+            }
 
+            <Modal isOpen={modalIsOpen} onClose={() => setModalIsOpen(false)} variant="modify">
+                <div className="prestation-vue">
+                    {isAddingPresta ? 
+                        <div className="prestation-vue__new-add">
+                            <div className="prestation-vue__new-add--input-bloc">
+                                <label className="cares-modal-labels" htmlFor="presta-name-adding">Entrer un nom</label>
+                                <input className="cares-modal-inputs" type="text" id="presta-name-adding" value={newNamePresta} onChange={(e) => setNewNamePresta(e.target.value)}/>
+                            </div>
+                            <div className="prestation-vue__new-add--input-bloc">
+                                <label className="cares-modal-labels" htmlFor="presta-price-adding">Entrer un prix</label>
+                                <input className="cares-modal-inputs" type="text" id="presta-price-adding" value={newPricePresta} onChange={(e) => setNewPricePresta(e.target.value)}/>
+                            </div>
+                            <div className="prestation-vue__new-add--input-bloc">
+                                <label className="cares-modal-labels" htmlFor="presta-time-adding">Entrer une durée</label>
+                                <input className="cares-modal-inputs" type="text" id="presta-time-adding" value={newPrestaDuration} onChange={(e) => setNewPrestaDuration(e.target.value)}/>
+                            </div>
+                            <div className="prestation-vue__new-add--input-bloc">
+                                <label className="cares-modal-labels" htmlFor="presta-description-adding">Entrer une description</label>
+                                <input className="cares-modal-inputs" type="text" id="presta-description-adding" value={actualPrestaDescription} onChange={(e) => setActualPrestaDescription(e.target.value)}/>
+                            </div>
+                            <div className="prestation-vue__new-add--input-bloc">
+                                <label className="cares-modal-labels" htmlFor="presta-video-adding">Choisir une vidéo</label>
+                                <input className="cares-modal-inputs" type="file" id="presta-video-adding" onChange={(e) => setActualPrestaVideo(e.target.files[0])}/>
+                            </div>
+                            <div className="prestation-vue__new-add--btn-container">
+                                <button className="btn" type="button" onClick={() => setIsAddingPresta(false)}>Retour</button>
+                                <button className="btn" type="button" onClick={() => handleCreatePresta()}>Valider</button>
+                            </div>
+                        </div>
+                    : 
+                        <div className="prestation-vue__edit-and-add">
+                        {presta.map((presta) => (
+                            <div className="edit-and-add-container" key={presta._id}>
+                                {editingPrestaId === presta._id ?
+                                <div className="edit-and-add-container__edit-presta">
+                                    <div id="makeup-inputs-container" className="edit-and-add-container__edit-presta--input-bloc">
+                                        <input className="makeup-modal-inputs" id="presta-name" type="text" value={actualPrestaName} onChange={(e) => setActualPrestaName(e.target.value)}/>
+                                        <input className="makeup-modal-inputs" id="presta-price" type="text" value={actualPrestaPrice} onChange={(e) => setActualPrestaPrice(e.target.value)}/>
+                                        <input className="makeup-modal-inputs" id="presta-time" type="text" value={actualPrestaDuration} onChange={(e) => setActualPrestaDuration(e.target.value)}/>
+                                        <input className="makeup-modal-inputs" id="presta-description" type="text" value={actualPrestaDescription} onChange={(e) => setActualPrestaDescription(e.target.value)}/>
+                                    </div>
+                                    <div className="modify-video-input-container">
+                                        <label className="cares-modal-labels" htmlFor="presta-video-modify">Modifier la vidéo</label>
+                                        <input className="cares-modal-inputs" type="file" id="presta-video-modify" onChange={(e) => setActualPrestaVideo(e.target.files[0])}/>
+                                    </div>
+                                    <div className="edit-and-add-container__edit-presta--btn-bloc">
+                                        <button type="button" className="btn" onClick={() => setEditingPrestaId(null)}>Retour</button>
+                                        <button type="button" className="btn" onClick={() => {handleUpdatePresta(presta._id); setEditingPrestaId(null)}}>Valider</button>
+                                        <button type="button" className="btn" onClick={() => handleDeletePresta(presta._id)}>Supprimer la prestation</button>
+                                    </div>
+                                </div>
+                                :
+                                <div className="edit-and-add-container__add-presta">
+                                    <div className="edit-and-add-container__add-presta--text-bloc">
+                                        <p>{presta.name}</p>
+                                        <p>{presta.price}</p>
+                                        <p>{presta.duration}</p>
+                                    </div>
+                                    <button type="button" className="edit-and-add-container__add-presta--modify-btn btn" onClick={() => {setEditingPrestaId(presta._id) ; setActualPrestaName(presta.name) ; setActualPrestaPrice(presta.price) ; setActualPrestaDuration(presta.duration)}}>Modifier la prestation</button>
+                                </div>
+                                }
+                            </div>
+                        ))}
+                            <div className="prestation-vue__edit-and-add--btn-container">   
+                                <button className="btn" type="button" onClick={() => {setModalIsOpen(false); setActualPrestaDescription(""); setActualPrestaVideo(null)}}>Retour</button>
+                                <button className="btn" type="button" onClick={() => {setIsAddingPresta(true); setActualPrestaDescription(""); setActualPrestaVideo(null)}}>Ajouter une prestation</button>
+                            </div>        
+                        </div>
+                    }
+                </div>
+            </Modal>
+
+            <section className="makup-list-section">
+                {presta.map((p)=>(
+                    <div key={p._id} className="makup-list-section__item">
+                        <div className="makup-list-section__item--presta-bloc" onMouseEnter={(e) => e.currentTarget.closest(".makup-list-section__item").querySelector("video").play()} onMouseLeave={(e) => e.currentTarget.closest(".makup-list-section__item").querySelector("video").pause()}>
+                            <div className="item-preview">
+                                <div className="item-preview__name">
+                                    {p.name}
+                                </div>
+                                <div className="item-preview__infos">
+                                    <div className="item-preview__infos--price">
+                                        {p.price}
+                                    </div>
+                                    <div className="item-preview__infos--duration">
+                                        {p.duration}  
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="item-description">
+                                {p.description}
+                            </div>
+                        </div>
+                        <div className="makup-list-section__item--video-container">
+                            <video src={p.videoUrl} className="makup-presta-video"></video>
+                        </div>
+                    </div>
+                ))}
+            </section>
         </main>
     )
 }

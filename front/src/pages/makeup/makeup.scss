@@ -1,0 +1,69 @@
+.makup-list-section{
+    width: 100%;
+    padding: 5vw 0 8vw 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5vw;
+    &__item{
+        width: 60%;
+        display: flex;
+        align-self: center;
+        justify-content: space-between;
+        &--presta-bloc{
+            width: 40%;
+        }
+    }
+}
+.item-preview{
+    display: flex;
+    justify-content: space-between;
+    &__name{
+
+    }
+    &__infos{
+        display: flex;
+        width: 30%;
+        justify-content: space-between;
+        &--price{
+
+        }
+        &--duration{
+
+        }
+    }
+}
+.item-description{
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+}
+.makup-list-section__item--video-container{
+    width: 40%;
+    max-height: 100px;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+    .makup-presta-video{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+}
+.makup-list-section__item--presta-bloc:hover .item-description { 
+    max-height: 200px; 
+}
+.makup-list-section__item--presta-bloc:hover~.makup-list-section__item--video-container{
+    max-height: 200px;
+}
+#makeup-inputs-container{
+padding-top: 2vw;
+}
+.makeup-modal-inputs{
+    width: 20%;
+}
+.modify-video-input-container{
+    width: auto;
+    margin-top: 1vw;
+    display: flex;
+    align-items: center;
+    gap: 2vw;
+}
