@@ -12,6 +12,7 @@ const sousTypeRoutes = require('./routes/sousTypeRoutes');
 const groupRoutes = require('./routes/groupRoutes');
 const prestationRoutes = require('./routes/prestationRoutes');
 const highlightCardRoutes = require('./routes/highlightCardRoutes');
+const eventRoutes = require('./routes/eventRoutes');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');
 
@@ -35,6 +36,7 @@ app.use('/api/sous-types', sousTypeRoutes);
 app.use('/api/groups', groupRoutes);
 app.use('/api/prestations', prestationRoutes);
 app.use('/api/highlight-cards', highlightCardRoutes);
+app.use('/api/events', eventRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 

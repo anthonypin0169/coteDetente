@@ -257,7 +257,7 @@ export default function Epilation() {
 
 
     return (
-        <main>
+        <main className="epilation-main">
             <h1>Épilations et bronzages</h1>
             {isAuthenticated &&
                 <button className="btn" onClick={() => setModalIsOpen(true)}>Modifier</button>

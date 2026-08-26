@@ -1,0 +1,88 @@
+const Event = require('../models/event')
+const sharp = require('sharp')
+const path = require('path')
+const fs = require('fs')
+
+const savePhoto = async (file) => {
+  const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.avif`
+  await sharp(file.buffer)
+    .resize({ width: 1200, withoutEnlargement: true })
+    .avif({ quality: 60 })
+    .toFile(path.join('uploads', filename))
+  return `/uploads/${filename}`
+}
+
+const deletePhoto = (url) => {
+  if (!url) return
+  const filepath = path.join('uploads', path.basename(url))
+  if (fs.existsSync(filepath)) fs.unlinkSync(filepath)
+}
+
+exports.getAllEvents = async (req, res) => {
+  try {
+    const events = await Event.find().sort({ createdAt: -1 })
+    res.json(events)
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
+exports.createEvent = async (req, res) => {
+  try {
+    const photoUrl = req.files?.photo?.[0] ? await savePhoto(req.files.photo[0]) : undefined
+    const secondPhotoUrl = req.files?.secondPhoto?.[0] ? await savePhoto(req.files.secondPhoto[0]) : undefined
+    const thirdPhotoUrl = req.files?.thirdPhoto?.[0] ? await savePhoto(req.files.thirdPhoto[0]) : undefined
+
+    const event = await Event.create({ ...req.body, photoUrl, secondPhotoUrl, thirdPhotoUrl })
+    res.status(201).json(event)
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
+exports.updateEvent = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id)
+    if (!event) return res.status(404).json({ message: 'Évènement introuvable' })
+
+    const photoFields = [
+      { field: 'photo', urlField: 'photoUrl' },
+      { field: 'secondPhoto', urlField: 'secondPhotoUrl' },
+      { field: 'thirdPhoto', urlField: 'thirdPhotoUrl' }
+    ]
+    for (const { field, urlField } of photoFields) {
+      const file = req.files?.[field]?.[0]
+      if (file) {
+        deletePhoto(event[urlField])
+        event[urlField] = await savePhoto(file)
+      }
+    }
+
+    if (req.body.title !== undefined) event.title = req.body.title
+    if (req.body.startDate !== undefined) event.startDate = req.body.startDate
+    if (req.body.endDate !== undefined) event.endDate = req.body.endDate
+    if (req.body.employeeName !== undefined) event.employeeName = req.body.employeeName
+    if (req.body.description !== undefined) event.description = req.body.description
+
+    await event.save()
+    res.json(event)
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
+exports.deleteEvent = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id)
+    if (!event) return res.status(404).json({ message: 'Évènement introuvable' })
+
+    deletePhoto(event.photoUrl)
+    deletePhoto(event.secondPhotoUrl)
+    deletePhoto(event.thirdPhotoUrl)
+
+    await event.deleteOne()
+    res.json({ message: 'Évènement supprimé' })
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
