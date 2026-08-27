@@ -77,7 +77,7 @@ export default function Event() {
                 setNewSecondPhoto(null)
                 setNewThirdPhoto(null)
                 setEvents((prev)=>[...prev, newEventUploaded])
-                setIsAddingEvent(false)
+                setModalVue("list")
             }
         }catch(error){
             (error.message)
@@ -124,6 +124,7 @@ export default function Event() {
                 setActualThirdPhoto(null)
                 setEditingEventId(null)
                 setEvents(prev => prev.map(e => e._id === updatedEvent._id ? updatedEvent : e))
+                setModalVue("list") 
             }
 
         }catch(error){
@@ -189,17 +190,62 @@ export default function Event() {
             
             <Modal isOpen={modalIsOpen} onClose={() =>setModalIsOpen(false)} variant="modify">
                     {modalVue === "list" ?
-                        <div>
-                            
+                    <div className="modal-vue-list">
+                        <div className="modal-vue-list__photo-container">
+                            <img src={currentEvent?.photoUrl} alt=""  className="modal-vue-list__photo-container--photo"/>
                         </div>
-                    :modalVue === "upload" ?
-                        <div>
-                            
+                        <div className="modal-vue-list__btn-container">
+                            <button className="modal-vue-list__btn-container--btn btn" onClick={() => {setModalVue("edit"); setEditingEventId(currentEvent._id); setActualTitle(currentEvent.title); setActualStartDate(currentEvent.startDate); setActualEndDate(currentEvent.endDate); setActualEployeeName(currentEvent.employeeName); setActualDescription(currentEvent.description)}}>Modifier</button>
+                            <button className="modal-vue-list__btn-container--btn btn" onClick={() => handleDeleteEvent(currentEvent?._id)}>Supprimer</button>
                         </div>
-                    :
-                        <div>
-                            
+                        <div className="modal-vue-list__list-container">
+                            {events.slice(1).map((event) => (
+                                <div key={event._id} className="preview-event">
+                                        <img className="preview-event__photo" src={event.photoUrl} alt="" />
+                                        <button className="preview__btn" onClick={() => handleDeleteEvent(event._id)}>X</button>
+                                        <div className="preview-event__title">{event.title}</div>  
+                                </div>
+                            ))}
                         </div>
+                        <button className="modal-vue-list__add-btn btn" onClick={() => setModalVue("add")}>Ajouter</button>
+                    </div>
+                    :modalVue === "edit" ?
+                        <div className="modal-vue-edit">
+                            <div className="modal-vue-edit__first-bloc">
+                                <label htmlFor="event-title" className="cares-modal-labels">Modifier le titre</label>
+                                <input type="text" id="event-title" className="cares-modal-input" value={actualTitle} onChange={(e) => setActualTitle(e.target.value)}/>
+                                <label htmlFor="event-start-date" className="cares-modal-labels">Modifier la date de départ </label>
+                                <input type="text" id="event-start-date" className="cares-modal-input" value={actualStartDate} onChange={(e) => setActualStartDate(e.target.value)}/>
+                                <label htmlFor="event-end-date" className="cares-modal-labels">Modifier la date de fin </label>
+                                <input type="text" id="event-end-date" className="cares-modal-input" value={actualEndDate} onChange={(e) => setActualEndDate(e.target.value)}/>
+                            </div>
+                            <div className="modal-vue-edit__second-bloc">
+                                <label htmlFor="event-employee-name" className="cares-modal-labels">Modifier le nom de l'employé</label>
+                                <input type="text" id="event-employee-name" className="cares-modal-input" value={actualEployeeName} onChange={(e) => setActualEployeeName(e.target.value)}/>
+                                <label htmlFor="event-description" className="cares-modal-labels">Modifier la description </label>
+                                <input type="text" id="event-description" className="cares-modal-input" value={actualDescription} onChange={(e) => setActualDescription(e.target.value)}/>
+                                <label htmlFor="event-photo" className="cares-modal-labels">Modifier la photo </label>
+                                <PhotoInput id="event-photo" className="cares-modal-input" onChange={setActualPhoto}/>
+                                <div>
+                                    <button onClick={() => setModalVue("list")}>Retour</button>
+                                    <button onClick={() => handleUpdateEvent(editingEventId)}>Valider</button>
+                                </div>
+                            </div>
+                        </div>
+                    :modalVue === "add" ?
+                        <div>
+                            <label htmlFor="add-event-title" className="cares-modal-labels">Entrer un titre</label>
+                            <input type="text" id="add-event-title" className="cares-modal-labels" value={newTitle} onChange={(e) => setNewTitle(e.target.value)}/>
+                            <label htmlFor="add-eventdescription" className="cares-modal-labels">Entrer une description</label>
+                            <input type="text" id="add-event-description" className="cares-modal-labels" value={newDescription} onChange={(e) => setNewDescription(e.target.value)}/>
+                            <label htmlFor="add-event-photo" className="cares-modal-labels">Choisir une photo</label>
+                            <PhotoInput id="add-event-photo" className="cares-modal-input" onChange={setNewPhoto}/>
+                            <div>
+                                <button onClick={() => setModalVue("list")}>Retour</button>
+                                <button onClick={() => handleCreateEvent()}>Valider</button>
+                            </div>
+                        </div>
+                        :""
                     }     
             </Modal>
         </main>
