@@ -47,6 +47,10 @@ router.get('/', getAllEvents)
  *                 type: string
  *               description:
  *                 type: string
+ *               recapDescription:
+ *                 type: string
+ *               isCurrent:
+ *                 type: boolean
  *               photo:
  *                 type: string
  *                 format: binary
@@ -91,6 +95,8 @@ router.post('/', protect, photoFields, createEvent)
  *               employeeName:
  *                 type: string
  *               description:
+ *                 type: string
+ *               recapDescription:
  *                 type: string
  *               photo:
  *                 type: string

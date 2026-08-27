@@ -6,6 +6,8 @@ const eventSchema = new mongoose.Schema({
   endDate: { type: String },
   employeeName: { type: String },
   description: { type: String },
+  recapDescription: { type: String },
+  isCurrent: { type: Boolean, default: false },
   photoUrl: { type: String },
   secondPhotoUrl: { type: String },
   thirdPhotoUrl: { type: String }

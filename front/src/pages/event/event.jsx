@@ -13,7 +13,8 @@ export default function Event() {
     /* Charger les évenements */
 
     const [events, setEvents] = useState([])
-    const currentEvent = events[0]
+    const currentEvent = events.find((event) => event.isCurrent)
+    const pastEvents = events.filter((event) => !event.isCurrent)
 
     useEffect(() => {
         const loadEvents = async () => {
@@ -38,24 +39,26 @@ export default function Event() {
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const [modalVue, setModalVue] = useState("list")
 
-    /* Ajouter une prestation */
+    /* Ajouter un évènement complet (devient le nouvel évènement actuel) */
     const [newTitle, setNewTitle] = useState("")
     const [newStartDate, setNewStartDate] = useState("")
     const [newEndDate, setNewEndDate] = useState("")
     const [newEmployeeName, setNewEmployeeName] = useState("")
     const [newDescription, setNewDescription] = useState("")
+    const [newRecapDescription, setNewRecapDescription] = useState("")
     const [newPhoto, setNewPhoto] = useState(null)
     const [newSecondPhoto, setNewSecondPhoto] = useState(null)
     const [newThirdPhoto, setNewThirdPhoto] = useState(null)
-    const [isAddingEvent, setIsAddingEvent] = useState(false)
 
-    const handleCreateEvent = async () => {
+    const handleCreateCurrentEvent = async () => {
         const formData = new FormData()
         formData.append("title", newTitle)
         formData.append("startDate", newStartDate)
         formData.append("endDate", newEndDate)
         formData.append("employeeName", newEmployeeName)
         formData.append("description", newDescription)
+        formData.append("recapDescription", newRecapDescription)
+        formData.append("isCurrent", "true")
         if (newPhoto) formData.append("photo", newPhoto)
         if (newSecondPhoto) formData.append("secondPhoto", newSecondPhoto)
         if (newThirdPhoto) formData.append("thirdPhoto", newThirdPhoto)
@@ -63,7 +66,7 @@ export default function Event() {
         try{
             const { ok, data : newEventUploaded } = await apiFetch("/api/events",{
                 method : "POST",
-                body: formData, 
+                body: formData,
                 token
             })
 
@@ -73,9 +76,41 @@ export default function Event() {
                 setNewEndDate("")
                 setNewEmployeeName("")
                 setNewDescription("")
+                setNewRecapDescription("")
                 setNewPhoto(null)
                 setNewSecondPhoto(null)
                 setNewThirdPhoto(null)
+                setEvents((prev)=> prev.map((event) => ({ ...event, isCurrent: false })).concat(newEventUploaded))
+                setModalVue("list")
+            }
+        }catch(error){
+            (error.message)
+        }
+    }
+
+    /* Ajouter rapidement un ancien évènement (ne touche pas à l'évènement actuel) */
+    const [lightTitle, setLightTitle] = useState("")
+    const [lightRecapDescription, setLightRecapDescription] = useState("")
+    const [lightPhoto, setLightPhoto] = useState(null)
+
+    const handleCreatePastEvent = async () => {
+        const formData = new FormData()
+        formData.append("title", lightTitle)
+        formData.append("recapDescription", lightRecapDescription)
+        formData.append("isCurrent", "false")
+        if (lightPhoto) formData.append("photo", lightPhoto)
+
+        try{
+            const { ok, data : newEventUploaded } = await apiFetch("/api/events",{
+                method : "POST",
+                body: formData,
+                token
+            })
+
+            if(ok){
+                setLightTitle("")
+                setLightRecapDescription("")
+                setLightPhoto(null)
                 setEvents((prev)=>[...prev, newEventUploaded])
                 setModalVue("list")
             }
@@ -85,12 +120,13 @@ export default function Event() {
     }
 
 
-    /* Modifier une prestation */
+    /* Modifier l'évènement actuel */
     const [actualTitle, setActualTitle] = useState("")
     const [actualStartDate, setActualStartDate] = useState("")
     const [actualEndDate, setActualEndDate] = useState("")
     const [actualEployeeName, setActualEployeeName] = useState("")
     const [actualDescription, setActualDescription] = useState("")
+    const [actualRecapDescription, setActualRecapDescription] = useState("")
     const [actualPhoto, setActualPhoto] = useState(null)
     const [actualSecondPhoto, setActualSecondPhoto] = useState(null)
     const [actualThirdPhoto, setActualThirdPhoto] = useState(null)
@@ -103,6 +139,7 @@ export default function Event() {
         formData.append("endDate", actualEndDate)
         formData.append("employeeName", actualEployeeName)
         formData.append("description", actualDescription)
+        formData.append("recapDescription", actualRecapDescription)
         if (actualPhoto) formData.append("photo", actualPhoto)
         if (actualSecondPhoto) formData.append("secondPhoto", actualSecondPhoto)
         if (actualThirdPhoto) formData.append("thirdPhoto", actualThirdPhoto)
@@ -119,75 +156,80 @@ export default function Event() {
                 setActualEndDate("")
                 setActualEployeeName("")
                 setActualDescription("")
+                setActualRecapDescription("")
                 setActualPhoto(null)
                 setActualSecondPhoto(null)
                 setActualThirdPhoto(null)
                 setEditingEventId(null)
                 setEvents(prev => prev.map(e => e._id === updatedEvent._id ? updatedEvent : e))
-                setModalVue("list") 
+                setModalVue("list")
             }
 
         }catch(error){
             (error.message)
-        }                
+        }
     }
 
 
-    /* Supprimer une prestation */
+    /* Supprimer un évènement */
 
     const handleDeleteEvent = async (id) => {
         try{
-            const { ok } = await apiFetch(`/api/events/${id}`,{
+            const { ok, data : deleteResult } = await apiFetch(`/api/events/${id}`,{
                 method : "DELETE",
                 token
             })
 
             if(ok){
-                setEvents(prev => prev.filter(e => e._id !== id))
+                setEvents(prev => {
+                    const remaining = prev.filter(e => e._id !== id)
+                    if (!deleteResult?.promotedEvent) return remaining
+                    return remaining.map(e => e._id === deleteResult.promotedEvent._id ? deleteResult.promotedEvent : e)
+                })
             }
 
         }catch(error){
             (error.message)
-        }            
+        }
     }
 
 
 
     return (
-        <main>
+        <main className="main-event">
             {isAuthenticated &&
                 <button className="btn" onClick={() => {setModalIsOpen(true) ; setModalVue("list")}}>Modifier</button>
             }
             <section className="first-section">
-                <img className="first-section__photo" src={currentEvent?.photoUrl} alt="" />
-                <img className="first-section__photo" src={currentEvent?.secondPhotoUrl} alt="" />
-                <img className="first-section__photo" src={currentEvent?.thirdPhotoUrl} alt="" />
+                <img className="first-section__photo1" src={currentEvent?.photoUrl} alt="" />
+                <img className="first-section__photo2" src={currentEvent?.secondPhotoUrl} alt="" />
+                <img className="first-section__photo3" src={currentEvent?.thirdPhotoUrl} alt="" />
                 <div className="first-section__infos-container">
-                    <div>{currentEvent?.title}</div>
-                    <div>
-                        <div>{currentEvent?.startDate}</div>
-                        <div>{currentEvent?.endDate}</div>
+                    <div className="first-section__infos-container--title">{currentEvent?.title}</div>
+                    <div className="first-section__infos-container--dates">
+                        <span>{currentEvent?.startDate}</span>
+                        <span>{currentEvent?.endDate}</span>
                     </div>
                 </div>
                 <div className="first-section__text-container">
-                    <div>{currentEvent?.employeeName}</div>
-                    <div>{currentEvent?.description}</div>
+                    <div className="first-section__text-container--name">{currentEvent?.employeeName}</div>
+                    <div className="first-section__text-container--description">{currentEvent?.description}</div>
                 </div>
             </section>
             <section className="second-section">
                 <div className="second-section__event-list-container">
-                    {events.slice(1).map((event) => (
+                    {pastEvents.map((event) => (
                         <div key={event._id} className="item">
                             <div className="item__bloc">
                                 <img className="item__bloc--photo" src={event.photoUrl} alt="" />
-                                <div className="item__bloc--description">{event.description}</div>
+                                <div className="item__bloc--description">{event.recapDescription}</div>
                             </div>
                             <div className="item__title">{event.title}</div>
                         </div>
                     ))}
                 </div>
             </section>
-            
+
             <Modal isOpen={modalIsOpen} onClose={() =>setModalIsOpen(false)} variant="modify">
                     {modalVue === "list" ?
                     <div className="modal-vue-list">
@@ -195,19 +237,20 @@ export default function Event() {
                             <img src={currentEvent?.photoUrl} alt=""  className="modal-vue-list__photo-container--photo"/>
                         </div>
                         <div className="modal-vue-list__btn-container">
-                            <button className="modal-vue-list__btn-container--btn btn" onClick={() => {setModalVue("edit"); setEditingEventId(currentEvent._id); setActualTitle(currentEvent.title); setActualStartDate(currentEvent.startDate); setActualEndDate(currentEvent.endDate); setActualEployeeName(currentEvent.employeeName); setActualDescription(currentEvent.description)}}>Modifier</button>
+                            <button className="modal-vue-list__btn-container--btn btn" onClick={() => {setModalVue("edit"); setEditingEventId(currentEvent._id); setActualTitle(currentEvent.title); setActualStartDate(currentEvent.startDate); setActualEndDate(currentEvent.endDate); setActualEployeeName(currentEvent.employeeName); setActualDescription(currentEvent.description); setActualRecapDescription(currentEvent.recapDescription)}}>Modifier</button>
+                            <button className="modal-vue-list__btn-container--btn btn" onClick={() => setModalVue("addCurrent")}>Ajouter</button>
                             <button className="modal-vue-list__btn-container--btn btn" onClick={() => handleDeleteEvent(currentEvent?._id)}>Supprimer</button>
                         </div>
                         <div className="modal-vue-list__list-container">
-                            {events.slice(1).map((event) => (
+                            {pastEvents.map((event) => (
                                 <div key={event._id} className="preview-event">
                                         <img className="preview-event__photo" src={event.photoUrl} alt="" />
-                                        <button className="preview__btn" onClick={() => handleDeleteEvent(event._id)}>X</button>
-                                        <div className="preview-event__title">{event.title}</div>  
+                                        <button className="preview-event__btn" onClick={() => handleDeleteEvent(event._id)}>X</button>
+                                        <div className="preview-event__title">{event.title}</div>
                                 </div>
                             ))}
                         </div>
-                        <button className="modal-vue-list__add-btn btn" onClick={() => setModalVue("add")}>Ajouter</button>
+                        <button className="modal-vue-list__add-btn btn" onClick={() => setModalVue("addPast")}>Ajouter</button>
                     </div>
                     :modalVue === "edit" ?
                         <div className="modal-vue-edit">
@@ -224,29 +267,84 @@ export default function Event() {
                                 <input type="text" id="event-employee-name" className="cares-modal-input" value={actualEployeeName} onChange={(e) => setActualEployeeName(e.target.value)}/>
                                 <label htmlFor="event-description" className="cares-modal-labels">Modifier la description </label>
                                 <input type="text" id="event-description" className="cares-modal-input" value={actualDescription} onChange={(e) => setActualDescription(e.target.value)}/>
+                                <label htmlFor="event-recap-description" className="cares-modal-labels">Modifier le texte récap (liste)</label>
+                                <input type="text" id="event-recap-description" className="cares-modal-input" value={actualRecapDescription} onChange={(e) => setActualRecapDescription(e.target.value)}/>
                                 <label htmlFor="event-photo" className="cares-modal-labels">Modifier la photo </label>
                                 <PhotoInput id="event-photo" className="cares-modal-input" onChange={setActualPhoto}/>
-                                <div>
+                                <label htmlFor="event-second-photo" className="cares-modal-labels">Modifier la 2e photo </label>
+                                <PhotoInput id="event-second-photo" className="cares-modal-input" onChange={setActualSecondPhoto}/>
+                                <label htmlFor="event-third-photo" className="cares-modal-labels">Modifier la 3e photo </label>
+                                <PhotoInput id="event-third-photo" className="cares-modal-input" onChange={setActualThirdPhoto}/>
+                                <div className="modal-vue-edit__second-bloc--btn-container">
                                     <button onClick={() => setModalVue("list")}>Retour</button>
                                     <button onClick={() => handleUpdateEvent(editingEventId)}>Valider</button>
                                 </div>
                             </div>
                         </div>
-                    :modalVue === "add" ?
-                        <div>
-                            <label htmlFor="add-event-title" className="cares-modal-labels">Entrer un titre</label>
-                            <input type="text" id="add-event-title" className="cares-modal-labels" value={newTitle} onChange={(e) => setNewTitle(e.target.value)}/>
-                            <label htmlFor="add-eventdescription" className="cares-modal-labels">Entrer une description</label>
-                            <input type="text" id="add-event-description" className="cares-modal-labels" value={newDescription} onChange={(e) => setNewDescription(e.target.value)}/>
-                            <label htmlFor="add-event-photo" className="cares-modal-labels">Choisir une photo</label>
-                            <PhotoInput id="add-event-photo" className="cares-modal-input" onChange={setNewPhoto}/>
-                            <div>
-                                <button onClick={() => setModalVue("list")}>Retour</button>
-                                <button onClick={() => handleCreateEvent()}>Valider</button>
+                    :modalVue === "addCurrent" ?
+                        <div className="modal-vue-add">
+                            <div className="modal-vue-add__input-container">
+                                <label htmlFor="add-current-title" className="cares-modal-labels">Entrer un titre</label>
+                                <input type="text" id="add-current-title" className="cares-modal-input" value={newTitle} onChange={(e) => setNewTitle(e.target.value)}/>
+                            </div>
+                            <div className="modal-vue-add__input-container">
+                                <label htmlFor="add-current-start-date" className="cares-modal-labels">Date de début</label>
+                                <input type="text" id="add-current-start-date" className="cares-modal-input" value={newStartDate} onChange={(e) => setNewStartDate(e.target.value)}/>
+                            </div>
+                            <div className="modal-vue-add__input-container">
+                                <label htmlFor="add-current-end-date" className="cares-modal-labels">Date de fin</label>
+                                <input type="text" id="add-current-end-date" className="cares-modal-input" value={newEndDate} onChange={(e) => setNewEndDate(e.target.value)}/>
+                            </div>
+                            <div className="modal-vue-add__input-container">
+                                <label htmlFor="add-current-employee" className="cares-modal-labels">Nom de l'employé</label>
+                                <input type="text" id="add-current-employee" className="cares-modal-input" value={newEmployeeName} onChange={(e) => setNewEmployeeName(e.target.value)}/>
+                            </div>
+                            <div className="modal-vue-add__input-container">
+                                <label htmlFor="add-current-description" className="cares-modal-labels">Entrer une description</label>
+                                <input type="text" id="add-current-description" className="cares-modal-input" value={newDescription} onChange={(e) => setNewDescription(e.target.value)}/>
+                            </div>
+                            <div className="modal-vue-add__input-container">
+                                <label htmlFor="add-current-recap" className="cares-modal-labels">Texte récap (pour plus tard, liste)</label>
+                                <input type="text" id="add-current-recap" className="cares-modal-input" value={newRecapDescription} onChange={(e) => setNewRecapDescription(e.target.value)}/>
+                            </div>
+                            <div className="modal-vue-add__input-container">
+                                <label htmlFor="add-current-photo" className="cares-modal-labels">Choisir une photo</label>
+                                <PhotoInput id="add-current-photo" className="cares-modal-input" onChange={setNewPhoto}/>
+                            </div>
+                            <div className="modal-vue-add__input-container">
+                                <label htmlFor="add-current-second-photo" className="cares-modal-labels">Choisir une 2e photo</label>
+                                <PhotoInput id="add-current-second-photo" className="cares-modal-input" onChange={setNewSecondPhoto}/>
+                            </div>
+                            <div className="modal-vue-add__input-container">
+                                <label htmlFor="add-current-third-photo" className="cares-modal-labels">Choisir une 3e photo</label>
+                                <PhotoInput id="add-current-third-photo" className="cares-modal-input" onChange={setNewThirdPhoto}/>
+                            </div>
+                            <div className="modal-vue-add__btn-container">
+                                <button className="btn" onClick={() => setModalVue("list")}>Retour</button>
+                                <button className="btn" onClick={() => handleCreateCurrentEvent()}>Valider</button>
+                            </div>
+                        </div>
+                    :modalVue === "addPast" ?
+                        <div className="modal-vue-add-light">
+                            <div className="modal-vue-add-light__label-container">
+                                <label htmlFor="add-past-title" className="cares-modal-labels">Entrer un titre</label>
+                                <input type="text" id="add-past-title" className="cares-modal-input" value={lightTitle} onChange={(e) => setLightTitle(e.target.value)}/>
+                            </div>
+                            <div className="modal-vue-add-light__label-container">
+                                <label htmlFor="add-past-recap" className="cares-modal-labels">Texte récap</label>
+                                <input type="text" id="add-past-recap" className="cares-modal-input" value={lightRecapDescription} onChange={(e) => setLightRecapDescription(e.target.value)}/>
+                            </div>
+                            <div className="modal-vue-add-light__label-container">
+                                <label htmlFor="add-past-photo" className="cares-modal-labels">Choisir une photo</label>
+                                <PhotoInput id="add-past-photo" className="cares-modal-input" onChange={setLightPhoto}/>
+                            </div>
+                            <div className="modal-vue-add-light__btn-container">
+                                <button className="btn" onClick={() => setModalVue("list")}>Retour</button>
+                                <button className="btn" onClick={() => handleCreatePastEvent()}>Valider</button>
                             </div>
                         </div>
                         :""
-                    }     
+                    }
             </Modal>
         </main>
     )

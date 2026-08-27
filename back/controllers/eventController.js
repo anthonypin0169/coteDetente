@@ -32,8 +32,13 @@ exports.createEvent = async (req, res) => {
     const photoUrl = req.files?.photo?.[0] ? await savePhoto(req.files.photo[0]) : undefined
     const secondPhotoUrl = req.files?.secondPhoto?.[0] ? await savePhoto(req.files.secondPhoto[0]) : undefined
     const thirdPhotoUrl = req.files?.thirdPhoto?.[0] ? await savePhoto(req.files.thirdPhoto[0]) : undefined
+    const isCurrent = req.body.isCurrent === 'true'
 
-    const event = await Event.create({ ...req.body, photoUrl, secondPhotoUrl, thirdPhotoUrl })
+    if (isCurrent) {
+      await Event.updateMany({ isCurrent: true }, { isCurrent: false })
+    }
+
+    const event = await Event.create({ ...req.body, isCurrent, photoUrl, secondPhotoUrl, thirdPhotoUrl })
     res.status(201).json(event)
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -63,6 +68,7 @@ exports.updateEvent = async (req, res) => {
     if (req.body.endDate !== undefined) event.endDate = req.body.endDate
     if (req.body.employeeName !== undefined) event.employeeName = req.body.employeeName
     if (req.body.description !== undefined) event.description = req.body.description
+    if (req.body.recapDescription !== undefined) event.recapDescription = req.body.recapDescription
 
     await event.save()
     res.json(event)
@@ -81,7 +87,18 @@ exports.deleteEvent = async (req, res) => {
     deletePhoto(event.thirdPhotoUrl)
 
     await event.deleteOne()
-    res.json({ message: 'Évènement supprimé' })
+
+    let promotedEvent = null
+    if (event.isCurrent) {
+      const nextEvent = await Event.findOne().sort({ createdAt: -1 })
+      if (nextEvent) {
+        nextEvent.isCurrent = true
+        await nextEvent.save()
+        promotedEvent = nextEvent
+      }
+    }
+
+    res.json({ message: 'Évènement supprimé', promotedEvent })
   } catch (error) {
     res.status(500).json({ message: error.message })
   }

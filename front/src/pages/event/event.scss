@@ -1,0 +1,193 @@
+.main-event{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.first-section{
+    &__photo1{
+
+    }
+    &__photo2{
+
+    }
+    &__photo3{
+
+    }
+    &__infos-container{
+        &--title{
+
+        }
+        &--dates{
+
+        }
+    }
+    &__text-container{
+        &--name{
+
+        }
+        &--description{
+
+        }
+    }
+}
+.second-section{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &__event-list-container{
+        width: 80%;
+        display: flex;
+        justify-content: center;
+        gap: 3%;
+        flex-wrap: wrap;
+        .item{
+            &__bloc{
+                width: 14vw;
+                aspect-ratio: 1 / 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                overflow: hidden;
+                border-radius: 8px;
+                &--photo{
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+                &--description{
+
+                }
+            }
+            &__title{
+
+            }
+        }
+    }
+}
+.modal-vue-list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &__photo-container{
+        margin-top: 3vw;
+        width: 40%;
+        aspect-ratio: 3 / 2;
+        border-radius: 5px;
+        &--photo{
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+    }
+    &__btn-container{
+        width: 80%;
+        display: flex;
+        justify-content: space-between;
+        &--btn{
+
+        }
+    }
+    &__list-container{
+        width: 85%;
+        height: 220px;
+        display: flex;
+        box-shadow: 2px 2px 5px;
+        border-radius: 8px;
+        overflow-y: hidden;
+        overflow-x: scroll;
+        .preview-event{
+            display: flex;
+            align-items: center;
+            height: 100%;
+            aspect-ratio: 1 / 1;
+            position: relative;
+            margin: 0 10px;
+            &__photo{
+                height: 100%;
+                aspect-ratio: 1 / 1;
+                object-fit: cover;
+                border-radius: 8px;
+                box-shadow: 2px 2px 5px;
+            }
+            &__btn{
+                position: absolute;
+                top: 5%;
+                right: 5%;
+                border-radius: 5px;
+                border: none;
+                box-shadow: 1px 1px 3px;
+            }
+            &__title{
+                position: absolute;
+                bottom: 10%;
+                left: 40%;
+            }
+            &--btn{
+                width: 25px;
+                height: 25px;
+            }
+            &--title{
+                align-self: center;
+                justify-self: center;
+            }
+        }
+    }
+    &__add-btn{
+
+    }
+}
+.modal-vue-edit{
+    &__first-bloc{
+
+    }
+    &__second-bloc{
+        &--btn-container{
+
+        }
+    }
+}
+.modal-vue-add{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1vw;
+    margin-top: 2vw;
+    &__input-container{
+        width: 60%;
+        display: flex;
+        justify-content: space-between;
+    }
+    &__btn-container{
+        width: 60%;
+        display: flex;
+        justify-content: space-between;
+    }
+}
+.modal-vue-add-light{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1vw;
+    margin-top: 2vw;
+    &__label-container{
+        width: 60%;
+        display: flex;
+        justify-content: space-between;
+    }
+    &__btn-container{
+        width: 60%;
+        display: flex;
+        justify-content: space-between;
+    }
+}
+@media (min-width : 768px){
+
+}
+@media (min-width : 1024px){
+
+}
+@media (min-width : 1440px){
+
+}
