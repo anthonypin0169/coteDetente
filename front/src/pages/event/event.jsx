@@ -49,6 +49,7 @@ export default function Event() {
     const [newPhoto, setNewPhoto] = useState(null)
     const [newSecondPhoto, setNewSecondPhoto] = useState(null)
     const [newThirdPhoto, setNewThirdPhoto] = useState(null)
+    const [pendingInstagramEventId, setPendingInstagramEventId] = useState(null)
 
     const handleCreateCurrentEvent = async () => {
         const formData = new FormData()
@@ -81,10 +82,25 @@ export default function Event() {
                 setNewSecondPhoto(null)
                 setNewThirdPhoto(null)
                 setEvents((prev)=> prev.map((event) => ({ ...event, isCurrent: false })).concat(newEventUploaded))
-                setModalVue("list")
+                setPendingInstagramEventId(newEventUploaded._id)
+                setModalVue("confirmInstagram")
             }
         }catch(error){
             (error.message)
+        }
+    }
+
+    const handlePublishInstagram = async () => {
+        try{
+            await apiFetch(`/api/events/${pendingInstagramEventId}/publish-instagram`,{
+                method : "POST",
+                token
+            })
+        }catch(error){
+            (error.message)
+        }finally{
+            setPendingInstagramEventId(null)
+            setModalVue("list")
         }
     }
 
@@ -198,7 +214,7 @@ export default function Event() {
     return (
         <main className="main-event">
             {isAuthenticated &&
-                <button className="btn" onClick={() => {setModalIsOpen(true) ; setModalVue("list")}}>Modifier</button>
+                <button type="button" className="btn" onClick={() => {setModalIsOpen(true) ; setModalVue("list")}}>Modifier</button>
             }
             <section className="first-section">
                 <img className="first-section__photo1" src={currentEvent?.photoUrl} alt="" />
@@ -237,20 +253,20 @@ export default function Event() {
                             <img src={currentEvent?.photoUrl} alt=""  className="modal-vue-list__photo-container--photo"/>
                         </div>
                         <div className="modal-vue-list__btn-container">
-                            <button className="modal-vue-list__btn-container--btn btn" onClick={() => {setModalVue("edit"); setEditingEventId(currentEvent._id); setActualTitle(currentEvent.title); setActualStartDate(currentEvent.startDate); setActualEndDate(currentEvent.endDate); setActualEployeeName(currentEvent.employeeName); setActualDescription(currentEvent.description); setActualRecapDescription(currentEvent.recapDescription)}}>Modifier</button>
-                            <button className="modal-vue-list__btn-container--btn btn" onClick={() => setModalVue("addCurrent")}>Ajouter</button>
-                            <button className="modal-vue-list__btn-container--btn btn" onClick={() => handleDeleteEvent(currentEvent?._id)}>Supprimer</button>
+                            <button type="button" className="modal-vue-list__btn-container--btn btn" onClick={() => {setModalVue("edit"); setEditingEventId(currentEvent._id); setActualTitle(currentEvent.title); setActualStartDate(currentEvent.startDate); setActualEndDate(currentEvent.endDate); setActualEployeeName(currentEvent.employeeName); setActualDescription(currentEvent.description); setActualRecapDescription(currentEvent.recapDescription)}}>Modifier</button>
+                            <button type="button" className="modal-vue-list__btn-container--btn btn" onClick={() => setModalVue("addCurrent")}>Ajouter</button>
+                            <button type="button" className="modal-vue-list__btn-container--btn btn" onClick={() => handleDeleteEvent(currentEvent?._id)}>Supprimer</button>
                         </div>
                         <div className="modal-vue-list__list-container">
                             {pastEvents.map((event) => (
                                 <div key={event._id} className="preview-event">
                                         <img className="preview-event__photo" src={event.photoUrl} alt="" />
-                                        <button className="preview-event__btn" onClick={() => handleDeleteEvent(event._id)}>X</button>
+                                        <button type="button" className="preview-event__btn" onClick={() => handleDeleteEvent(event._id)}>X</button>
                                         <div className="preview-event__title">{event.title}</div>
                                 </div>
                             ))}
                         </div>
-                        <button className="modal-vue-list__add-btn btn" onClick={() => setModalVue("addPast")}>Ajouter</button>
+                        <button type="button" className="modal-vue-list__add-btn btn" onClick={() => setModalVue("addPast")}>Ajouter</button>
                     </div>
                     :modalVue === "edit" ?
                         <div className="modal-vue-edit">
@@ -276,8 +292,8 @@ export default function Event() {
                                 <label htmlFor="event-third-photo" className="cares-modal-labels">Modifier la 3e photo </label>
                                 <PhotoInput id="event-third-photo" className="cares-modal-input" onChange={setActualThirdPhoto}/>
                                 <div className="modal-vue-edit__second-bloc--btn-container">
-                                    <button onClick={() => setModalVue("list")}>Retour</button>
-                                    <button onClick={() => handleUpdateEvent(editingEventId)}>Valider</button>
+                                    <button type="button" onClick={() => setModalVue("list")}>Retour</button>
+                                    <button type="button" onClick={() => handleUpdateEvent(editingEventId)}>Valider</button>
                                 </div>
                             </div>
                         </div>
@@ -320,8 +336,8 @@ export default function Event() {
                                 <PhotoInput id="add-current-third-photo" className="cares-modal-input" onChange={setNewThirdPhoto}/>
                             </div>
                             <div className="modal-vue-add__btn-container">
-                                <button className="btn" onClick={() => setModalVue("list")}>Retour</button>
-                                <button className="btn" onClick={() => handleCreateCurrentEvent()}>Valider</button>
+                                <button type="button" className="btn" onClick={() => setModalVue("list")}>Retour</button>
+                                <button type="button" className="btn" onClick={() => handleCreateCurrentEvent()}>Valider</button>
                             </div>
                         </div>
                     :modalVue === "addPast" ?
@@ -339,8 +355,16 @@ export default function Event() {
                                 <PhotoInput id="add-past-photo" className="cares-modal-input" onChange={setLightPhoto}/>
                             </div>
                             <div className="modal-vue-add-light__btn-container">
-                                <button className="btn" onClick={() => setModalVue("list")}>Retour</button>
-                                <button className="btn" onClick={() => handleCreatePastEvent()}>Valider</button>
+                                <button type="button" className="btn" onClick={() => setModalVue("list")}>Retour</button>
+                                <button type="button" className="btn" onClick={() => handleCreatePastEvent()}>Valider</button>
+                            </div>
+                        </div>
+                    :modalVue === "confirmInstagram" ?
+                        <div className="modal-vue-confirm-instagram">
+                            <p className="modal-vue-confirm-instagram__text">Voulez-vous publier cet évènement sur Instagram ?</p>
+                            <div className="modal-vue-confirm-instagram__btn-container">
+                                <button type="button" className="btn" onClick={() => {setPendingInstagramEventId(null); setModalVue("list")}}>Non</button>
+                                <button type="button" className="btn" onClick={() => handlePublishInstagram()}>Oui</button>
                             </div>
                         </div>
                         :""

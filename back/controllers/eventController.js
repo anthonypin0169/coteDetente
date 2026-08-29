@@ -2,6 +2,7 @@ const Event = require('../models/event')
 const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
+const { publishPhotoToInstagram } = require('../services/instagram')
 
 const savePhoto = async (file) => {
   const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.avif`
@@ -99,6 +100,30 @@ exports.deleteEvent = async (req, res) => {
     }
 
     res.json({ message: 'Évènement supprimé', promotedEvent })
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
+exports.publishEventToInstagram = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id)
+    if (!event) return res.status(404).json({ message: 'Évènement introuvable' })
+    if (!event.photoUrl) return res.status(400).json({ message: 'Cet évènement n\'a pas de photo à publier' })
+
+    const avifPath = path.join('uploads', path.basename(event.photoUrl))
+    const jpegFilename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.jpg`
+    const jpegPath = path.join('uploads', jpegFilename)
+    await sharp(avifPath).jpeg({ quality: 85 }).toFile(jpegPath)
+
+    const imageUrl = `${process.env.PUBLIC_SITE_URL}/uploads/${jpegFilename}`
+    const caption = [event.title, event.description].filter(Boolean).join('\n\n')
+
+    const instagramResult = await publishPhotoToInstagram(imageUrl, caption)
+
+    if (fs.existsSync(jpegPath)) fs.unlinkSync(jpegPath)
+
+    res.json({ message: 'Publié sur Instagram', instagram: instagramResult })
   } catch (error) {
     res.status(500).json({ message: error.message })
   }

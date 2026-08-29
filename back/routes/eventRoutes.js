@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { getAllEvents, createEvent, updateEvent, deleteEvent } = require('../controllers/eventController')
+const { getAllEvents, createEvent, updateEvent, deleteEvent, publishEventToInstagram } = require('../controllers/eventController')
 const protect = require('../middleware/authMiddleware')
 const uploadMedia = require('../middleware/uploadSousTypeMedia')
 
@@ -136,5 +136,29 @@ router.put('/:id', protect, photoFields, updateEvent)
  *         description: Évènement introuvable
  */
 router.delete('/:id', protect, deleteEvent)
+
+/**
+ * @swagger
+ * /api/events/{id}/publish-instagram:
+ *   post:
+ *     summary: Publier la photo d'un évènement sur Instagram (authentifié)
+ *     tags: [Events]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Publié sur Instagram
+ *       400:
+ *         description: Aucune photo pour cet évènement
+ *       404:
+ *         description: Évènement introuvable
+ */
+router.post('/:id/publish-instagram', protect, publishEventToInstagram)
 
 module.exports = router

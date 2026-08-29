@@ -13,6 +13,8 @@ const groupRoutes = require('./routes/groupRoutes');
 const prestationRoutes = require('./routes/prestationRoutes');
 const highlightCardRoutes = require('./routes/highlightCardRoutes');
 const eventRoutes = require('./routes/eventRoutes');
+const contactPageRoutes = require('./routes/contactPageRoutes');
+const contactRoutes = require('./routes/contactRoutes');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');
 
@@ -37,6 +39,8 @@ app.use('/api/groups', groupRoutes);
 app.use('/api/prestations', prestationRoutes);
 app.use('/api/highlight-cards', highlightCardRoutes);
 app.use('/api/events', eventRoutes);
+app.use('/api/contact-page', contactPageRoutes);
+app.use('/api/contact', contactRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
