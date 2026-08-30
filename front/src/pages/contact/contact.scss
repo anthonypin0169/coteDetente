@@ -1,30 +1,76 @@
 .main-contact{
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.bg-img{
+    width: 100%;
+    height: 100%;
+    background-attachment: fixed; 
+    background-size: cover; 
+    background-position: center; 
 }
 .content-section{
-    &__img{
-
-    }
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     &__form{
-        &--label{
-
+        width: 35%;
+        aspect-ratio: 3 / 3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 15px;
+        box-shadow: 3px 3px 4px;
+        background: gainsboro;
+        position: relative;
+        z-index: 1;
+        &--input-container{
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 4vw;
         }
-        &--input{
-
+        &--textaera-container{
+            display: flex;
+            flex-direction: column;
+            width: 60%;
+            gap: 1vw;
+            margin: 5vw 0 2vw 0;
         }
-        &--textarea{
-
+        #contact-message{
+          
+        }
+        &--btn{
+            
         }
     }
-}
-.animated-bloc{
-
+    &__animated-bloc{
+        width: 100%;
+        height: 23%;
+        position: sticky;
+        bottom: 0;
+        background: burlywood;
+    }
 }
 .contact-modal{
-    &__img-label{
-
-    }
-    &__img-input{
-        
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3vw 0;
+    &__container{
+        display: flex;
+        align-items: center;
+        gap: 2vw;
+        &--img-label{
+            
+        }
+        &--img-input{
+            
+        }
     }
 }

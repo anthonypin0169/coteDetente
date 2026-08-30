@@ -4,6 +4,8 @@
     background: var(--color-grey-text);
     color: var(--color-background);
     font-size: 15px;
+    position: relative;
+    z-index: 1;
     &__institut-icon{
         display: none;
         filter: brightness(0) invert(1);
@@ -84,7 +86,6 @@
         }
     }
 }
-
 /*Ecrasement des styles imposés par Nav*/
 .links.footer-navlink{
     color: var(--color-background);

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useSelector } from "react-redux"
 import Modal from "@/component/modal/modal"
 import PhotoInput from "@/component/photoInput/photoInput"
@@ -58,28 +58,85 @@ export default function Contact() {
     }
 
 
+    /* Animation du bloc */
+    const animRef = useRef("")
+
+    useEffect(() => {
+        const handleScroll = () => {
+
+            animRef.current.style.transform = `translateY(${window.scrollY * 0.3}px)`
+
+        }
+
+        window.addEventListener("scroll", handleScroll)
+        return () => window.removeEventListener("scroll", handleScroll)
+
+    },[])
+
+
+    /* Envoi du formulaire sur le mail */
+    const [fullName, setFullName] = useState("")
+    const [email, setEmail] = useState("")
+    const [message, setMessage] = useState("")
+    const [messageSent, setMessageSent] = useState(false)
+
+    const handleSendMessage = async () => {
+        try{
+            const { ok } = await apiFetch("/api/contact",{
+                method : "POST",
+                body : {
+                    fullName : fullName,
+                    email : email,
+                    message : message
+                }
+            })
+
+            if(ok){
+                setMessageSent(true)
+                setFullName("")
+                setEmail("")
+                setMessage("")
+            }
+        }catch(error){
+            (error.message)
+        }
+    }
+
+
     return (
-        <main className="main-contact">
+        <main className="main-contact bg-img" style={{ backgroundImage: `url(${contactPage?.photoUrl})` }}>
             {isAuthenticated &&
                 <button type="button" className="btn" onClick={() => setModalIsOpen(true)}>Modifier</button>
             }
             <section className="content-section" >
-                <img  className="content-section__img" src={contactPage?.photoUrl} alt="" />
-                <form  className="content-section__form" action="">
-                    <label className="content-section__form--label" htmlFor="contat-name">Votre Nom - Prénom</label>
-                    <input className="content-section__form--input" type="text" id="contat-name"/>
-                    <label className="content-section__form--label" htmlFor="contact-mail">Votre adresse mail</label>
-                    <input className="content-section__form--input" type="text" id="contact-mail"/>
-                    <label className="content-section__form--label" htmlFor="contact-message">Votre message</label>
-                    <textarea className="content-section__form--textarea" name="" id="contact-message"></textarea>
-                </form>
+                {messageSent ? 
+                    <div>Message envoyé !</div>
+                :
+                    <form  className="content-section__form" action="">
+                        <div className="content-section__form--input-container">
+                            <label htmlFor="contat-name">Votre Nom - Prénom</label>
+                            <input type="text" id="contat-name" value={fullName} onChange={(e) => setFullName(e.target.value)}/>
+                        </div>
+                        <div className="content-section__form--input-container">
+                            <label htmlFor="contact-mail">Votre adresse mail</label>
+                            <input type="text" id="contact-mail" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                        </div>
+                        <div className="content-section__form--textaera-container">
+                            <label htmlFor="contact-message">Votre message</label>
+                            <textarea name="" id="contact-message" value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
+                        </div>
+                        <button type="button" onClick={() => handleSendMessage()} className="btn content-section__form--btn">Envoyer</button>
+                    </form>
+                }
+                <div ref={animRef} className="content-section__animated-bloc"></div>
             </section>
-            <div className="animated-bloc"></div>
-            <Modal isOpen={modalIsOpen} onClose={() =>setModalIsOpen(false)} variant="modify">
+            <Modal isOpen={modalIsOpen} onClose={() =>setModalIsOpen(false)} variant="staff">
                 <div className="contact-modal">
-                    <label className="contact-modal__img-label" htmlFor="contact-photo">Choisir une photo</label>
-                    <PhotoInput className="contact-modal__img-input" id="contact-photo" onChange={setNewImg}/>
-                    <button type="button" onClick={() => handleUpdatePhoto()}>Valider</button>
+                    <div className="contact-modal__container">
+                        <label className="contact-modal__container--img-label" htmlFor="contact-photo">Choisir une photo</label>
+                        <PhotoInput className="contact-modal__container--img-input group-vue__photo-input" id="contact-photo" onChange={setNewImg}/>
+                    </div>
+                    <button type="button" className="btn" onClick={() => handleUpdatePhoto()}>Valider</button>
                 </div>
             </Modal>
         </main>
