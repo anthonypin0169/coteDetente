@@ -4,7 +4,7 @@ const giftCardSchema = new mongoose.Schema({
   senderName: { type: String, required: true },
   senderEmail: { type: String, required: true },
   recipientName: { type: String, required: true },
-  recipientEmail: { type: String, required: true },
+  recipientEmail: { type: String },
   amount: { type: Number, required: true },
   message: { type: String },
   isPaid: { type: Boolean, default: false }

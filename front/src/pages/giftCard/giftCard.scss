@@ -1,0 +1,104 @@
+.gift-main{
+    width: 100%;
+    height: 100vh;
+    padding-top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.gift-first-section{
+    background: #da8585;
+    height: 29vw;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px 0 0 12px;
+    &__card{
+        width: 95%;
+        height: 90%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background: gray;
+        border-radius: 12px;
+        &--first-bloc{
+            width: 60%;
+            height: 95%;
+            border-radius: 8px;
+            .gift-title{
+
+            }
+            .gift-photo{
+                width: 100%;
+                height: 75%;
+                object-fit: cover;
+                border-radius: 5px;
+            }
+        }
+        &--second-bloc{
+            width: 35%;
+            display: flex;
+            flex-direction: column;
+            align-self: flex-end;
+        }
+    }
+}
+.gift-second-section{
+    background: #6be469ad;
+    height: 29vw;
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 12px 12px 0;
+    &__form{
+        width: 95%;
+        height: 92%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: gainsboro;
+        border-radius: 12px;
+        &--bloc{
+            width: 95%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 5%;
+        }
+        &--bloc-text{
+            width: 95%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            margin-top: 5%;
+            #client-infos-message{
+                height: 100%;
+            }
+        }
+        &--btn{
+            flex-shrink: 0;
+        }
+    }
+}
+.gift-modal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 3vw;
+    gap: 2vw;
+    &__container{
+        width: 70%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        &--label{
+            width: 50%;
+        }
+        &--textarea{
+            width: 50%;
+            height: 5vw;
+        }
+    }
+}

@@ -7,7 +7,8 @@
       "Bash(node --check controllers/contactPageController.js)",
       "Bash(node --check routes/contactPageRoutes.js)",
       "Bash(node --check services/mailer.js)",
-      "Bash(node --check controllers/contactController.js)"
+      "Bash(node --check controllers/contactController.js)",
+      "WebSearch"
     ]
   }
 }
