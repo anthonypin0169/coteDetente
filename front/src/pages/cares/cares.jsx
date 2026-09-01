@@ -12,15 +12,39 @@ export default function Cares() {
     const token = useSelector((state) => state.auth.token)
 
 
-    /* Récuperer les sous types, mettre à jour sur le sous type actuel et modifier son titre */
+    /* Récuperer le type Soins */
+    const [pageType, setPageType] = useState([])
+    const actualTypeId = pageType._id
+
+    useEffect(()=>{
+        const loadType = async () => {
+            try {
+                const { data } = await apiFetch("/api/types")
+
+                if(!data){
+                    throw new Error ("erreur dans la récuperation des types")
+                }
+                const found = data.find(type => type.route === "/soins")
+                setPageType(found)
+
+            }catch(error){
+                (error.message)
+            }
+        }
+        loadType()
+    },[])
+
+    /* Récuperer les sous types du Type Soins uniquement, mettre à jour sur le sous type actuel et modifier son titre */
     const [allSousTypes, setAllSousTypes] = useState([])
     const [currentSousType, setCurrentSousType] = useState("")
     const [actualPageTitle, setActualPageTitle] = useState("")
 
     useEffect(()=>{
+        if (!actualTypeId) return
+
         const loadSousTypes = async () => {
             try {
-                const { data } = await apiFetch("/api/sous-types")
+                const { data } = await apiFetch(`/api/sous-types/type/${actualTypeId}`)
 
                 if(!data){
                     throw new Error ("erreur dans la récuperation des sous-types")
@@ -34,7 +58,7 @@ export default function Cares() {
             }
         }
         loadSousTypes()
-    },[sousTypeSlug])
+    },[actualTypeId, sousTypeSlug])
 
 
     /* Modifier le grand titre de page d'un sous-type et n'en cibler qu'un seul */
@@ -321,8 +345,8 @@ export default function Cares() {
                                         <div className="content-bloc__prestations--text">
                                             <p>{presta.name}</p>
                                             <div className="content-bloc__prestations--text--infos">
+                                                <p>{presta.duration} :</p>
                                                 <p>{presta.price}</p>
-                                                <p>{presta.duration}</p>
                                             </div>
                                         </div>
                                     </div>

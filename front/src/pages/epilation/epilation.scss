@@ -124,7 +124,7 @@
     }
 }
 @media(min-width: 768px){
-    main{
+    .epilation-main{
         padding-top: 12vw;
     }
     #photo-input{
@@ -161,7 +161,7 @@
     }
     .epilation-section{
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: space-around;
         align-items: start;
         &__presta-bloc{
             width: 30%;
@@ -173,6 +173,7 @@
         &__package-container{
             width: 40%;
             margin-right: 3vw;
+            gap: 5vw;
             &--presta-bloc{
                display: flex;
                 flex-direction: column;
@@ -198,6 +199,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin-top: 8vw;
         &__presta-bloc{
             width: 80%;
             display: flex;
@@ -215,7 +217,7 @@
 
     }
     .item-text{
-        width: 40%;
+        width: 30%;
         display: flex;
         justify-content: space-between;
         &--price{
@@ -227,7 +229,7 @@
     }
 }
 @media(min-width: 1024px){
-    main{
+    .epilation-main{
         padding-top: 8vw;
     }
     #photo-input{

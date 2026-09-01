@@ -195,7 +195,7 @@ export default function Makeup() {
 
 
     return (
-        <main>
+        <main className="makeup-main">
             {isAuthenticated &&
                 <button className="btn" onClick={() => setModalIsOpen(true)}>Modifier</button>
             }

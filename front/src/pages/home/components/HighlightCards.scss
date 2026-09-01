@@ -32,13 +32,16 @@
 sur les 4 formats.*/
 a.home__services--link{
     font-size: 22px;
+    border: 2px solid;
+    border-radius: 5px;
+    padding: 20px 100px;
 }
 
 @media (min-width: 768px){
     .home__services{
         padding: 100px 0 80px 0;
         &--link{
-            margin-top: 50px;
+            margin-top: 30px;
         }
         &--img{
             width: 423px;
@@ -171,7 +174,7 @@ a.home__services--link{
 }
 @media (min-width: 1024px){
     .home__services{
-        padding: 150px 0 150px 0;
+        padding: 150px 0 110px 0;
         &--img{
             width: 812px;
             height: 606px;
@@ -226,7 +229,7 @@ a.home__services--link{
     }
     a.home__services--link{
         font-size: 50px;
-        margin-top: 150px;
+        margin: 150px 0 50px 0;
     }
     .highlight-modal-list-vue{
         flex-direction: row;

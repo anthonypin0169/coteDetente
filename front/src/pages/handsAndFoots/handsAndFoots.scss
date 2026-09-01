@@ -1,68 +1,103 @@
+.H-and-F-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 12vw;
+}
 .gel-section{
     width: 90%;
-    height: 40vw;
     display: flex;
     flex-direction: column;
     &__first-division{
         width: 100%;
-        height: 40%;
         display: flex;
         justify-content: space-between;
+        margin-bottom: 3vw;
         &--video-bloc{
             width: 30%;
-            height: 100%;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            video{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
         }
         &--presta-bloc{
             width: 65%;
             height: 100%;
+            &--item{
+                display: flex;
+                justify-content: space-between;
+            }
         }
     }
     &__second-division{
         width: 100%;
-        height: 40%;
         display: flex;
         justify-content: space-between;
-        &--photo-bloc{
-            width: 55%;
-            height: 100%;
-        }
+        margin-bottom: 5vw;
         &--text-bloc{
-            width: 40%;
+            width: 100%;
             height: 100%;
         }
     }
 }
 .manucure-section{
     width: 90%;     
-    height: 40vw;
     display: flex;
     flex-direction: column;
     &__first-division{
         width: 100%;
-        height: 40%;
         display: flex;
         justify-content: space-between;
+        margin-bottom: 3vw;
         &--presta-bloc{
             width: 65%;
             height: 100%;
+            &--item{
+                display: flex;
+                justify-content: space-between;
+            }
         }
         &--video-bloc{
             width: 30%;
-            height: 100%;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            video{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
         }
     }
     &__second-division{
         width: 100%;
-        height: 40%;
         display: flex;
         justify-content: space-between;
-        &--text-bloc{
+        margin-bottom: 5vw;
+        &--photo-bloc{
             width: 40%;
-            height: 100%;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
         }
         &--presta-bloc{
             width: 55%;
             height: 100%;
+            &--item{
+                display: flex;
+                justify-content: space-between;
+            }
         }
+    }
+}
+@media( min-width : 768px ){
+    .H-and-F-section{
+        padding-top: 8vw;
     }
 }

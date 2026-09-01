@@ -1,3 +1,9 @@
+.makeup-main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 7vw;
+}
 .makup-list-section{
     width: 100%;
     padding: 5vw 0 8vw 0;
@@ -10,7 +16,7 @@
         align-self: center;
         justify-content: space-between;
         &--presta-bloc{
-            width: 40%;
+            width: 55%;
         }
     }
 }
@@ -22,7 +28,7 @@
     }
     &__infos{
         display: flex;
-        width: 30%;
+        width: 20%;
         justify-content: space-between;
         &--price{
 

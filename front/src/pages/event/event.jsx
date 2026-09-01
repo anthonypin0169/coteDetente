@@ -217,9 +217,15 @@ export default function Event() {
                 <button type="button" className="btn" onClick={() => {setModalIsOpen(true) ; setModalVue("list")}}>Modifier</button>
             }
             <section className="first-section">
-                <img className="first-section__photo1" src={currentEvent?.photoUrl} alt="" />
-                <img className="first-section__photo2" src={currentEvent?.secondPhotoUrl} alt="" />
-                <img className="first-section__photo3" src={currentEvent?.thirdPhotoUrl} alt="" />
+                <div className="first-section__img-container1">
+                    <img className="first-section__img-container1--photo1" src={currentEvent?.photoUrl} alt="" />
+                </div>
+                <div className="first-section__img-container2">
+                    <img className="first-section__img-container2--photo2" src={currentEvent?.secondPhotoUrl} alt="" />
+                </div>
+                <div className="first-section__img-container3">
+                    <img className="first-section__img-container3--photo3" src={currentEvent?.thirdPhotoUrl} alt="" />
+                </div>
                 <div className="first-section__infos-container">
                     <div className="first-section__infos-container--title">{currentEvent?.title}</div>
                     <div className="first-section__infos-container--dates">

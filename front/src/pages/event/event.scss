@@ -2,26 +2,77 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-top: 8vw;
 }
 .first-section{
-    &__photo1{
-
+    width: 90%;
+    max-height: 90vh;
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px;
+    background: #b1b1b1a1;
+    &__img-container1{
+        width: 35vw;
+        height: 20vw;
+        border-radius: 15px;
+        overflow: hidden;
+        position: relative;
+        left: 28vw;
+        top: 4vw;
+        &--photo1{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     }
-    &__photo2{
-
+    &__img-container2{
+        width: 15vw;
+        height: 20vw;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+        left: 68vw;
+        top: -7vw;
+        &--photo2{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     }
-    &__photo3{
-
+    &__img-container3{
+        width: 13vw;
+        height: 13vw;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+        left: 57vw;
+        top: -13vw;
+        &--photo3{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     }
     &__infos-container{
+        width: 80%;
+        display: flex;
+        justify-self: center;
+        justify-content: space-between;
+        position: relative;
+        top: -47vw;
         &--title{
 
         }
         &--dates{
-
+            width: 10vw;
+            display: flex;
+            justify-content: space-between;
         }
     }
     &__text-container{
+        position: relative;
+        top: -27vw;
+        left: 5vw;
         &--name{
 
         }
@@ -42,7 +93,9 @@
         justify-content: center;
         gap: 3%;
         flex-wrap: wrap;
+        margin-bottom: 8vw;
         .item{
+            margin-bottom: 2vw;
             &__bloc{
                 width: 14vw;
                 aspect-ratio: 1 / 1;
@@ -51,17 +104,21 @@
                 align-items: center;
                 overflow: hidden;
                 border-radius: 8px;
+                position: relative;
                 &--photo{
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
                 }
                 &--description{
-
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%,-50%);
                 }
             }
             &__title{
-
+                justify-self: center;
             }
         }
     }
@@ -176,6 +233,19 @@
         width: 60%;
         display: flex;
         justify-content: space-between;
+    }
+    &__btn-container{
+        width: 60%;
+        display: flex;
+        justify-content: space-between;
+    }
+}
+.modal-vue-confirm-instagram{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &__text{
+        width: 60%;
     }
     &__btn-container{
         width: 60%;

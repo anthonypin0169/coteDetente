@@ -69,9 +69,11 @@ export default function CompanyProfile({ carrouselInstitut }) {
                 {isAuthenticated ? <button onClick={() => setEditModalIsOpen(true)} className="home__company-profile--btn btn">Modifier</button> : null}
 
                 <div className="home__company-profile--content">
-                    {paragraphState.map((para, index) => (
-                        <p key={index} className="group__company-text">{para}</p>
-                    ))}
+                    <div className="company-text-container">
+                        {paragraphState.map((para, index) => (
+                            <p key={index} className="company-text">{para}</p>
+                        ))}
+                    </div>
                     <Carrousel images={carrouselInstitut.map( p => p.url )} mode="auto" className="company-carrousel-container"/>
                 </div>
             </section>

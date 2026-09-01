@@ -117,12 +117,12 @@ export default function GiftCard() {
                         <p>{giftPageInfos?.shortText}</p>
                         <label htmlFor="gift-price">Choisissez votre montant</label>
                         <input type="text" id="gift-price" value={price} onChange={(e) => setPrice(e.target.value)}/>
-                        <button className="btn" onClick={() => setIsFormVisible(true)}>Étape suivante</button>
+                        <button className="btn" type="button" onClick={() => setIsFormVisible(true)}>Étape suivante</button>
                     </div>
                 </div>
             </section>
     
-            <section className="gift-second-section">
+            <section className={`gift-second-section ${isFormVisible ? "second-section--visible" : ""} `}>
                 <div className="gift-second-section__form">
                     <div className="gift-second-section__form--bloc">
                         <label htmlFor="client-infos-name">Votre nom et prénom</label>

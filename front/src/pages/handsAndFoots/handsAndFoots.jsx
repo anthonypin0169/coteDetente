@@ -234,7 +234,7 @@ export default function HandsAndFoots() {
 
 
     return (
-        <main>
+        <main className="H-and-F-section">
             <h1>Mains et pieds</h1>
             {isAuthenticated &&
                 <button className="btn" onClick={() => setModalIsOpen(true)}>Modifier</button>
@@ -258,9 +258,6 @@ export default function HandsAndFoots() {
                     </div>
                 </div>
                 <div className="gel-section__second-division">
-                    <div className="gel-section__second-division--photo-bloc">
-                        <img src={posesDeposeComblagesGroup?.photoUrl} alt="" />
-                    </div>
                     <div className="gel-section__second-division--text-bloc">
                         <p>{posesDeposeComblagesGroup?.description}</p>
                     </div>
@@ -285,8 +282,8 @@ export default function HandsAndFoots() {
                 </div>
 
                 <div className="manucure-section__second-division">
-                    <div className="manucure-section__second-division--text-bloc">
-                        <p>{manucuresGroup?.description}</p>
+                    <div className="manucure-section__second-division--photo-bloc">
+                        <img src={manucuresGroup?.photoUrl} alt="" />
                     </div>
                     <div className="manucure-section__second-division--presta-bloc">
                         {prestations.filter((p) => p.group === manucuresGroup?._id).map((presta) => (
@@ -319,14 +316,18 @@ export default function HandsAndFoots() {
                                                 <label className="cares-modal-labels" htmlFor="description-edit">Modifier la description</label>
                                                 <input className="cares-modal-inputs" type="text" id="description-edit" value={actualGroupDescription} onChange={(e) => setActualGroupDescription(e.target.value)}/>
                                             </div>
-                                            <div className="edit-list__item">
-                                                <label className="cares-modal-labels" htmlFor="edit-photo-input">Modifier la photo</label>
-                                                <PhotoInput className="edit-list__photo-input" id="edit-photo-input" onChange={setActualGroupPhoto}/>
-                                            </div>
-                                            <div className="edit-list__item">
-                                                <label className="cares-modal-labels" htmlFor="hands-video-edit">Modifier la vidéo</label>
-                                                <input className="cares-modal-inputs" type="file" id="hands-video-edit" onChange={(e) => setActualGroupVideo(e.target.files[0])}/>
-                                            </div>
+                                            {group.role === "manucures" &&
+                                                <div className="edit-list__item">
+                                                    <label className="cares-modal-labels" htmlFor="edit-photo-input">Modifier la photo</label>
+                                                    <PhotoInput className="edit-list__photo-input" id="edit-photo-input" onChange={setActualGroupPhoto}/>
+                                                </div>
+                                            }
+                                            {(group.role === "pose-depose-comblages" || group.role === "vernis-motifs") &&
+                                                <div className="edit-list__item">
+                                                    <label className="cares-modal-labels" htmlFor="hands-video-edit">Modifier la vidéo</label>
+                                                    <input className="cares-modal-inputs" type="file" id="hands-video-edit" onChange={(e) => setActualGroupVideo(e.target.files[0])}/>
+                                                </div>
+                                            }
                                             <div className="edit-list__btn-bloc">
                                                 <button type="button" className="btn" onClick={() => setEditingGroupId(null)}>Retour</button>
                                                 <button type="button" className="btn" onClick={() => {handleUpdateGroup(group._id) ; setEditingGroupId(null)}}>Valider</button>

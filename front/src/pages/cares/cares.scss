@@ -15,7 +15,7 @@
 
         }
         &--type{
-            margin: 150px 0;
+            margin: 8vw 0;
         }
     }
 }
@@ -142,6 +142,7 @@
             margin-top: 1vw;
             display: flex;
             justify-content: space-between;
+            align-items: center;
             gap: 1vw;
         }
         &--btn-bloc{
