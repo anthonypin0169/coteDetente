@@ -294,7 +294,7 @@ export default function Makeup() {
                             </div>
                         </div>
                         <div className="makup-list-section__item--video-container">
-                            <video src={p.videoUrl} className="makup-presta-video"></video>
+                            <video src={p.videoUrl} className="makup-presta-video" muted playsInline></video>
                         </div>
                     </div>
                 ))}

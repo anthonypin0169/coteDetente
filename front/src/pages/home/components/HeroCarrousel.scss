@@ -1,6 +1,37 @@
 .home__carrousel{
     height: 30vh;
-    object-fit: contain;
+    .carrousel__slide{
+        padding: 0;
+    }
+}
+.hero-slide{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    container-type: inline-size;
+    &__img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    &__text{
+        position: absolute;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        max-width: 80%;
+        pointer-events: none;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(255, 255, 255, 0.3);
+        &--title{
+            font-size: 2cqw;
+            font-weight: bold;
+        }
+        &--dates{
+            font-size: 1.2cqw;
+        }
+        &--description{
+            font-size: 1cqw;
+        }
+    }
 }
 
 @media (min-width: 768px){
@@ -10,11 +41,11 @@
 }
 @media (min-width: 1024px){
     .home__carrousel{
-        height: 70vh;
+        height: 90vh;
     }
 }
 @media (min-width: 1440px){
     .home__carrousel{
-        height: 90vh;
+        height: 110vh;
     }
 }

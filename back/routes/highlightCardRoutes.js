@@ -39,6 +39,8 @@ router.get('/', getAllHighlightCards)
  *                 type: string
  *               backText:
  *                 type: string
+ *               redirectTo:
+ *                 type: string
  *               photo:
  *                 type: string
  *                 format: binary
@@ -75,6 +77,8 @@ router.post('/', protect, upload.single('photo'), createHighlightCard)
  *               backTitle:
  *                 type: string
  *               backText:
+ *                 type: string
+ *               redirectTo:
  *                 type: string
  *               photo:
  *                 type: string

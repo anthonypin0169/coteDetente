@@ -29,11 +29,38 @@
             .gift-title{
 
             }
-            .gift-photo{
+            .gift-photo-container{
+                position: relative;
                 width: 100%;
                 height: 75%;
+            }
+            .gift-photo{
+                width: 100%;
+                height: 100%;
                 object-fit: cover;
                 border-radius: 5px;
+            }
+            .gift-photo-overlay{
+                position: absolute;
+                inset: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-end;
+                gap: 0.5vw;
+                padding-bottom: 1vw;
+                pointer-events: none;
+                &--price{
+                    font-size: 1.8vw;
+                    font-weight: bold;
+                    color: #ffffff;
+                    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+                }
+                &--recipient{
+                    font-size: 1.1vw;
+                    color: #ffffff;
+                    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+                }
             }
         }
         &--second-bloc{

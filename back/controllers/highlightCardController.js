@@ -55,6 +55,7 @@ exports.updateHighlightCard = async (req, res) => {
     if (req.body.frontText !== undefined) card.frontText = req.body.frontText
     if (req.body.backTitle !== undefined) card.backTitle = req.body.backTitle
     if (req.body.backText !== undefined) card.backText = req.body.backText
+    if (req.body.redirectTo !== undefined) card.redirectTo = req.body.redirectTo
 
     await card.save()
     res.json(card)

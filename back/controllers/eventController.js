@@ -30,16 +30,23 @@ exports.getAllEvents = async (req, res) => {
 
 exports.createEvent = async (req, res) => {
   try {
-    const photoUrl = req.files?.photo?.[0] ? await savePhoto(req.files.photo[0]) : undefined
-    const secondPhotoUrl = req.files?.secondPhoto?.[0] ? await savePhoto(req.files.secondPhoto[0]) : undefined
-    const thirdPhotoUrl = req.files?.thirdPhoto?.[0] ? await savePhoto(req.files.thirdPhoto[0]) : undefined
+    const photoUrl = req.file ? await savePhoto(req.file) : undefined
     const isCurrent = req.body.isCurrent === 'true'
 
     if (isCurrent) {
       await Event.updateMany({ isCurrent: true }, { isCurrent: false })
     }
 
-    const event = await Event.create({ ...req.body, isCurrent, photoUrl, secondPhotoUrl, thirdPhotoUrl })
+    const eventData = { ...req.body, isCurrent, photoUrl }
+    if (req.body.textPositions !== undefined) {
+      try {
+        eventData.textPositions = JSON.parse(req.body.textPositions)
+      } catch {
+        return res.status(400).json({ message: 'textPositions doit être un JSON valide' })
+      }
+    }
+
+    const event = await Event.create(eventData)
     res.status(201).json(event)
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -51,17 +58,9 @@ exports.updateEvent = async (req, res) => {
     const event = await Event.findById(req.params.id)
     if (!event) return res.status(404).json({ message: 'Évènement introuvable' })
 
-    const photoFields = [
-      { field: 'photo', urlField: 'photoUrl' },
-      { field: 'secondPhoto', urlField: 'secondPhotoUrl' },
-      { field: 'thirdPhoto', urlField: 'thirdPhotoUrl' }
-    ]
-    for (const { field, urlField } of photoFields) {
-      const file = req.files?.[field]?.[0]
-      if (file) {
-        deletePhoto(event[urlField])
-        event[urlField] = await savePhoto(file)
-      }
+    if (req.file) {
+      deletePhoto(event.photoUrl)
+      event.photoUrl = await savePhoto(req.file)
     }
 
     if (req.body.title !== undefined) event.title = req.body.title
@@ -70,6 +69,14 @@ exports.updateEvent = async (req, res) => {
     if (req.body.employeeName !== undefined) event.employeeName = req.body.employeeName
     if (req.body.description !== undefined) event.description = req.body.description
     if (req.body.recapDescription !== undefined) event.recapDescription = req.body.recapDescription
+    if (req.body.textColor !== undefined) event.textColor = req.body.textColor
+    if (req.body.textPositions !== undefined) {
+      try {
+        event.textPositions = JSON.parse(req.body.textPositions)
+      } catch {
+        return res.status(400).json({ message: 'textPositions doit être un JSON valide' })
+      }
+    }
 
     await event.save()
     res.json(event)
@@ -84,8 +91,6 @@ exports.deleteEvent = async (req, res) => {
     if (!event) return res.status(404).json({ message: 'Évènement introuvable' })
 
     deletePhoto(event.photoUrl)
-    deletePhoto(event.secondPhotoUrl)
-    deletePhoto(event.thirdPhotoUrl)
 
     await event.deleteOne()
 

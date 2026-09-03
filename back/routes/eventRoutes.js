@@ -2,13 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { getAllEvents, createEvent, updateEvent, deleteEvent, publishEventToInstagram } = require('../controllers/eventController')
 const protect = require('../middleware/authMiddleware')
-const uploadMedia = require('../middleware/uploadSousTypeMedia')
-
-const photoFields = uploadMedia.fields([
-  { name: 'photo', maxCount: 1 },
-  { name: 'secondPhoto', maxCount: 1 },
-  { name: 'thirdPhoto', maxCount: 1 }
-])
+const upload = require('../middleware/upload')
 
 /**
  * @swagger
@@ -51,20 +45,20 @@ router.get('/', getAllEvents)
  *                 type: string
  *               isCurrent:
  *                 type: boolean
+ *               textColor:
+ *                 type: string
+ *                 enum: [white, black]
+ *               textPositions:
+ *                 type: string
+ *                 description: JSON stringifié {title:{x,y}, dates:{x,y}, description:{x,y}}
  *               photo:
- *                 type: string
- *                 format: binary
- *               secondPhoto:
- *                 type: string
- *                 format: binary
- *               thirdPhoto:
  *                 type: string
  *                 format: binary
  *     responses:
  *       201:
  *         description: Évènement créé
  */
-router.post('/', protect, photoFields, createEvent)
+router.post('/', protect, upload.single('photo'), createEvent)
 
 /**
  * @swagger
@@ -98,13 +92,13 @@ router.post('/', protect, photoFields, createEvent)
  *                 type: string
  *               recapDescription:
  *                 type: string
+ *               textColor:
+ *                 type: string
+ *                 enum: [white, black]
+ *               textPositions:
+ *                 type: string
+ *                 description: JSON stringifié {title:{x,y}, dates:{x,y}, description:{x,y}}
  *               photo:
- *                 type: string
- *                 format: binary
- *               secondPhoto:
- *                 type: string
- *                 format: binary
- *               thirdPhoto:
  *                 type: string
  *                 format: binary
  *     responses:
@@ -113,7 +107,7 @@ router.post('/', protect, photoFields, createEvent)
  *       404:
  *         description: Évènement introuvable
  */
-router.put('/:id', protect, photoFields, updateEvent)
+router.put('/:id', protect, upload.single('photo'), updateEvent)
 
 /**
  * @swagger

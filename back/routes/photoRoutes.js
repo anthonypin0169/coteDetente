@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getAllPhotos, getPhotosByCategory, createPhoto, deletePhoto } = require('../controllers/photoController');
+const { getAllPhotos, getPhotosByCategory, createPhoto, updatePhoto, deletePhoto } = require('../controllers/photoController');
 const protect = require('../middleware/authMiddleware');
 const upload = require('../middleware/upload');
 
@@ -68,6 +68,49 @@ router.get('/category/:category', getPhotosByCategory);
  *         description: Aucun fichier reçu
  */
 router.post('/', protect, upload.single('image'), createPhoto);
+
+/**
+ * @swagger
+ * /api/photos/{id}:
+ *   put:
+ *     summary: Modifier une photo (authentifié)
+ *     tags: [Photos]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               dates:
+ *                 type: string
+ *               textColor:
+ *                 type: string
+ *                 enum: [white, black]
+ *               textPositions:
+ *                 type: string
+ *                 description: JSON stringifié {title:{x,y}, dates:{x,y}, description:{x,y}}
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Photo mise à jour
+ *       404:
+ *         description: Photo introuvable
+ */
+router.put('/:id', protect, upload.single('image'), updatePhoto);
 
 /**
  * @swagger

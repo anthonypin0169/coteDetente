@@ -6,78 +6,35 @@
 }
 .first-section{
     width: 90%;
-    max-height: 90vh;
+    aspect-ratio: 16 / 9;
     position: relative;
     border-radius: 8px;
+    overflow: hidden;
     box-shadow: 2px 2px 5px;
-    background: #b1b1b1a1;
-    &__img-container1{
-        width: 35vw;
-        height: 20vw;
-        border-radius: 15px;
-        overflow: hidden;
-        position: relative;
-        left: 28vw;
-        top: 4vw;
-        &--photo1{
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+    container-type: inline-size;
+    &__photo{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
-    &__img-container2{
-        width: 15vw;
-        height: 20vw;
-        border-radius: 10px;
-        overflow: hidden;
-        position: relative;
-        left: 68vw;
-        top: -7vw;
-        &--photo2{
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-    }
-    &__img-container3{
-        width: 13vw;
-        height: 13vw;
-        border-radius: 10px;
-        overflow: hidden;
-        position: relative;
-        left: 57vw;
-        top: -13vw;
-        &--photo3{
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-    }
-    &__infos-container{
-        width: 80%;
-        display: flex;
-        justify-self: center;
-        justify-content: space-between;
-        position: relative;
-        top: -47vw;
+    &__text{
+        position: absolute;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        max-width: 80%;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(255, 255, 255, 0.3);
         &--title{
-
+            font-size: 2cqw;
+            font-weight: bold;
         }
         &--dates{
-            width: 10vw;
-            display: flex;
-            justify-content: space-between;
-        }
-    }
-    &__text-container{
-        position: relative;
-        top: -27vw;
-        left: 5vw;
-        &--name{
-
+            font-size: 1.2cqw;
         }
         &--description{
-
+            font-size: 1cqw;
+        }
+        &--employee{
+            font-size: 0.8cqw;
         }
     }
 }
@@ -197,12 +154,21 @@
     }
 }
 .modal-vue-edit{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1vw;
     &__first-bloc{
 
     }
     &__second-bloc{
+        &--color-choice{
+            display: flex;
+            gap: 20px;
+        }
         &--btn-container{
-
+            display: flex;
+            justify-content: space-between;
         }
     }
 }
@@ -216,6 +182,10 @@
         width: 60%;
         display: flex;
         justify-content: space-between;
+    }
+    &__color-choice{
+        display: flex;
+        gap: 20px;
     }
     &__btn-container{
         width: 60%;

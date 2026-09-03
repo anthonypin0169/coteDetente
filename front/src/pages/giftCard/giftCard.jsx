@@ -111,7 +111,13 @@ export default function GiftCard() {
                 <div className="gift-first-section__card">
                     <div className="gift-first-section__card--first-bloc">
                         <h3 className="gift-title">{giftPageInfos?.title}</h3>
-                        <img src={giftPageInfos?.photoUrl} alt=""  className="gift-photo"/>
+                        <div className="gift-photo-container">
+                            <img src={giftPageInfos?.photoUrl} alt=""  className="gift-photo"/>
+                            <div className="gift-photo-overlay">
+                                {price && <p className="gift-photo-overlay--price">{price} €</p>}
+                                {recipientName && <p className="gift-photo-overlay--recipient">Pour {recipientName}</p>}
+                            </div>
+                        </div>
                     </div>
                     <div className="gift-first-section__card--second-bloc">
                         <p>{giftPageInfos?.shortText}</p>
