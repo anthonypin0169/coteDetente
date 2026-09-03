@@ -75,7 +75,7 @@
     width: 0; 
     overflow: hidden; 
     opacity: 0; 
-    transition: width 0.4s ease 0.2s, opacity 1s ease 0.2s;
+    transition: width 0.4s ease 0.1s, opacity 1s ease 0.1s;
     &.second-section--visible { 
         background: #6be469ad;
         height: 29vw;

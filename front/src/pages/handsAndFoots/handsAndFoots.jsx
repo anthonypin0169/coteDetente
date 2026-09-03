@@ -226,11 +226,16 @@ export default function HandsAndFoots() {
         }
     }
 
+    
+    /* Modale du texte de milieu de page */
+    const [editTextIsOpen, setEditTextIsOpen] = useState(false)
+    
+    
+    
     /* Retrouver chaque groupe par son rôle */
     const posesDeposeComblagesGroup = groups.find(g => g.role === "pose-depose-comblages")
     const vernisMotifsGroup = groups.find(g => g.role === "vernis-motifs")
     const manucuresGroup = groups.find(g => g.role === "manucures")
-
 
 
     return (
@@ -257,6 +262,16 @@ export default function HandsAndFoots() {
                         ))}
                     </div>
                 </div>
+                {isAuthenticated &&
+                    <button className="btn" onClick={() => { setActualGroupDescription(posesDeposeComblagesGroup?.description || ""); setActualGroupName(posesDeposeComblagesGroup?.name || "") ; setEditTextIsOpen(true) }}>Modifier</button>
+                }
+                <Modal isOpen={editTextIsOpen} onClose={() => setEditTextIsOpen(false)} variant="modify">
+                    <div className="text-vue">
+                        <label className="text-vue__label" htmlFor="text-vue-textaera">Entrer un texte</label>
+                        <textarea className="text-vue__textaera" id="text-vue-textaera" value={actualGroupDescription} onChange={(e) => setActualGroupDescription(e.target.value)}/>
+                            <button type="button" className="btn" onClick={() => { handleUpdateGroup(posesDeposeComblagesGroup._id) ; setEditTextIsOpen(false) }}>Valider</button>
+                    </div>
+                </Modal>
                 <div className="gel-section__second-division">
                     <div className="gel-section__second-division--text-bloc">
                         <p>{posesDeposeComblagesGroup?.description}</p>
@@ -364,7 +379,7 @@ export default function HandsAndFoots() {
                                 <input className="cares-modal-inputs" type="text" id="presta-price-adding" value={newPricePresta} onChange={(e) => setNewPricePresta(e.target.value)}/>
                             </div>
                             <div className="prestation-vue__new-add--input-bloc">
-                                <label className="cares-modal-labels" htmlFor="presta-time-adding">Entrer une durée</label>
+                                <label className="cares-modal-labels" htmlFor="presta-time-adding">Entrer une durée (optionnel)</label>
                                 <input className="cares-modal-inputs" type="text" id="presta-time-adding" value={newPrestaDuration} onChange={(e) => setNewPrestaDuration(e.target.value)}/>
                             </div>
                             <div className="prestation-vue__new-add--btn-container">

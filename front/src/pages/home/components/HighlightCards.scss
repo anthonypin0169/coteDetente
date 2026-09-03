@@ -71,12 +71,14 @@ a.home__services--link{
                     box-shadow: 2px 2px 5px;
                     background: #ffffff;
                     padding: 5%;
+                    overflow: hidden;
                     &--img{
                         width: 70%;
                         aspect-ratio: 4 / 4;
                         background: black;
                         border-radius: 50%;
                         object-fit: cover;
+                        transform: translateZ(0);
                     }
                     &--title{
                         text-align: center;
@@ -94,12 +96,21 @@ a.home__services--link{
                     box-shadow: 2px 2px 5px;
                     background: #ffffff;
                     padding: 5%;
+                    overflow: hidden;
                     &--title{
                         text-align: center;
                     }
                     &--text{
                         margin: 0 5%;
                         text-align: center;
+                    }
+                    &--btn{
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        text-decoration: none;
+                        color: var(--color-oak-dark);
+
                     }
                 }
             }
@@ -203,6 +214,7 @@ a.home__services--link{
                         background: black;
                         border-radius: 50%;
                         object-fit: cover;
+                        transform: translateZ(0);
                     }
                     &--title{
                         white-space: nowrap;
@@ -219,6 +231,7 @@ a.home__services--link{
                     border-radius: 15px;
                     background: #ffffff;
                     padding: 5%;
+                    overflow: hidden;
                     &--title{
 
                     }

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux"
 import { apiFetch } from "@/utils/api"
 import Modal from "@/component/modal/modal"
 import PhotoInput from "@/component/photoInput/photoInput"
+import Reveal from "@/component/reveal/reveal"
 import "./epilation.scss"
 
 export default function Epilation() {
@@ -264,7 +265,7 @@ export default function Epilation() {
             }
             
             <section className="epilation-section">
-                <div className="epilation-section__presta-bloc">
+                <Reveal className="epilation-section__presta-bloc">
                     {prestations.filter(p => p.group === prestaGroup?._id).map((presta) => (
                         <div key={presta._id} className="epilation-section__presta-bloc--item">
                             <p className="item-title">{presta.name}</p>
@@ -274,9 +275,9 @@ export default function Epilation() {
                             </div>
                         </div>                        
                     ))}
-                </div>
+                </Reveal>
                 <div className="epilation-section__package-container">
-                    <div className="epilation-section__package-container--presta-bloc">
+                    <Reveal className="epilation-section__package-container--presta-bloc">
                         {prestations.filter(f => f.group === forfaitGroup?._id).map((presta) => (
                             <div key={presta._id} className="epilation-section__package-container--presta-bloc--item">
                                 <p className="item-title">{presta.name}</p>
@@ -286,7 +287,7 @@ export default function Epilation() {
                                 </div>
                             </div>   
                         ))}
-                    </div>
+                    </Reveal>
                     <div className="epilation-section__package-container--image-bloc">
                         <img src={sousType.photoUrl} alt="" className="epilation-section__package-container--image-bloc--photo"/>
                     </div>
@@ -294,7 +295,7 @@ export default function Epilation() {
             </section>
 
             <section className="tanning-section">
-                <div className="tanning-section__presta-bloc">
+                <Reveal className="tanning-section__presta-bloc">
                     {prestations.filter(f => f.group === bronzageGroup?._id).map((presta) => (
                         <div key={presta._id} className="tanning-section__presta-bloc--item">
                             <p className="item-title">{presta.name}</p>
@@ -304,7 +305,7 @@ export default function Epilation() {
                             </div>
                         </div>   
                     ))}
-                </div>
+                </Reveal>
                 <div className="tanning-section__video-bloc">
                     <video src={sousType.videoUrl} autoPlay muted loop playsInline className="tanning-section__video-bloc--video"></video>
                 </div>
@@ -384,7 +385,7 @@ export default function Epilation() {
                                 <input className="cares-modal-inputs" type="text" id="presta-price-adding" value={newPricePresta} onChange={(e) => setNewPricePresta(e.target.value)}/>
                             </div>
                             <div className="prestation-vue__new-add--input-bloc">
-                                <label className="cares-modal-labels" htmlFor="presta-time-adding">Entrer une durée</label>
+                                <label className="cares-modal-labels" htmlFor="presta-time-adding">Entrer une durée (optionnel)</label>
                                 <input className="cares-modal-inputs" type="text" id="presta-time-adding" value={newPrestaDuration} onChange={(e) => setNewPrestaDuration(e.target.value)}/>
                             </div>
                             <div className="prestation-vue__new-add--btn-container">

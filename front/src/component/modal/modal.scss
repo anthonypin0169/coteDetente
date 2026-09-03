@@ -387,7 +387,7 @@
     cursor: pointer;
     &::file-selector-button{
         border: none;
-        background: var(--color-background);
+        background: transparent;
         color: transparent;
         cursor: pointer;
     }

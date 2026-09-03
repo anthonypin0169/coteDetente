@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
 import Modal from "@/component/modal/modal"
 import NavLink from "@/component/nav/nav"
+import { Link } from "react-router-dom"
 import PhotoInput from "@/component/photoInput/photoInput"
 import { apiFetch } from "@/utils/api"
 import "./HighlightCards.scss"
@@ -40,6 +41,7 @@ export default function HighlightCards() {
             formData.append("backTitle", backTitleState)
             formData.append("backText", backTextState)
             formData.append("photo", photoUrlState)
+            formData.append("redirectTo", redirectToState)
 
             try{
             const { ok, data: updatedMember } = await apiFetch(`/api/highlight-cards/${selectedCardId}`, {
@@ -61,6 +63,12 @@ export default function HighlightCards() {
         const [highlightModalIsOpen, setHighlightModalIsOpen] = useState(false)
         const [highlightViewMode, setHighlightViewMode] = useState("list")
 
+        /* Modifier/Ajouter une redirection */
+        const [redirectToState, setRedirectToState] = useState("")
+
+
+
+
     return (
         <section className="home__services">
             <div className="home__services--card-group">
@@ -74,7 +82,7 @@ export default function HighlightCards() {
                         <div className="card__back">
                             <h2 className="card__back--title">{highlightCard.backTitle}</h2>
                             <h3 className="card__back--text">{highlightCard.backText}</h3>
-                            <button className="btn">Découvrir</button>
+                            <Link to={highlightCard.redirectTo || ""} className="btn card__back--btn">Découvrir</Link>
                         </div>
                     </div>
                 ))}
@@ -96,6 +104,7 @@ export default function HighlightCards() {
                                 setFrontTextState(highlightCard.frontText)
                                 setBackTitleState(highlightCard.backTitle)
                                 setBackTextState(highlightCard.backText)
+                                setRedirectToState(highlightCard.redirectTo || "")
                             }}>
                                 <div className="modal-card__content">
                                     <h2 className="modal-card__content--title">{highlightCard.frontTitle}</h2>
@@ -127,6 +136,10 @@ export default function HighlightCards() {
 
                                 <label htmlFor="highlight-back-text" className="highlight-label">Texte :</label>
                                 <input type="text" id="highlight-back-text" className="highlight-input" onChange={(e) => setBackTextState(e.target.value)} value={backTextState}/>
+
+                                <label htmlFor="highlight-redirect" className="highlight-label">Lien de redirection :</label>
+                                <input type="text" id="highlight-redirect" className="highlight-input" onChange={(e) => setRedirectToState(e.target.value)} value={redirectToState}/>
+
                             </div>
                         </div>
                         <div className="highlight-modal-card-vue__btn-container">

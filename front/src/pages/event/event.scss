@@ -66,17 +66,28 @@
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
+                    filter: brightness(1);
+                    transition: brightness 0.3s ease-in-out;
                 }
                 &--description{
                     position: absolute;
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%,-50%);
+                    opacity: 0;
+                    color: #fff;
+                    transition: opacity 0.3s ease-in-out;
                 }
             }
             &__title{
                 justify-self: center;
             }
+        }
+        .item__bloc:hover .item__bloc--photo {
+            filter: brightness(0.4);
+        }
+        .item__bloc:hover .item__bloc--description { 
+            opacity: 1; 
         }
     }
 }

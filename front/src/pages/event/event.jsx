@@ -5,6 +5,7 @@ import Modal from "@/component/modal/modal"
 import PhotoInput from "@/component/photoInput/photoInput"
 import PositionableTextEditor from "@/component/positionableTextEditor/positionableTextEditor"
 import { apiFetch } from "@/utils/api"
+import Reveal from "@/component/reveal/reveal"
 
 const DEFAULT_TEXT_POSITIONS = {
     title: { x: 50, y: 30 },
@@ -256,13 +257,13 @@ export default function Event() {
             <section className="second-section">
                 <div className="second-section__event-list-container">
                     {pastEvents.map((event) => (
-                        <div key={event._id} className="item">
+                        <Reveal key={event._id} className="item">
                             <div className="item__bloc">
                                 <img className="item__bloc--photo" src={event.photoUrl} alt="" />
                                 <div className="item__bloc--description">{event.recapDescription}</div>
                             </div>
                             <div className="item__title">{event.title}</div>
-                        </div>
+                        </Reveal>
                     ))}
                 </div>
             </section>

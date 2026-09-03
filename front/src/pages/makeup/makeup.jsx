@@ -213,7 +213,7 @@ export default function Makeup() {
                                 <input className="cares-modal-inputs" type="text" id="presta-price-adding" value={newPricePresta} onChange={(e) => setNewPricePresta(e.target.value)}/>
                             </div>
                             <div className="prestation-vue__new-add--input-bloc">
-                                <label className="cares-modal-labels" htmlFor="presta-time-adding">Entrer une durée</label>
+                                <label className="cares-modal-labels" htmlFor="presta-time-adding">Entrer une durée (optionnel)</label>
                                 <input className="cares-modal-inputs" type="text" id="presta-time-adding" value={newPrestaDuration} onChange={(e) => setNewPrestaDuration(e.target.value)}/>
                             </div>
                             <div className="prestation-vue__new-add--input-bloc">

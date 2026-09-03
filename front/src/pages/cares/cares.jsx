@@ -5,6 +5,7 @@ import { useSelector } from "react-redux"
 import Modal from "@/component/modal/modal"
 import PhotoInput from "@/component/photoInput/photoInput"
 import { apiFetch } from "@/utils/api"
+import Reveal from "@/component/reveal/reveal"
 
 export default function Cares() {
 
@@ -328,12 +329,12 @@ export default function Cares() {
         <main className="cares">
          <h1 className="cares__title">{currentSousType && currentSousType.pageTitle}</h1>
 
-            <section className="cares__section">
+            <section className="cares__section" >
                 {isAuthenticated &&
                     <button type="button" onClick={() => setModalIsOpen(true)} className="btn">Modifier</button>
                 }
                 {groups.map((bloc, i) => (
-                    <div className="cares__section--type" key={bloc._id}>
+                    <Reveal slide className="cares__section--type" key={bloc._id}>
                         <div className="presenting">
                             <h3>{bloc.name}</h3>
                             <h4>{bloc.description}</h4>
@@ -345,7 +346,7 @@ export default function Cares() {
                                         <div className="content-bloc__prestations--text">
                                             <p>{presta.name}</p>
                                             <div className="content-bloc__prestations--text--infos">
-                                                <p>{presta.duration} :</p>
+                                                {presta.duration && <p>{presta.duration} :</p>}
                                                 <p>{presta.price}</p>
                                             </div>
                                         </div>
@@ -354,7 +355,7 @@ export default function Cares() {
                             </div>   
                             <img src={bloc.photoUrl} alt="" className="content-bloc__img"/>
                         </div>
-                    </div>
+                    </Reveal>
                 ))}
             </section>
 
@@ -466,7 +467,7 @@ export default function Cares() {
                                     <input className="cares-modal-inputs" type="text" id="presta-price-adding" value={newPricePresta} onChange={(e) => setNewPricePresta(e.target.value)}/>
                                 </div>
                                 <div className="prestation-vue__new-add--input-bloc">
-                                    <label className="cares-modal-labels" htmlFor="presta-time-adding">Entrer une durée</label>
+                                    <label className="cares-modal-labels" htmlFor="presta-time-adding">Entrer une durée (optionnel)</label>
                                     <input className="cares-modal-inputs" type="text" id="presta-time-adding" value={newPrestaDuration} onChange={(e) => setNewPrestaDuration(e.target.value)}/>
                                 </div>
                                 <div className="prestation-vue__new-add--btn-container">
