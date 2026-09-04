@@ -184,7 +184,8 @@
                 }
             }
             &--image-bloc{
-                border-radius: 8px;
+                border-radius: 5px;
+                box-shadow: 1px 1px 5px;
                 overflow: hidden;
                 &--photo{
                     width: 100%;

@@ -5,6 +5,9 @@
     margin-bottom: 3vw;
     &__img{
         width: 40vw;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 2px 2px 6px;
         aspect-ratio: 5/3;
         z-index: 1;
     }

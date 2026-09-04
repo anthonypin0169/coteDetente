@@ -120,7 +120,7 @@ export default function GiftCard() {
                         </div>
                     </div>
                     <div className="gift-first-section__card--second-bloc">
-                        <p>{giftPageInfos?.shortText}</p>
+                        <p className="gift-text-2nd-bloc">{giftPageInfos?.shortText}</p>
                         <label htmlFor="gift-price">Choisissez votre montant</label>
                         <input type="text" id="gift-price" value={price} onChange={(e) => setPrice(e.target.value)}/>
                         <button className="btn" type="button" onClick={() => setIsFormVisible(true)}>Étape suivante</button>

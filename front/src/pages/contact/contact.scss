@@ -25,7 +25,7 @@
         align-items: center;
         border-radius: 15px;
         box-shadow: 3px 3px 4px;
-        background: gainsboro;
+        background: var(--color-surface);
         position: relative;
         z-index: 1;
         &--input-container{
@@ -54,7 +54,7 @@
         height: 23%;
         position: sticky;
         bottom: 0;
-        background: burlywood;
+        background: var(--color-surface-glass);
     }
 }
 .contact-modal{

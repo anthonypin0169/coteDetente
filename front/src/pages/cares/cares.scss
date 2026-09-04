@@ -8,7 +8,7 @@
         align-self: center;
     }
     &__section{
-        width: 80%;
+        width: 85%;
         display: flex;
         flex-direction: column;
         &--title{
@@ -16,6 +16,11 @@
         }
         &--type{
             margin: 8vw 0;
+            border-radius: 5px;
+            box-shadow: 1px 1px 3px;
+            overflow: hidden;
+            padding: 0 4vw 2vw 4vw;
+            background: var(--color-surface);
         }
     }
 }
@@ -50,6 +55,9 @@
         width: 320px;
         aspect-ratio: 3/4;
         object-fit: cover;
+        border-radius: 5px;
+        box-shadow: 1px 1px 5px;
+        overflow: hidden;
     }
 }
 
@@ -125,7 +133,7 @@
         cursor: pointer;
         &::file-selector-button{
             border: none;
-            background: var(--color-background);
+            background: transparent;
             color: transparent;
             cursor: pointer;
         }

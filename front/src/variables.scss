@@ -1,11 +1,16 @@
 :root {
-    --color-background: #F8F5F0;
-    --color-oak-light: #c4a98265;
-    --color-oak-dark: #8B6F47;
-    --color-grey-chrome: #9ea5a8;
-    --color-grey-chrome-opacity: #9ea5a8e7;
-    --color-grey-chrome-modal: #fff9ed93;
-    --color-grey-text: #4A4E52;
-    --color-blue: #6B8FA6;
-    --color-plum: #7D4E6B; 
-}   
+    /* Neutres */
+    --color-bg: #E7E4DA;
+    --color-surface: #FBFAF6;
+    --color-surface-glass: #FBFAF6E6;
+    --color-border: #C2C4B6;
+
+    /* Texte */
+    --color-ink: #2B2F2A;
+    --color-ink-soft: #6E7469;
+
+    /* Accents */
+    --color-accent: #566B52;
+    --color-accent-dark: #435241;
+    --color-gold: #A9803F;
+}

@@ -7,7 +7,7 @@
 
 .modal {
     position: fixed;
-    background-color: var(--color-background);
+    background-color: var(--color-surface);
     scrollbar-width: none;
     -ms-overflow-style: none;
     &::-webkit-scrollbar {
@@ -23,7 +23,7 @@
         width: 80vw;
         max-width: 340px;
         box-shadow: 1px 4px 20px rgb(176, 176, 176);
-        border: solid 1px var(--color-grey-chrome);
+        border: solid 1px var(--color-border);
         animation: slideFromLeft 200ms cubic-bezier(.33, 1.09, 1, .84);
         overflow-y: auto;
     }
@@ -36,7 +36,7 @@
         width: 90vw;
         border-radius: 8px;
         box-shadow: 1px 2px 8px rgb(95, 95, 95);
-        border: solid 1px var(--color-grey-chrome);
+        border: solid 1px var(--color-border);
         animation: slideFromTop 200ms cubic-bezier(.33, 1.09, 1, .84);
         overflow-y: auto;
     }
@@ -48,7 +48,7 @@
         max-height: 85dvh;
         border-radius: 8px;
         box-shadow: 1px 2px 8px rgb(95, 95, 95);
-        border: solid 1px var(--color-grey-chrome);
+        border: solid 1px var(--color-border);
         animation: slideFromTop 200ms cubic-bezier(.33, 1.09, 1, .84);
         overflow-y: auto;
     }
@@ -60,7 +60,7 @@
         padding: 20px 10px;
         border-radius: 25px;
         box-shadow: 1px 2px 8px rgb(95, 95, 95);
-        border: solid 1px var(--color-grey-chrome);
+        border: solid 1px var(--color-border);
         animation: slideFromTop 200ms cubic-bezier(.33, 1.09, 1, .84);
         overflow-y: auto;
     }
@@ -152,7 +152,7 @@
             height: 150px;
             border-radius: 8px;
             box-shadow: 1px 2px 4px rgb(95, 95, 95);
-            border: solid 1px var(--color-grey-chrome);
+            border: solid 1px var(--color-border);
         }
         &--btn{
             display: flex;
@@ -187,7 +187,7 @@
             height: 46px;
             border: none;
             border-radius: 5px;
-            background: var(--color-grey-chrome);
+            background: var(--color-accent);
             box-shadow: 1px 2px 4px rgb(95, 95, 95);
             margin: 16px 0;
         }
@@ -205,15 +205,15 @@
             margin: 24px 0;
             &::file-selector-button{
                 border: none;
-                background: var(--color-background);
-                color: var(--color-grey-text);
+                background: transparent;
+                color: var(--color-ink);
             }
         }
         &--alt{
             width: 90%;
             height: 50px;
             border-radius: 7px;
-            border: solid 1px var(--color-grey-chrome);
+            border: solid 1px var(--color-border);
             box-shadow: 1px 2px 4px rgb(95, 95, 95);
             margin: 24px 0;
         }
@@ -343,7 +343,9 @@
 .modal__text-edit-vue{
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 10px;
+    padding: 0 5%;
     width: 90%;
     &--hint{
         font-size: 12px;
@@ -354,6 +356,7 @@
         gap: 20px;
     }
     &--btn-bloc{
+        width: 60%;
         display: flex;
         justify-content: space-between;
     }
@@ -475,13 +478,12 @@
         &__upload-vue{
             &--upload{
                 width: 60%;
-                height: 40dvh;
                 margin: 50px 0;
             }
             &--alt{
                 width: 60%;
                 height: 60px;
-                margin: 50px 0;
+                margin: 2vw 0;
             }
             &--btn{
                 gap: 50px;

@@ -1,5 +1,6 @@
 .home__company-profile{
-    padding: 40px 20px;
+    padding: 3vw 3vw;
+    margin-bottom: 8vw;
     box-shadow: 0 10px 15px -10px;
     position: relative;
     z-index: 89;
@@ -38,9 +39,10 @@
 
 @media (min-width: 1024px){
     .home__company-profile{
-        padding: 0;
         width: 80%;
-        box-shadow: none;
+        box-shadow: 2px 2px 5px;
+        border-radius: 15px;
+        background: var(--color-surface);
         align-self: center;
         &--content{
             flex-direction: row;

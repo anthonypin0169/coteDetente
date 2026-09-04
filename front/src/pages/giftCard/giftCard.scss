@@ -7,32 +7,38 @@
     align-items: center;
 }
 .gift-first-section{
-    background: #da8585;
-    height: 29vw;
     width: 50%;
+    height: 29vw;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 12px 0 0 12px;
+    box-shadow: 2px 2px 5px;
+    background: var(--color-surface);
     &__card{
         width: 95%;
         height: 90%;
         display: flex;
         justify-content: space-around;
         align-items: center;
-        background: gray;
+        background: var(--color-ink);
         border-radius: 12px;
         &--first-bloc{
             width: 60%;
             height: 95%;
+            display: flex;
+            flex-direction: column;
             border-radius: 8px;
             .gift-title{
-
+                width: fit-content;
+                margin-left: 2vw;
+                color: #ffffff;
             }
             .gift-photo-container{
+                align-self: center;
                 position: relative;
-                width: 100%;
-                height: 75%;
+                width: 90%;
+                height: 72%;
             }
             .gift-photo{
                 width: 100%;
@@ -65,19 +71,29 @@
         }
         &--second-bloc{
             width: 35%;
+            height: 70%;
             display: flex;
             flex-direction: column;
-            align-self: flex-end;
+            justify-content: space-around;
+            align-items: center;
+            text-align: center;
+            .gift-text-2nd-bloc{
+                color: #ffffff;
+            }
+            #gift-price{
+                width: 80%;
+            }
         }
     }
 }
 .gift-second-section{
+    box-shadow: 2px 2px 3px;
     width: 0; 
     overflow: hidden; 
     opacity: 0; 
     transition: width 0.4s ease 0.1s, opacity 1s ease 0.1s;
     &.second-section--visible { 
-        background: #6be469ad;
+        background: var(--color-accent);
         height: 29vw;
         width: 30%;
         display: flex;
@@ -92,7 +108,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        background: gainsboro;
+        background: var(--color-surface);
         border-radius: 12px;
         &--bloc{
             width: 95%;

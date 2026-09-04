@@ -14,7 +14,7 @@
         z-index: 90;
         padding: 1px;
         border-radius: 50px;
-        background: var(--color-background);
+        background: var(--color-bg);
     }
     &--img{
         width: 275px;
@@ -69,13 +69,13 @@ a.home__services--link{
                     align-items: center;
                     border-radius: 15px;
                     box-shadow: 2px 2px 5px;
-                    background: #ffffff;
+                    background: var(--color-surface);
                     padding: 5%;
                     overflow: hidden;
                     &--img{
                         width: 70%;
                         aspect-ratio: 4 / 4;
-                        background: black;
+                        background: var(--color-ink);
                         border-radius: 50%;
                         object-fit: cover;
                         transform: translateZ(0);
@@ -94,7 +94,7 @@ a.home__services--link{
                     align-items: center;
                     border-radius: 15px;
                     box-shadow: 2px 2px 5px;
-                    background: #ffffff;
+                    background: var(--color-surface);
                     padding: 5%;
                     overflow: hidden;
                     &--title{
@@ -109,7 +109,7 @@ a.home__services--link{
                         align-items: center;
                         justify-content: center;
                         text-decoration: none;
-                        color: var(--color-oak-dark);
+                        color: var(--color-accent);
 
                     }
                 }
@@ -206,12 +206,12 @@ a.home__services--link{
                     justify-content: center;
                     align-items: center;
                     border-radius: 15px;
-                    background: #ffffff;
+                    background: var(--color-surface);
                     padding: 5%;
                     &--img{
                         width: 70%;
                         aspect-ratio: 4 / 4;
-                        background: black;
+                        background: var(--color-ink);
                         border-radius: 50%;
                         object-fit: cover;
                         transform: translateZ(0);
@@ -229,7 +229,7 @@ a.home__services--link{
                     flex-direction: column;
                     align-items: center;
                     border-radius: 15px;
-                    background: #ffffff;
+                    background: var(--color-surface);
                     padding: 5%;
                     overflow: hidden;
                     &--title{

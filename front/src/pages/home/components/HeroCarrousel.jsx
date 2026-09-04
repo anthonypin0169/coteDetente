@@ -223,8 +223,8 @@ export default function HeroCarrousel({ carrouselInstitut, setCarrouselInstitut 
                             </label>
                         </div>
                         <div className="modal__text-edit-vue--btn-bloc">
-                            <button type="button" onClick={() => {setEditingPhotoId(null); setModifyViewMode("list")}}>Retour</button>
-                            <button type="button" onClick={() => handleUpdatePhotoText(editingPhotoId)}>Valider</button>
+                            <button className="btn" type="button" onClick={() => {setEditingPhotoId(null); setModifyViewMode("list")}}>Retour</button>
+                            <button className="btn" type="button" onClick={() => handleUpdatePhotoText(editingPhotoId)}>Valider</button>
                         </div>
                     </div>
                     :

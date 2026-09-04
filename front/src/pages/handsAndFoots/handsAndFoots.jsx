@@ -296,6 +296,8 @@ export default function HandsAndFoots() {
                     </div>
                 </div>
 
+                <div className="manucure-section__border"></div>
+
                 <div className="manucure-section__second-division">
                     <div className="manucure-section__second-division--photo-bloc">
                         <img src={manucuresGroup?.photoUrl} alt="" />

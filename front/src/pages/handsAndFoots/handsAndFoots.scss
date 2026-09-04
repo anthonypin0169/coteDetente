@@ -16,6 +16,8 @@
         &--video-bloc{
             width: 30%;
             aspect-ratio: 16 / 9;
+            border-radius: 5px;
+            box-shadow: 1px 1px 5px;
             overflow: hidden;
             video{
                 width: 100%;
@@ -33,10 +35,13 @@
         }
     }
     &__second-division{
-        width: 80%;
+        width: 70%;
         display: flex;
         align-self: center;
-        margin-bottom: 5vw;
+        margin: 2vw 0 7vw 0;
+        border: 2px solid var(--color-accent);
+        border-radius: 8px;
+        padding: 2vw 10vw;
         &--text-bloc{
             width: 100%;
             height: 100%;
@@ -76,6 +81,8 @@
         &--video-bloc{
             width: 30%;
             aspect-ratio: 16 / 9;
+            border-radius: 5px;
+            box-shadow: 1px 1px 5px;
             overflow: hidden;
             video{
                 width: 100%;
@@ -83,6 +90,16 @@
                 object-fit: cover;
             }
         }
+    }
+    &__border{
+        width: 60vw;
+        height: 2px;
+        display: flex;
+        align-self: center;
+        margin: 1vw 0 4vw 0;
+        background: var(--color-accent);
+        border-radius: 5px;
+        opacity: 0.8;
     }
     &__second-division{
         width: 100%;
@@ -92,6 +109,8 @@
         &--photo-bloc{
             width: 40%;
             aspect-ratio: 16 / 9;
+            border-radius: 5px;
+            box-shadow: 1px 1px 5px;
             overflow: hidden;
             img{
                 width: 100%;

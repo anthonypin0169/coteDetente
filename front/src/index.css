@@ -2,8 +2,8 @@ body{
     box-sizing: border-box;
     padding: 0;
     margin: 0;
-    background-color: var(--color-background);
-    color: var(--color-grey-text);
+    background-color: var(--color-bg);
+    color: var(--color-ink);
 }
 h1{
     font-size: 28px;
@@ -32,10 +32,15 @@ label{
         height: 35px;
         border: none;
         border-radius: 5px;
-        background: var(--color-grey-chrome);
+        background: var(--color-accent);
+        color: var(--color-surface);
         box-shadow: 1px 2px 4px rgb(95, 95, 95);
         margin: 3vw 0;
         align-self: center;
+        transition: background 0.15s ease;
+    }
+    .btn:hover{
+        background: var(--color-accent-dark);
     }
 @media (min-width: 768px){
     h1{ font-size: 32px; }

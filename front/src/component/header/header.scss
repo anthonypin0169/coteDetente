@@ -4,8 +4,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: var(--color-grey-chrome);
-    box-shadow: 0 5px 15px;
+    background: var(--color-surface);
+    box-shadow: 0 5px 15px rgba(43, 47, 42, 0.12);
     position: fixed;
     z-index: 100;
     &__left{
@@ -69,27 +69,27 @@
 /*Styles couleurs et soulignement*/
 .links{
     text-decoration: none;
-    color: var(--color-oak-dark);
+    color: var(--color-ink);
 }
 .links:hover{
-    color: var(--color-plum);
+    color: var(--color-accent);
 }
 .links::after{
     content: "";
     display: block;
     width: 0px;
     height: 2px;
-    background: var(--color-plum);
+    background: var(--color-accent);
     margin: 3px auto 0 auto;
     border-radius: 2px;
     transition: width 0.2s ease-in-out;
 }
 .links:hover::after{
     width: 100%;
-    color: var(--color-plum);
+    color: var(--color-accent);
 }
 .links.active {
-    color: var(--color-plum);
+    color: var(--color-accent);
 }
 .links.active::after {
     width: 100%;
@@ -117,7 +117,7 @@ button.header__right--shopping-card{
     .header{
         padding: 0;
         justify-content: space-between;
-        background: var(--color-grey-chrome-opacity);
+        background: var(--color-surface-glass);
         width: 95%;
         justify-self: center;
         top: 3vh;
