@@ -1,11 +1,16 @@
 .home{
     display: flex;
     flex-direction: column;
+    padding-top: 10vh;
     &__modify-btn{
         margin: 24px auto;
     }
 }
-
+@media (min-width: 768px){
+    .home{
+        padding-top: 0;
+    }
+}
 @media (min-width: 1024px){
     .home{
         &__modify-btn{

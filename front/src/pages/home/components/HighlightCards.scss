@@ -13,6 +13,7 @@
         position: relative;
         z-index: 90;
         padding: 1px;
+        margin: 2vw 0;
         border-radius: 50px;
         background: var(--color-bg);
     }
@@ -31,17 +32,17 @@
 .links (posée par NavLink sur le même élément), échelle propre mais définie
 sur les 4 formats.*/
 a.home__services--link{
-    font-size: 22px;
+    font-size: 16px;
     border: 2px solid;
     border-radius: 5px;
-    padding: 20px 100px;
+    padding: 3vw 8vw;
 }
 
 @media (min-width: 768px){
     .home__services{
         padding: 100px 0 80px 0;
         &--link{
-            margin-top: 30px;
+            margin: 10vw 0 0 0;
         }
         &--img{
             width: 423px;
@@ -244,7 +245,7 @@ a.home__services--link{
     }
     a.home__services--link{
         font-size: 50px;
-        margin: 150px 0 50px 0;
+
     }
     .highlight-modal-list-vue{
         flex-direction: row;
