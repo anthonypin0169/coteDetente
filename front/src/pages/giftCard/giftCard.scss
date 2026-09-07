@@ -1,31 +1,30 @@
 .gift-main{
     width: 100%;
-    height: 100vh;
-    padding-top: 3vw;
+    padding: 8vw 0;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
 }
 .gift-first-section{
-    width: 50%;
-    height: 29vw;
+    width: 90%;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 12px 0 0 12px;
+    border-radius: 12px;
     box-shadow: 2px 2px 5px;
     background: var(--color-surface);
+    padding: 5vw 0;
+    margin-top: 15vw;
     &__card{
         width: 95%;
-        height: 90%;
         display: flex;
-        justify-content: space-around;
+        flex-direction: column;
         align-items: center;
         background: var(--color-ink);
         border-radius: 12px;
+        padding: 5vw 0;
         &--first-bloc{
-            width: 60%;
-            height: 95%;
+            width: 90%;
             display: flex;
             flex-direction: column;
             border-radius: 8px;
@@ -37,8 +36,9 @@
             .gift-photo-container{
                 align-self: center;
                 position: relative;
-                width: 90%;
-                height: 72%;
+                width: 100%;
+                aspect-ratio: 4 / 3;
+                margin-top: 4vw;
             }
             .gift-photo{
                 width: 100%;
@@ -53,30 +53,30 @@
                 flex-direction: column;
                 align-items: center;
                 justify-content: flex-end;
-                gap: 0.5vw;
-                padding-bottom: 1vw;
+                gap: 1vw;
+                padding-bottom: 3vw;
                 pointer-events: none;
                 &--price{
-                    font-size: 1.8vw;
+                    font-size: 5vw;
                     font-weight: bold;
                     color: #ffffff;
                     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
                 }
                 &--recipient{
-                    font-size: 1.1vw;
+                    font-size: 3vw;
                     color: #ffffff;
                     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
                 }
             }
         }
         &--second-bloc{
-            width: 35%;
-            height: 70%;
+            width: 90%;
             display: flex;
             flex-direction: column;
-            justify-content: space-around;
+            justify-content: center;
             align-items: center;
             text-align: center;
+            margin-top: 5vw;
             .gift-text-2nd-bloc{
                 color: #ffffff;
             }
@@ -87,20 +87,22 @@
     }
 }
 .gift-second-section{
+    width: 90%;
     box-shadow: 2px 2px 3px;
-    width: 0; 
-    overflow: hidden; 
-    opacity: 0; 
-    transition: width 0.4s ease 0.1s, opacity 1s ease 0.1s;
-    &.second-section--visible { 
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease 0.1s, opacity 1s ease 0.1s;
+    &.second-section--visible {
         background: var(--color-accent);
-        height: 29vw;
-        width: 30%;
+        max-height: 250vw;
+        margin-top: 5vw;
+        padding: 2vw 0;
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 0 12px 12px 0; 
-        opacity: 1; 
+        border-radius: 12px;
+        opacity: 1;
     }
     &__form{
         width: 95%;
@@ -149,6 +151,70 @@
         &--textarea{
             width: 50%;
             height: 5vw;
+        }
+    }
+}
+@media (min-width: 768px){
+    .gift-main{
+        width: 100%;
+        height: 100vh;
+        padding-top: 3vw;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    .gift-first-section{
+        width: 50%;
+        height: 29vw;
+        padding: 0;
+        margin-top: 0;
+        border-radius: 12px 0 0 12px;
+        &__card{
+            width: 95%;
+            height: 90%;
+            flex-direction: row;
+            justify-content: space-around;
+            padding: 0;
+            &--first-bloc{
+                width: 60%;
+                height: 95%;
+                .gift-photo-container{
+                    width: 90%;
+                    height: 72%;
+                    aspect-ratio: auto;
+                    margin-top: 0;
+                }
+                .gift-photo-overlay{
+                    gap: 0.5vw;
+                    padding-bottom: 1vw;
+                    &--price{
+                        font-size: 1.8vw;
+                    }
+                    &--recipient{
+                        font-size: 1.1vw;
+                    }
+                }
+            }
+            &--second-bloc{
+                width: 35%;
+                height: 70%;
+                justify-content: space-around;
+                margin-top: 0;
+            }
+        }
+    }
+    .gift-second-section{
+        width: 0;
+        max-height: none;
+        margin-top: 0;
+        transition: width 0.4s ease 0.1s, opacity 1s ease 0.1s;
+        &.second-section--visible{
+            height: 29vw;
+            width: 30%;
+            max-height: none;
+            margin-top: 0;
+                padding: 0;
+            border-radius: 0 12px 12px 0;
         }
     }
 }

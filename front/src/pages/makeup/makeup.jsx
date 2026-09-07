@@ -274,8 +274,8 @@ export default function Makeup() {
 
             <section className="makup-list-section">
                 {presta.map((p)=>(
-                    <div key={p._id} className="makup-list-section__item">
-                        <div className="makup-list-section__item--presta-bloc" onMouseEnter={(e) => e.currentTarget.closest(".makup-list-section__item").querySelector("video").play()} onMouseLeave={(e) => e.currentTarget.closest(".makup-list-section__item").querySelector("video").pause()}>
+                    <div key={p._id} className="makup-list-section__item" onMouseEnter={(e) => e.currentTarget.querySelector("video").play()} onMouseLeave={(e) => e.currentTarget.querySelector("video").pause()}>
+                        <div className="makup-list-section__item--presta-bloc">
                             <div className="item-preview">
                                 <div className="item-preview__name">
                                     {p.name}
