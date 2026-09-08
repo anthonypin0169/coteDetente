@@ -90,6 +90,21 @@
     }
     &__results{
         margin: 0 0 150px 8%;
+        &--list{
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        &--link{
+            color: var(--color-ink);
+            text-decoration: none;
+            &:hover{
+                color: var(--color-accent);
+            }
+        }
     }
 
     /*Modale de connexion administrateur*/

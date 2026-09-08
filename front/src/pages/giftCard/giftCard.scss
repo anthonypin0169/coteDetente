@@ -5,6 +5,22 @@
     flex-direction: column;
     align-items: center;
 }
+.gift-payment-status{
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+    padding: 3vw;
+    border-radius: 8px;
+    margin-bottom: 3vw;
+    &--success{
+        background: var(--color-accent);
+        color: var(--color-surface);
+    }
+    &--canceled{
+        background: var(--color-border);
+        color: var(--color-ink);
+    }
+}
 .gift-first-section{
     width: 90%;
     display: flex;

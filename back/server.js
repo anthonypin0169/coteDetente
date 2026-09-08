@@ -16,6 +16,8 @@ const eventRoutes = require('./routes/eventRoutes');
 const contactPageRoutes = require('./routes/contactPageRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const giftCardPageRoutes = require('./routes/giftCardPageRoutes');
+const stripeRoutes = require('./routes/stripeRoutes');
+const { handleWebhook } = require('./controllers/stripeController');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');
 
@@ -26,6 +28,9 @@ connectDB();
 const app = express();
 
 app.use(cors());
+/* Le webhook Stripe a besoin du corps brut (non parsé en JSON) pour vérifier la signature,
+il doit donc être déclaré avant express.json() */
+app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), handleWebhook);
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 app.use('/api/auth', authRoutes);
@@ -43,6 +48,7 @@ app.use('/api/events', eventRoutes);
 app.use('/api/contact-page', contactPageRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/gift-card-page', giftCardPageRoutes);
+app.use('/api/stripe', stripeRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 

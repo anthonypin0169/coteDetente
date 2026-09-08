@@ -11,6 +11,33 @@ exports.getAllPrestations = async (req, res) => {
   }
 }
 
+exports.getSearchablePrestations = async (req, res) => {
+  try {
+    const prestations = await Prestation.find()
+      .populate({
+        path: 'group',
+        populate: {
+          path: 'sousType',
+          populate: { path: 'type' }
+        }
+      })
+
+    const searchable = prestations
+      .filter((p) => p.group && p.group.sousType && p.group.sousType.type)
+      .map((p) => ({
+        _id: p._id,
+        name: p.name,
+        price: p.price,
+        duration: p.duration,
+        route: p.group.sousType.route || p.group.sousType.type.route
+      }))
+
+    res.json(searchable)
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
 exports.getPrestationsByGroup = async (req, res) => {
   try {
     const prestations = await Prestation.find({ group: req.params.groupId })

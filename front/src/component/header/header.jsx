@@ -2,9 +2,12 @@ import NavLink from "../nav/nav"
 import Logo from "../logo/logo"
 import testLogo2 from "../../assets/images/testLogo2.png"
 import Modal from "../modal/modal"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { loginUser, clearError } from "@/store/authSlice"
+import { apiFetch } from "@/utils/api"
+import { getGiftCardDraft } from "@/utils/giftCardDraft"
 import "./header.scss"
 
 export default function Header() {
@@ -16,7 +19,40 @@ export default function Header() {
     const [emailState, setEmailState] = useState("")
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const error = useSelector((state) => state.auth.error)
+
+    /* Panier : avancement de la carte cadeau */
+    const [basketDraft, setBasketDraft] = useState(null)
+
+    const handleOpenBasket = () => {
+        setBasketDraft(getGiftCardDraft())
+        setIsBasketOpen(true)
+    }
+
+    const handleGoToPayment = () => {
+        setIsBasketOpen(false)
+        navigate("/carte-cadeau")
+    }
+
+    /* Recherche de prestations */
+    const [searchablePrestations, setSearchablePrestations] = useState([])
+
+    useEffect(() => {
+        const loadSearchablePrestations = async () => {
+            try{
+                const { data } = await apiFetch("/api/prestations/searchable")
+                if(data) setSearchablePrestations(data)
+            }catch(error){
+                (error.message)
+            }
+        }
+        loadSearchablePrestations()
+    },[])
+
+    const searchResults = query.trim() === ""
+        ? []
+        : searchablePrestations.filter((p) => p.name.toLowerCase().includes(query.trim().toLowerCase()))
 
     const handleLogin = () => {
         dispatch(loginUser({"email" : emailState, "password" : passwordState}))
@@ -42,10 +78,20 @@ export default function Header() {
                     onClick={() => setIsSearchOpen(false)}></button>
                 </div>
                 <div className="modal__results">
-                    {query === "" ? (
+                    {query.trim() === "" ? (
                         <p>Tapez pour rechercher</p>
+                    ) : searchResults.length === 0 ? (
+                        <p>Aucune prestation trouvée</p>
                     ) : (
-                        <p>Résultats pour {query}</p>
+                        <ul className="modal__results--list">
+                            {searchResults.map((presta) => (
+                                <li key={presta._id}>
+                                    <Link to={presta.route} className="modal__results--link" onClick={() => {setIsSearchOpen(false); setQuery("")}}>
+                                        {presta.name}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
                     )}
                 </div>
 
@@ -86,13 +132,19 @@ export default function Header() {
                 <div className="modal__basket">
                     <h2 className="modal__basket--title">Vos achats</h2>
                     <div className="modal__basket--purchases">
-
+                        {basketDraft && basketDraft.price ?
+                            <p>Carte cadeau — {basketDraft.price} €{basketDraft.recipientName && ` pour ${basketDraft.recipientName}`}</p>
+                        :
+                            <p>Votre panier est vide</p>
+                        }
                     </div>
                     <div className="modal__basket--btn">
-                        <button className="btn">Passer au paiment</button>
-                        <button className="btn" type="button" 
+                        {basketDraft && basketDraft.price &&
+                            <button className="btn" type="button" onClick={handleGoToPayment}>Passer au paiment</button>
+                        }
+                        <button className="btn" type="button"
                         onClick={() => setIsBasketOpen(false)}>Continuer sur le site</button>
-                    </div>    
+                    </div>
                 </div>
             </Modal>
 
@@ -110,7 +162,7 @@ export default function Header() {
             <div className="header__right">
                 <NavLink text="Évènements" to="/evenements" className="header__left--event links"/>
                 <NavLink text="Carte cadeau" to="/carte-cadeau" className="header__right--gift-card links"/>
-                <button className="header__right--shopping-card fa-solid fa-basket-shopping links" onClick={() => setIsBasketOpen(true)}></button>
+                <button className="header__right--shopping-card fa-solid fa-basket-shopping links" onClick={handleOpenBasket}></button>
             </div>
         </header>
     )

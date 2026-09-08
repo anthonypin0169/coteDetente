@@ -1,14 +1,18 @@
 import { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
+import { useSearchParams } from "react-router-dom"
 import Modal from "@/component/modal/modal"
 import PhotoInput from "@/component/photoInput/photoInput"
 import { apiFetch } from "@/utils/api"
+import { getGiftCardDraft, saveGiftCardDraft, clearGiftCardDraft } from "@/utils/giftCardDraft"
 import "./giftCard.scss"
 
 export default function GiftCard() {
 
     const token = useSelector((state) => state.auth.token)
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
+    const [searchParams] = useSearchParams()
+    const paymentStatus = searchParams.get("paiement")
 
 
     /* Récuperer les infos pour la carte */
@@ -64,20 +68,29 @@ export default function GiftCard() {
     }
 
 
-    /* Formulaire client */
-    const [price, setPrice] = useState("")
-    /* Section 1 */    
-    const [isFormVisible, setIsFormVisible] = useState(false)
-    /* Section 2 */
-    const [senderName, setSenderName] = useState("")
-    const [senderMail, setSenderMail] = useState("")
-    const [message, setMessage] = useState("")
-    const [recipientName, setRecipientName] = useState("")
-    const [isFormSent, setIsFormSent] = useState(false)
+    /* Formulaire client, restauré depuis le panier (sessionStorage) si un avancement existe */
+    const initialDraft = paymentStatus === "succes" ? null : getGiftCardDraft()
 
-    const handleCreateGiftCard = async () => {
+    const [price, setPrice] = useState(() => initialDraft?.price || "")
+    /* Section 1 */
+    const [isFormVisible, setIsFormVisible] = useState(() => !!initialDraft?.isFormVisible)
+    /* Section 2 */
+    const [senderName, setSenderName] = useState(() => initialDraft?.senderName || "")
+    const [senderMail, setSenderMail] = useState(() => initialDraft?.senderMail || "")
+    const [message, setMessage] = useState(() => initialDraft?.message || "")
+    const [recipientName, setRecipientName] = useState(() => initialDraft?.recipientName || "")
+
+    useEffect(() => {
+        saveGiftCardDraft({ price, senderName, senderMail, recipientName, message, isFormVisible })
+    },[price, senderName, senderMail, recipientName, message, isFormVisible])
+
+    useEffect(() => {
+        if (paymentStatus === "succes") clearGiftCardDraft()
+    },[paymentStatus])
+
+    const handleGoToPayment = async () => {
         try{
-            const { ok } = await apiFetch("/api/giftcards",{
+            const { ok, data } = await apiFetch("/api/stripe/create-checkout-session",{
                 method : "POST",
                 body : {
                     senderName : senderName,
@@ -87,25 +100,26 @@ export default function GiftCard() {
                     amount : price
                 }
             })
-            if(ok){
-                setSenderName("")
-                setSenderMail("")
-                setMessage("")
-                setRecipientName("")
-                setPrice("")
-                setIsFormSent(true)
+            if(ok && data?.url){
+                window.location.href = data.url
             }
 
         }catch(error){
             (error.message)
         }
-    }  
+    }
 
 
     return (
         <main className="gift-main">
              {isAuthenticated &&
                 <button type="button" className="btn" onClick={() => setModalIsOpen(true)}>Modifier</button>
+            }
+            {paymentStatus === "succes" &&
+                <p className="gift-payment-status gift-payment-status--success">Merci ! Votre paiement a été accepté, la carte cadeau a été envoyée par email.</p>
+            }
+            {paymentStatus === "annule" &&
+                <p className="gift-payment-status gift-payment-status--canceled">Le paiement a été annulé, vous pouvez réessayer quand vous le souhaitez.</p>
             }
             <section className="gift-first-section">
                 <div className="gift-first-section__card">
@@ -146,7 +160,7 @@ export default function GiftCard() {
                         <label htmlFor="client-infos-message">Entrez un message</label>
                         <textarea name="" id="client-infos-message" value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
                     </div>
-                    <button className="gift-second-section__form--btn btn" onClick={() => handleCreateGiftCard()}>Valider</button>
+                    <button className="gift-second-section__form--btn btn" type="button" onClick={() => handleGoToPayment()}>Payer</button>
                 </div>
             </section>
             <Modal isOpen={modalIsOpen} onClose={() =>setModalIsOpen(false)} variant="staff">

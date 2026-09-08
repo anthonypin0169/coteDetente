@@ -5,11 +5,11 @@ const fs = require('fs');
 const { sendGiftCardEmails } = require('../services/mailer');
 const { generateGiftCardImage } = require('../services/giftCardImage');
 
-exports.createGiftCard = async (req, res) => {
+exports.finalizePaidGiftCard = async (data) => {
   let generatedImagePath = null;
 
   try {
-    const giftCard = await GiftCard.create(req.body);
+    const giftCard = await GiftCard.create({ ...data, isPaid: true });
 
     const giftCardPage = await GiftCardPage.findOne();
     let templatePath = giftCardPage?.photoUrl
@@ -33,11 +33,18 @@ exports.createGiftCard = async (req, res) => {
       templatePath
     });
 
+    return giftCard;
+  } finally {
+    if (generatedImagePath && fs.existsSync(generatedImagePath)) fs.unlinkSync(generatedImagePath);
+  }
+};
+
+exports.createGiftCard = async (req, res) => {
+  try {
+    const giftCard = await exports.finalizePaidGiftCard(req.body);
     res.status(201).json(giftCard);
   } catch (error) {
     res.status(500).json({ message: error.message });
-  } finally {
-    if (generatedImagePath && fs.existsSync(generatedImagePath)) fs.unlinkSync(generatedImagePath);
   }
 };
 

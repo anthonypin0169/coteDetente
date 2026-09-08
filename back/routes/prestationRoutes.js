@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { getAllPrestations, getPrestationsByGroup, createPrestation, updatePrestation, deletePrestation } = require('../controllers/prestationController')
+const { getAllPrestations, getSearchablePrestations, getPrestationsByGroup, createPrestation, updatePrestation, deletePrestation } = require('../controllers/prestationController')
 const protect = require('../middleware/authMiddleware')
 const uploadMedia = require('../middleware/uploadSousTypeMedia')
 
@@ -15,6 +15,18 @@ const uploadMedia = require('../middleware/uploadSousTypeMedia')
  *         description: Liste des prestations
  */
 router.get('/', getAllPrestations)
+
+/**
+ * @swagger
+ * /api/prestations/searchable:
+ *   get:
+ *     summary: Récupérer les prestations avec la route de leur page (pour la recherche)
+ *     tags: [Prestations]
+ *     responses:
+ *       200:
+ *         description: Liste des prestations avec leur route
+ */
+router.get('/searchable', getSearchablePrestations)
 
 /**
  * @swagger
