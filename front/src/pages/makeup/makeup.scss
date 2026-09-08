@@ -6,12 +6,13 @@
 }
 .makup-list-section{
     width: 100%;
-    padding: 5vw 0 8vw 0;
+    padding: 15vw 0 8vw 0;
     display: flex;
     flex-direction: column;
-    gap: 5vw;
+    gap: 15vw;
     &__item{
         width: 90%;
+        max-width: 470px;
         display: flex;
         flex-direction: column;
         align-self: center;
@@ -69,12 +70,17 @@ padding-top: 2vw;
     gap: 2vw;
 }
 @media (min-width : 768px){
-    .makup-list-section__item{
-        width: 60%;
-        flex-direction: row;
-        justify-content: space-between;
-        &--presta-bloc{
-            width: 55%;
+    .makup-list-section{
+        padding-top: 8vw;
+        gap: 8vw;
+        &__item{
+            width: 60%;
+            max-width: none;
+            flex-direction: row;
+            justify-content: space-between;
+            &--presta-bloc{
+                width: 55%;
+            }
         }
     }
     .item-description{
@@ -96,7 +102,10 @@ padding-top: 2vw;
     }
 }
 @media (min-width : 1024px){
-
+    .makup-list-section{
+        padding-top: 5vw;
+        gap: 5vw;
+    }
 }
 @media (min-width : 1440px){
 

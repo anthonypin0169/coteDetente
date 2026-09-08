@@ -96,10 +96,10 @@ export default function Header() {
                 </div>
 
                 <div className="modal__search-links">
-                    <NavLink text="Accueil" to="/" className="modal__search-links--home links"/>
-                    <NavLink text="Prestations" to="/prestations" className="modal__search-links--services links"/>
-                    <NavLink text="Évènements" to="/evenements" className="modal__search-links--event links"/>
-                    <NavLink text="Carte cadeau" to="/carte-cadeau" className="modal__search-links--gift-card links"/>
+                    <NavLink text="Accueil" to="/" className="modal__search-links--modal-L links"/>
+                    <NavLink text="Prestations" to="/prestations" className="modal__search-links--modal-L links"/>
+                    <NavLink text="Évènements" to="/evenements" className="modal__search-links--modal-L links"/>
+                    <NavLink text="Carte cadeau" to="/carte-cadeau" className="modal__search-links--modal-L links"/>
                 </div>
             </Modal> 
 

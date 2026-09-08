@@ -89,14 +89,20 @@
         }
     }
     &__results{
-        margin: 0 0 150px 8%;
+        margin: 30px 0;
+        display: flex;
+        justify-content: center;
         &--list{
             list-style: none;
             margin: 0;
-            padding: 0;
+            padding: 15px 10px;
             display: flex;
             flex-direction: column;
             gap: 10px;
+            width: 80%;
+            background: #fff;
+            box-shadow: 0 1px 3px;
+            border-radius: 3px;
         }
         &--link{
             color: var(--color-ink);

@@ -2,8 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 12vw;
-    gap: 8vw;
+    padding-top: 90px;
 }
 .gel-section{
     width: 90%;
@@ -13,14 +12,18 @@
     background: var(--color-surface);
     border-radius: 5px;
     box-shadow: 1px 1px 3px;
+    margin: 3vw 0 8vw 0;
     &__first-division{
         width: 100%;
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
+        align-items: center;
         margin-bottom: 3vw;
         &--video-bloc{
-            width: 30%;
+            order: 1;
+            width: 80%;
             aspect-ratio: 16 / 9;
+            margin: 3vw 0 1vw 0;
             border-radius: 5px;
             box-shadow: 1px 1px 5px;
             overflow: hidden;
@@ -31,14 +34,14 @@
             }
         }
         &--presta-bloc{
-            width: 65%;
+            width: 100%;
             height: 100%;
             &--item{
                 display: flex;
                 justify-content: space-between;
                 background: var(--color-bg);
                 padding: 0 1vw;
-                margin: 1vw 0;
+                margin: 3vw 0;
                 border-radius: 5px;
                 box-shadow: 1px 1px 3px;
             }
@@ -76,30 +79,33 @@
     display: flex;
     flex-direction: column;
     padding: 5vw 4vw;
+    margin-bottom: 8.5vw;
     background: var(--color-surface);
     border-radius: 5px;
     box-shadow: 1px 1px 3px;
     &__first-division{
         width: 100%;
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
+        align-items: center;
         margin-bottom: 3vw;
         &--presta-bloc{
-            width: 65%;
+            width: 100%;
             height: 100%;
             &--item{
                 display: flex;
                 justify-content: space-between;
                 background: var(--color-bg);
                 padding: 0 1vw;
-                margin: 1vw 0;
+                margin: 3vw 0;
                 border-radius: 5px;
                 box-shadow: 1px 1px 3px;
             }
         }
         &--video-bloc{
-            width: 30%;
+            width: 80%;
             aspect-ratio: 16 / 9;
+            margin: 3vw 0 2vw 0;
             border-radius: 5px;
             box-shadow: 1px 1px 5px;
             overflow: hidden;
@@ -123,11 +129,14 @@
     &__second-division{
         width: 100%;
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
+        align-items: center;
         margin-bottom: 5vw;
         &--photo-bloc{
-            width: 40%;
+            order: 1;
+            width: 80%;
             aspect-ratio: 16 / 9;
+            margin-top: 3vw;
             border-radius: 5px;
             box-shadow: 1px 1px 5px;
             overflow: hidden;
@@ -138,14 +147,14 @@
             }
         }
         &--presta-bloc{
-            width: 55%;
+            width: 100%;
             height: 100%;
             &--item{
                 display: flex;
                 justify-content: space-between;
                 background: var(--color-bg);
                 padding: 0 1vw;
-                margin: 1vw 0;
+                margin: 3vw 0;
                 border-radius: 5px;
                 box-shadow: 1px 1px 3px;
             }
@@ -154,6 +163,53 @@
 }
 @media( min-width : 768px ){
     .H-and-F-section{
-        padding-top: 8vw;
+        padding-top: 110px;
+    }
+    .gel-section__first-division{
+        flex-direction: row;
+        align-items: normal;
+        justify-content: space-between;
+        &--video-bloc{
+            order: 0;
+            width: 30%;
+            margin: 0;
+        }
+        &--presta-bloc{
+            width: 65%;
+            &--item{
+                margin: 1vw 0;
+            }
+        }
+    }
+    .manucure-section__first-division{
+        flex-direction: row;
+        align-items: normal;
+        justify-content: space-between;
+        &--presta-bloc{
+            width: 65%;
+            &--item{
+                margin: 1vw 0;
+            }
+        }
+        &--video-bloc{
+            width: 30%;
+            margin: 0;
+        }
+    }
+    .manucure-section__second-division{
+        flex-direction: row;
+        align-items: normal;
+        justify-content: space-between;
+        &--photo-bloc{
+            order: 0;
+            width: 40%;
+            margin-top: 0;
+        }
+        &--presta-bloc{
+            width: 55%;
+            &--item{
+                margin: 1vw 0;
+            }
+        }
     }
 }

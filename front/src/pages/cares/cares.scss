@@ -1,5 +1,5 @@
 .cares{
-    padding: 120px 0;
+    padding: 90px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -15,7 +15,7 @@
 
         }
         &--type{
-            margin: 8vw 0;
+            margin: 6vw 0;
             border-radius: 5px;
             box-shadow: 1px 1px 3px;
             overflow: hidden;
@@ -294,6 +294,9 @@
 }
 
 @media (min-width: 768px){
+    .cares{
+        padding-top: 110px;
+    }
     .content-bloc{
         width: 100%;
         display: flex;
@@ -349,6 +352,9 @@
     }
 }
 @media (min-width: 1024px){
+    .cares{
+        padding-top: 8vw;
+    }
     .content-bloc{
 
         &--reverse{

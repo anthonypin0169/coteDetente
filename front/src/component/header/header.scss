@@ -59,9 +59,17 @@
 .modal__search-links{
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: center;
     gap: 20px;
-    margin: 20px 0 170px 20px;
+    margin: 20px 0 170px 0;
+    &--modal-L{
+        text-align: center;
+        background: var(--color-bg);
+        padding: 15px 55px;
+        width: 80px;
+        border-radius: 5px;
+        box-shadow: 0 1px 3px;
+    }
 }
 .modal .footer-container{
     display: flex;

@@ -1,5 +1,5 @@
 .epilation-main{
-    padding-top: 18vw;
+    padding-top: 90px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -49,6 +49,7 @@
 .epilation-section{
     width: 90%;
     padding: 5vw 0;
+    margin-top: 1vw;
     background: var(--color-surface);
     border-radius: 5px;
     box-shadow: 1px 1px 3px;
@@ -74,10 +75,13 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin-top: 30px;
             &--presta-bloc{
                display: flex;
                 flex-direction: column;
                 width: 80%;
+                order: 1;
+                margin-top: 30px;
                 &--item{
                 display: flex;
                 justify-content: space-between;
@@ -89,12 +93,16 @@
                 }
             }
             &--image-bloc{
-                width: 100%;
-                height: 100%;
+                width: 80%;
+                height: 80%;
                 &--photo{
                     width: 100%;
                     height: 100%;
                     object-fit: contain;
+                    transform: scale(1.1);
+                    border-radius: 5px;
+                    box-shadow: 1px 1px 5px;
+                    margin: 2vw 0;
                 }
             }
         }
@@ -124,7 +132,7 @@
         }
     }
     &__video-bloc{
-        width: 60%;
+        width: 90%;
         aspect-ratio: 4/3;
         &--video{
             width: 100%;
@@ -149,7 +157,7 @@
 }
 @media(min-width: 768px){
     .epilation-main{
-        padding-top: 12vw;
+        padding-top: 100px;
     }
     #photo-input{
         margin-right: 2.7vw;
@@ -197,17 +205,22 @@
         &__package-container{
             width: 40%;
             margin-right: 3vw;
+            margin-top: 0;
             gap: 5vw;
             &--presta-bloc{
-               display: flex;
-                flex-direction: column;
                 width: 80%;
+                margin-top: 0;
+                display: flex;
+                flex-direction: column;
+                order: 0;
                 &--item{
                 display: flex;
                 justify-content: space-between;     
                 }
             }
             &--image-bloc{
+                width: 100%;
+                height: 100%;
                 border-radius: 5px;
                 box-shadow: 1px 1px 5px;
                 overflow: hidden;
@@ -215,6 +228,7 @@
                     width: 100%;
                     height: 100%;
                     object-fit: contain;
+                    margin: 0;
                 }
             }
         }
@@ -235,7 +249,7 @@
             }
         }
         &__video-bloc{
-            
+            width: 60%;
         }
     }
     .item-title{
@@ -263,6 +277,17 @@
     #video-input{
         width: 150px;
         padding: 8px 15px;
+    }
+    .tanning-section{
+        &__presta-bloc{
+            width: 60%;
+        }
+        &__video-bloc{
+        
+        }
+    }
+    .tanning-section__presta-bloc--item .item-text{
+        max-width: 220px;
     }
 }
 @media(min-width: 1440px){
