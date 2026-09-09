@@ -48,6 +48,8 @@ exports.handleWebhook = async (req, res) => {
     const signature = req.headers['stripe-signature'];
     event = stripe.webhooks.constructEvent(req.body, signature, process.env.STRIPE_WEBHOOK_SECRET);
   } catch (error) {
+    console.error('Erreur de vérification de signature webhook Stripe :', error.message);
+    console.error('req.body est un Buffer ?', Buffer.isBuffer(req.body), '- type :', typeof req.body);
     return res.status(400).send(`Webhook signature invalide: ${error.message}`);
   }
 

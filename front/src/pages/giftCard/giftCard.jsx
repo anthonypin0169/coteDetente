@@ -134,10 +134,9 @@ export default function GiftCard() {
                         </div>
                     </div>
                     <div className="gift-first-section__card--second-bloc">
-                        <p className="gift-text-2nd-bloc">{giftPageInfos?.shortText}</p>
-                        <label htmlFor="gift-price">Choisissez votre montant</label>
+                        <label className="gift-text-2nd-bloc" htmlFor="gift-price">{giftPageInfos?.shortText}</label>
                         <input type="text" id="gift-price" value={price} onChange={(e) => setPrice(e.target.value)}/>
-                        <button className="btn" type="button" onClick={() => setIsFormVisible(true)}>Étape suivante</button>
+                        <button className="first-section-btn btn" type="button" onClick={() => setIsFormVisible(true)}>Étape suivante</button>
                     </div>
                 </div>
             </section>
@@ -145,16 +144,16 @@ export default function GiftCard() {
             <section className={`gift-second-section ${isFormVisible ? "second-section--visible" : ""} `}>
                 <div className="gift-second-section__form">
                     <div className="gift-second-section__form--bloc">
-                        <label htmlFor="client-infos-name">Votre nom et prénom</label>
-                        <input type="text" name="" id="client-infos-name" value={senderName} onChange={(e) => setSenderName(e.target.value)}/>
+                        <label htmlFor="client-infos-name" className="label-gift-form" >Votre nom et prénom</label>
+                        <input type="text" name="" id="client-infos-name" className="input-gift-form" value={senderName} onChange={(e) => setSenderName(e.target.value)}/>
                     </div>
                     <div className="gift-second-section__form--bloc">
-                        <label htmlFor="client-infos-email">Votre adresse email</label>
-                        <input type="text" name="" id="client-infos-email" value={senderMail} onChange={(e) => setSenderMail(e.target.value)}/>
+                        <label htmlFor="client-infos-email" className="label-gift-form" >Votre adresse email</label>
+                        <input type="text" name="" id="client-infos-email" className="input-gift-form" value={senderMail} onChange={(e) => setSenderMail(e.target.value)}/>
                     </div>
                     <div className="gift-second-section__form--bloc">
-                        <label htmlFor="reciever-infos-name">Nom du receveur</label>
-                        <input type="text" name="" id="reciever-infos-name" value={recipientName} onChange={(e) => setRecipientName(e.target.value)}/>
+                        <label htmlFor="reciever-infos-name" className="label-gift-form" >Nom du receveur</label>
+                        <input type="text" name="" id="reciever-infos-name" className="input-gift-form" value={recipientName} onChange={(e) => setRecipientName(e.target.value)}/>
                     </div>
                     <div className="gift-second-section__form--bloc-text">
                         <label htmlFor="client-infos-message">Entrez un message</label>

@@ -1,5 +1,7 @@
-const express = require('express');
 const dotenv = require('dotenv');
+dotenv.config();
+
+const express = require('express');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const photoRoutes = require('./routes/photoRoutes');
@@ -22,7 +24,6 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');
 
 const connectDB = require('./config/db');
-dotenv.config();
 connectDB();
 
 const app = express();

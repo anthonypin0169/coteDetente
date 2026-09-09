@@ -101,6 +101,9 @@
             }
         }
     }
+    .first-section-btn{
+        flex-shrink: 0;
+    }
 }
 .gift-second-section{
     width: 90%;
@@ -147,6 +150,7 @@
         }
         &--btn{
             flex-shrink: 0;
+            margin-top: 2vw;
         }
     }
 }
@@ -180,8 +184,8 @@
         align-items: center;
     }
     .gift-first-section{
-        width: 50%;
-        height: 29vw;
+        width: 55%;
+        height: 40vw;
         padding: 0;
         margin-top: 0;
         border-radius: 12px 0 0 12px;
@@ -216,6 +220,13 @@
                 height: 70%;
                 justify-content: space-around;
                 margin-top: 0;
+                .first-section-btn.btn{
+                    width: 80%;
+                    margin: 2vw 0 0 0;
+                }
+                #gift-price{
+                    height: 12%;
+                }
             }
         }
     }
@@ -225,12 +236,41 @@
         margin-top: 0;
         transition: width 0.4s ease 0.1s, opacity 1s ease 0.1s;
         &.second-section--visible{
-            height: 29vw;
-            width: 30%;
+            height: 40vw;
+            width: 40%;
             max-height: none;
             margin-top: 0;
-                padding: 0;
+            padding: 0;
             border-radius: 0 12px 12px 0;
+        }
+        &__form--btn.btn{
+            width: 50%;
+            height: 12%;
+            margin: 2vw 0;
+        }
+    }
+    .label-gift-form{
+        width: 60%;
+    }
+    .input-gift-form{
+        width: 40%;
+    }
+}
+@media ( min-width : 1024px ) {
+    .label-gift-form{
+        width: 50%;
+    }
+    .input-gift-form{
+        width: 50%;
+    }
+    .gift-first-section{
+        width: 50%;
+        height: 30vw;    
+    }
+    .gift-second-section{
+        &.second-section--visible{
+            width: 35%;
+            height: 30vw;
         }
     }
 }
