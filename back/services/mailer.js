@@ -24,7 +24,7 @@ const sendContactEmail = async ({ fullName, email, message }) => {
   })
 }
 
-const sendGiftCardEmails = async ({ senderName, senderEmail, recipientName, amount, message, templatePath }) => {
+const sendGiftCardEmails = async ({ senderName, senderEmail, senderPhone, recipientName, amount, message, templatePath }) => {
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
     throw new Error('Configuration email manquante (EMAIL_USER / EMAIL_PASSWORD)')
   }
@@ -34,7 +34,7 @@ const sendGiftCardEmails = async ({ senderName, senderEmail, recipientName, amou
     to: process.env.CONTACT_RECEIVER_EMAIL,
     replyTo: senderEmail,
     subject: `Nouvelle commande de carte cadeau - ${senderName}`,
-    text: `Acheteur : ${senderName} (${senderEmail})\nDestinataire : ${recipientName}\nMontant : ${amount} €\nMessage : ${message || '-'}`
+    text: `Acheteur : ${senderName}\nEmail : ${senderEmail}\nTéléphone : ${senderPhone || '-'}\nDestinataire : ${recipientName}\nMontant : ${amount} €\nMessage : ${message || '-'}`
   })
 
   await transporter.sendMail({

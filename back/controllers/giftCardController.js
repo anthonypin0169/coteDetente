@@ -27,6 +27,7 @@ exports.finalizePaidGiftCard = async (data) => {
     await sendGiftCardEmails({
       senderName: giftCard.senderName,
       senderEmail: giftCard.senderEmail,
+      senderPhone: giftCard.senderPhone,
       recipientName: giftCard.recipientName,
       amount: giftCard.amount,
       message: giftCard.message,

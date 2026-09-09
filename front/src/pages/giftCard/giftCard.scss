@@ -9,12 +9,16 @@
     width: 80%;
     max-width: 500px;
     text-align: center;
-    padding: 3vw;
+    padding: 2vw 3vw;
+    border: 2px solid var(--color-accent-dark);
     border-radius: 8px;
     margin-bottom: 3vw;
+    position: fixed;
+    z-index: 1;
+    top: 30%;
     &--success{
-        background: var(--color-accent);
-        color: var(--color-surface);
+        background: var(--color-surface-glass);
+        color: var(--color-ink);
     }
     &--canceled{
         background: var(--color-border);
@@ -185,13 +189,13 @@
     }
     .gift-first-section{
         width: 55%;
-        height: 40vw;
+        height: 42vw;
         padding: 0;
         margin-top: 0;
         border-radius: 12px 0 0 12px;
         &__card{
             width: 95%;
-            height: 90%;
+            height: 92%;
             flex-direction: row;
             justify-content: space-around;
             padding: 0;
@@ -200,7 +204,7 @@
                 height: 95%;
                 .gift-photo-container{
                     width: 90%;
-                    height: 72%;
+                    height: 65%;
                     aspect-ratio: auto;
                     margin-top: 0;
                 }
@@ -217,7 +221,7 @@
             }
             &--second-bloc{
                 width: 35%;
-                height: 70%;
+                height: 80%;
                 justify-content: space-around;
                 margin-top: 0;
                 .first-section-btn.btn{
@@ -236,7 +240,7 @@
         margin-top: 0;
         transition: width 0.4s ease 0.1s, opacity 1s ease 0.1s;
         &.second-section--visible{
-            height: 40vw;
+            height: 42vw;
             width: 40%;
             max-height: none;
             margin-top: 0;
@@ -246,7 +250,7 @@
         &__form--btn.btn{
             width: 50%;
             height: 12%;
-            margin: 2vw 0;
+            margin: 1vw 0;
         }
     }
     .label-gift-form{
@@ -258,19 +262,19 @@
 }
 @media ( min-width : 1024px ) {
     .label-gift-form{
-        width: 50%;
+        width: 55%;
     }
     .input-gift-form{
-        width: 50%;
+        width: 45%;
     }
     .gift-first-section{
         width: 50%;
-        height: 30vw;    
+        height: 34vw;    
     }
     .gift-second-section{
         &.second-section--visible{
             width: 35%;
-            height: 30vw;
+            height: 34vw;
         }
     }
 }

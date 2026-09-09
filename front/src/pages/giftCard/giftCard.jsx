@@ -73,16 +73,18 @@ export default function GiftCard() {
 
     const [price, setPrice] = useState(() => initialDraft?.price || "")
     /* Section 1 */
-    const [isFormVisible, setIsFormVisible] = useState(() => !!initialDraft?.isFormVisible)
+    /* Toujours fermé au chargement (même si un avancement existe) pour que l'animation d'ouverture rejoue à chaque visite */
+    const [isFormVisible, setIsFormVisible] = useState(false)
     /* Section 2 */
     const [senderName, setSenderName] = useState(() => initialDraft?.senderName || "")
     const [senderMail, setSenderMail] = useState(() => initialDraft?.senderMail || "")
+    const [senderPhone, setSenderPhone] = useState(() => initialDraft?.senderPhone || "")
     const [message, setMessage] = useState(() => initialDraft?.message || "")
     const [recipientName, setRecipientName] = useState(() => initialDraft?.recipientName || "")
 
     useEffect(() => {
-        saveGiftCardDraft({ price, senderName, senderMail, recipientName, message, isFormVisible })
-    },[price, senderName, senderMail, recipientName, message, isFormVisible])
+        saveGiftCardDraft({ price, senderName, senderMail, senderPhone, recipientName, message, isFormVisible })
+    },[price, senderName, senderMail, senderPhone, recipientName, message, isFormVisible])
 
     useEffect(() => {
         if (paymentStatus === "succes") clearGiftCardDraft()
@@ -95,6 +97,7 @@ export default function GiftCard() {
                 body : {
                     senderName : senderName,
                     senderEmail : senderMail,
+                    senderPhone : senderPhone,
                     message : message,
                     recipientName : recipientName,
                     amount : price
@@ -150,6 +153,10 @@ export default function GiftCard() {
                     <div className="gift-second-section__form--bloc">
                         <label htmlFor="client-infos-email" className="label-gift-form" >Votre adresse email</label>
                         <input type="text" name="" id="client-infos-email" className="input-gift-form" value={senderMail} onChange={(e) => setSenderMail(e.target.value)}/>
+                    </div>
+                    <div className="gift-second-section__form--bloc">
+                        <label htmlFor="client-infos-phone" className="label-gift-form" >Votre numéro de téléphone</label>
+                        <input type="text" name="" id="client-infos-phone" className="input-gift-form" value={senderPhone} onChange={(e) => setSenderPhone(e.target.value)}/>
                     </div>
                     <div className="gift-second-section__form--bloc">
                         <label htmlFor="reciever-infos-name" className="label-gift-form" >Nom du receveur</label>

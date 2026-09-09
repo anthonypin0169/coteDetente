@@ -7,7 +7,7 @@ exports.createCheckoutSession = async (req, res) => {
       return res.status(503).json({ message: 'Le paiement Stripe n\'est pas encore configuré (STRIPE_SECRET_KEY manquant)' });
     }
 
-    const { senderName, senderEmail, recipientName, message, amount } = req.body;
+    const { senderName, senderEmail, senderPhone, recipientName, message, amount } = req.body;
 
     if (!senderName || !senderEmail || !recipientName || !amount) {
       return res.status(400).json({ message: 'Informations manquantes pour créer la carte cadeau' });
@@ -26,7 +26,7 @@ exports.createCheckoutSession = async (req, res) => {
         },
         quantity: 1
       }],
-      metadata: { senderName, senderEmail, recipientName, message: message || '', amount: String(amount) },
+      metadata: { senderName, senderEmail, senderPhone: senderPhone || '', recipientName, message: message || '', amount: String(amount) },
       success_url: `${frontendUrl}/carte-cadeau?paiement=succes`,
       cancel_url: `${frontendUrl}/carte-cadeau?paiement=annule`
     });
@@ -55,10 +55,10 @@ exports.handleWebhook = async (req, res) => {
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
-    const { senderName, senderEmail, recipientName, message, amount } = session.metadata;
+    const { senderName, senderEmail, senderPhone, recipientName, message, amount } = session.metadata;
 
     try {
-      await finalizePaidGiftCard({ senderName, senderEmail, recipientName, message, amount: Number(amount) });
+      await finalizePaidGiftCard({ senderName, senderEmail, senderPhone, recipientName, message, amount: Number(amount) });
     } catch (error) {
       console.error('Erreur lors de la création de la carte cadeau après paiement :', error.message);
     }

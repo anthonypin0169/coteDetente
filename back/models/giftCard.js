@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const giftCardSchema = new mongoose.Schema({
   senderName: { type: String, required: true },
   senderEmail: { type: String, required: true },
+  senderPhone: { type: String },
   recipientName: { type: String, required: true },
   recipientEmail: { type: String },
   amount: { type: Number, required: true },
