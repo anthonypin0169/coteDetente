@@ -1,7 +1,5 @@
 const HighlightCard = require('../models/highlightCard')
-const sharp = require('sharp')
-const path = require('path')
-const fs = require('fs')
+const { saveResponsiveImage, deleteResponsiveImage } = require('../utils/imagePipeline')
 
 exports.getAllHighlightCards = async (req, res) => {
   try {
@@ -15,16 +13,13 @@ exports.getAllHighlightCards = async (req, res) => {
 exports.createHighlightCard = async (req, res) => {
   try {
     let photoUrl = null
+    let srcSet = null
     if (req.file) {
-      const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.avif`
-      const outputPath = path.join('uploads', filename)
-      await sharp(req.file.buffer)
-        .resize({ width: 800, withoutEnlargement: true })
-        .avif({ quality: 60 })
-        .toFile(outputPath)
-      photoUrl = `/uploads/${filename}`
+      const image = await saveResponsiveImage(req.file.buffer, { maxWidth: 800 })
+      photoUrl = image.url
+      srcSet = image.srcSet
     }
-    const card = await HighlightCard.create({ ...req.body, photoUrl })
+    const card = await HighlightCard.create({ ...req.body, photoUrl, srcSet })
     res.status(201).json(card)
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -37,18 +32,10 @@ exports.updateHighlightCard = async (req, res) => {
     if (!card) return res.status(404).json({ message: 'Carte introuvable' })
 
     if (req.file) {
-      if (card.photoUrl) {
-        const oldFilename = path.basename(card.photoUrl)
-        const oldPath = path.join('uploads', oldFilename)
-        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath)
-      }
-      const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.avif`
-      const outputPath = path.join('uploads', filename)
-      await sharp(req.file.buffer)
-        .resize({ width: 800, withoutEnlargement: true })
-        .avif({ quality: 60 })
-        .toFile(outputPath)
-      card.photoUrl = `/uploads/${filename}`
+      deleteResponsiveImage(card.photoUrl, card.srcSet)
+      const image = await saveResponsiveImage(req.file.buffer, { maxWidth: 800 })
+      card.photoUrl = image.url
+      card.srcSet = image.srcSet
     }
 
     if (req.body.frontTitle !== undefined) card.frontTitle = req.body.frontTitle
@@ -56,6 +43,7 @@ exports.updateHighlightCard = async (req, res) => {
     if (req.body.backTitle !== undefined) card.backTitle = req.body.backTitle
     if (req.body.backText !== undefined) card.backText = req.body.backText
     if (req.body.redirectTo !== undefined) card.redirectTo = req.body.redirectTo
+    if (req.body.photoAlt !== undefined) card.photoAlt = req.body.photoAlt
 
     await card.save()
     res.json(card)
@@ -69,11 +57,7 @@ exports.deleteHighlightCard = async (req, res) => {
     const card = await HighlightCard.findById(req.params.id)
     if (!card) return res.status(404).json({ message: 'Carte introuvable' })
 
-    if (card.photoUrl) {
-      const filename = path.basename(card.photoUrl)
-      const filepath = path.join('uploads', filename)
-      if (fs.existsSync(filepath)) fs.unlinkSync(filepath)
-    }
+    deleteResponsiveImage(card.photoUrl, card.srcSet)
 
     await card.deleteOne()
     res.json({ message: 'Carte supprimée' })

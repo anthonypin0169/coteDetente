@@ -1,7 +1,5 @@
 const ContactPage = require('../models/contactPage')
-const sharp = require('sharp')
-const path = require('path')
-const fs = require('fs')
+const { saveResponsiveImage, deleteResponsiveImage } = require('../utils/imagePipeline')
 
 exports.getContactPage = async (req, res) => {
   try {
@@ -17,20 +15,17 @@ exports.updateContactPage = async (req, res) => {
     const contactPage = await ContactPage.findOne()
 
     let photoUrl = contactPage?.photoUrl
+    let srcSet = contactPage?.srcSet
     if (req.file) {
-      if (photoUrl) {
-        const oldPath = path.join('uploads', path.basename(photoUrl))
-        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath)
-      }
-      const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.avif`
-      await sharp(req.file.buffer)
-        .resize({ width: 1600, withoutEnlargement: true })
-        .avif({ quality: 60 })
-        .toFile(path.join('uploads', filename))
-      photoUrl = `/uploads/${filename}`
+      deleteResponsiveImage(photoUrl, srcSet)
+      const image = await saveResponsiveImage(req.file.buffer, { maxWidth: 1600 })
+      photoUrl = image.url
+      srcSet = image.srcSet
     }
 
-    const updated = await ContactPage.findOneAndUpdate({}, { photoUrl }, { new: true, upsert: true })
+    const photoAlt = req.body.photoAlt !== undefined ? req.body.photoAlt : contactPage?.photoAlt
+
+    const updated = await ContactPage.findOneAndUpdate({}, { photoUrl, srcSet, photoAlt }, { new: true, upsert: true })
     res.json(updated)
   } catch (error) {
     res.status(500).json({ message: error.message })

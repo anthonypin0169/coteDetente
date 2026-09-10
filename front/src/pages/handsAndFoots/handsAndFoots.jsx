@@ -3,6 +3,7 @@ import { useSelector } from "react-redux"
 import { apiFetch } from "@/utils/api"
 import PhotoInput from "@/component/photoInput/photoInput"
 import Modal from "@/component/modal/modal"
+import SeoHead from "@/component/seoHead/seoHead"
 import "./handsAndFoots.scss"
 
 export default function HandsAndFoots() {
@@ -122,6 +123,7 @@ export default function HandsAndFoots() {
     const [actualGroupName, setActualGroupName] = useState("")
     const [actualGroupDescription, setActualGroupDescription] = useState("")
     const [actualGroupPhoto, setActualGroupPhoto] = useState(null)
+    const [actualGroupPhotoAlt, setActualGroupPhotoAlt] = useState("")
     const [actualGroupVideo , setActualGroupVideo ] = useState(null)
 
     const handleUpdateGroup = async (id) => {
@@ -129,6 +131,7 @@ export default function HandsAndFoots() {
         const formData = new FormData()
         formData.append("name", actualGroupName)
         formData.append("description", actualGroupDescription)
+        formData.append("photoAlt", actualGroupPhotoAlt)
         if (actualGroupPhoto) formData.append("photo", actualGroupPhoto)
         if (actualGroupVideo) formData.append("video", actualGroupVideo)
 
@@ -240,6 +243,10 @@ export default function HandsAndFoots() {
 
     return (
         <main className="H-and-F-section">
+            <SeoHead
+                title="Mains et pieds"
+                description="Manucure, pose et dépose de gel, vernis semi-permanent : soins des mains et des pieds à l'institut Côté Détente."
+            />
             <h1>Mains et pieds</h1>
             {isAuthenticated &&
                 <button className="btn" onClick={() => setModalIsOpen(true)}>Modifier</button>
@@ -300,7 +307,7 @@ export default function HandsAndFoots() {
 
                 <div className="manucure-section__second-division">
                     <div className="manucure-section__second-division--photo-bloc">
-                        <img src={manucuresGroup?.photoUrl} alt="" />
+                        <img src={manucuresGroup?.photoUrl} srcSet={manucuresGroup?.srcSet} sizes="(min-width: 768px) 40vw, 80vw" alt={manucuresGroup?.photoAlt || ""} />
                     </div>
                     <div className="manucure-section__second-division--presta-bloc">
                         {prestations.filter((p) => p.group === manucuresGroup?._id).map((presta) => (
@@ -337,6 +344,8 @@ export default function HandsAndFoots() {
                                                 <div className="edit-list__item">
                                                     <label className="cares-modal-labels" htmlFor="edit-photo-input">Modifier la photo</label>
                                                     <PhotoInput className="edit-list__photo-input" id="edit-photo-input" onChange={setActualGroupPhoto}/>
+                                                    <label className="cares-modal-labels" htmlFor="edit-photo-alt-input">Texte alternatif de la photo</label>
+                                                    <input className="cares-modal-inputs" type="text" id="edit-photo-alt-input" value={actualGroupPhotoAlt} onChange={(e) => setActualGroupPhotoAlt(e.target.value)}/>
                                                 </div>
                                             }
                                             {(group.role === "pose-depose-comblages" || group.role === "vernis-motifs") &&
@@ -355,8 +364,10 @@ export default function HandsAndFoots() {
                                             <p className="edit-list__neutral--name">{group.name}</p>
                                             <p className="edit-list__neutral--description">{group.description}</p>
                                             <div className="edit-list__btn-bloc">
-                                                <button type="button" className="suppr-and-modify-btn btn" onClick={() => {setEditingGroupId(group._id) ; setActualGroupName(group.name) ; setActualGroupDescription(group.description)}}>Modifier</button>
-                                                <button type="button" onClick={() => {setModalVue("prestations") ; setSelectedGroupId(group._id)}} className="suppr-and-modify-btn btn">Modifier les prestations</button>
+                                                <button type="button" className="suppr-and-modify-btn btn" onClick={() => {setEditingGroupId(group._id) ; setActualGroupName(group.name) ; setActualGroupDescription(group.description) ; setActualGroupPhotoAlt(group.photoAlt || "")}}>Modifier</button>
+                                                {group.role !== "pose-depose-comblages" &&
+                                                    <button type="button" onClick={() => {setModalVue("prestations") ; setSelectedGroupId(group._id)}} className="suppr-and-modify-btn btn">Modifier les prestations</button>
+                                                }
                                             </div>
                                         </div>
                                     }

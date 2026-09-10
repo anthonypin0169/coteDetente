@@ -2,6 +2,7 @@ import "./event.scss"
 import { useState, useEffect, useMemo } from "react"
 import { useSelector } from "react-redux"
 import Modal from "@/component/modal/modal"
+import SeoHead from "@/component/seoHead/seoHead"
 import PhotoInput from "@/component/photoInput/photoInput"
 import PositionableTextEditor from "@/component/positionableTextEditor/positionableTextEditor"
 import { apiFetch } from "@/utils/api"
@@ -56,6 +57,7 @@ export default function Event() {
     const [newDescription, setNewDescription] = useState("")
     const [newRecapDescription, setNewRecapDescription] = useState("")
     const [newPhoto, setNewPhoto] = useState(null)
+    const [newPhotoAlt, setNewPhotoAlt] = useState("")
     const [newTextColor, setNewTextColor] = useState("white")
     const [newTextPositions, setNewTextPositions] = useState(DEFAULT_TEXT_POSITIONS)
     const [pendingInstagramEventId, setPendingInstagramEventId] = useState(null)
@@ -78,6 +80,7 @@ export default function Event() {
         formData.append("isCurrent", "true")
         formData.append("textColor", newTextColor)
         formData.append("textPositions", JSON.stringify(newTextPositions))
+        formData.append("photoAlt", newPhotoAlt)
         if (newPhoto) formData.append("photo", newPhoto)
 
         try{
@@ -95,6 +98,7 @@ export default function Event() {
                 setNewDescription("")
                 setNewRecapDescription("")
                 setNewPhoto(null)
+                setNewPhotoAlt("")
                 setNewTextColor("white")
                 setNewTextPositions(DEFAULT_TEXT_POSITIONS)
                 setEvents((prev)=> prev.map((event) => ({ ...event, isCurrent: false })).concat(newEventUploaded))
@@ -124,12 +128,14 @@ export default function Event() {
     const [lightTitle, setLightTitle] = useState("")
     const [lightRecapDescription, setLightRecapDescription] = useState("")
     const [lightPhoto, setLightPhoto] = useState(null)
+    const [lightPhotoAlt, setLightPhotoAlt] = useState("")
 
     const handleCreatePastEvent = async () => {
         const formData = new FormData()
         formData.append("title", lightTitle)
         formData.append("recapDescription", lightRecapDescription)
         formData.append("isCurrent", "false")
+        formData.append("photoAlt", lightPhotoAlt)
         if (lightPhoto) formData.append("photo", lightPhoto)
 
         try{
@@ -143,6 +149,7 @@ export default function Event() {
                 setLightTitle("")
                 setLightRecapDescription("")
                 setLightPhoto(null)
+                setLightPhotoAlt("")
                 setEvents((prev)=>[...prev, newEventUploaded])
                 setModalVue("list")
             }
@@ -160,6 +167,7 @@ export default function Event() {
     const [actualDescription, setActualDescription] = useState("")
     const [actualRecapDescription, setActualRecapDescription] = useState("")
     const [actualPhoto, setActualPhoto] = useState(null)
+    const [actualPhotoAlt, setActualPhotoAlt] = useState("")
     const [actualTextColor, setActualTextColor] = useState("white")
     const [actualTextPositions, setActualTextPositions] = useState(DEFAULT_TEXT_POSITIONS)
     const [editingEventId, setEditingEventId] = useState(null)
@@ -174,6 +182,7 @@ export default function Event() {
         formData.append("recapDescription", actualRecapDescription)
         formData.append("textColor", actualTextColor)
         formData.append("textPositions", JSON.stringify(actualTextPositions))
+        formData.append("photoAlt", actualPhotoAlt)
         if (actualPhoto) formData.append("photo", actualPhoto)
 
         try{
@@ -190,6 +199,7 @@ export default function Event() {
                 setActualDescription("")
                 setActualRecapDescription("")
                 setActualPhoto(null)
+                setActualPhotoAlt("")
                 setActualTextColor("white")
                 setActualTextPositions(DEFAULT_TEXT_POSITIONS)
                 setEditingEventId(null)
@@ -236,11 +246,16 @@ export default function Event() {
 
     return (
         <main className="main-event">
+            <SeoHead
+                title={currentEvent?.title ? `Évènement — ${currentEvent.title}` : "Évènements"}
+                description={currentEvent?.description || "Retrouvez les évènements et animations de l'institut Côté Détente à Saint-Denis-lès-Bourg."}
+                image={currentEvent?.photoUrl}
+            />
             {isAuthenticated &&
                 <button type="button" className="btn" onClick={() => {setModalIsOpen(true) ; setModalVue("list")}}>Modifier</button>
             }
             <section className="first-section">
-                <img className="first-section__photo" src={currentEvent?.photoUrl} alt="" />
+                <img className="first-section__photo" src={currentEvent?.photoUrl} srcSet={currentEvent?.srcSet} sizes="(min-width: 768px) 70vw, 90vw" alt={currentEvent?.photoAlt || ""} />
                 {currentEvent?.title &&
                     <h1 className="first-section__text first-section__text--title" style={{ left: `${currentEventPositions.title.x}%`, top: `${currentEventPositions.title.y}%`, color: currentEventTextColor }}>{currentEvent.title}</h1>
                 }
@@ -259,7 +274,7 @@ export default function Event() {
                     {pastEvents.map((event) => (
                         <Reveal key={event._id} className="item">
                             <div className="item__bloc">
-                                <img className="item__bloc--photo" src={event.photoUrl} alt="" />
+                                <img className="item__bloc--photo" src={event.photoUrl} srcSet={event.srcSet} sizes="(min-width: 768px) 19vw, 41vw" alt={event.photoAlt || ""} />
                                 <div className="item__bloc--description">{event.recapDescription}</div>
                             </div>
                             <div className="item__title">{event.title}</div>
@@ -272,7 +287,7 @@ export default function Event() {
                     {modalVue === "list" ?
                     <div className="modal-vue-list">
                         <div className="modal-vue-list__photo-container">
-                            <img src={currentEvent?.photoUrl} alt=""  className="modal-vue-list__photo-container--photo"/>
+                            <img src={currentEvent?.photoUrl} alt={currentEvent?.photoAlt || ""}  className="modal-vue-list__photo-container--photo"/>
                         </div>
                         <div className="modal-vue-list__btn-container">
                             <button
@@ -287,6 +302,7 @@ export default function Event() {
                                     setActualEployeeName(currentEvent.employeeName)
                                     setActualDescription(currentEvent.description)
                                     setActualRecapDescription(currentEvent.recapDescription)
+                                    setActualPhotoAlt(currentEvent.photoAlt || "")
                                     setActualTextColor(currentEvent.textColor || "white")
                                     setActualTextPositions({
                                         title: currentEvent.textPositions?.title || DEFAULT_TEXT_POSITIONS.title,
@@ -302,7 +318,7 @@ export default function Event() {
                         <div className="modal-vue-list__list-container">
                             {pastEvents.map((event) => (
                                 <div key={event._id} className="preview-event">
-                                        <img className="preview-event__photo" src={event.photoUrl} alt="" />
+                                        <img className="preview-event__photo" src={event.photoUrl} alt={event.photoAlt || ""} />
                                         <button type="button" className="preview-event__btn" onClick={() => handleDeleteEvent(event._id)}>X</button>
                                         <div className="preview-event__title">{event.title}</div>
                                 </div>
@@ -324,12 +340,18 @@ export default function Event() {
                                 onPositionsChange={setActualTextPositions}
                             />
                             <div className="modal-vue-edit__first-bloc">
-                                <label htmlFor="event-title" className="cares-modal-labels">Modifier le titre</label>
-                                <input type="text" id="event-title" className="cares-modal-input" value={actualTitle} onChange={(e) => setActualTitle(e.target.value)}/>
-                                <label htmlFor="event-start-date" className="cares-modal-labels">Modifier la date de départ </label>
-                                <input type="text" id="event-start-date" className="cares-modal-input" value={actualStartDate} onChange={(e) => setActualStartDate(e.target.value)}/>
-                                <label htmlFor="event-end-date" className="cares-modal-labels">Modifier la date de fin </label>
-                                <input type="text" id="event-end-date" className="cares-modal-input" value={actualEndDate} onChange={(e) => setActualEndDate(e.target.value)}/>
+                                <div>
+                                    <label htmlFor="event-title" className="cares-modal-labels">Modifier le titre</label>
+                                    <input type="text" id="event-title" className="cares-modal-input" value={actualTitle} onChange={(e) => setActualTitle(e.target.value)}/>
+                                </div>
+                                <div>
+                                    <label htmlFor="event-start-date" className="cares-modal-labels">Modifier la date de départ </label>
+                                    <input type="text" id="event-start-date" className="cares-modal-input" value={actualStartDate} onChange={(e) => setActualStartDate(e.target.value)}/>
+                                </div>
+                                <div>
+                                    <label htmlFor="event-end-date" className="cares-modal-labels">Modifier la date de fin </label>
+                                    <input type="text" id="event-end-date" className="cares-modal-input" value={actualEndDate} onChange={(e) => setActualEndDate(e.target.value)}/>
+                                </div>
                             </div>
                             <div className="modal-vue-edit__second-bloc">
                                 <label htmlFor="event-employee-name" className="cares-modal-labels">Modifier le nom de l'employé</label>
@@ -340,6 +362,8 @@ export default function Event() {
                                 <input type="text" id="event-recap-description" className="cares-modal-input" value={actualRecapDescription} onChange={(e) => setActualRecapDescription(e.target.value)}/>
                                 <label htmlFor="event-photo" className="cares-modal-labels">Modifier la photo </label>
                                 <PhotoInput id="event-photo" className="cares-modal-input" onChange={setActualPhoto}/>
+                                <label htmlFor="event-photo-alt" className="cares-modal-labels">Texte alternatif de la photo</label>
+                                <input type="text" id="event-photo-alt" className="cares-modal-input" value={actualPhotoAlt} onChange={(e) => setActualPhotoAlt(e.target.value)}/>
                                 <div className="modal-vue-edit__second-bloc--color-choice">
                                     <label>
                                         <input type="radio" name="event-text-color" checked={actualTextColor === "white"} onChange={() => setActualTextColor("white")}/>
@@ -351,8 +375,8 @@ export default function Event() {
                                     </label>
                                 </div>
                                 <div className="modal-vue-edit__second-bloc--btn-container">
-                                    <button type="button" onClick={() => setModalVue("list")}>Retour</button>
-                                    <button type="button" onClick={() => handleUpdateEvent(editingEventId)}>Valider</button>
+                                    <button type="button" className="btn" onClick={() => setModalVue("list")}>Retour</button>
+                                    <button type="button" className="btn" onClick={() => handleUpdateEvent(editingEventId)}>Valider</button>
                                 </div>
                             </div>
                         </div>
@@ -397,6 +421,10 @@ export default function Event() {
                                 <label htmlFor="add-current-photo" className="cares-modal-labels">Choisir une photo</label>
                                 <PhotoInput id="add-current-photo" className="cares-modal-input" onChange={setNewPhoto}/>
                             </div>
+                            <div className="modal-vue-add__input-container">
+                                <label htmlFor="add-current-photo-alt" className="cares-modal-labels">Texte alternatif de la photo</label>
+                                <input type="text" id="add-current-photo-alt" className="cares-modal-input" value={newPhotoAlt} onChange={(e) => setNewPhotoAlt(e.target.value)}/>
+                            </div>
                             <div className="modal-vue-add__color-choice">
                                 <label>
                                     <input type="radio" name="new-event-text-color" checked={newTextColor === "white"} onChange={() => setNewTextColor("white")}/>
@@ -425,6 +453,10 @@ export default function Event() {
                             <div className="modal-vue-add-light__label-container">
                                 <label htmlFor="add-past-photo" className="cares-modal-labels">Choisir une photo</label>
                                 <PhotoInput id="add-past-photo" className="cares-modal-input" onChange={setLightPhoto}/>
+                            </div>
+                            <div className="modal-vue-add-light__label-container">
+                                <label htmlFor="add-past-photo-alt" className="cares-modal-labels">Texte alternatif de la photo</label>
+                                <input type="text" id="add-past-photo-alt" className="cares-modal-input" value={lightPhotoAlt} onChange={(e) => setLightPhotoAlt(e.target.value)}/>
                             </div>
                             <div className="modal-vue-add-light__btn-container">
                                 <button type="button" className="btn" onClick={() => setModalVue("list")}>Retour</button>

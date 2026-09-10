@@ -6,6 +6,7 @@ const sousTypeSchema = new mongoose.Schema({
   pageTitle: { type: String },
   photoUrl: { type: String },
   photoAlt: { type: String },
+  srcSet: { type: String },
   videoUrl: { type: String },
   route: { type: String, unique: true, sparse: true },
   type: { type: mongoose.Schema.Types.ObjectId, ref: 'Type', required: true }

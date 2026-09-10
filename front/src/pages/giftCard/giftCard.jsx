@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
 import { useSearchParams } from "react-router-dom"
 import Modal from "@/component/modal/modal"
+import SeoHead from "@/component/seoHead/seoHead"
 import PhotoInput from "@/component/photoInput/photoInput"
 import { apiFetch } from "@/utils/api"
 import { getGiftCardDraft, saveGiftCardDraft, clearGiftCardDraft } from "@/utils/giftCardDraft"
@@ -38,6 +39,7 @@ export default function GiftCard() {
     /* Boite modale */
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const [newImg, setNewImg] = useState(null)
+    const [newImgAlt, setNewImgAlt] = useState("")
     const [newTitleCard, setNewTitleCard] = useState("")
     const [newTextCard, setNewTextCard] = useState("")
 
@@ -46,6 +48,7 @@ export default function GiftCard() {
         const formData = new FormData()
         formData.append("title", newTitleCard)
         formData.append("shortText", newTextCard)
+        formData.append("photoAlt", newImgAlt)
         if(newImg)formData.append("photo", newImg)
 
         try{
@@ -60,6 +63,7 @@ export default function GiftCard() {
                     setGiftPageInfos(newInfosUploaded)
                     setNewTitleCard("")
                     setNewTextCard("")
+                    setNewImgAlt("")
                 }
                 
         }catch(error){
@@ -115,6 +119,10 @@ export default function GiftCard() {
 
     return (
         <main className="gift-main">
+            <SeoHead
+                title="Carte cadeau"
+                description="Offrez une carte cadeau de l'institut Côté Détente : soins, épilation, maquillage ou manucure à Saint-Denis-lès-Bourg."
+            />
             <h1>Offrez une carte cadeau</h1>
              {isAuthenticated &&
                 <button type="button" className="btn" onClick={() => setModalIsOpen(true)}>Modifier</button>
@@ -131,7 +139,7 @@ export default function GiftCard() {
                         <div className="gift-first-section__card--first-bloc">
                             <h2 className="gift-title">{giftPageInfos?.title}</h2>
                             <div className="gift-photo-container">
-                                <img src={giftPageInfos?.photoUrl} alt=""  className="gift-photo"/>
+                                <img src={giftPageInfos?.photoUrl} srcSet={giftPageInfos?.srcSet} sizes="(min-width: 768px) 300px, 80vw" alt={giftPageInfos?.photoAlt || ""}  className="gift-photo"/>
                                 <div className="gift-photo-overlay">
                                     {price && <p className="gift-photo-overlay--price">{price} €</p>}
                                     {recipientName && <p className="gift-photo-overlay--recipient">Pour {recipientName}</p>}
@@ -185,6 +193,10 @@ export default function GiftCard() {
                     <div className="gift-modal__container">
                         <label className="gift-modal__container--img-label" htmlFor="gift-photo">Choisir une photo</label>
                         <PhotoInput className="contact-modal__container--img-input group-vue__photo-input" id="gift-photo" onChange={setNewImg}/>
+                    </div>
+                    <div className="gift-modal__container">
+                        <label className="gift-modal__container--label" htmlFor="gift-photo-alt">Texte alternatif de la photo</label>
+                        <input type="text" id="gift-photo-alt" value={newImgAlt} onChange={(e) => setNewImgAlt(e.target.value)}/>
                     </div>
                     <button type="button" className="btn" onClick={() => handleUpdatePhoto()}>Valider</button>
                 </div>

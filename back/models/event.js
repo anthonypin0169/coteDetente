@@ -10,6 +10,7 @@ const eventSchema = new mongoose.Schema({
   isCurrent: { type: Boolean, default: false },
   photoUrl: { type: String },
   photoAlt: { type: String },
+  srcSet: { type: String },
   textColor: { type: String, enum: ['white', 'black'], default: 'white' },
   textPositions: {
     title: {

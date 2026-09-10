@@ -1,9 +1,9 @@
 const SousType = require('../models/sousType')
 const Group = require('../models/group')
 const Prestation = require('../models/prestation')
-const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
+const { saveResponsiveImage, deleteResponsiveImage } = require('../utils/imagePipeline')
 
 exports.getAllSousTypes = async (req, res) => {
   try {
@@ -42,19 +42,14 @@ exports.updateSousType = async (req, res) => {
     if (req.body.pageTitle !== undefined) sousType.pageTitle = req.body.pageTitle
     if (req.body.route !== undefined) sousType.route = req.body.route
     if (req.body.type !== undefined) sousType.type = req.body.type
+    if (req.body.photoAlt !== undefined) sousType.photoAlt = req.body.photoAlt
 
     const photoFile = req.files?.photo?.[0]
     if (photoFile) {
-      if (sousType.photoUrl) {
-        const oldPath = path.join('uploads', path.basename(sousType.photoUrl))
-        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath)
-      }
-      const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.avif`
-      await sharp(photoFile.buffer)
-        .resize({ width: 1200, withoutEnlargement: true })
-        .avif({ quality: 60 })
-        .toFile(path.join('uploads', filename))
-      sousType.photoUrl = `/uploads/${filename}`
+      deleteResponsiveImage(sousType.photoUrl, sousType.srcSet)
+      const image = await saveResponsiveImage(photoFile.buffer, { maxWidth: 1200 })
+      sousType.photoUrl = image.url
+      sousType.srcSet = image.srcSet
     }
 
     const videoFile = req.files?.video?.[0]
@@ -80,12 +75,11 @@ exports.deleteSousType = async (req, res) => {
     const sousType = await SousType.findById(req.params.id)
     if (!sousType) return res.status(404).json({ message: 'Sous-type introuvable' })
 
-    ;[sousType.photoUrl, sousType.videoUrl].forEach(url => {
-      if (url) {
-        const filepath = path.join('uploads', path.basename(url))
-        if (fs.existsSync(filepath)) fs.unlinkSync(filepath)
-      }
-    })
+    deleteResponsiveImage(sousType.photoUrl, sousType.srcSet)
+    if (sousType.videoUrl) {
+      const filepath = path.join('uploads', path.basename(sousType.videoUrl))
+      if (fs.existsSync(filepath)) fs.unlinkSync(filepath)
+    }
 
     const groups = await Group.find({ sousType: sousType._id })
     const groupIds = groups.map(group => group._id)
@@ -98,12 +92,11 @@ exports.deleteSousType = async (req, res) => {
     })
     await Prestation.deleteMany({ group: { $in: groupIds } })
     groups.forEach(group => {
-      ;[group.photoUrl, group.videoUrl].forEach(url => {
-        if (url) {
-          const filepath = path.join('uploads', path.basename(url))
-          if (fs.existsSync(filepath)) fs.unlinkSync(filepath)
-        }
-      })
+      deleteResponsiveImage(group.photoUrl, group.srcSet)
+      if (group.videoUrl) {
+        const filepath = path.join('uploads', path.basename(group.videoUrl))
+        if (fs.existsSync(filepath)) fs.unlinkSync(filepath)
+      }
     })
     await Group.deleteMany({ sousType: sousType._id })
     await sousType.deleteOne()

@@ -24,6 +24,7 @@ export default function HeroCarrousel({ carrouselInstitut, setCarrouselInstitut 
     const [uploadCategory, setUploadCategory] = useState("")
     const [uploadDefinition, setUploadDefinition] = useState("")
     const [uploadFiles, setUploadFiles] = useState(null)
+    const [uploadPhotoAlt, setUploadPhotoAlt] = useState("")
 
     useEffect( () => {
         const loadHeroImages = async () => {
@@ -47,6 +48,7 @@ export default function HeroCarrousel({ carrouselInstitut, setCarrouselInstitut 
         const formData = new FormData()
         formData.append("image", uploadFiles)
         formData.append("description", uploadDefinition)
+        formData.append("photoAlt", uploadPhotoAlt)
         formData.append("category", uploadCategory)
 
         try{
@@ -65,6 +67,7 @@ export default function HeroCarrousel({ carrouselInstitut, setCarrouselInstitut 
             setModifyViewMode("list")
             setUploadDefinition("")
             setUploadFiles(null)
+            setUploadPhotoAlt("")
         }catch(error){
             return(error.message)
         }
@@ -91,6 +94,7 @@ export default function HeroCarrousel({ carrouselInstitut, setCarrouselInstitut 
     const [actualPhotoTitle, setActualPhotoTitle] = useState("")
     const [actualPhotoDates, setActualPhotoDates] = useState("")
     const [actualPhotoDescription, setActualPhotoDescription] = useState("")
+    const [actualPhotoAlt, setActualPhotoAlt] = useState("")
     const [actualPhotoTextColor, setActualPhotoTextColor] = useState("white")
     const [actualPhotoPositions, setActualPhotoPositions] = useState(DEFAULT_TEXT_POSITIONS)
 
@@ -99,6 +103,7 @@ export default function HeroCarrousel({ carrouselInstitut, setCarrouselInstitut 
         setActualPhotoTitle(photo.title || "")
         setActualPhotoDates(photo.dates || "")
         setActualPhotoDescription(photo.description || "")
+        setActualPhotoAlt(photo.photoAlt || "")
         setActualPhotoTextColor(photo.textColor || "white")
         setActualPhotoPositions({
             title: photo.textPositions?.title || DEFAULT_TEXT_POSITIONS.title,
@@ -113,6 +118,7 @@ export default function HeroCarrousel({ carrouselInstitut, setCarrouselInstitut 
         formData.append("title", actualPhotoTitle)
         formData.append("dates", actualPhotoDates)
         formData.append("description", actualPhotoDescription)
+        formData.append("photoAlt", actualPhotoAlt)
         formData.append("textColor", actualPhotoTextColor)
         formData.append("textPositions", JSON.stringify(actualPhotoPositions))
 
@@ -140,7 +146,7 @@ export default function HeroCarrousel({ carrouselInstitut, setCarrouselInstitut 
         }
         return (
             <div className="hero-slide" key={photo._id}>
-                <img src={photo.url} alt={photo.title || ""} className="hero-slide__img"/>
+                <img src={photo.url} srcSet={photo.srcSet} sizes="100vw" alt={photo.photoAlt || photo.title || ""} className="hero-slide__img" fetchPriority="high"/>
                 {photo.title &&
                     <h1
                         className="hero-slide__text hero-slide__text--title"
@@ -176,7 +182,7 @@ export default function HeroCarrousel({ carrouselInstitut, setCarrouselInstitut 
                         <div className="modal__list-vue--images-list">
                             {carrouselHero.map( photo => (
                                 <div key={photo._id} className="preview">
-                                    <img src={photo.url} alt={photo.description}  className="preview__img"/>
+                                    <img src={photo.url} alt={photo.photoAlt || photo.description}  className="preview__img"/>
                                     <button onClick={() => handleDelete(photo._id)} className="preview__btn">X</button>
                                     <button type="button" className="preview__edit-btn" onClick={() => openTextEditor(photo)}>Modifier le texte</button>
                                 </div>
@@ -188,7 +194,7 @@ export default function HeroCarrousel({ carrouselInstitut, setCarrouselInstitut 
                         <div className="modal__list-vue--images-list">
                             {carrouselInstitut.map( photo => (
                                 <div key={photo._id} className="preview">
-                                    <img src={photo.url} alt={photo.description}  className="preview__img"/>
+                                    <img src={photo.url} alt={photo.photoAlt || photo.description}  className="preview__img"/>
                                     <button onClick={ () => handleDelete(photo._id)} className="preview__btn">X</button>
                                 </div>
                             ))}
@@ -212,6 +218,7 @@ export default function HeroCarrousel({ carrouselInstitut, setCarrouselInstitut 
                         <input type="text" placeholder="Titre" value={actualPhotoTitle} onChange={(e) => setActualPhotoTitle(e.target.value)}/>
                         <input type="text" placeholder="Dates" value={actualPhotoDates} onChange={(e) => setActualPhotoDates(e.target.value)}/>
                         <input type="text" placeholder="Description" value={actualPhotoDescription} onChange={(e) => setActualPhotoDescription(e.target.value)}/>
+                        <input type="text" placeholder="Texte alternatif de la photo (accessibilité)" value={actualPhotoAlt} onChange={(e) => setActualPhotoAlt(e.target.value)}/>
                         <div className="modal__text-edit-vue--color-choice">
                             <label>
                                 <input type="radio" name="text-color" checked={actualPhotoTextColor === "white"} onChange={() => setActualPhotoTextColor("white")}/>
@@ -231,6 +238,7 @@ export default function HeroCarrousel({ carrouselInstitut, setCarrouselInstitut 
                     <div className="modal__upload-vue">
                         <PhotoInput onChange={setUploadFiles} className="modal__upload-vue--upload" />
                         <input onChange={(e) => setUploadDefinition(e.target.value)} value={uploadDefinition} type="text" className="modal__upload-vue--alt" placeholder="Entrez une description :"/>
+                        <input onChange={(e) => setUploadPhotoAlt(e.target.value)} value={uploadPhotoAlt} type="text" className="modal__upload-vue--alt" placeholder="Texte alternatif de la photo (accessibilité) :"/>
                         <div className="modal__upload-vue--btn">
                             <button onClick={() => setModifyViewMode("list")} className="btn">Retour</button>
                             <button onClick={() => handleUpload()} type="button" className="btn">Valider</button>

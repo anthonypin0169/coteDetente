@@ -1,8 +1,8 @@
 import NavLink from "../nav/nav"
 import Logo from "../logo/logo"
-import institutLogo from "../../assets/images/testLogo2.png"
-import instagramLogo from "../../assets/images/instagram-logo.png"
-import facebookLogo from "../../assets/images/facebook-logo.png"
+import institutLogo from "../../assets/images/testLogo2.webp"
+import instagramLogo from "../../assets/images/instagram-logo.webp"
+import facebookLogo from "../../assets/images/facebook-logo.webp"
 import "./footer.scss"
 
 export default function Footer() {
@@ -11,12 +11,16 @@ export default function Footer() {
         <footer className="footer">
             <div className="footer__top">
                 <div className="footer__top--info">
-                    <Logo src={institutLogo} alt={"Logo Coté détente"} className="footer__institut-icon"/>
+                    <Logo src={institutLogo} alt={"Logo Coté détente"} className="footer__institut-icon" width={622} height={401}/>
                     <p>Numéro de téléphone</p>
                     <p>261 Rue de Schutterwald, 01000 Saint-Denis-lès-Bourg</p>
                     <h4 className="footer-content-container-title">Nos horaires :</h4>
-                    <li className="content-container-li"><span>Du Mardi au Samedi</span><span>09:00-19:00</span></li>
-                    <li className="content-container-li"><span>Lundi et Dimanche</span><span>Fermé</span></li>
+                    <ul className="footer-content-container-list">
+                        <li className="content-container-li"><span>Lundi</span><span>13h30-17h30 (onglerie)</span></li>
+                        <li className="content-container-li"><span>Mardi au Vendredi</span><span>9h-19h</span></li>
+                        <li className="content-container-li"><span>Samedi</span><span>8h30-15h30</span></li>
+                        <li className="content-container-li"><span>Dimanche</span><span>Fermé</span></li>
+                    </ul>
                 </div>
 
                 <div className="footer__top--nav">

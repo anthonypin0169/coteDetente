@@ -5,7 +5,7 @@
     gap: 24px;
     padding: 60px 20px;
     position: relative;
-    background-image: url("../../../assets/images/wallpaper.jpg");
+    background-image: url("../../../assets/images/wallpaper.webp");
     background-attachment: fixed;
     background-size: cover;
     background-position-y: top;
@@ -58,12 +58,12 @@
     .home__staff-profile{
         flex-direction: row;
         justify-content: center;
-        gap: 200px;
+        gap: 3vw;
         padding: 200px 0;
         &--list{
             display: flex;
             justify-content: center;
-            gap: 10vw;
+            gap: 8vw;
         }
         &--carrousel{
             display: none;

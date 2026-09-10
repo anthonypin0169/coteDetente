@@ -5,7 +5,8 @@ const staffSchema = new mongoose.Schema({
   speciality: { type: String },
   text: { type: String },
   photoUrl: { type: String },
-  photoAlt: { type: String }
+  photoAlt: { type: String },
+  srcSet: { type: String }
 }, { timestamps: true })
 
 module.exports = mongoose.model('Staff', staffSchema)

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react"
-import googleLogo from "../../assets/images/google-logo.png"
+import googleLogo from "../../assets/images/google-logo.webp"
 import "./carrousel.scss"
 
 export default function Carrousel({images = [], reviews = [], slides = [], mode, className}) {
@@ -37,7 +37,13 @@ export default function Carrousel({images = [], reviews = [], slides = [], mode,
                 {slides.length > 0 ? (
                     <div className="carrousel__slide">{slides[currentIndex]}</div>
                 ) : images.length > 0 ? (
-                    <img src={images[currentIndex]} alt={`slide ${currentIndex}`} className="carrousel__image" />
+                    <img
+                        src={typeof images[currentIndex] === "string" ? images[currentIndex] : images[currentIndex]?.url}
+                        srcSet={typeof images[currentIndex] === "string" ? undefined : images[currentIndex]?.srcSet}
+                        sizes="100vw"
+                        alt={typeof images[currentIndex] === "string" ? `slide ${currentIndex}` : (images[currentIndex]?.photoAlt || images[currentIndex]?.description || `slide ${currentIndex}`)}
+                        className="carrousel__image"
+                    />
                 ) : (
                     reviews.map((review, i) => { 
                         
@@ -67,8 +73,8 @@ export default function Carrousel({images = [], reviews = [], slides = [], mode,
                     )}
                 {mode === "manual" && (
                     <>
-                        <button className="carrousel__btn--prev" onClick={prev}><i className="fa-solid fa-chevron-left"></i></button>
-                        <button className="carrousel__btn--next" onClick={next}><i className="fa-solid fa-chevron-right"></i></button>
+                        <button type="button" aria-label="Image précédente" className="carrousel__btn--prev" onClick={prev}><i className="fa-solid fa-chevron-left"></i></button>
+                        <button type="button" aria-label="Image suivante" className="carrousel__btn--next" onClick={next}><i className="fa-solid fa-chevron-right"></i></button>
                     </>
                 )}
             </div>

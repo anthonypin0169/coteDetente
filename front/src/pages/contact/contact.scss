@@ -84,18 +84,37 @@
     align-items: center;
     padding: 3vw 0;
     &__container{
+        width: 90%;
         display: flex;
+        justify-content: space-between;
         align-items: center;
         gap: 2vw;
+        &--label{
+            width: 55%;
+        }
         &--img-label{
-            
+
         }
         &--img-input{
-            
+
+        }
+        input{
+            width: 45%;
         }
     }
 }
 @media (min-width : 768px){
+    .contact-modal{
+        &__container{
+            width: 70%;
+            &--label{
+                width: 50%;
+            }
+            input{
+                width: 50%;
+            }
+        }
+    }
     .content-section{
         &__form{
             width: 430px;

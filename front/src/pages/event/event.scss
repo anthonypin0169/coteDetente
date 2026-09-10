@@ -178,7 +178,16 @@
     align-items: center;
     gap: 1vw;
     &__first-bloc{
-
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1vw;
+        > div{
+            width: 60%;
+            display: flex;
+            justify-content: space-between;
+        }
     }
     &__second-bloc{
         &--color-choice{
@@ -219,12 +228,12 @@
     gap: 1vw;
     margin-top: 2vw;
     &__label-container{
-        width: 60%;
+        width: 90%;
         display: flex;
         justify-content: space-between;
     }
     &__btn-container{
-        width: 60%;
+        width: 90%;
         display: flex;
         justify-content: space-between;
     }
@@ -243,6 +252,14 @@
     }
 }
 @media (min-width : 768px){
+    .modal-vue-add-light{
+        &__label-container{
+            width: 60%;
+        }
+        &__btn-container{
+            width: 60%;
+        }
+    }
     .first-section{
         width: 70%;
         margin-top: 5vw;

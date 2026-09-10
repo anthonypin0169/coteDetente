@@ -74,7 +74,7 @@ export default function CompanyProfile({ carrouselInstitut }) {
                             <p key={index} className="company-text">{para}</p>
                         ))}
                     </div>
-                    <Carrousel images={carrouselInstitut.map( p => p.url )} mode="auto" className="company-carrousel-container"/>
+                    <Carrousel images={carrouselInstitut} mode="auto" className="company-carrousel-container"/>
                 </div>
             </section>
 

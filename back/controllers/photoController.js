@@ -1,7 +1,5 @@
 const Photo = require('../models/photo');
-const sharp = require('sharp');
-const path = require('path');
-const fs = require('fs');
+const { saveResponsiveImage, deleteResponsiveImage } = require('../utils/imagePipeline');
 
 exports.getPhotosByCategory = async (req, res) => {
   try {
@@ -25,16 +23,9 @@ exports.createPhoto = async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ message: 'Aucun fichier reçu' });
 
-    const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.avif`;
-    const outputPath = path.join('uploads', filename);
+    const image = await saveResponsiveImage(req.file.buffer, { maxWidth: 1200 });
 
-    await sharp(req.file.buffer)
-      .resize({ width: 1200, withoutEnlargement: true })
-      .avif({ quality: 60 })
-      .toFile(outputPath);
-
-    const url = `/uploads/${filename}`;
-    const photo = await Photo.create({ ...req.body, url });
+    const photo = await Photo.create({ ...req.body, url: image.url, srcSet: image.srcSet });
     res.status(201).json(photo);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -47,22 +38,16 @@ exports.updatePhoto = async (req, res) => {
     if (!photo) return res.status(404).json({ message: 'Photo introuvable' });
 
     if (req.file) {
-      const oldFilename = path.basename(photo.url);
-      const oldPath = path.join('uploads', oldFilename);
-      if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
-
-      const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.avif`;
-      const outputPath = path.join('uploads', filename);
-      await sharp(req.file.buffer)
-        .resize({ width: 1200, withoutEnlargement: true })
-        .avif({ quality: 60 })
-        .toFile(outputPath);
-      photo.url = `/uploads/${filename}`;
+      deleteResponsiveImage(photo.url, photo.srcSet);
+      const image = await saveResponsiveImage(req.file.buffer, { maxWidth: 1200 });
+      photo.url = image.url;
+      photo.srcSet = image.srcSet;
     }
 
     if (req.body.title !== undefined) photo.title = req.body.title;
     if (req.body.description !== undefined) photo.description = req.body.description;
     if (req.body.dates !== undefined) photo.dates = req.body.dates;
+    if (req.body.photoAlt !== undefined) photo.photoAlt = req.body.photoAlt;
     if (req.body.textColor !== undefined) photo.textColor = req.body.textColor;
     if (req.body.textPositions !== undefined) {
       try {
@@ -84,9 +69,7 @@ exports.deletePhoto = async (req, res) => {
     const photo = await Photo.findById(req.params.id);
     if (!photo) return res.status(404).json({ message: 'Photo introuvable' });
 
-    const filename = path.basename(photo.url);
-    const filepath = path.join('uploads', filename);
-    if (fs.existsSync(filepath)) fs.unlinkSync(filepath);
+    deleteResponsiveImage(photo.url, photo.srcSet);
 
     await photo.deleteOne();
     res.json({ message: 'Photo supprimée' });

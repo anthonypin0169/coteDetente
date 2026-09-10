@@ -4,6 +4,7 @@ const photoSchema = new mongoose.Schema({
   title: { type: String },
   url: { type: String, required: true },
   photoAlt: { type: String },
+  srcSet: { type: String },
   category: { type: String, enum: ['soins', 'epilation', 'maquillage', 'mains-pieds', 'evenement', 'carrousel-hero', 'carrousel-institut'], required: true },
   description: { type: String },
   dates: { type: String },

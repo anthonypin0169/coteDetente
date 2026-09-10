@@ -3,21 +3,7 @@ const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
 const { publishPhotoToInstagram } = require('../services/instagram')
-
-const savePhoto = async (file) => {
-  const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.avif`
-  await sharp(file.buffer)
-    .resize({ width: 1200, withoutEnlargement: true })
-    .avif({ quality: 60 })
-    .toFile(path.join('uploads', filename))
-  return `/uploads/${filename}`
-}
-
-const deletePhoto = (url) => {
-  if (!url) return
-  const filepath = path.join('uploads', path.basename(url))
-  if (fs.existsSync(filepath)) fs.unlinkSync(filepath)
-}
+const { saveResponsiveImage, deleteResponsiveImage } = require('../utils/imagePipeline')
 
 exports.getAllEvents = async (req, res) => {
   try {
@@ -30,14 +16,20 @@ exports.getAllEvents = async (req, res) => {
 
 exports.createEvent = async (req, res) => {
   try {
-    const photoUrl = req.file ? await savePhoto(req.file) : undefined
+    let photoUrl
+    let srcSet
+    if (req.file) {
+      const image = await saveResponsiveImage(req.file.buffer, { maxWidth: 1200 })
+      photoUrl = image.url
+      srcSet = image.srcSet
+    }
     const isCurrent = req.body.isCurrent === 'true'
 
     if (isCurrent) {
       await Event.updateMany({ isCurrent: true }, { isCurrent: false })
     }
 
-    const eventData = { ...req.body, isCurrent, photoUrl }
+    const eventData = { ...req.body, isCurrent, photoUrl, srcSet }
     if (req.body.textPositions !== undefined) {
       try {
         eventData.textPositions = JSON.parse(req.body.textPositions)
@@ -59,8 +51,10 @@ exports.updateEvent = async (req, res) => {
     if (!event) return res.status(404).json({ message: 'Évènement introuvable' })
 
     if (req.file) {
-      deletePhoto(event.photoUrl)
-      event.photoUrl = await savePhoto(req.file)
+      deleteResponsiveImage(event.photoUrl, event.srcSet)
+      const image = await saveResponsiveImage(req.file.buffer, { maxWidth: 1200 })
+      event.photoUrl = image.url
+      event.srcSet = image.srcSet
     }
 
     if (req.body.title !== undefined) event.title = req.body.title
@@ -69,6 +63,7 @@ exports.updateEvent = async (req, res) => {
     if (req.body.employeeName !== undefined) event.employeeName = req.body.employeeName
     if (req.body.description !== undefined) event.description = req.body.description
     if (req.body.recapDescription !== undefined) event.recapDescription = req.body.recapDescription
+    if (req.body.photoAlt !== undefined) event.photoAlt = req.body.photoAlt
     if (req.body.textColor !== undefined) event.textColor = req.body.textColor
     if (req.body.textPositions !== undefined) {
       try {
@@ -90,7 +85,7 @@ exports.deleteEvent = async (req, res) => {
     const event = await Event.findById(req.params.id)
     if (!event) return res.status(404).json({ message: 'Évènement introuvable' })
 
-    deletePhoto(event.photoUrl)
+    deleteResponsiveImage(event.photoUrl, event.srcSet)
 
     await event.deleteOne()
 

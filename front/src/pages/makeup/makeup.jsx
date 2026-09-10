@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
 import { apiFetch } from "@/utils/api"
 import Modal from "@/component/modal/modal"
+import SeoHead from "@/component/seoHead/seoHead"
 
 export default function Makeup() {
 
@@ -196,6 +197,10 @@ export default function Makeup() {
 
     return (
         <main className="makeup-main">
+            <SeoHead
+                title="Maquillage"
+                description="Maquillage jour, soirée ou mariée à l'institut Côté Détente, à Saint-Denis-lès-Bourg près de Bourg-en-Bresse."
+            />
             {isAuthenticated &&
                 <button className="btn" onClick={() => setModalIsOpen(true)}>Modifier</button>
             }

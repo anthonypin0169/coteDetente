@@ -19,6 +19,7 @@ export default function HighlightCards() {
     const [ backTitleState,setBackTitleState] = useState("")
     const [ backTextState,setBackTextState] = useState("")
     const [ photoUrlState,setPhotoUrlState] = useState([])
+    const [ photoAltState,setPhotoAltState] = useState("")
 
     useEffect(()=>{
         const loadHighlightCards = async () => {
@@ -41,6 +42,7 @@ export default function HighlightCards() {
             formData.append("backTitle", backTitleState)
             formData.append("backText", backTextState)
             formData.append("photo", photoUrlState)
+            formData.append("photoAlt", photoAltState)
             formData.append("redirectTo", redirectToState)
 
             try{
@@ -75,7 +77,7 @@ export default function HighlightCards() {
                 {highlightCardList.map(highlightCard => (
                     <div className="card" key={highlightCard._id}>
                         <div className="card__front">
-                            <img src={highlightCard.photoUrl} alt={highlightCard.frontTitle} className="card__front--img"/>
+                            <img src={highlightCard.photoUrl} srcSet={highlightCard.srcSet} sizes="(min-width: 1024px) 380px, (min-width: 768px) 320px, 275px" alt={highlightCard.photoAlt || highlightCard.frontTitle} className="card__front--img"/>
                             <h2 className="card__front--title">{highlightCard.frontTitle}</h2>
                             <h3 className="card__front--text">{highlightCard.frontText}</h3>
                         </div>
@@ -105,12 +107,13 @@ export default function HighlightCards() {
                                 setBackTitleState(highlightCard.backTitle)
                                 setBackTextState(highlightCard.backText)
                                 setRedirectToState(highlightCard.redirectTo || "")
+                                setPhotoAltState(highlightCard.photoAlt || "")
                             }}>
                                 <div className="modal-card__content">
                                     <h2 className="modal-card__content--title">{highlightCard.frontTitle}</h2>
                                     <h3 className="modal-card__content--text">{highlightCard.frontText}</h3>
                                 </div>
-                                <img src={highlightCard.photoUrl} alt={highlightCard.frontTitle} className="modal-card__img"/>
+                                <img src={highlightCard.photoUrl} alt={highlightCard.photoAlt || highlightCard.frontTitle} className="modal-card__img"/>
                             </div>
                         ))}
                     </div>
@@ -121,6 +124,9 @@ export default function HighlightCards() {
                                 <h3 className="highlight-h3">Face recto de la carte.</h3>
                                 <label htmlFor="highlight-photo" className="highlight-label">Choisir une photo :</label>
                                 <PhotoInput id="highlight-photo" className="highlight-upload" onChange={setPhotoUrlState} />
+
+                                <label htmlFor="highlight-photo-alt" className="highlight-label">Texte alternatif de la photo (accessibilité) :</label>
+                                <input type="text" id="highlight-photo-alt" className="highlight-input" onChange={(e) => setPhotoAltState(e.target.value)} value={photoAltState}/>
 
                                 <label htmlFor="highlight-front-title" className="highlight-label">Titre :</label>
                                 <input type="text" id="highlight-front-title" className="highlight-input"  onChange={(e) => setFrontTitleState(e.target.value)} value={frontTitleState}/>

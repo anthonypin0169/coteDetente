@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Remplace "https://ton-domaine.fr" par le vrai nom de domaine une fois le site déployé,
+    puis ajoute la ligne "Sitemap: https://ton-domaine.fr/sitemap.xml" dans robots.txt.
+    Si tu ajoutes ou renommes une sous-catégorie de Soins (Visage/Corps/Minceur), pense à
+    mettre à jour ce fichier à la main (pas de génération automatique pour l'instant).
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://ton-domaine.fr/</loc>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://ton-domaine.fr/prestations</loc>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://ton-domaine.fr/soins/visage</loc>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ton-domaine.fr/soins/corps</loc>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ton-domaine.fr/soins/minceur</loc>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ton-domaine.fr/epilation</loc>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ton-domaine.fr/mains-et-pieds</loc>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ton-domaine.fr/maquillage</loc>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://ton-domaine.fr/evenements</loc>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://ton-domaine.fr/carte-cadeau</loc>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://ton-domaine.fr/contact</loc>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://ton-domaine.fr/mentions</loc>
+        <priority>0.1</priority>
+    </url>
+    <url>
+        <loc>https://ton-domaine.fr/conditions</loc>
+        <priority>0.1</priority>
+    </url>
+</urlset>

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { useSelector } from "react-redux"
 import Modal from "@/component/modal/modal"
+import SeoHead from "@/component/seoHead/seoHead"
 import PhotoInput from "@/component/photoInput/photoInput"
 import { apiFetch } from "@/utils/api"
 import "./contact.scss"
@@ -34,10 +35,12 @@ export default function Contact() {
     /* Boite modale */
     const [modalIsOpen, setModalIsOpen] = useState(false)
     const [newImg, setNewImg] = useState(null)
+    const [newImgAlt, setNewImgAlt] = useState("")
 
     const handleUpdatePhoto = async () => {
 
         const formData = new FormData()
+        formData.append("photoAlt", newImgAlt)
         if(newImg)formData.append("photo", newImg)
 
         try{
@@ -49,6 +52,7 @@ export default function Contact() {
 
                 if(ok){
                     setNewImg(null)
+                    setNewImgAlt("")
                     setContactPage(newPhotoUploaded)
                 }
                 
@@ -105,6 +109,10 @@ export default function Contact() {
 
     return (
         <main className="main-contact bg-img" style={{ backgroundImage: `url(${contactPage?.photoUrl})` }}>
+            <SeoHead
+                title="Contact"
+                description="Contactez l'institut Côté Détente, à Saint-Denis-lès-Bourg près de Bourg-en-Bresse, pour toute question ou prise de rendez-vous."
+            />
             {isAuthenticated &&
                 <button type="button" className="btn" onClick={() => setModalIsOpen(true)}>Modifier</button>
             }
@@ -136,6 +144,10 @@ export default function Contact() {
                     <div className="contact-modal__container">
                         <label className="contact-modal__container--img-label" htmlFor="contact-photo">Choisir une photo</label>
                         <PhotoInput className="contact-modal__container--img-input group-vue__photo-input" id="contact-photo" onChange={setNewImg}/>
+                    </div>
+                    <div className="contact-modal__container">
+                        <label className="contact-modal__container--label" htmlFor="contact-photo-alt">Texte alternatif de la photo</label>
+                        <input type="text" id="contact-photo-alt" value={newImgAlt} onChange={(e) => setNewImgAlt(e.target.value)}/>
                     </div>
                     <button type="button" className="btn" onClick={() => handleUpdatePhoto()}>Valider</button>
                 </div>

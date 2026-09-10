@@ -32,7 +32,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         height: auto;
-        max-height: 85dvh;
+        max-height: 90dvh;
         width: 90vw;
         border-radius: 8px;
         box-shadow: 1px 2px 8px rgb(95, 95, 95);
@@ -45,7 +45,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         width: 92vw;
-        max-height: 85dvh;
+        max-height: 90dvh;
         border-radius: 8px;
         box-shadow: 1px 2px 8px rgb(95, 95, 95);
         border: solid 1px var(--color-border);
@@ -57,6 +57,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         width: 80%;
+        max-height: 90dvh;
         padding: 20px 10px;
         border-radius: 25px;
         box-shadow: 1px 2px 8px rgb(95, 95, 95);
@@ -448,7 +449,6 @@
         }
         &--modify{
             width: 70%;
-            max-height: 90dvh;
         }
         &--staff{
             width: 47%;

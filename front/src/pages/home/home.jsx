@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import SeoHead from "@/component/seoHead/seoHead"
 import HeroCarrousel from "./components/HeroCarrousel"
 import HighlightCards from "./components/HighlightCards"
 import CompanyProfile from "./components/CompanyProfile"
@@ -35,6 +36,10 @@ export default function Home() {
 
     return (
         <main className="home">
+            <SeoHead
+                title="Accueil"
+                description="Institut de bien-être Côté Détente, à Saint-Denis-lès-Bourg près de Bourg-en-Bresse : soins du visage et du corps, épilation, maquillage, manucure et pédicure."
+            />
             <HeroCarrousel carrouselInstitut={carrouselInstitut} setCarrouselInstitut={setCarrouselInstitut} />
             <HighlightCards />
             <CompanyProfile carrouselInstitut={carrouselInstitut} />

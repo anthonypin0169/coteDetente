@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import Modal from "@/component/modal/modal"
+import SeoHead from "@/component/seoHead/seoHead"
 import PhotoInput from "@/component/photoInput/photoInput"
 import { apiFetch } from "@/utils/api"
 import "./services.scss"
@@ -34,7 +35,8 @@ export default function Services() {
     const [selectedTypeId, setSelectedTypeId] = useState("")
     const [typeName ,setTypeName] = useState("")
     const [typeRoute ,setTypeRoute] = useState("")
-    const [typePhoto ,setTypePhoto] = useState(null)    
+    const [typePhoto ,setTypePhoto] = useState(null)
+    const [typePhotoAlt ,setTypePhotoAlt] = useState("")
 
     const token = useSelector((state) => state.auth.token)
 
@@ -43,6 +45,7 @@ export default function Services() {
         formData.append("name", typeName)
         formData.append("route", typeRoute)
         formData.append("photo", typePhoto)
+        formData.append("photoAlt", typePhotoAlt)
 
         try{
             const { ok, data: updatedType } = await apiFetch(`/api/types/${selectedTypeId}`, {
@@ -56,8 +59,9 @@ export default function Services() {
 
             setModifyViewMode("list") 
             setTypeName("")
-            setTypeRoute("") 
+            setTypeRoute("")
             setTypePhoto(null)
+            setTypePhotoAlt("")
         }catch(error){
             return(error.message)
         }
@@ -96,6 +100,10 @@ export default function Services() {
 
     return (
         <main className="services">
+            <SeoHead
+                title="Nos prestations"
+                description="Découvrez toutes les prestations de l'institut Côté Détente : soins, épilation, maquillage, mains et pieds."
+            />
             <h1 className="services__title">Prestations</h1>
             {isAuthenticated &&
                 <button className="services__btn btn" onClick={() => setModalIsOpen(true)}>Modifier</button>
@@ -107,8 +115,8 @@ export default function Services() {
                         {types.map((type)=>( 
                             <div key={type._id} className="services__modal-list-view--card">
                                 <h2 className="list-view-card-title">{type.name}</h2>
-                                <img src={type.photoUrl} alt={type.name} className="list-view-card-img"/>
-                                <button onClick={() => {setModifyViewMode("edit"); setSelectedTypeId(type._id); setTypeName(type.name); setTypeRoute(type.route)}} className="list-view-card-btn btn">Modifier</button>
+                                <img src={type.photoUrl} srcSet={type.srcSet} sizes="(min-width: 768px) 300px, 90vw" alt={type.photoAlt || type.name} className="list-view-card-img"/>
+                                <button onClick={() => {setModifyViewMode("edit"); setSelectedTypeId(type._id); setTypeName(type.name); setTypeRoute(type.route); setTypePhotoAlt(type.photoAlt || "")}} className="list-view-card-btn btn">Modifier</button>
                             </div>
                         ))}
                     </div> 
@@ -130,6 +138,9 @@ export default function Services() {
                         <label htmlFor="type-photo" className="services__modal-edit-view--label">Image</label>
                         <PhotoInput id="type-photo" className="services__modal-edit-view--upload" onChange={setTypePhoto}/>
 
+                        <label htmlFor="type-photo-alt" className="services__modal-edit-view--label">Texte alternatif de l'image</label>
+                        <input type="text" id="type-photo-alt" value={typePhotoAlt} onChange={(e) => setTypePhotoAlt(e.target.value)} className="services__modal-edit-view--input" />
+
                         <button className="services__modal-edit-view--btn btn" onClick={() => handleUpload()}>Valider</button>
                     </div>
                 }
@@ -139,12 +150,12 @@ export default function Services() {
                     type.route === "/soins" ? (
                         <div key={type._id} className={`banner__div ${expandedTypeId === type._id ? "banner__div--expanded" : ""}`} onClick={() => {setExpandedTypeId(type._id); handleCaresTypes(type._id)}}>
                             <h2 className="banner__div--text">{type.name}</h2>
-                            <img src={type.photoUrl} alt={type.name} className="banner__div--image"/>
+                            <img src={type.photoUrl} srcSet={type.srcSet} sizes="(min-width: 768px) 45vw, 60vw" alt={type.photoAlt || type.name} className="banner__div--image"/>
                         </div>
                     ):(
                         <Link to={type.route} key={type._id} className="banner__div">
                             <h2 className="banner__div--text">{type.name}</h2>
-                            <img src={type.photoUrl} alt={type.name} className="banner__div--image"/>
+                            <img src={type.photoUrl} srcSet={type.srcSet} sizes="(min-width: 768px) 45vw, 60vw" alt={type.photoAlt || type.name} className="banner__div--image"/>
                         </Link>
                     )
                 ))}

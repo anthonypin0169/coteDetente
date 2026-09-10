@@ -38,6 +38,7 @@ export default function StaffProfiles() {
     const [ staffSpeciality,setStaffSpeciality] = useState("")
     const [ staffText,setStaffText] = useState("")
     const [ staffPhoto,setStaffPhoto] = useState([])
+    const [ staffPhotoAlt,setStaffPhotoAlt] = useState("")
 
     const handleProfileUpdate = async () => {
 
@@ -46,6 +47,7 @@ export default function StaffProfiles() {
         formData.append("speciality", staffSpeciality)
         formData.append("text", staffText)
         formData.append("photo", staffPhoto)
+        formData.append("photoAlt", staffPhotoAlt)
 
         try{
             const { ok, data: updatedMember } = await apiFetch(`/api/staff/${selectedStaffId}`, {
@@ -79,6 +81,7 @@ export default function StaffProfiles() {
         formData.append("speciality", staffSpeciality)
         formData.append("text", staffText)
         formData.append("photo", staffPhoto)
+        formData.append("photoAlt", staffPhotoAlt)
 
         try{
             const { ok, data: postedMember } = await apiFetch("/api/staff", {
@@ -128,6 +131,10 @@ export default function StaffProfiles() {
                         <label htmlFor="create-staff-photo" className="staff-profile-h2">Choisissez une photo :</label>
                         <PhotoInput id="create-staff-photo" onChange={setStaffPhoto} className="staff-profile-upload"/>
                     </div>
+                    <div className="modal__create-staff-profile--photo-alt">
+                        <label htmlFor="create-staff-photo-alt" className="staff-profile-h2">Texte alternatif de la photo :</label>
+                        <input id="create-staff-photo-alt" type="text" onChange={(e) => setStaffPhotoAlt(e.target.value)} value={staffPhotoAlt} className="create-staff-profile-input"/>
+                    </div>
                     <div className="modal__create-staff-profile--name">
                         <label htmlFor="create-staff-name" className="staff-profile-h2">Entrez un nom :</label>
                         <input id="create-staff-name" type="text" onChange={(e) => setStaffName(e.target.value)} value={staffName} className="create-staff-profile-input"/>
@@ -152,6 +159,10 @@ export default function StaffProfiles() {
                             <label htmlFor="edit-staff-photo" className="staff-profile-h2">Modifiez la photo :</label>
                             <PhotoInput id="edit-staff-photo" onChange={setStaffPhoto} className="staff-profile-upload"/>
                         </div>
+                        <div className="modal__edit-staff-profile--photo-alt">
+                            <label htmlFor="edit-staff-photo-alt" className="staff-profile-h2">Texte alternatif de la photo :</label>
+                            <input id="edit-staff-photo-alt" type="text" onChange={(e) => setStaffPhotoAlt(e.target.value)} value={staffPhotoAlt} className="create-staff-profile-input"/>
+                        </div>
                         <div className="modal__edit-staff-profile--name">
                             <label htmlFor="edit-staff-name" className="staff-profile-h2">Modifiez un nom :</label>
                             <input id="edit-staff-name" type="text" onChange={(e) => setStaffName(e.target.value)} value={staffName} className="create-staff-profile-input"/>
@@ -173,7 +184,7 @@ export default function StaffProfiles() {
                 {staffList.map(member => (
                     <div key={member._id} className="staff-container">
                         {isAuthenticated ?<button onClick={() => handleStaffDelete(member._id)}className="modal__edit-staff-profile--delete-btn">X</button> : null}
-                        <StaffProfile  title={member.name} speciality={member.speciality} text={member.text} src={member.photoUrl}/>
+                        <StaffProfile  title={member.name} speciality={member.speciality} text={member.text} src={member.photoUrl} srcSet={member.srcSet} alt={member.photoAlt}/>
                         {isAuthenticated ? <button onClick={() => {setSelectedStaffId(member._id); setIsStaffModalOpen(true)}}className="home__modify-btn btn">Modifier</button> : null}
                     </div>
                 ))}
@@ -182,7 +193,7 @@ export default function StaffProfiles() {
             <Carrousel mode="manual" className="home__staff-profile--carrousel" slides={staffList.map(member => (
                 <div className="staff-container" key={member._id}>
                     {isAuthenticated ?<button onClick={() => handleStaffDelete(member._id)}className="modal__edit-staff-profile--delete-btn">X</button> : null}
-                    <StaffProfile  title={member.name} speciality={member.speciality} text={member.text} src={member.photoUrl}/>
+                    <StaffProfile  title={member.name} speciality={member.speciality} text={member.text} src={member.photoUrl} srcSet={member.srcSet} alt={member.photoAlt}/>
                     {isAuthenticated ? <button onClick={() => {setSelectedStaffId(member._id); setIsStaffModalOpen(true)}}className="home__modify-btn btn">Modifier</button> : null}
                 </div>
             ))} />

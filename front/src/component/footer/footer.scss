@@ -9,6 +9,7 @@
     &__institut-icon{
         display: none;
         filter: brightness(0) invert(1);
+        object-fit: contain;
     }
     &__top{
         display: flex;
@@ -32,6 +33,10 @@
                 margin-bottom: 20px;
                 width: 60%;
             }
+        }
+        .footer-content-container-list{
+            margin: 0;
+            padding: 0;
         }
         .content-container-li{
             display: flex;

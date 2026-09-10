@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
 import Modal from "@/component/modal/modal"
+import SeoHead from "@/component/seoHead/seoHead"
 import PhotoInput from "@/component/photoInput/photoInput"
 import { apiFetch } from "@/utils/api"
 import Reveal from "@/component/reveal/reveal"
@@ -166,6 +167,7 @@ export default function Cares() {
     const [newNameGroup, setNewNameGroup] = useState("")
     const [newDescriptionGroup, setNewDescriptionGroup] = useState("")
     const [newPhotoGroup, setNewPhotoGroup] = useState(null)
+    const [newPhotoGroupAlt, setNewPhotoGroupAlt] = useState("")
     const [isAddingGroup, setIsAddingGroup] = useState(false)
 
     /* Ajout */
@@ -175,6 +177,7 @@ export default function Cares() {
         formData.append("name", newNameGroup)
         formData.append("description", newDescriptionGroup)
         formData.append("photo", newPhotoGroup)
+        formData.append("photoAlt", newPhotoGroupAlt)
         formData.append("sousType", selectedSousTypeId)
 
         try{
@@ -188,6 +191,7 @@ export default function Cares() {
                 setNewNameGroup("")
                 setNewDescriptionGroup("")
                 setNewPhotoGroup(null)
+                setNewPhotoGroupAlt("")
                 setModalGroups(prev => [...prev, newGroupUploaded])
                 setIsAddingGroup(false)
             }
@@ -221,12 +225,14 @@ export default function Cares() {
     const [actualGroupName, setActualGroupName] = useState("")
     const [actualGroupDescription, setActualGroupDescription] = useState("")
     const [actualGroupPhoto, setActualGroupPhoto] = useState(null)
+    const [actualGroupPhotoAlt, setActualGroupPhotoAlt] = useState("")
 
     const handleUpdateGroup = async (id) => {
 
         const formData = new FormData()
         formData.append("name", actualGroupName)
         formData.append("description", actualGroupDescription)
+        formData.append("photoAlt", actualGroupPhotoAlt)
         if (actualGroupPhoto) formData.append("photo", actualGroupPhoto)
 
         try{
@@ -327,6 +333,10 @@ export default function Cares() {
 
     return (
         <main className="cares">
+         <SeoHead
+            title={currentSousType ? `Soins ${currentSousType.name}` : "Soins"}
+            description={currentSousType ? `Découvrez nos soins ${currentSousType.name?.toLowerCase()} à l'institut Côté Détente, à Saint-Denis-lès-Bourg près de Bourg-en-Bresse.` : "Découvrez nos soins à l'institut Côté Détente."}
+         />
          <h1 className="cares__title">{currentSousType && currentSousType.pageTitle}</h1>
 
             <section className="cares__section" >
@@ -353,7 +363,7 @@ export default function Cares() {
                                     </div>
                                 ))}
                             </div>   
-                            <img src={bloc.photoUrl} alt="" className="content-bloc__img"/>
+                            <img src={bloc.photoUrl} srcSet={bloc.srcSet} sizes="(min-width: 768px) 320px, 80vw" alt={bloc.photoAlt || ""} className="content-bloc__img"/>
                         </div>
                     </Reveal>
                 ))}
@@ -405,6 +415,10 @@ export default function Cares() {
                                     <label className="cares-modal-labels photo-label" htmlFor="photo-adding">Selectionner une photo</label>
                                     <PhotoInput id="photo-adding" className="group-vue__photo-input" onChange={setNewPhotoGroup}/>
                                 </div>
+                                <div className="group-vue__add--bloc">
+                                    <label className="cares-modal-labels" htmlFor="photo-alt-adding">Texte alternatif de la photo</label>
+                                    <input className="cares-modal-inputs" type="text" id="photo-alt-adding" value={newPhotoGroupAlt} onChange={(e) => setNewPhotoGroupAlt(e.target.value)}/>
+                                </div>
                                 <div className="group-vue__add--btn-bloc">
                                     <button className="btn" type="button" onClick={() => setIsAddingGroup(false)}>Retour</button>
                                     <button className="btn" type="button" onClick={() => handleCreateGroup()}>Valider</button>
@@ -428,6 +442,10 @@ export default function Cares() {
                                                     <label className="cares-modal-labels" htmlFor="photo-edit">Modifier la photo</label>
                                                     <PhotoInput id="photo-edit" className="group-vue__photo-input" onChange={setActualGroupPhoto}/>
                                                 </div>
+                                                <div className="edit-list__item">
+                                                    <label className="cares-modal-labels" htmlFor="photo-alt-edit">Texte alternatif de la photo</label>
+                                                    <input className="cares-modal-inputs" type="text" id="photo-alt-edit" value={actualGroupPhotoAlt} onChange={(e) => setActualGroupPhotoAlt(e.target.value)}/>
+                                                </div>
                                                 <div className="edit-list__btn-bloc">
                                                     <button type="button" className="btn" onClick={() => setEditingGroupId(null)}>Retour</button>
                                                     <button type="button" className="btn" onClick={() => {handleUpdateGroup(group._id) ; setEditingGroupId(null)}}>Valider</button>
@@ -438,7 +456,7 @@ export default function Cares() {
                                                 <p className="edit-list__neutral--name">{group.name}</p>
                                                 <p className="edit-list__neutral--description">{group.description}</p>
                                                 <div className="edit-list__btn-bloc">
-                                                    <button type="button" className="suppr-and-modify-btn btn" onClick={() => {setEditingGroupId(group._id) ; setActualGroupName(group.name) ; setActualGroupDescription(group.description)}}>Modifier</button>
+                                                    <button type="button" className="suppr-and-modify-btn btn" onClick={() => {setEditingGroupId(group._id) ; setActualGroupName(group.name) ; setActualGroupDescription(group.description) ; setActualGroupPhotoAlt(group.photoAlt || "")}}>Modifier</button>
                                                     <button type="button" className="suppr-and-modify-btn btn" onClick={() => handleDeleteGroup(group._id)}>Supprimer ce groupe</button>
                                                     <button type="button" onClick={() => {setModalVue("prestations") ; setSelectedGroupId(group._id)}} className="suppr-and-modify-btn btn">Modifier les prestations</button>
                                                 </div>

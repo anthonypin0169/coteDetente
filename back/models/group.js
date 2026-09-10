@@ -5,6 +5,7 @@ const groupSchema = new mongoose.Schema({
   description: { type: String },
   photoUrl: { type: String },
   photoAlt: { type: String },
+  srcSet: { type: String },
   videoUrl: { type: String },
   role: { type: String },
   sousType: { type: mongoose.Schema.Types.ObjectId, ref: 'SousType', required: true }

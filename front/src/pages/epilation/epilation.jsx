@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
 import { apiFetch } from "@/utils/api"
 import Modal from "@/component/modal/modal"
+import SeoHead from "@/component/seoHead/seoHead"
 import PhotoInput from "@/component/photoInput/photoInput"
 import Reveal from "@/component/reveal/reveal"
 import "./epilation.scss"
@@ -116,11 +117,13 @@ export default function Epilation() {
 
     /* Vue 1 */
     const [newSousTypePhoto, setNewSousTypePhoto] = useState()
+    const [newSousTypePhotoAlt, setNewSousTypePhotoAlt] = useState("")
     const [newSousTypeVideo, setNewSousTypeVideo] = useState()
 
     const handleCreateMedia = async () => {
 
         const formData = new FormData()
+        formData.append("photoAlt", newSousTypePhotoAlt)
         if(newSousTypePhoto){
             formData.append("photo", newSousTypePhoto)
         }
@@ -259,6 +262,10 @@ export default function Epilation() {
 
     return (
         <main className="epilation-main">
+            <SeoHead
+                title="Épilation et bronzage"
+                description="Épilation à la cire et bronzage à l'institut Côté Détente, à Saint-Denis-lès-Bourg près de Bourg-en-Bresse."
+            />
             <h1>Épilations et bronzages</h1>
             {isAuthenticated &&
                 <button className="btn" onClick={() => setModalIsOpen(true)}>Modifier</button>
@@ -289,7 +296,7 @@ export default function Epilation() {
                         ))}
                     </Reveal>
                     <div className="epilation-section__package-container--image-bloc">
-                        <img src={sousType.photoUrl} alt="" className="epilation-section__package-container--image-bloc--photo"/>
+                        <img src={sousType.photoUrl} srcSet={sousType.srcSet} sizes="(min-width: 768px) 35vw, 80vw" alt={sousType.photoAlt || ""} className="epilation-section__package-container--image-bloc--photo"/>
                     </div>
                 </div>
             </section>
@@ -318,8 +325,14 @@ export default function Epilation() {
                 <div className="media-vue">
                     <div className="media-vue__input-bloc">
                         <div className="media-vue__input-bloc--photo">
-                            <label className="cares-modal-labels" htmlFor="photo-input">Ajouter ou modifier une photo</label>
-                            <PhotoInput className="group-vue__photo-input" id="photo-input" onChange={setNewSousTypePhoto}/>
+                            <div>
+                                <label className="cares-modal-labels" htmlFor="photo-input">Ajouter ou modifier une photo</label>
+                                <PhotoInput className="group-vue__photo-input" id="photo-input" onChange={setNewSousTypePhoto}/>
+                            </div>
+                            <div>
+                                <label className="cares-modal-labels" htmlFor="photo-alt-input">Texte alternatif de la photo</label>
+                                <input className="cares-modal-inputs" type="text" id="photo-alt-input" value={newSousTypePhotoAlt} onChange={(e) => setNewSousTypePhotoAlt(e.target.value)}/>
+                            </div>
                         </div>
                         <div className="media-vue__input-bloc--video">
                             <label className="cares-modal-labels" htmlFor="video-input">Ajouter ou modifier une Video</label>

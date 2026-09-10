@@ -30,8 +30,13 @@
         gap: 5vw;
         &--photo{
             display: flex;
-            align-items: center;
-            justify-content: space-between;
+            flex-direction: column;
+            gap: 1vw;
+            > div{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
         }
         &--video{
             display: flex;

@@ -207,7 +207,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                width: 60%;
+                width: 90%;
                 justify-self: center;
             }
             &__btn-bloc{
@@ -240,7 +240,7 @@
         flex-direction: column;
         align-items: center;
         &--input-bloc{
-            width: 60%;
+            width: 90%;
             margin-top: 1vw;
             display: flex;
             justify-content: space-between;
@@ -267,6 +267,7 @@
                     width: 100%;
                     margin-top: 1vw;
                     display: flex;
+                    flex-wrap: wrap;
                     justify-content: center;
                     gap: 1vw;
                 }
@@ -296,6 +297,12 @@
 @media (min-width: 768px){
     .cares{
         padding-top: 110px;
+    }
+    .prestation-vue__new-add--input-bloc{
+        width: 60%;
+    }
+    .edit-list__item{
+        width: 60%;
     }
     .content-bloc{
         width: 100%;

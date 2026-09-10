@@ -1,7 +1,5 @@
 const GiftCardPage = require('../models/giftCardPage')
-const sharp = require('sharp')
-const path = require('path')
-const fs = require('fs')
+const { saveResponsiveImage, deleteResponsiveImage } = require('../utils/imagePipeline')
 
 exports.getGiftCardPage = async (req, res) => {
   try {
@@ -17,22 +15,17 @@ exports.updateGiftCardPage = async (req, res) => {
     const giftCardPage = await GiftCardPage.findOne()
 
     let photoUrl = giftCardPage?.photoUrl
+    let srcSet = giftCardPage?.srcSet
     if (req.file) {
-      if (photoUrl) {
-        const oldPath = path.join('uploads', path.basename(photoUrl))
-        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath)
-      }
-      const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.avif`
-      await sharp(req.file.buffer)
-        .resize({ width: 1200, withoutEnlargement: true })
-        .avif({ quality: 60 })
-        .toFile(path.join('uploads', filename))
-      photoUrl = `/uploads/${filename}`
+      deleteResponsiveImage(photoUrl, srcSet)
+      const image = await saveResponsiveImage(req.file.buffer, { maxWidth: 1200 })
+      photoUrl = image.url
+      srcSet = image.srcSet
     }
 
     const updated = await GiftCardPage.findOneAndUpdate(
       {},
-      { ...req.body, photoUrl },
+      { ...req.body, photoUrl, srcSet },
       { new: true, upsert: true }
     )
     res.json(updated)

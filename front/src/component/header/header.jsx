@@ -1,6 +1,6 @@
 import NavLink from "../nav/nav"
 import Logo from "../logo/logo"
-import testLogo2 from "../../assets/images/testLogo2.png"
+import testLogo2 from "../../assets/images/testLogo2.webp"
 import Modal from "../modal/modal"
 import { useState, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
@@ -149,20 +149,20 @@ export default function Header() {
             </Modal>
 
             <div className="header__left">
-                <button className="header__left--search-bar fa-solid fa-magnifying-glass links" onClick={() => setIsSearchOpen(true)}></button>
+                <button type="button" aria-label="Rechercher" className="header__left--search-bar fa-solid fa-magnifying-glass links" onClick={() => setIsSearchOpen(true)}></button>
                 <NavLink text="Accueil" to="/" className="header__left--home links"/>
                 <NavLink text="Prestations" to="/prestations" className="header__left--services links"/>
                 
             </div>
 
             <div className="header__center">
-                <Logo src={testLogo2} alt={"coté-détente"} className="header__center--logo" onClick={() => setIsLoginOpen(true)}/>
+                <Logo src={testLogo2} alt={"coté-détente"} className="header__center--logo" onClick={() => setIsLoginOpen(true)} width={622} height={401}/>
             </div>
 
             <div className="header__right">
                 <NavLink text="Évènements" to="/evenements" className="header__left--event links"/>
                 <NavLink text="Carte cadeau" to="/carte-cadeau" className="header__right--gift-card links"/>
-                <button className="header__right--shopping-card fa-solid fa-basket-shopping links" onClick={handleOpenBasket}></button>
+                <button type="button" aria-label="Voir le panier" className="header__right--shopping-card fa-solid fa-basket-shopping links" onClick={handleOpenBasket}></button>
             </div>
         </header>
     )

@@ -4,7 +4,8 @@ const giftCardPageSchema = new mongoose.Schema({
   title: { type: String },
   shortText: { type: String },
   photoUrl: { type: String },
-  photoAlt: { type: String }
+  photoAlt: { type: String },
+  srcSet: { type: String }
 }, { timestamps: true })
 
 module.exports = mongoose.model('GiftCardPage', giftCardPageSchema)

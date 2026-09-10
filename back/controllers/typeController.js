@@ -2,9 +2,7 @@ const Type = require('../models/type')
 const SousType = require('../models/sousType')
 const Group = require('../models/group')
 const Prestation = require('../models/prestation')
-const sharp = require('sharp')
-const path = require('path')
-const fs = require('fs')
+const { saveResponsiveImage, deleteResponsiveImage } = require('../utils/imagePipeline')
 
 exports.getAllTypes = async (req, res) => {
   try {
@@ -18,16 +16,13 @@ exports.getAllTypes = async (req, res) => {
 exports.createType = async (req, res) => {
   try {
     let photoUrl = null
+    let srcSet = null
     if (req.file) {
-      const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.avif`
-      const outputPath = path.join('uploads', filename)
-      await sharp(req.file.buffer)
-        .resize({ width: 1200, withoutEnlargement: true })
-        .avif({ quality: 60 })
-        .toFile(outputPath)
-      photoUrl = `/uploads/${filename}`
+      const image = await saveResponsiveImage(req.file.buffer, { maxWidth: 1200 })
+      photoUrl = image.url
+      srcSet = image.srcSet
     }
-    const type = await Type.create({ ...req.body, photoUrl })
+    const type = await Type.create({ ...req.body, photoUrl, srcSet })
     res.status(201).json(type)
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -40,22 +35,15 @@ exports.updateType = async (req, res) => {
     if (!type) return res.status(404).json({ message: 'Type introuvable' })
 
     if (req.file) {
-      if (type.photoUrl) {
-        const oldFilename = path.basename(type.photoUrl)
-        const oldPath = path.join('uploads', oldFilename)
-        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath)
-      }
-      const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.avif`
-      const outputPath = path.join('uploads', filename)
-      await sharp(req.file.buffer)
-        .resize({ width: 1200, withoutEnlargement: true })
-        .avif({ quality: 60 })
-        .toFile(outputPath)
-      type.photoUrl = `/uploads/${filename}`
+      deleteResponsiveImage(type.photoUrl, type.srcSet)
+      const image = await saveResponsiveImage(req.file.buffer, { maxWidth: 1200 })
+      type.photoUrl = image.url
+      type.srcSet = image.srcSet
     }
 
     if (req.body.name !== undefined) type.name = req.body.name
     if (req.body.route !== undefined) type.route = req.body.route
+    if (req.body.photoAlt !== undefined) type.photoAlt = req.body.photoAlt
 
     await type.save()
     res.json(type)
@@ -69,11 +57,7 @@ exports.deleteType = async (req, res) => {
     const type = await Type.findById(req.params.id)
     if (!type) return res.status(404).json({ message: 'Type introuvable' })
 
-    if (type.photoUrl) {
-      const filename = path.basename(type.photoUrl)
-      const filepath = path.join('uploads', filename)
-      if (fs.existsSync(filepath)) fs.unlinkSync(filepath)
-    }
+    deleteResponsiveImage(type.photoUrl, type.srcSet)
 
     const sousTypes = await SousType.find({ type: type._id })
     const sousTypeIds = sousTypes.map(sousType => sousType._id)
@@ -81,10 +65,7 @@ exports.deleteType = async (req, res) => {
     const groups = await Group.find({ sousType: { $in: sousTypeIds } })
     const groupIds = groups.map(group => group._id)
     groups.forEach(group => {
-      if (group.photoUrl) {
-        const filepath = path.join('uploads', path.basename(group.photoUrl))
-        if (fs.existsSync(filepath)) fs.unlinkSync(filepath)
-      }
+      deleteResponsiveImage(group.photoUrl, group.srcSet)
     })
 
     await Prestation.deleteMany({ group: { $in: groupIds } })

@@ -1,8 +1,10 @@
 import "./conditions.scss"
+import SeoHead from "@/component/seoHead/seoHead"
 
 export default function Conditions() {
     return (
         <main className="conditions-page">
+            <SeoHead title="Conditions générales de vente" description="Conditions générales de vente de l'institut Côté Détente." />
             <div className="container">
                 <h1 className="conditions-page__title">Conditions générales de vente</h1>
 

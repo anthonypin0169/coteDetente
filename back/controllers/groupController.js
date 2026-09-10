@@ -1,8 +1,8 @@
 const Group = require('../models/group')
 const Prestation = require('../models/prestation')
-const sharp = require('sharp')
 const path = require('path')
 const fs = require('fs')
+const { saveResponsiveImage, deleteResponsiveImage } = require('../utils/imagePipeline')
 
 exports.getAllGroups = async (req, res) => {
   try {
@@ -25,16 +25,13 @@ exports.getGroupsBySousType = async (req, res) => {
 exports.createGroup = async (req, res) => {
   try {
     let photoUrl = null
+    let srcSet = null
     if (req.file) {
-      const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.avif`
-      const outputPath = path.join('uploads', filename)
-      await sharp(req.file.buffer)
-        .resize({ width: 1200, withoutEnlargement: true })
-        .avif({ quality: 60 })
-        .toFile(outputPath)
-      photoUrl = `/uploads/${filename}`
+      const image = await saveResponsiveImage(req.file.buffer, { maxWidth: 1200 })
+      photoUrl = image.url
+      srcSet = image.srcSet
     }
-    const group = await Group.create({ ...req.body, photoUrl })
+    const group = await Group.create({ ...req.body, photoUrl, srcSet })
     res.status(201).json(group)
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -48,16 +45,10 @@ exports.updateGroup = async (req, res) => {
 
     const photoFile = req.files?.photo?.[0]
     if (photoFile) {
-      if (group.photoUrl) {
-        const oldPath = path.join('uploads', path.basename(group.photoUrl))
-        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath)
-      }
-      const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}.avif`
-      await sharp(photoFile.buffer)
-        .resize({ width: 1200, withoutEnlargement: true })
-        .avif({ quality: 60 })
-        .toFile(path.join('uploads', filename))
-      group.photoUrl = `/uploads/${filename}`
+      deleteResponsiveImage(group.photoUrl, group.srcSet)
+      const image = await saveResponsiveImage(photoFile.buffer, { maxWidth: 1200 })
+      group.photoUrl = image.url
+      group.srcSet = image.srcSet
     }
 
     const videoFile = req.files?.video?.[0]
@@ -73,6 +64,7 @@ exports.updateGroup = async (req, res) => {
 
     if (req.body.name !== undefined) group.name = req.body.name
     if (req.body.description !== undefined) group.description = req.body.description
+    if (req.body.photoAlt !== undefined) group.photoAlt = req.body.photoAlt
     if (req.body.sousType !== undefined) group.sousType = req.body.sousType
 
     await group.save()
@@ -87,12 +79,11 @@ exports.deleteGroup = async (req, res) => {
     const group = await Group.findById(req.params.id)
     if (!group) return res.status(404).json({ message: 'Groupe introuvable' })
 
-    ;[group.photoUrl, group.videoUrl].forEach(url => {
-      if (url) {
-        const filepath = path.join('uploads', path.basename(url))
-        if (fs.existsSync(filepath)) fs.unlinkSync(filepath)
-      }
-    })
+    deleteResponsiveImage(group.photoUrl, group.srcSet)
+    if (group.videoUrl) {
+      const filepath = path.join('uploads', path.basename(group.videoUrl))
+      if (fs.existsSync(filepath)) fs.unlinkSync(filepath)
+    }
 
     const prestations = await Prestation.find({ group: group._id })
     prestations.forEach(prestation => {

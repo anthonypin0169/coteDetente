@@ -5,6 +5,8 @@
     background-size: cover;
     background-position: center;
     border-radius: 8px;
+    border: 1px solid var(--color-border);
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
     overflow: hidden;
     user-select: none;
     container-type: inline-size;
