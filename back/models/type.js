@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const typeSchema = new mongoose.Schema({
   name: { type: String, required: true, unique: true },
   photoUrl: { type: String },
+  photoAlt: { type: String },
   route: { type: String, enum: ['/soins', '/maquillage', '/epilation', '/mains-et-pieds'], required: true, unique: true }
 }, { timestamps: true })
 

@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 const highlightCardSchema = new mongoose.Schema({
   photoUrl: { type: String },
+  photoAlt: { type: String },
   frontTitle: { type: String, required: true },
   frontText: { type: String },
   backTitle: { type: String },

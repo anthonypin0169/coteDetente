@@ -199,7 +199,7 @@ export default function Makeup() {
             {isAuthenticated &&
                 <button className="btn" onClick={() => setModalIsOpen(true)}>Modifier</button>
             }
-
+            <h1>Maquillages</h1>
             <Modal isOpen={modalIsOpen} onClose={() => setModalIsOpen(false)} variant="modify">
                 <div className="prestation-vue">
                     {isAddingPresta ? 

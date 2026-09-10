@@ -95,12 +95,12 @@ export default function Header() {
                     )}
                 </div>
 
-                <div className="modal__search-links">
+                <nav className="modal__search-links">
                     <NavLink text="Accueil" to="/" className="modal__search-links--modal-L links"/>
                     <NavLink text="Prestations" to="/prestations" className="modal__search-links--modal-L links"/>
                     <NavLink text="Évènements" to="/evenements" className="modal__search-links--modal-L links"/>
                     <NavLink text="Carte cadeau" to="/carte-cadeau" className="modal__search-links--modal-L links"/>
-                </div>
+                </nav>
             </Modal> 
 
             <Modal isOpen={isLoginOpen} onClose={() => {setIsLoginOpen(false); dispatch(clearError())}} variant="center">

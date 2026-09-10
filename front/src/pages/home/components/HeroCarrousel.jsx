@@ -142,10 +142,10 @@ export default function HeroCarrousel({ carrouselInstitut, setCarrouselInstitut 
             <div className="hero-slide" key={photo._id}>
                 <img src={photo.url} alt={photo.title || ""} className="hero-slide__img"/>
                 {photo.title &&
-                    <h2
+                    <h1
                         className="hero-slide__text hero-slide__text--title"
                         style={{ left: `${positions.title.x}%`, top: `${positions.title.y}%`, color: photo.textColor === "black" ? "#000000" : "#ffffff" }}
-                    >{photo.title}</h2>
+                    >{photo.title}</h1>
                 }
                 {photo.dates &&
                     <p

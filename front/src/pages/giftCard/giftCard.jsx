@@ -115,6 +115,7 @@ export default function GiftCard() {
 
     return (
         <main className="gift-main">
+            <h1>Offrez une carte cadeau</h1>
              {isAuthenticated &&
                 <button type="button" className="btn" onClick={() => setModalIsOpen(true)}>Modifier</button>
             }
@@ -124,51 +125,53 @@ export default function GiftCard() {
             {paymentStatus === "annule" &&
                 <p className="gift-payment-status gift-payment-status--canceled">Le paiement a été annulé, vous pouvez réessayer quand vous le souhaitez.</p>
             }
-            <section className="gift-first-section">
-                <div className="gift-first-section__card">
-                    <div className="gift-first-section__card--first-bloc">
-                        <h3 className="gift-title">{giftPageInfos?.title}</h3>
-                        <div className="gift-photo-container">
-                            <img src={giftPageInfos?.photoUrl} alt=""  className="gift-photo"/>
-                            <div className="gift-photo-overlay">
-                                {price && <p className="gift-photo-overlay--price">{price} €</p>}
-                                {recipientName && <p className="gift-photo-overlay--recipient">Pour {recipientName}</p>}
+            <div className="total-card-container">
+                <section className="gift-first-section">
+                    <div className="gift-first-section__card">
+                        <div className="gift-first-section__card--first-bloc">
+                            <h2 className="gift-title">{giftPageInfos?.title}</h2>
+                            <div className="gift-photo-container">
+                                <img src={giftPageInfos?.photoUrl} alt=""  className="gift-photo"/>
+                                <div className="gift-photo-overlay">
+                                    {price && <p className="gift-photo-overlay--price">{price} €</p>}
+                                    {recipientName && <p className="gift-photo-overlay--recipient">Pour {recipientName}</p>}
+                                </div>
                             </div>
                         </div>
+                        <div className="gift-first-section__card--second-bloc">
+                            <label className="gift-text-2nd-bloc" htmlFor="gift-price">{giftPageInfos?.shortText}</label>
+                            <input type="text" id="gift-price" value={price} onChange={(e) => setPrice(e.target.value)}/>
+                            <button className="first-section-btn btn" type="button" onClick={() => setIsFormVisible(true)}>Étape suivante</button>
+                        </div>
                     </div>
-                    <div className="gift-first-section__card--second-bloc">
-                        <label className="gift-text-2nd-bloc" htmlFor="gift-price">{giftPageInfos?.shortText}</label>
-                        <input type="text" id="gift-price" value={price} onChange={(e) => setPrice(e.target.value)}/>
-                        <button className="first-section-btn btn" type="button" onClick={() => setIsFormVisible(true)}>Étape suivante</button>
+                </section>
+        
+                <section className={`gift-second-section ${isFormVisible ? "second-section--visible" : ""} `}>
+                    <div className="gift-second-section__form">
+                        <div className="gift-second-section__form--bloc">
+                            <label htmlFor="client-infos-name" className="label-gift-form" >Votre nom et prénom</label>
+                            <input type="text" name="" id="client-infos-name" className="input-gift-form" value={senderName} onChange={(e) => setSenderName(e.target.value)}/>
+                        </div>
+                        <div className="gift-second-section__form--bloc">
+                            <label htmlFor="client-infos-email" className="label-gift-form" >Votre adresse email</label>
+                            <input type="text" name="" id="client-infos-email" className="input-gift-form" value={senderMail} onChange={(e) => setSenderMail(e.target.value)}/>
+                        </div>
+                        <div className="gift-second-section__form--bloc">
+                            <label htmlFor="client-infos-phone" className="label-gift-form" >Votre numéro de téléphone</label>
+                            <input type="text" name="" id="client-infos-phone" className="input-gift-form" value={senderPhone} onChange={(e) => setSenderPhone(e.target.value)}/>
+                        </div>
+                        <div className="gift-second-section__form--bloc">
+                            <label htmlFor="reciever-infos-name" className="label-gift-form" >Nom du receveur</label>
+                            <input type="text" name="" id="reciever-infos-name" className="input-gift-form" value={recipientName} onChange={(e) => setRecipientName(e.target.value)}/>
+                        </div>
+                        <div className="gift-second-section__form--bloc-text">
+                            <label htmlFor="client-infos-message">Entrez un message</label>
+                            <textarea name="" id="client-infos-message" value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
+                        </div>
+                        <button className="gift-second-section__form--btn btn" type="button" onClick={() => handleGoToPayment()}>Payer</button>
                     </div>
-                </div>
-            </section>
-    
-            <section className={`gift-second-section ${isFormVisible ? "second-section--visible" : ""} `}>
-                <div className="gift-second-section__form">
-                    <div className="gift-second-section__form--bloc">
-                        <label htmlFor="client-infos-name" className="label-gift-form" >Votre nom et prénom</label>
-                        <input type="text" name="" id="client-infos-name" className="input-gift-form" value={senderName} onChange={(e) => setSenderName(e.target.value)}/>
-                    </div>
-                    <div className="gift-second-section__form--bloc">
-                        <label htmlFor="client-infos-email" className="label-gift-form" >Votre adresse email</label>
-                        <input type="text" name="" id="client-infos-email" className="input-gift-form" value={senderMail} onChange={(e) => setSenderMail(e.target.value)}/>
-                    </div>
-                    <div className="gift-second-section__form--bloc">
-                        <label htmlFor="client-infos-phone" className="label-gift-form" >Votre numéro de téléphone</label>
-                        <input type="text" name="" id="client-infos-phone" className="input-gift-form" value={senderPhone} onChange={(e) => setSenderPhone(e.target.value)}/>
-                    </div>
-                    <div className="gift-second-section__form--bloc">
-                        <label htmlFor="reciever-infos-name" className="label-gift-form" >Nom du receveur</label>
-                        <input type="text" name="" id="reciever-infos-name" className="input-gift-form" value={recipientName} onChange={(e) => setRecipientName(e.target.value)}/>
-                    </div>
-                    <div className="gift-second-section__form--bloc-text">
-                        <label htmlFor="client-infos-message">Entrez un message</label>
-                        <textarea name="" id="client-infos-message" value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
-                    </div>
-                    <button className="gift-second-section__form--btn btn" type="button" onClick={() => handleGoToPayment()}>Payer</button>
-                </div>
-            </section>
+                </section>
+            </div>
             <Modal isOpen={modalIsOpen} onClose={() =>setModalIsOpen(false)} variant="staff">
                 <div className="gift-modal">
                     <div className="gift-modal__container">

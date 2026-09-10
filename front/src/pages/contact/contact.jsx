@@ -113,6 +113,7 @@ export default function Contact() {
                     <div>Message envoyé !</div>
                 :
                     <form  className="content-section__form" action="">
+                        <h1>Contactez nous</h1>
                         <div className="content-section__form--input-container">
                             <label htmlFor="contat-name">Votre Nom - Prénom</label>
                             <input type="text" id="contat-name" value={fullName} onChange={(e) => setFullName(e.target.value)}/>

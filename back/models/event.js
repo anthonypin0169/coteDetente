@@ -9,6 +9,7 @@ const eventSchema = new mongoose.Schema({
   recapDescription: { type: String },
   isCurrent: { type: Boolean, default: false },
   photoUrl: { type: String },
+  photoAlt: { type: String },
   textColor: { type: String, enum: ['white', 'black'], default: 'white' },
   textPositions: {
     title: {
