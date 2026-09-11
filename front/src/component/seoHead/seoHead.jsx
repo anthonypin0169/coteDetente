@@ -26,6 +26,7 @@ export default function SeoHead({ title, description, image }) {
     return (
         <Helmet>
             <title>{fullTitle}</title>
+            {import.meta.env.VITE_NOINDEX === "true" && <meta name="robots" content="noindex, nofollow" />}
             {description && <meta name="description" content={description} />}
             <meta property="og:title" content={fullTitle} />
             {description && <meta property="og:description" content={description} />}
