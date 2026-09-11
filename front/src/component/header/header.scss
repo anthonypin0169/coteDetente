@@ -52,6 +52,11 @@
             border: none;
             cursor: pointer;
         }
+        &--logout{
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
     }
 }
 
@@ -107,7 +112,8 @@
 
 /*Annul du soulignement sur les icones*/
 .header__left--search-bar::after,
-.header__right--shopping-card::after {
+.header__right--shopping-card::after,
+.header__right--logout::after {
     display: none;
 }
 
@@ -116,7 +122,8 @@
 qualifié par la balise passe devant .links, qui est aussi posée sur ces boutons
 pour la couleur/le hover.*/
 button.header__left--search-bar,
-button.header__right--shopping-card{
+button.header__right--shopping-card,
+button.header__right--logout{
     font-size: 20px;
 }
 

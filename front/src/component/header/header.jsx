@@ -5,7 +5,7 @@ import Modal from "../modal/modal"
 import { useState, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { loginUser, clearError } from "@/store/authSlice"
+import { loginUser, clearError, logout } from "@/store/authSlice"
 import { apiFetch } from "@/utils/api"
 import { getGiftCardDraft } from "@/utils/giftCardDraft"
 import "./header.scss"
@@ -21,6 +21,7 @@ export default function Header() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const error = useSelector((state) => state.auth.error)
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
 
     /* Panier : avancement de la carte cadeau */
     const [basketDraft, setBasketDraft] = useState(null)
@@ -70,7 +71,6 @@ export default function Header() {
                     <input className="modal__search-bar--input"
                     type="text"
                     placeholder="Rechercher..."
-                    autoFocus
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     />
@@ -96,10 +96,10 @@ export default function Header() {
                 </div>
 
                 <nav className="modal__search-links">
-                    <NavLink text="Accueil" to="/" className="modal__search-links--modal-L links"/>
-                    <NavLink text="Prestations" to="/prestations" className="modal__search-links--modal-L links"/>
-                    <NavLink text="Évènements" to="/evenements" className="modal__search-links--modal-L links"/>
-                    <NavLink text="Carte cadeau" to="/carte-cadeau" className="modal__search-links--modal-L links"/>
+                    <NavLink text="Accueil" to="/" className="modal__search-links--modal-L links" onClick={() => setIsSearchOpen(false)}/>
+                    <NavLink text="Prestations" to="/prestations" className="modal__search-links--modal-L links" onClick={() => setIsSearchOpen(false)}/>
+                    <NavLink text="Évènements" to="/evenements" className="modal__search-links--modal-L links" onClick={() => setIsSearchOpen(false)}/>
+                    <NavLink text="Carte cadeau" to="/carte-cadeau" className="modal__search-links--modal-L links" onClick={() => setIsSearchOpen(false)}/>
                 </nav>
             </Modal> 
 
@@ -112,7 +112,6 @@ export default function Header() {
                         <input className="login-input"
                         type="text"
                         placeholder="email"
-                        autoFocus
                         value={emailState}
                         onChange={(e) => setEmailState(e.target.value)}
                         />
@@ -162,6 +161,9 @@ export default function Header() {
             <div className="header__right">
                 <NavLink text="Évènements" to="/evenements" className="header__left--event links"/>
                 <NavLink text="Carte cadeau" to="/carte-cadeau" className="header__right--gift-card links"/>
+                {isAuthenticated &&
+                    <button type="button" aria-label="Déconnexion admin" className="header__right--logout fa-solid fa-right-from-bracket links" onClick={() => dispatch(logout())}></button>
+                }
                 <button type="button" aria-label="Voir le panier" className="header__right--shopping-card fa-solid fa-basket-shopping links" onClick={handleOpenBasket}></button>
             </div>
         </header>

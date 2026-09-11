@@ -279,7 +279,7 @@ export default function Makeup() {
 
             <section className="makup-list-section">
                 {presta.map((p)=>(
-                    <div key={p._id} className="makup-list-section__item" onMouseEnter={(e) => e.currentTarget.querySelector("video").play()} onMouseLeave={(e) => e.currentTarget.querySelector("video").pause()}>
+                    <div key={p._id} className="makup-list-section__item" onMouseEnter={(e) => e.currentTarget.querySelector("video").play()} onMouseLeave={(e) => e.currentTarget.querySelector("video").pause()} onClick={(e) => {const video = e.currentTarget.querySelector("video"); video.paused ? video.play() : video.pause()}}>
                         <div className="makup-list-section__item--presta-bloc">
                             <div className="item-preview">
                                 <div className="item-preview__name">
@@ -299,7 +299,7 @@ export default function Makeup() {
                             </div>
                         </div>
                         <div className="makup-list-section__item--video-container">
-                            <video src={p.videoUrl} className="makup-presta-video" muted playsInline></video>
+                            <video src={p.videoUrl} className="makup-presta-video" muted playsInline preload="metadata"></video>
                         </div>
                     </div>
                 ))}
