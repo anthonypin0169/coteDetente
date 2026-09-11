@@ -4,18 +4,29 @@ body{
     margin: 0;
     background-color: var(--color-bg);
     color: var(--color-ink);
+    font-family: "Work Sans", Arial, sans-serif;
+}
+h1,
+h2,
+h3,
+h4{
+    font-family: "Fraunces", Georgia, serif;
 }
 h1{
     font-size: 28px;
+    font-weight: 600;
 }
 h2{
     font-size: 24px;
+    font-weight: 600;
 }
 h3{
     font-size: 20px;
+    font-weight: 500;
 }
 h4{
     font-size: 17px;
+    font-weight: 500;
 }
 p,
 button,
@@ -30,6 +41,7 @@ label{
 .btn{
         width: 145px;
         height: 35px;
+        font-weight: 500;
         border: none;
         border-radius: 5px;
         background: var(--color-accent);

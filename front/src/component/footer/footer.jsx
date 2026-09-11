@@ -1,11 +1,34 @@
+import { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
 import NavLink from "../nav/nav"
 import Logo from "../logo/logo"
 import institutLogo from "../../assets/images/testLogo2.webp"
 import instagramLogo from "../../assets/images/instagram-logo.webp"
 import facebookLogo from "../../assets/images/facebook-logo.webp"
+import { apiFetch } from "@/utils/api"
 import "./footer.scss"
 
 export default function Footer() {
+
+    /* Recherche de prestations */
+    const [searchablePrestations, setSearchablePrestations] = useState([])
+    const [query, setQuery] = useState("")
+
+    useEffect(() => {
+        const loadSearchablePrestations = async () => {
+            try{
+                const { data } = await apiFetch("/api/prestations/searchable")
+                if(data) setSearchablePrestations(data)
+            }catch(error){
+                (error.message)
+            }
+        }
+        loadSearchablePrestations()
+    },[])
+
+    const searchResults = query.trim() === ""
+        ? []
+        : searchablePrestations.filter((p) => p.name.toLowerCase().includes(query.trim().toLowerCase()))
 
     return (
         <footer className="footer">
@@ -34,7 +57,24 @@ export default function Footer() {
                 <div className="footer__top--search">
                     <NavLink text="Carte cadeau" to="/carte-cadeau" className="footer-navlink"/>
                     <h4>Rechercher une prestation</h4>
-                    <input type="text" placeholder="Rechercher une prestation..." className="footer__top--search__input"/>
+                    <input type="text" placeholder="Rechercher une prestation..." className="footer__top--search__input" value={query} onChange={(e) => setQuery(e.target.value)}/>
+                    {query.trim() !== "" &&
+                        <div className="footer__top--search__results-wrapper">
+                            <div className="footer__top--search__results">
+                                {searchResults.length === 0 ? (
+                                    <p>Aucune prestation trouvée</p>
+                                ) : (
+                                    <ul>
+                                        {searchResults.map((presta) => (
+                                            <li key={presta._id}>
+                                                <Link to={presta.route} onClick={() => setQuery("")}>{presta.name}</Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
 

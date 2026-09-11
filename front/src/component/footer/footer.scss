@@ -33,6 +33,30 @@
                 margin-bottom: 20px;
                 width: 60%;
             }
+            &__results-wrapper{
+                width: 100%;
+                display: flex;
+            }
+            &__results{
+                width: 60%;
+                max-height: 40vh;
+                overflow-y: auto;
+                overflow-wrap: break-word;
+                background: var(--color-surface);
+                border-radius: 5px;
+                padding: 10px;
+                box-sizing: border-box;
+                ul{
+                    list-style: none;
+                    margin: 0;
+                    padding: 0;
+                }
+                a{
+                    display: block;
+                    padding: 6px 0;
+                    color: var(--color-ink);
+                }
+            }
         }
         .footer-content-container-list{
             margin: 0;
@@ -112,6 +136,9 @@
                 &__input{
                     width: 100%;
                 }
+                &__results{
+                    width: 100%;
+                }
             }
             .content-container-li{
                 width: 100%;
@@ -121,7 +148,7 @@
 }
 @media (min-width: 768px){
     .footer{
-        height: 83vh;
+        min-height: 83vh;
         &__institut-icon{
             display: block;
             width: 200px;
@@ -153,6 +180,14 @@
                 &__input{
                     width: 80%;
                 }
+                &__results-wrapper{
+                    flex: 1;
+                    min-height: 0;
+                }
+                &__results{
+                    width: 80%;
+                    height: 95%;
+                }
             }
         .content-container-li{
             width: 90%;
@@ -183,6 +218,14 @@
             width: 200px;
             height: 150px;
         }
+        &__top--info{
+            p{
+                margin: 0 0 15px 0;   
+            }
+            .footer-content-container-title{
+                margin: 1vw 0;
+            }
+        }
     }
 }
 @media (min-width: 1440px){
@@ -192,8 +235,15 @@
             width: 300px;
             height: 230px;
         }
+        &__top--info{
+            p,
+            .footer-content-container-title{
+                font-size: 16px;
+            }
+        }
         .content-container-li{
             width: 84%;
+            font-size: 16px;
         }
     }
 }
