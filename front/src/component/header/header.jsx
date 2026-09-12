@@ -107,23 +107,32 @@ export default function Header() {
                 <div className="modal__login">
                     <button className="modal__login--close-btn" type="button" 
                     onClick={() => {setIsLoginOpen(false); dispatch(clearError())}}>Retour</button>
-                    <h2 className="modal__login--title">Connexion administrateur</h2>
-                    <div className="modal__login--input">
-                        <input className="login-input"
-                        type="text"
-                        placeholder="email"
-                        value={emailState}
-                        onChange={(e) => setEmailState(e.target.value)}
-                        />
-                        <input className="login-input"
-                        type="password"
-                        placeholder="Mot de passe"
-                        value={passwordState}
-                        onChange={(e) => setPasswordState(e.target.value)}
-                        />
-                    </div>
-                    <button className="btn" onClick={handleLogin} type="button">Se connecter</button>
-                    <div className="modal__login--error-msg">{error ? <p>{error}</p> : null}</div>
+                    {isAuthenticated ?
+                        <>
+                            <h2 className="modal__login--title">Compte administrateur</h2>
+                            <button className="btn" type="button" onClick={() => {dispatch(logout()); setIsLoginOpen(false)}}>Se déconnecter</button>
+                        </>
+                    :
+                        <>
+                            <h2 className="modal__login--title">Connexion administrateur</h2>
+                            <div className="modal__login--input">
+                                <input className="login-input"
+                                type="text"
+                                placeholder="email"
+                                value={emailState}
+                                onChange={(e) => setEmailState(e.target.value)}
+                                />
+                                <input className="login-input"
+                                type="password"
+                                placeholder="Mot de passe"
+                                value={passwordState}
+                                onChange={(e) => setPasswordState(e.target.value)}
+                                />
+                            </div>
+                            <button className="btn" onClick={handleLogin} type="button">Se connecter</button>
+                            <div className="modal__login--error-msg">{error ? <p>{error}</p> : null}</div>
+                        </>
+                    }
                 </div>
             </Modal>
 
@@ -161,9 +170,6 @@ export default function Header() {
             <div className="header__right">
                 <NavLink text="Évènements" to="/evenements" className="header__left--event links"/>
                 <NavLink text="Carte cadeau" to="/carte-cadeau" className="header__right--gift-card links"/>
-                {isAuthenticated &&
-                    <button type="button" aria-label="Déconnexion admin" className="header__right--logout fa-solid fa-right-from-bracket links" onClick={() => dispatch(logout())}></button>
-                }
                 <button type="button" aria-label="Voir le panier" className="header__right--shopping-card fa-solid fa-basket-shopping links" onClick={handleOpenBasket}></button>
             </div>
         </header>

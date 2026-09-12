@@ -5,6 +5,7 @@ body{
     background-color: var(--color-bg);
     color: var(--color-ink);
     font-family: "Work Sans", Arial, sans-serif;
+    overflow-x: hidden;
 }
 h1,
 h2,

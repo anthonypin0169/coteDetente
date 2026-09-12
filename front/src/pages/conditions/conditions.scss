@@ -1,9 +1,14 @@
 .conditions-page{
-    padding: 8vw 5vw;
+    padding: 90px 5vw;
 }
 .container{
     padding: 3vw;
     border-radius: 15px;
     box-shadow: 2px 2px 5px;
     background: var(--color-surface);
+}
+@media (min-width : 768px ) {
+    .conditions-page{
+        padding: 110px 5vw;
+    }
 }
