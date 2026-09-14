@@ -314,7 +314,7 @@ export default function Epilation() {
                     ))}
                 </Reveal>
                 <div className="tanning-section__video-bloc">
-                    <video src={sousType.videoUrl} autoPlay muted loop playsInline className="tanning-section__video-bloc--video"></video>
+                    <video src={sousType.videoUrl} autoPlay muted loop playsInline preload="metadata" className="tanning-section__video-bloc--video"></video>
                 </div>
             </section>
 

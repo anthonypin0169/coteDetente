@@ -35,7 +35,7 @@ export default function Footer() {
             <div className="footer__top">
                 <div className="footer__top--info">
                     <Logo src={institutLogo} alt={"Logo Coté détente"} className="footer__institut-icon" width={622} height={401}/>
-                    <p>Numéro de téléphone</p>
+                    <a href="tel:+33474246114" className="footer-tel-link">04 74 24 61 14</a>
                     <p>261 Rue de Schutterwald, 01000 Saint-Denis-lès-Bourg</p>
                     <h4 className="footer-content-container-title">Nos horaires :</h4>
                     <ul className="footer-content-container-list">

@@ -157,7 +157,7 @@ export default function Header() {
             </Modal>
 
             <div className="header__left">
-                <button type="button" aria-label="Rechercher" className="header__left--search-bar fa-solid fa-magnifying-glass links" onClick={() => setIsSearchOpen(true)}></button>
+                <button type="button" aria-label="Menu" className="header__left--search-bar fa-solid fa-bars links" onClick={() => setIsSearchOpen(true)}></button>
                 <NavLink text="Accueil" to="/" className="header__left--home links"/>
                 <NavLink text="Prestations" to="/prestations" className="header__left--services links"/>
                 
