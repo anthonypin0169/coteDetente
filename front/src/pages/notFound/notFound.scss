@@ -1,0 +1,25 @@
+.not-found{
+    width: 100%;
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 110px 0 40px;
+    gap: 8px;
+    &__code{
+        font-family: "Fraunces", Georgia, serif;
+        font-weight: 600;
+        font-size: 72px;
+        color: var(--color-accent);
+        margin: 0;
+    }
+    &__title{
+        margin: 0;
+    }
+    &__text{
+        color: var(--color-ink-soft);
+        margin: 0 0 20px 0;
+    }
+}

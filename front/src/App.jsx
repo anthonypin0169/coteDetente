@@ -18,6 +18,7 @@ const GiftCard = lazy(() => import("./pages/giftCard/giftCard"))
 const Contact = lazy(() => import("./pages/contact/contact"))
 const Conditions = lazy(() => import("./pages/conditions/conditions"))
 const Mentions = lazy(() => import("./pages/mentions/mentions"))
+const NotFound = lazy(() => import("./pages/notFound/notFound"))
 
 function App() {
 return (
@@ -43,6 +44,7 @@ return (
         <Route path="/mentions" element={<Mentions />} />
         <Route path="/conditions" element={<Conditions />} />
 
+        <Route path="*" element={<NotFound />} />
     </Routes>
     </Suspense>
 

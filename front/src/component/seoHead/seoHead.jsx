@@ -20,13 +20,13 @@ const LOCAL_BUSINESS_JSON_LD = {
     ]
 }
 
-export default function SeoHead({ title, description, image }) {
+export default function SeoHead({ title, description, image, noindex }) {
     const fullTitle = title ? `${title} | Côté Détente` : "Côté Détente — Institut de bien-être à Saint-Denis-lès-Bourg"
 
     return (
         <Helmet>
             <title>{fullTitle}</title>
-            {import.meta.env.VITE_NOINDEX === "true" && <meta name="robots" content="noindex, nofollow" />}
+            {(noindex || import.meta.env.VITE_NOINDEX === "true") && <meta name="robots" content="noindex, nofollow" />}
             {description && <meta name="description" content={description} />}
             <meta property="og:title" content={fullTitle} />
             {description && <meta property="og:description" content={description} />}
