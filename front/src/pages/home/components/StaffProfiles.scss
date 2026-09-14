@@ -9,6 +9,12 @@
     background-attachment: fixed;
     background-size: cover;
     background-position-y: top;
+    @media (max-width: 767px), (orientation: landscape) and (max-height: 500px){
+        /* background-attachment:fixed n'est pas fiable sur mobile (Safari iOS
+        notamment) : l'image se recadre/zoome mal. On repasse en scroll normal.
+        La 2e condition couvre le tel en paysage (largeur > 767px mais hauteur faible). */
+        background-attachment: scroll;
+    }
     &--list{
         display: none;
     }
