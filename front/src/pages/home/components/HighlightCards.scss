@@ -219,11 +219,11 @@ a.home__services--link{
                         transform: translateZ(0);
                     }
                     &--title{
-                        white-space: nowrap;
+                        text-align: center;
                     }
                     &--text{
                         margin: 0 5%;
-                        white-space: nowrap;
+                        text-align: center;
                     }
                 }
                 &__back{
@@ -269,7 +269,7 @@ a.home__services--link{
             height: 60%;
         }
         &__content{
-            white-space: nowrap;
+            width: 260px;
         }
     }
 }
