@@ -114,7 +114,7 @@ export default function Contact() {
                 description="Contactez l'institut Côté Détente, à Saint-Denis-lès-Bourg près de Bourg-en-Bresse, pour toute question ou prise de rendez-vous."
             />
             {isAuthenticated &&
-                <button type="button" className="btn" onClick={() => setModalIsOpen(true)}>Modifier</button>
+                <button type="button" className="btn" onClick={() => {setModalIsOpen(true) ; setNewImgAlt(contactPage?.photoAlt || "")}}>Modifier</button>
             }
             <section className="content-section" >
                 {messageSent ? 

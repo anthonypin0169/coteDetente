@@ -14,8 +14,6 @@
         align-self: center;
     }
     &--carrousel{
-        width: 100%;
-        max-width: 320px;
         height: 300px;
         margin: 16px auto;
         overflow: visible;
@@ -31,7 +29,38 @@
         }
     }
 }
-
+@media (min-width: 768px){
+    .home__customers-review{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 24px;
+        position: relative;
+        z-index: 89;
+        box-shadow: 0 -5px 10px -5px;
+        padding: 40px 20px 80px 20px;
+        &--reviews{
+            order: 1;
+            text-align: center;
+            align-self: center;
+        }
+        &--carrousel{
+            height: 340px;
+            margin: 16px auto;
+            overflow: visible;
+            .carrousel__btn--prev{
+                top: 115%;
+                left: -30px;
+                transform: translateY(-50%);
+            }
+            .carrousel__btn--next{
+                top: 115%;
+                right: -30px;
+                transform: translateY(-50%);
+            }
+        }
+    }
+}
 @media (min-width: 1024px){
     .home__customers-review{
         gap: 8vw;
@@ -42,9 +71,9 @@
         /*Tient sur 1024px avec des tailles fluides ; les dimensions fixes
         d'origine (370x350) ne rentrent qu'à partir de 1440px, voir plus bas*/
         &--carrousel{
-            width: 32vw;
+            width: 33vw;
             max-width: none;
-            height: 300px;
+            height: 360px;
             margin: 50px 0;
             .carrousel__btn--prev{
                 left: -95%;
@@ -64,5 +93,11 @@
             max-width: none;
             height: 350px;
         }
+    }
+    .home__customers-review--carrousel .carrousel__btn--next{
+        right: -120%;  
+    }
+    .home__customers-review--carrousel .carrousel__btn--prev{
+            left: -110%;
     }
 }

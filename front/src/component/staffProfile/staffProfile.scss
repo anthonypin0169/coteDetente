@@ -13,8 +13,14 @@
 
 @media (min-width: 1024px){
     .profile-card{
-        max-width: 350px;
-        max-height: 550px;
-        padding: 20px 35px 10px 35px;
+        max-width: max-content;
+        max-height: none;
+        height: 500px;
+    }
+}
+
+@media (min-width: 1440px){
+    .profile-card{
+        aspect-ratio: 4/7;
     }
 }

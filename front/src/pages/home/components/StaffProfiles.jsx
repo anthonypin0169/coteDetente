@@ -123,7 +123,7 @@ export default function StaffProfiles() {
     return (
         <section className="home__staff-profile">
 
-            {isAuthenticated ? <button onClick={() => setStaffCreateModalIsOpen(true)} type="button" className="home__staff-profile--add-member-btn btn">Ajouter un membre</button> : null }
+            {isAuthenticated ? <button onClick={() => {setStaffCreateModalIsOpen(true); setStaffName(""); setStaffSpeciality(""); setStaffText(""); setStaffPhotoAlt("")}} type="button" className="home__staff-profile--add-member-btn btn">Ajouter un membre</button> : null }
 
             <Modal isOpen={staffCreateModalIsOpen} onClose={() => setStaffCreateModalIsOpen(false)} variant ="staff" >
                 <div className="modal__create-staff-profile">
@@ -185,7 +185,7 @@ export default function StaffProfiles() {
                     <div key={member._id} className="staff-container">
                         {isAuthenticated ?<button onClick={() => handleStaffDelete(member._id)}className="modal__edit-staff-profile--delete-btn">X</button> : null}
                         <StaffProfile  title={member.name} speciality={member.speciality} text={member.text} src={member.photoUrl} srcSet={member.srcSet} alt={member.photoAlt}/>
-                        {isAuthenticated ? <button onClick={() => {setSelectedStaffId(member._id); setIsStaffModalOpen(true)}}className="home__modify-btn btn">Modifier</button> : null}
+                        {isAuthenticated ? <button onClick={() => {setSelectedStaffId(member._id); setIsStaffModalOpen(true); setStaffName(member.name); setStaffSpeciality(member.speciality); setStaffText(member.text); setStaffPhotoAlt(member.photoAlt || "")}}className="home__modify-btn btn">Modifier</button> : null}
                     </div>
                 ))}
             </div>
@@ -194,7 +194,7 @@ export default function StaffProfiles() {
                 <div className="staff-container" key={member._id}>
                     {isAuthenticated ?<button onClick={() => handleStaffDelete(member._id)}className="modal__edit-staff-profile--delete-btn">X</button> : null}
                     <StaffProfile  title={member.name} speciality={member.speciality} text={member.text} src={member.photoUrl} srcSet={member.srcSet} alt={member.photoAlt}/>
-                    {isAuthenticated ? <button onClick={() => {setSelectedStaffId(member._id); setIsStaffModalOpen(true)}}className="home__modify-btn btn">Modifier</button> : null}
+                    {isAuthenticated ? <button onClick={() => {setSelectedStaffId(member._id); setIsStaffModalOpen(true); setStaffName(member.name); setStaffSpeciality(member.speciality); setStaffText(member.text); setStaffPhotoAlt(member.photoAlt || "")}}className="home__modify-btn btn">Modifier</button> : null}
                 </div>
             ))} />
         </section>

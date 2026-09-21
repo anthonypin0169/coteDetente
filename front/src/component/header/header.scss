@@ -135,7 +135,7 @@ button.header__right--shopping-card{
         top: 3vh;
         border-radius: 15px;
         &__left{
-            gap: 10%;
+            gap: 6%;
             justify-content: center;
             &--home,
             &--services,
@@ -151,7 +151,7 @@ button.header__right--shopping-card{
             }
         }
         &__right{
-            gap: 10%;
+            gap: 3%;
             white-space: nowrap;
             &--gift-card{
                 display: inline-block;
@@ -175,11 +175,11 @@ button.header__right--shopping-card{
 @media (min-width: 1024px){
     .header{
         &__left{
-            gap: 20%;
+            gap: 10%;
         }
         &__right{
             white-space: nowrap;
-            gap: 20%;
+            gap: 10%;
         }
     }
     button.header__left--search-bar,
@@ -188,6 +188,14 @@ button.header__right--shopping-card{
     }
 }
 @media (min-width: 1440px){
+    .header{
+        &__left{
+            gap: 20%;
+        }
+        &right{
+            gap: 20%;
+        }
+    }
     button.header__left--search-bar,
     button.header__right--shopping-card{
         font-size: 26px;

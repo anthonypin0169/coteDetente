@@ -62,20 +62,19 @@
 
 @media (min-width: 1024px){
     .home__staff-profile{
-        flex-direction: row;
         justify-content: center;
         gap: 3vw;
         padding: 200px 0;
         &--list{
+            width: 100%;
             display: flex;
-            justify-content: center;
-            gap: 8vw;
+            justify-content: space-around;
         }
         &--carrousel{
             display: none;
         }
         &--pics{
-            width: 200px;
+            width: 150px;
         }
         &--speciality{
             margin: 10px 0;
@@ -85,6 +84,19 @@
         }
         &--add-member-btn{
             margin: 20px 0;
+        }
+    }
+    .staff-container{
+        display: flex;
+        flex-direction: column;
+        width: 21%;
+    }
+}
+
+@media (min-width : 1440px) {
+    .home__staff-profile{
+        &--pics{
+            width: 180px;
         }
     }
 }

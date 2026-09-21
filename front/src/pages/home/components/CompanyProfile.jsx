@@ -66,7 +66,7 @@ export default function CompanyProfile({ carrouselInstitut }) {
         <>
             <section className="home__company-profile">
                 <h2 className="home__company-profile--h2" >{titleState}</h2>
-                {isAuthenticated ? <button onClick={() => setEditModalIsOpen(true)} className="home__company-profile--btn btn">Modifier</button> : null}
+                {isAuthenticated ? <button onClick={() => {setEditModalIsOpen(true); setEditTitle(titleState); setEditParagraph(paragraphState.join("\n\n"))}} className="home__company-profile--btn btn">Modifier</button> : null}
 
                 <div className="home__company-profile--content">
                     <div className="company-text-container">

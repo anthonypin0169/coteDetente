@@ -354,16 +354,26 @@ export default function Event() {
                                 </div>
                             </div>
                             <div className="modal-vue-edit__second-bloc">
-                                <label htmlFor="event-employee-name" className="cares-modal-labels">Modifier le nom de l'employé</label>
-                                <input type="text" id="event-employee-name" className="cares-modal-input" value={actualEployeeName} onChange={(e) => setActualEployeeName(e.target.value)}/>
-                                <label htmlFor="event-description" className="cares-modal-labels">Modifier la description </label>
-                                <input type="text" id="event-description" className="cares-modal-input" value={actualDescription} onChange={(e) => setActualDescription(e.target.value)}/>
-                                <label htmlFor="event-recap-description" className="cares-modal-labels">Modifier le texte récap (liste)</label>
-                                <input type="text" id="event-recap-description" className="cares-modal-input" value={actualRecapDescription} onChange={(e) => setActualRecapDescription(e.target.value)}/>
-                                <label htmlFor="event-photo" className="cares-modal-labels">Modifier la photo </label>
-                                <PhotoInput id="event-photo" className="cares-modal-input" onChange={setActualPhoto}/>
-                                <label htmlFor="event-photo-alt" className="cares-modal-labels">Texte alternatif de la photo</label>
-                                <input type="text" id="event-photo-alt" className="cares-modal-input" value={actualPhotoAlt} onChange={(e) => setActualPhotoAlt(e.target.value)}/>
+                                <div>
+                                    <label htmlFor="event-employee-name" className="cares-modal-labels">Modifier le nom de l'employé</label>
+                                    <input type="text" id="event-employee-name" className="cares-modal-input" value={actualEployeeName} onChange={(e) => setActualEployeeName(e.target.value)}/>
+                                </div>
+                                <div>
+                                    <label htmlFor="event-description" className="cares-modal-labels">Modifier la description </label>
+                                    <input type="text" id="event-description" className="cares-modal-input" value={actualDescription} onChange={(e) => setActualDescription(e.target.value)}/>
+                                </div>
+                                <div>
+                                    <label htmlFor="event-recap-description" className="cares-modal-labels">Modifier le texte récap (liste)</label>
+                                    <input type="text" id="event-recap-description" className="cares-modal-input" value={actualRecapDescription} onChange={(e) => setActualRecapDescription(e.target.value)}/>
+                                </div>
+                                <div>
+                                    <label htmlFor="event-photo" className="cares-modal-labels">Modifier la photo </label>
+                                    <PhotoInput id="event-photo" className="cares-modal-input" onChange={setActualPhoto}/>
+                                </div>
+                                <div>
+                                    <label htmlFor="event-photo-alt" className="cares-modal-labels">Texte alternatif de la photo</label>
+                                    <input type="text" id="event-photo-alt" className="cares-modal-input" value={actualPhotoAlt} onChange={(e) => setActualPhotoAlt(e.target.value)}/>
+                                </div>
                                 <div className="modal-vue-edit__second-bloc--color-choice">
                                     <label>
                                         <input type="radio" name="event-text-color" checked={actualTextColor === "white"} onChange={() => setActualTextColor("white")}/>

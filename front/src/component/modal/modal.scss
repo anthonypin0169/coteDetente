@@ -402,8 +402,23 @@
     height: 200px;
     border-radius: 5px;
 }
+.modal__create-staff-profile,
+.modal__edit-staff-profile{
+    &--photo-alt,
+    &--name,
+    &--speciality{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2vw;
+        width: 100%;
+    }
+}
+.staff-profile-h2{
+    flex-shrink: 0;
+}
 .create-staff-profile-input{
-    width: 100%;
+    flex: 1;
     height: 36px;
     align-self: center;
 }
@@ -582,7 +597,6 @@
         height: 80%;
     }
     .create-staff-profile-input{
-        width: 50%;
         height: 40px;
     }
     .staff-profile-upload{

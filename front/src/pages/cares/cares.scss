@@ -57,12 +57,43 @@
                 margin: 1vw 0;
             }
             &--infos{
-                width: 40%;
-                max-width: 200px;
+                width: 70%;
                 display: flex;
                 justify-content: space-between;
                 flex-wrap: wrap;
             }
+        }
+        &--details{
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 2vw;
+            padding: 0 1vw 1vw 1vw;
+            &--description{
+                order: 1;
+                text-align: left;
+                margin: 0;
+            }
+            &--extra-infos{
+                width: 70%;
+                order: 0;
+                display: flex;
+                align-self: center;
+                flex-direction: column;
+                gap: 0.5vw;
+                &--item{
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+                    gap: 1vw;
+                    p{
+                        margin: 0;
+                    }
+                }
+            }
+        }
+        &:hover &--details{
+            display: flex;
         }
     }
     &__img{
@@ -173,7 +204,8 @@
         }
         &--btn-bloc{
             display: flex;
-            justify-self: center;
+            justify-content: center;
+            width: 100%;
             gap: 2vw;
         }
     }
@@ -208,7 +240,7 @@
                 align-items: center;
                 justify-content: space-between;
                 width: 90%;
-                justify-self: center;
+                align-self: center;
             }
             &__btn-bloc{
                 width: 100%;
@@ -248,14 +280,16 @@
         }
         &--btn-container{
             display: flex;
-            justify-self: center;
+            justify-content: center;
+            width: 100%;
             gap: 4vw;
         }
     }
     &__edit-and-add{
         &--btn-container{
             display: flex;
-            justify-self: center;
+            justify-content: center;
+            width: 100%;
             gap: 4vw;
         }
         .edit-and-add-container{
@@ -271,20 +305,51 @@
                     justify-content: center;
                     gap: 1vw;
                 }
+                &--description{
+                    width: 90%;
+                    margin-top: 1vw;
+                    min-height: 4vw;
+                }
+                &--extra-infos{
+                    width: 90%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5vw;
+                    margin-top: 1vw;
+                    &--item{
+                        display: flex;
+                        align-items: center;
+                        gap: 1vw;
+                    }
+                    &--remove-btn{
+                        border: none;
+                        background: var(--color-border);
+                        border-radius: 5px;
+                        width: 28px;
+                        height: 28px;
+                        cursor: pointer;
+                    }
+                }
                 &--btn-bloc{
                     display: flex;
-                    justify-self: center;
+                    justify-content: center;
+                    width: 100%;
                     gap: 2vw;
                 }
             }
             &__add-presta{
+                width: 90%;
                 display: flex;
                 align-items: center;
-                justify-content: space-around;
+                justify-content: space-between;
+                justify-self: center;
                 &--text-bloc{
                     display: flex;
-                    justify-content: space-around;
-                    width: 50%;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    justify-content: space-between;
+                    width: 70%;
+                    gap: 1vw;
                 }
                 &--modify-btn{
 
@@ -343,6 +408,26 @@
                     justify-content: space-between;
                 }
             }
+            &--details{
+                flex-direction: row;
+                align-items: flex-start;
+                &--description{
+                    width: 65%;
+                    order: 0;
+                }
+                &--extra-infos{
+                    width: 25%;
+                    order: 1;
+                    align-self: start;
+                    white-space: unset;
+                    &--item{
+                        flex-wrap: wrap;
+                        p{
+                            margin: 0;
+                        }
+                    }
+                }
+            }
         }
         &__img{
             order: 0;
@@ -374,6 +459,17 @@
             &--text{
                 &--infos{
                     width: 35%;
+                }
+            }
+            &--details{
+                &--extra-infos{
+                    width: 35%;
+                    &--item{
+
+                        p{
+
+                        }
+                    }
                 }
             }
         }

@@ -1,4 +1,5 @@
 import "./makeup.scss"
+import "../cares/cares.scss"
 import { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
 import { apiFetch } from "@/utils/api"
@@ -149,8 +150,19 @@ export default function Makeup() {
     const [actualPrestaPrice, setActualPrestaPrice] = useState("")
     const [actualPrestaDuration, setActualPrestaDuration] = useState("")
     const [actualPrestaDescription, setActualPrestaDescription] = useState("")
-    const [actualPrestaVideo, setActualPrestaVideo] = useState(null)    
+    const [actualPrestaExtraInfos, setActualPrestaExtraInfos] = useState([])
+    const [actualPrestaVideo, setActualPrestaVideo] = useState(null)
     const [editingPrestaId, setEditingPrestaId] = useState("")
+
+    const handleAddExtraInfo = () => {
+        setActualPrestaExtraInfos(prev => [...prev, { name: "", price: "", duration: "", description: "" }])
+    }
+    const handleExtraInfoChange = (index, field, value) => {
+        setActualPrestaExtraInfos(prev => prev.map((info, i) => i === index ? { ...info, [field]: value } : info))
+    }
+    const handleRemoveExtraInfo = (index) => {
+        setActualPrestaExtraInfos(prev => prev.filter((_, i) => i !== index))
+    }
 
     const handleUpdatePresta = async (id) => {
         const formData = new FormData()
@@ -158,6 +170,7 @@ export default function Makeup() {
         formData.append("price", actualPrestaPrice)
         formData.append("duration", actualPrestaDuration)
         formData.append("description", actualPrestaDescription)
+        formData.append("extraInfos", JSON.stringify(actualPrestaExtraInfos))
         if (actualPrestaVideo) formData.append("video", actualPrestaVideo)
 
         try{
@@ -211,19 +224,19 @@ export default function Makeup() {
                         <div className="prestation-vue__new-add">
                             <div className="prestation-vue__new-add--input-bloc">
                                 <label className="cares-modal-labels" htmlFor="presta-name-adding">Entrer un nom</label>
-                                <input className="cares-modal-inputs" type="text" id="presta-name-adding" value={newNamePresta} onChange={(e) => setNewNamePresta(e.target.value)}/>
+                                <input className="cares-modal-inputs" type="text" id="presta-name-adding" placeholder="Nom" value={newNamePresta} onChange={(e) => setNewNamePresta(e.target.value)}/>
                             </div>
                             <div className="prestation-vue__new-add--input-bloc">
                                 <label className="cares-modal-labels" htmlFor="presta-price-adding">Entrer un prix</label>
-                                <input className="cares-modal-inputs" type="text" id="presta-price-adding" value={newPricePresta} onChange={(e) => setNewPricePresta(e.target.value)}/>
+                                <input className="cares-modal-inputs" type="text" id="presta-price-adding" placeholder="Prix" value={newPricePresta} onChange={(e) => setNewPricePresta(e.target.value)}/>
                             </div>
                             <div className="prestation-vue__new-add--input-bloc">
                                 <label className="cares-modal-labels" htmlFor="presta-time-adding">Entrer une durée (optionnel)</label>
-                                <input className="cares-modal-inputs" type="text" id="presta-time-adding" value={newPrestaDuration} onChange={(e) => setNewPrestaDuration(e.target.value)}/>
+                                <input className="cares-modal-inputs" type="text" id="presta-time-adding" placeholder="Durée" value={newPrestaDuration} onChange={(e) => setNewPrestaDuration(e.target.value)}/>
                             </div>
                             <div className="prestation-vue__new-add--input-bloc">
                                 <label className="cares-modal-labels" htmlFor="presta-description-adding">Entrer une description</label>
-                                <input className="cares-modal-inputs" type="text" id="presta-description-adding" value={actualPrestaDescription} onChange={(e) => setActualPrestaDescription(e.target.value)}/>
+                                <input className="cares-modal-inputs" type="text" id="presta-description-adding" placeholder="Description" value={actualPrestaDescription} onChange={(e) => setActualPrestaDescription(e.target.value)}/>
                             </div>
                             <div className="prestation-vue__new-add--input-bloc">
                                 <label className="cares-modal-labels" htmlFor="presta-video-adding">Choisir une vidéo</label>
@@ -241,11 +254,23 @@ export default function Makeup() {
                                 {editingPrestaId === presta._id ?
                                 <div className="edit-and-add-container__edit-presta">
                                     <div id="makeup-inputs-container" className="edit-and-add-container__edit-presta--input-bloc">
-                                        <input className="makeup-modal-inputs" id="presta-name" type="text" value={actualPrestaName} onChange={(e) => setActualPrestaName(e.target.value)}/>
-                                        <input className="makeup-modal-inputs" id="presta-price" type="text" value={actualPrestaPrice} onChange={(e) => setActualPrestaPrice(e.target.value)}/>
-                                        <input className="makeup-modal-inputs" id="presta-time" type="text" value={actualPrestaDuration} onChange={(e) => setActualPrestaDuration(e.target.value)}/>
-                                        <input className="makeup-modal-inputs" id="presta-description" type="text" value={actualPrestaDescription} onChange={(e) => setActualPrestaDescription(e.target.value)}/>
+                                        <input className="makeup-modal-inputs" id="presta-name" type="text" placeholder="Nom" value={actualPrestaName} onChange={(e) => setActualPrestaName(e.target.value)}/>
+                                        <input className="makeup-modal-inputs" id="presta-price" type="text" placeholder="Prix" value={actualPrestaPrice} onChange={(e) => setActualPrestaPrice(e.target.value)}/>
+                                        <input className="makeup-modal-inputs" id="presta-time" type="text" placeholder="Durée" value={actualPrestaDuration} onChange={(e) => setActualPrestaDuration(e.target.value)}/>
+                                        <input className="makeup-modal-inputs" id="presta-description" type="text" placeholder="Description" value={actualPrestaDescription} onChange={(e) => setActualPrestaDescription(e.target.value)}/>
                                     </div>
+                                    <div className="edit-and-add-container__edit-presta--extra-infos">
+                                        {actualPrestaExtraInfos.map((info, index) => (
+                                            <div className="edit-and-add-container__edit-presta--extra-infos--item" key={index}>
+                                                <input className="makeup-modal-inputs" type="text" placeholder="Nom" value={info.name} onChange={(e) => handleExtraInfoChange(index, "name", e.target.value)}/>
+                                                <input className="makeup-modal-inputs" type="text" placeholder="Prix" value={info.price} onChange={(e) => handleExtraInfoChange(index, "price", e.target.value)}/>
+                                                <input className="makeup-modal-inputs" type="text" placeholder="Durée" value={info.duration} onChange={(e) => handleExtraInfoChange(index, "duration", e.target.value)}/>
+                                                <input className="makeup-modal-inputs" type="text" placeholder="Description" value={info.description} onChange={(e) => handleExtraInfoChange(index, "description", e.target.value)}/>
+                                                <button type="button" className="edit-and-add-container__edit-presta--extra-infos--remove-btn" onClick={() => handleRemoveExtraInfo(index)}>X</button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <button type="button" className="btn" onClick={() => handleAddExtraInfo()}>Ajouter des infos</button>
                                     <div className="modify-video-input-container">
                                         <label className="cares-modal-labels" htmlFor="presta-video-modify">Modifier la vidéo</label>
                                         <input className="cares-modal-inputs" type="file" id="presta-video-modify" onChange={(e) => setActualPrestaVideo(e.target.files[0])}/>
@@ -263,7 +288,7 @@ export default function Makeup() {
                                         <p>{presta.price}</p>
                                         <p>{presta.duration}</p>
                                     </div>
-                                    <button type="button" className="edit-and-add-container__add-presta--modify-btn btn" onClick={() => {setEditingPrestaId(presta._id) ; setActualPrestaName(presta.name) ; setActualPrestaPrice(presta.price) ; setActualPrestaDuration(presta.duration)}}>Modifier la prestation</button>
+                                    <button type="button" className="edit-and-add-container__add-presta--modify-btn btn" onClick={() => {setEditingPrestaId(presta._id) ; setActualPrestaName(presta.name) ; setActualPrestaPrice(presta.price) ; setActualPrestaDuration(presta.duration) ; setActualPrestaDescription(presta.description || "") ; setActualPrestaExtraInfos(presta.extraInfos || [])}}>Modifier la prestation</button>
                                 </div>
                                 }
                             </div>
@@ -294,9 +319,27 @@ export default function Makeup() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="item-description">
-                                {p.description}
-                            </div>
+                            {(p.description || (p.extraInfos && p.extraInfos.length > 0)) &&
+                                <div className="item-details">
+                                    {p.description &&
+                                        <p className="item-details__description">{p.description}</p>
+                                    }
+                                    {p.extraInfos && p.extraInfos.length > 0 &&
+                                        <div className="item-details__extra-infos">
+                                            {p.extraInfos.map((info, i) => (
+                                                <div className="item-details__extra-infos--item" key={i}>
+                                                    {info.name && <p className="item-details__extra-infos--item--name">{info.name}</p>}
+                                                    <div className="item-details__extra-infos--item--infos">
+                                                        {info.duration && <p>{info.duration} :</p>}
+                                                        <p>{info.price}</p>
+                                                    </div>
+                                                    {info.description && <p className="item-details__extra-infos--item--description">{info.description}</p>}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    }
+                                </div>
+                            }
                         </div>
                         <div className="makup-list-section__item--video-container">
                             <video src={p.videoUrl} className="makup-presta-video" muted playsInline preload="metadata"></video>

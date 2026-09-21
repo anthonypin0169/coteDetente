@@ -4,6 +4,36 @@
     align-items: center;
     padding-top: 90px;
 }
+.item-row{
+    position: relative;
+}
+.item-details{
+    display: none;
+    justify-content: space-between;
+    gap: 2vw;
+    margin-top: 0.5vw;
+    &__description{
+        flex: 1;
+        margin: 0;
+        text-align: left;
+    }
+    &__extra-infos{
+        display: flex;
+        flex-direction: column;
+        gap: 0.5vw;
+        &--item{
+            display: flex;
+            justify-content: space-between;
+            gap: 1vw;
+            p{
+                margin: 0;
+            }
+        }
+    }
+}
+.item-row:hover .item-details{
+    display: flex;
+}
 .gel-section{
     width: 90%;
     display: flex;

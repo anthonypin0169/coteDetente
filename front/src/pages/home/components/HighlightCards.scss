@@ -101,7 +101,7 @@ a.home__services--link{
                 &__front{
                     display: flex;
                     flex-direction: column;
-                    justify-content: center;
+                    justify-content: start;
                     align-items: center;
                     border-radius: 15px;
                     box-shadow: 2px 2px 5px;
@@ -120,8 +120,7 @@ a.home__services--link{
                         text-align: center;
                     }
                     &--text{
-                        margin: 0 5%;
-                        text-align: center;
+                        display: none;
                     }
                 }
                 &__back{
@@ -186,6 +185,13 @@ a.home__services--link{
             height: 2vw;  
         }
 }
+@media (min-width: 892px) {
+    .home__services--card-group .card__front--text{
+        display: block;
+        margin: 0 5%;
+        text-align: center;
+    }
+}
 @media (min-width: 1024px){
     .home__services{
         padding: 150px 0 110px 0;
@@ -205,7 +211,6 @@ a.home__services--link{
                 &__front{
                     display: flex;
                     flex-direction: column;
-                    justify-content: center;
                     align-items: center;
                     border-radius: 15px;
                     background: var(--color-surface);

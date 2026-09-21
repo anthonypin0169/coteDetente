@@ -99,6 +99,7 @@
 @media (min-width: 1024px){
     .carrousel{
         &__review{
+            width: 380px;
             height: 350px;
         }
         &__btn--prev,
@@ -152,8 +153,8 @@
 @media (min-width: 1440px){
     .carrousel{
         &__review{
-            width: 100%;
-            height: 100%;
+            width: 420px;
+            height: 380px;
         }
         &__btn--prev,
         &__btn--next {

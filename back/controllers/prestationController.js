@@ -2,6 +2,13 @@ const Prestation = require('../models/prestation')
 const path = require('path')
 const fs = require('fs')
 
+/* extraInfos arrive en JSON déjà parsé (body JSON classique) ou en chaîne
+(formulaire multipart/form-data, ex: quand une vidéo est aussi envoyée) */
+const parseExtraInfos = (extraInfos) => {
+  if (typeof extraInfos !== 'string') return extraInfos
+  return JSON.parse(extraInfos)
+}
+
 exports.getAllPrestations = async (req, res) => {
   try {
     const prestations = await Prestation.find()
@@ -55,7 +62,15 @@ exports.createPrestation = async (req, res) => {
       fs.writeFileSync(path.join('uploads', filename), req.file.buffer)
       videoUrl = `/uploads/${filename}`
     }
-    const prestation = await Prestation.create({ ...req.body, videoUrl })
+    const prestationData = { ...req.body, videoUrl }
+    if (req.body.extraInfos !== undefined) {
+      try {
+        prestationData.extraInfos = parseExtraInfos(req.body.extraInfos)
+      } catch {
+        return res.status(400).json({ message: 'extraInfos doit être un JSON valide' })
+      }
+    }
+    const prestation = await Prestation.create(prestationData)
     res.status(201).json(prestation)
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -72,6 +87,13 @@ exports.updatePrestation = async (req, res) => {
     if (req.body.duration !== undefined) prestation.duration = req.body.duration
     if (req.body.group !== undefined) prestation.group = req.body.group
     if (req.body.description !== undefined) prestation.description = req.body.description
+    if (req.body.extraInfos !== undefined) {
+      try {
+        prestation.extraInfos = parseExtraInfos(req.body.extraInfos)
+      } catch {
+        return res.status(400).json({ message: 'extraInfos doit être un JSON valide' })
+      }
+    }
 
     if (req.file) {
       if (prestation.videoUrl) {

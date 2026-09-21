@@ -125,7 +125,7 @@ export default function GiftCard() {
             />
             <h1>Offrez une carte cadeau</h1>
              {isAuthenticated &&
-                <button type="button" className="btn" onClick={() => setModalIsOpen(true)}>Modifier</button>
+                <button type="button" className="btn" onClick={() => {setModalIsOpen(true) ; setNewTitleCard(giftPageInfos?.title || "") ; setNewTextCard(giftPageInfos?.shortText || "") ; setNewImgAlt(giftPageInfos?.photoAlt || "")}}>Modifier</button>
             }
             {paymentStatus === "succes" &&
                 <p className="gift-payment-status gift-payment-status--success">Merci ! Votre paiement a été accepté, la carte cadeau a été envoyée par email.</p>

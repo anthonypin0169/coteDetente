@@ -5,6 +5,28 @@ import PhotoInput from "@/component/photoInput/photoInput"
 import Modal from "@/component/modal/modal"
 import SeoHead from "@/component/seoHead/seoHead"
 import "./handsAndFoots.scss"
+import "../cares/cares.scss"
+
+function PrestaDetails({ presta }) {
+    if (!presta.description && !(presta.extraInfos && presta.extraInfos.length > 0)) return null
+    return (
+        <div className="item-details">
+            {presta.description &&
+                <p className="item-details__description">{presta.description}</p>
+            }
+            {presta.extraInfos && presta.extraInfos.length > 0 &&
+                <div className="item-details__extra-infos">
+                    {presta.extraInfos.map((info, i) => (
+                        <div className="item-details__extra-infos--item" key={i}>
+                            {info.duration && <p>{info.duration} :</p>}
+                            <p>{info.price}</p>
+                        </div>
+                    ))}
+                </div>
+            }
+        </div>
+    )
+}
 
 export default function HandsAndFoots() {
     
@@ -159,6 +181,18 @@ export default function HandsAndFoots() {
     const [actualPrestaName, setActualPrestaName] = useState("")
     const [actualPrestaPrice, setActualPrestaPrice] = useState("")
     const [actualPrestaDuration, setActualPrestaDuration] = useState("")
+    const [actualPrestaDescription, setActualPrestaDescription] = useState("")
+    const [actualPrestaExtraInfos, setActualPrestaExtraInfos] = useState([])
+
+    const handleAddExtraInfo = () => {
+        setActualPrestaExtraInfos(prev => [...prev, { price: "", duration: "" }])
+    }
+    const handleExtraInfoChange = (index, field, value) => {
+        setActualPrestaExtraInfos(prev => prev.map((info, i) => i === index ? { ...info, [field]: value } : info))
+    }
+    const handleRemoveExtraInfo = (index) => {
+        setActualPrestaExtraInfos(prev => prev.filter((_, i) => i !== index))
+    }
 
     /* Ajouter, modifier et supprimer une prestation */
     const [newNamePresta, setNewNamePresta] = useState("")
@@ -201,7 +235,9 @@ export default function HandsAndFoots() {
                 body: {
                     name: actualPrestaName,
                     price: actualPrestaPrice,
-                    duration: actualPrestaDuration
+                    duration: actualPrestaDuration,
+                    description: actualPrestaDescription,
+                    extraInfos: actualPrestaExtraInfos
                 },
                 token
             })
@@ -259,12 +295,13 @@ export default function HandsAndFoots() {
                     </div>
                     <div className="gel-section__first-division--presta-bloc">
                         {prestations.filter((p) => p.group === posesDeposeComblagesGroup?._id).map((presta) => (
-                            <div key={presta._id} className="gel-section__first-division--presta-bloc--item">
+                            <div key={presta._id} className="gel-section__first-division--presta-bloc--item item-row">
                                 <p className="item-title">{presta.name}</p>
                                 <div className="item-text">
                                     <p className="item-text--price">{presta.price}</p>
                                     <p className="item-text--duration">{presta.duration}</p>
                                 </div>
+                                <PrestaDetails presta={presta}/>
                             </div>
                         ))}
                     </div>
@@ -289,12 +326,13 @@ export default function HandsAndFoots() {
                 <div className="manucure-section__first-division">
                     <div className="manucure-section__first-division--presta-bloc">
                         {prestations.filter((p) => p.group === vernisMotifsGroup?._id).map((presta) => (
-                            <div key={presta._id} className="manucure-section__first-division--presta-bloc--item">
+                            <div key={presta._id} className="manucure-section__first-division--presta-bloc--item item-row">
                                 <p className="item-title">{presta.name}</p>
                                 <div className="item-text">
                                     <p className="item-text--price">{presta.price}</p>
                                     <p className="item-text--duration">{presta.duration}</p>
                                 </div>
+                                <PrestaDetails presta={presta}/>
                             </div>
                         ))}
                     </div>
@@ -311,12 +349,13 @@ export default function HandsAndFoots() {
                     </div>
                     <div className="manucure-section__second-division--presta-bloc">
                         {prestations.filter((p) => p.group === manucuresGroup?._id).map((presta) => (
-                            <div key={presta._id} className="manucure-section__second-division--presta-bloc--item">
+                            <div key={presta._id} className="manucure-section__second-division--presta-bloc--item item-row">
                                 <p className="item-title">{presta.name}</p>
                                 <div className="item-text">
                                     <p className="item-text--price">{presta.price}</p>
                                     <p className="item-text--duration">{presta.duration}</p>
                                 </div>
+                                <PrestaDetails presta={presta}/>
                             </div>
                         ))}
                     </div>
@@ -336,10 +375,12 @@ export default function HandsAndFoots() {
                                                 <label className="cares-modal-labels" htmlFor="title-edit">Modifier le nom du groupe</label>
                                                 <input className="cares-modal-inputs" type="text" id="title-edit" value={actualGroupName} onChange={(e) => setActualGroupName(e.target.value)}/>
                                             </div>
-                                            <div className="edit-list__item">
-                                                <label className="cares-modal-labels" htmlFor="description-edit">Modifier la description</label>
-                                                <input className="cares-modal-inputs" type="text" id="description-edit" value={actualGroupDescription} onChange={(e) => setActualGroupDescription(e.target.value)}/>
-                                            </div>
+                                            {group.role !== "pose-depose-comblages" &&
+                                                <div className="edit-list__item">
+                                                    <label className="cares-modal-labels" htmlFor="description-edit">Modifier la description</label>
+                                                    <input className="cares-modal-inputs" type="text" id="description-edit" value={actualGroupDescription} onChange={(e) => setActualGroupDescription(e.target.value)}/>
+                                                </div>
+                                            }
                                             {group.role === "manucures" &&
                                                 <div className="edit-list__item">
                                                     <label className="cares-modal-labels" htmlFor="edit-photo-input">Modifier la photo</label>
@@ -362,12 +403,9 @@ export default function HandsAndFoots() {
                                     :
                                         <div className="edit-list__neutral">
                                             <p className="edit-list__neutral--name">{group.name}</p>
-                                            <p className="edit-list__neutral--description">{group.description}</p>
                                             <div className="edit-list__btn-bloc">
                                                 <button type="button" className="suppr-and-modify-btn btn" onClick={() => {setEditingGroupId(group._id) ; setActualGroupName(group.name) ; setActualGroupDescription(group.description) ; setActualGroupPhotoAlt(group.photoAlt || "")}}>Modifier</button>
-                                                {group.role !== "pose-depose-comblages" &&
-                                                    <button type="button" onClick={() => {setModalVue("prestations") ; setSelectedGroupId(group._id)}} className="suppr-and-modify-btn btn">Modifier les prestations</button>
-                                                }
+                                                <button type="button" onClick={() => {setModalVue("prestations") ; setSelectedGroupId(group._id)}} className="suppr-and-modify-btn btn">Modifier les prestations</button>
                                             </div>
                                         </div>
                                     }
@@ -411,6 +449,17 @@ export default function HandsAndFoots() {
                                         <input className="cares-modal-inputs" id="presta-price" type="text" value={actualPrestaPrice} onChange={(e) => setActualPrestaPrice(e.target.value)}/>
                                         <input className="cares-modal-inputs" id="presta-time" type="text" value={actualPrestaDuration} onChange={(e) => setActualPrestaDuration(e.target.value)}/>
                                     </div>
+                                    <textarea className="cares-modal-inputs edit-and-add-container__edit-presta--description" placeholder="Description (optionnel)" value={actualPrestaDescription} onChange={(e) => setActualPrestaDescription(e.target.value)}></textarea>
+                                    <div className="edit-and-add-container__edit-presta--extra-infos">
+                                        {actualPrestaExtraInfos.map((info, index) => (
+                                            <div className="edit-and-add-container__edit-presta--extra-infos--item" key={index}>
+                                                <input className="cares-modal-inputs" type="text" placeholder="Prix" value={info.price} onChange={(e) => handleExtraInfoChange(index, "price", e.target.value)}/>
+                                                <input className="cares-modal-inputs" type="text" placeholder="Durée" value={info.duration} onChange={(e) => handleExtraInfoChange(index, "duration", e.target.value)}/>
+                                                <button type="button" className="edit-and-add-container__edit-presta--extra-infos--remove-btn" onClick={() => handleRemoveExtraInfo(index)}>X</button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <button type="button" className="btn" onClick={() => handleAddExtraInfo()}>Ajouter des infos</button>
                                     <div className="edit-and-add-container__edit-presta--btn-bloc">
                                         <button type="button" className="btn" onClick={() => setEditingPrestaId(null)}>Retour</button>
                                         <button type="button" className="btn" onClick={() => {handleUpdatePresta(presta._id); setEditingPrestaId(null)}}>Valider</button>
@@ -424,7 +473,7 @@ export default function HandsAndFoots() {
                                         <p>{presta.price}</p>
                                         <p>{presta.duration}</p>
                                     </div>
-                                    <button type="button" className="edit-and-add-container__add-presta--modify-btn btn" onClick={() => {setEditingPrestaId(presta._id) ; setActualPrestaName(presta.name) ; setActualPrestaPrice(presta.price) ; setActualPrestaDuration(presta.duration)}}>Modifier la prestation</button>
+                                    <button type="button" className="edit-and-add-container__add-presta--modify-btn btn" onClick={() => {setEditingPrestaId(presta._id) ; setActualPrestaName(presta.name) ; setActualPrestaPrice(presta.price) ; setActualPrestaDuration(presta.duration) ; setActualPrestaDescription(presta.description || "") ; setActualPrestaExtraInfos(presta.extraInfos || [])}}>Modifier la prestation</button>
                                 </div>
                                 }
                             </div>
