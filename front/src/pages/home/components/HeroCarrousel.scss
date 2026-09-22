@@ -1,5 +1,6 @@
 .home__carrousel{
-    height: 30vh;
+    width: 100%;
+    aspect-ratio: 16 / 9;
     .carrousel__slide{
         padding: 0;
     }
@@ -47,18 +48,3 @@
     }
 }
 
-@media (min-width: 768px){
-    .home__carrousel{
-        height: 50vh;
-    }
-}
-@media (min-width: 1024px){
-    .home__carrousel{
-        height: 90vh;
-    }
-}
-@media (min-width: 1440px){
-    .home__carrousel{
-        height: 110vh;
-    }
-}

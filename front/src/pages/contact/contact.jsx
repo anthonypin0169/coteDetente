@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
 import Modal from "@/component/modal/modal"
 import SeoHead from "@/component/seoHead/seoHead"
