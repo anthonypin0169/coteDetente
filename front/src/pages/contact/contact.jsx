@@ -62,22 +62,6 @@ export default function Contact() {
     }
 
 
-    /* Animation du bloc */
-    const animRef = useRef("")
-
-    useEffect(() => {
-        const handleScroll = () => {
-
-            animRef.current.style.transform = `translateY(${window.scrollY * 0.3}px)`
-
-        }
-
-        window.addEventListener("scroll", handleScroll)
-        return () => window.removeEventListener("scroll", handleScroll)
-
-    },[])
-
-
     /* Envoi du formulaire sur le mail */
     const [fullName, setFullName] = useState("")
     const [email, setEmail] = useState("")
@@ -137,7 +121,7 @@ export default function Contact() {
                         <button type="button" onClick={() => handleSendMessage()} className="btn content-section__form--btn">Envoyer</button>
                     </form>
                 }
-                <div ref={animRef} className="content-section__animated-bloc"></div>
+                
             </section>
             <Modal isOpen={modalIsOpen} onClose={() =>setModalIsOpen(false)} variant="staff">
                 <div className="contact-modal">

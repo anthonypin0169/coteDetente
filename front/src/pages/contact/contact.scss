@@ -71,9 +71,6 @@
             
         }
     }
-    &__animated-bloc{
-        display: none;
-    }
 }
 .contact-modal{
     width: 100%;
@@ -157,16 +154,6 @@
                     font-size: 1vw;
                 }
             }
-        }
-        &__animated-bloc{
-            display: block;
-            width: 100%;
-            height: 30vh;
-            flex-shrink: 0;
-            position: sticky;
-            z-index: 1;
-            bottom: 0;
-            background: var(--color-surface-glass);
         }
     }
 }
