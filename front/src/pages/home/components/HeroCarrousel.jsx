@@ -146,6 +146,7 @@ export default function HeroCarrousel({ carrouselInstitut, setCarrouselInstitut 
         }
         return (
             <div className="hero-slide" key={photo._id}>
+                <img src={photo.url} alt="" aria-hidden="true" className="hero-slide__backdrop"/>
                 <img src={photo.url} srcSet={photo.srcSet} sizes="100vw" alt={photo.photoAlt || photo.title || ""} className="hero-slide__img" fetchPriority="high"/>
                 {photo.title &&
                     <h1
