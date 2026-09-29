@@ -1,5 +1,5 @@
 const Staff = require('../models/staff')
-const { saveResponsiveImage, deleteResponsiveImage } = require('../utils/imagePipeline')
+const { saveMedia, deleteResponsiveImage } = require('../utils/imagePipeline')
 
 exports.getAllStaff = async (req, res) => {
   try {
@@ -15,7 +15,7 @@ exports.createStaff = async (req, res) => {
     let photoUrl = null
     let srcSet = null
     if (req.file) {
-      const image = await saveResponsiveImage(req.file.buffer, { maxWidth: 800 })
+      const image = await saveMedia(req.file, { maxWidth: 800 })
       photoUrl = image.url
       srcSet = image.srcSet
     }
@@ -33,7 +33,7 @@ exports.updateStaff = async (req, res) => {
 
     if (req.file) {
       deleteResponsiveImage(member.photoUrl, member.srcSet)
-      const image = await saveResponsiveImage(req.file.buffer, { maxWidth: 800 })
+      const image = await saveMedia(req.file, { maxWidth: 800 })
       member.photoUrl = image.url
       member.srcSet = image.srcSet
     }

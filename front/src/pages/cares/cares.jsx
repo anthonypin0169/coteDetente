@@ -7,6 +7,7 @@ import SeoHead from "@/component/seoHead/seoHead"
 import PhotoInput from "@/component/photoInput/photoInput"
 import { apiFetch } from "@/utils/api"
 import Reveal from "@/component/reveal/reveal"
+import Media from "@/component/media/media"
 
 export default function Cares() {
 
@@ -394,7 +395,7 @@ export default function Cares() {
                                     </div>
                                 ))}
                             </div>   
-                            <img src={bloc.photoUrl} srcSet={bloc.srcSet} sizes="(min-width: 768px) 320px, 80vw" alt={bloc.photoAlt || ""} className="content-bloc__img"/>
+                            <Media src={bloc.photoUrl} srcSet={bloc.srcSet} sizes="(min-width: 768px) 320px, 80vw" alt={bloc.photoAlt || ""} className="content-bloc__img"/>
                         </div>
                     </Reveal>
                 ))}

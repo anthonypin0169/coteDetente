@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 
-export default function PhotoInput({ id, className, onChange }) {
+export default function PhotoInput({ id, className, onChange, accept = "image/*,video/*" }) {
 
     const [preview, setPreview] = useState(null)
 
@@ -10,7 +10,8 @@ export default function PhotoInput({ id, className, onChange }) {
 
     const handleChange = (e) => {
         const file = e.target.files[0]
-        setPreview(file ? URL.createObjectURL(file) : null)
+        // Pas d'aperçu en fond pour une vidéo
+        setPreview(file && file.type.startsWith("image/") ? URL.createObjectURL(file) : null)
         onChange(file)
     }
 
@@ -18,6 +19,7 @@ export default function PhotoInput({ id, className, onChange }) {
         <input
             id={id}
             type="file"
+            accept={accept}
             className={className}
             style={preview ? { backgroundImage: `url(${preview})`, backgroundSize: "cover", backgroundPosition: "center" } : undefined}
             onChange={handleChange}

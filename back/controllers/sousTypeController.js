@@ -3,7 +3,7 @@ const Group = require('../models/group')
 const Prestation = require('../models/prestation')
 const path = require('path')
 const fs = require('fs')
-const { saveResponsiveImage, deleteResponsiveImage } = require('../utils/imagePipeline')
+const { saveMedia, deleteResponsiveImage } = require('../utils/imagePipeline')
 
 exports.getAllSousTypes = async (req, res) => {
   try {
@@ -47,7 +47,7 @@ exports.updateSousType = async (req, res) => {
     const photoFile = req.files?.photo?.[0]
     if (photoFile) {
       deleteResponsiveImage(sousType.photoUrl, sousType.srcSet)
-      const image = await saveResponsiveImage(photoFile.buffer, { maxWidth: 1200 })
+      const image = await saveMedia(photoFile, { maxWidth: 1200 })
       sousType.photoUrl = image.url
       sousType.srcSet = image.srcSet
     }

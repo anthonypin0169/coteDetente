@@ -192,7 +192,7 @@ export default function GiftCard() {
                     </div>
                     <div className="gift-modal__container">
                         <label className="gift-modal__container--img-label" htmlFor="gift-photo">Choisir une photo</label>
-                        <PhotoInput className="contact-modal__container--img-input group-vue__photo-input" id="gift-photo" onChange={setNewImg}/>
+                        <PhotoInput accept="image/*" className="contact-modal__container--img-input group-vue__photo-input" id="gift-photo" onChange={setNewImg}/>
                     </div>
                     <div className="gift-modal__container">
                         <label className="gift-modal__container--label" htmlFor="gift-photo-alt">Texte alternatif de la photo</label>

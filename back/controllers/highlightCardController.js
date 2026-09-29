@@ -1,5 +1,5 @@
 const HighlightCard = require('../models/highlightCard')
-const { saveResponsiveImage, deleteResponsiveImage } = require('../utils/imagePipeline')
+const { saveMedia, deleteResponsiveImage } = require('../utils/imagePipeline')
 
 exports.getAllHighlightCards = async (req, res) => {
   try {
@@ -15,7 +15,7 @@ exports.createHighlightCard = async (req, res) => {
     let photoUrl = null
     let srcSet = null
     if (req.file) {
-      const image = await saveResponsiveImage(req.file.buffer, { maxWidth: 800 })
+      const image = await saveMedia(req.file, { maxWidth: 800 })
       photoUrl = image.url
       srcSet = image.srcSet
     }
@@ -33,7 +33,7 @@ exports.updateHighlightCard = async (req, res) => {
 
     if (req.file) {
       deleteResponsiveImage(card.photoUrl, card.srcSet)
-      const image = await saveResponsiveImage(req.file.buffer, { maxWidth: 800 })
+      const image = await saveMedia(req.file, { maxWidth: 800 })
       card.photoUrl = image.url
       card.srcSet = image.srcSet
     }

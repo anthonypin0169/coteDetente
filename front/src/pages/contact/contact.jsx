@@ -3,6 +3,7 @@ import { useSelector } from "react-redux"
 import Modal from "@/component/modal/modal"
 import SeoHead from "@/component/seoHead/seoHead"
 import PhotoInput from "@/component/photoInput/photoInput"
+import { isVideo } from "@/component/media/media"
 import { apiFetch } from "@/utils/api"
 import "./contact.scss"
 
@@ -92,7 +93,8 @@ export default function Contact() {
 
 
     return (
-        <main className="main-contact bg-img" style={{ backgroundImage: `url(${contactPage?.photoUrl})` }}>
+        <main className="main-contact bg-img" style={isVideo(contactPage?.photoUrl) ? undefined : { backgroundImage: `url(${contactPage?.photoUrl})` }}>
+            {isVideo(contactPage?.photoUrl) && <video src={contactPage.photoUrl} className="bg-video" autoPlay muted loop playsInline></video>}
             <SeoHead
                 title="Contact"
                 description="Contactez l'institut Côté Détente, à Saint-Denis-lès-Bourg près de Bourg-en-Bresse, pour toute question ou prise de rendez-vous."

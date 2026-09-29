@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { getAllPrestations, getSearchablePrestations, getPrestationsByGroup, createPrestation, updatePrestation, deletePrestation } = require('../controllers/prestationController')
 const protect = require('../middleware/authMiddleware')
-const uploadMedia = require('../middleware/uploadSousTypeMedia')
+const uploadMedia = require('../middleware/uploadMedia')
 
 /**
  * @swagger

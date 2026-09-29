@@ -2,7 +2,7 @@ const Type = require('../models/type')
 const SousType = require('../models/sousType')
 const Group = require('../models/group')
 const Prestation = require('../models/prestation')
-const { saveResponsiveImage, deleteResponsiveImage } = require('../utils/imagePipeline')
+const { saveMedia, deleteResponsiveImage } = require('../utils/imagePipeline')
 
 exports.getAllTypes = async (req, res) => {
   try {
@@ -18,7 +18,7 @@ exports.createType = async (req, res) => {
     let photoUrl = null
     let srcSet = null
     if (req.file) {
-      const image = await saveResponsiveImage(req.file.buffer, { maxWidth: 1200 })
+      const image = await saveMedia(req.file, { maxWidth: 1200 })
       photoUrl = image.url
       srcSet = image.srcSet
     }
@@ -36,7 +36,7 @@ exports.updateType = async (req, res) => {
 
     if (req.file) {
       deleteResponsiveImage(type.photoUrl, type.srcSet)
-      const image = await saveResponsiveImage(req.file.buffer, { maxWidth: 1200 })
+      const image = await saveMedia(req.file, { maxWidth: 1200 })
       type.photoUrl = image.url
       type.srcSet = image.srcSet
     }

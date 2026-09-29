@@ -6,6 +6,7 @@ import SeoHead from "@/component/seoHead/seoHead"
 import PhotoInput from "@/component/photoInput/photoInput"
 import { apiFetch } from "@/utils/api"
 import "./services.scss"
+import Media from "@/component/media/media"
 
 export default function Services() {
     
@@ -115,7 +116,7 @@ export default function Services() {
                         {types.map((type)=>( 
                             <div key={type._id} className="services__modal-list-view--card">
                                 <h2 className="list-view-card-title">{type.name}</h2>
-                                <img src={type.photoUrl} srcSet={type.srcSet} sizes="(min-width: 768px) 300px, 90vw" alt={type.photoAlt || type.name} className="list-view-card-img"/>
+                                <Media src={type.photoUrl} srcSet={type.srcSet} sizes="(min-width: 768px) 300px, 90vw" alt={type.photoAlt || type.name} className="list-view-card-img"/>
                                 <button onClick={() => {setModifyViewMode("edit"); setSelectedTypeId(type._id); setTypeName(type.name); setTypeRoute(type.route); setTypePhotoAlt(type.photoAlt || "")}} className="list-view-card-btn btn">Modifier</button>
                             </div>
                         ))}
@@ -150,12 +151,12 @@ export default function Services() {
                     type.route === "/soins" ? (
                         <div key={type._id} className={`banner__div ${expandedTypeId === type._id ? "banner__div--expanded" : ""}`} onClick={() => {setExpandedTypeId(type._id); handleCaresTypes(type._id)}}>
                             <h2 className="banner__div--text">{type.name}</h2>
-                            <img src={type.photoUrl} srcSet={type.srcSet} sizes="(min-width: 768px) 45vw, 60vw" alt={type.photoAlt || type.name} className="banner__div--image"/>
+                            <Media src={type.photoUrl} srcSet={type.srcSet} sizes="(min-width: 768px) 45vw, 60vw" alt={type.photoAlt || type.name} className="banner__div--image"/>
                         </div>
                     ):(
                         <Link to={type.route} key={type._id} className="banner__div">
                             <h2 className="banner__div--text">{type.name}</h2>
-                            <img src={type.photoUrl} srcSet={type.srcSet} sizes="(min-width: 768px) 45vw, 60vw" alt={type.photoAlt || type.name} className="banner__div--image"/>
+                            <Media src={type.photoUrl} srcSet={type.srcSet} sizes="(min-width: 768px) 45vw, 60vw" alt={type.photoAlt || type.name} className="banner__div--image"/>
                         </Link>
                     )
                 ))}

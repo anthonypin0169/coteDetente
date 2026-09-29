@@ -6,6 +6,7 @@ import Modal from "@/component/modal/modal"
 import SeoHead from "@/component/seoHead/seoHead"
 import "./handsAndFoots.scss"
 import "../cares/cares.scss"
+import Media from "@/component/media/media"
 
 function PrestaDetails({ presta }) {
     if (!presta.description && !(presta.extraInfos && presta.extraInfos.length > 0)) return null
@@ -291,7 +292,7 @@ export default function HandsAndFoots() {
             <section className="gel-section">
                 <div className="gel-section__first-division">
                     <div className="gel-section__first-division--video-bloc">
-                        <video src={posesDeposeComblagesGroup?.videoUrl} autoPlay muted loop playsInline></video>
+                        <Media src={posesDeposeComblagesGroup?.videoUrl} alt=""/>
                     </div>
                     <div className="gel-section__first-division--presta-bloc">
                         {prestations.filter((p) => p.group === posesDeposeComblagesGroup?._id).map((presta) => (
@@ -337,7 +338,7 @@ export default function HandsAndFoots() {
                         ))}
                     </div>
                     <div className="manucure-section__first-division--video-bloc">
-                        <video src={vernisMotifsGroup?.videoUrl} autoPlay muted loop playsInline></video>
+                        <Media src={vernisMotifsGroup?.videoUrl} alt=""/>
                     </div>
                 </div>
 
@@ -345,7 +346,7 @@ export default function HandsAndFoots() {
 
                 <div className="manucure-section__second-division">
                     <div className="manucure-section__second-division--photo-bloc">
-                        <img src={manucuresGroup?.photoUrl} srcSet={manucuresGroup?.srcSet} sizes="(min-width: 768px) 40vw, 80vw" alt={manucuresGroup?.photoAlt || ""} />
+                        <Media src={manucuresGroup?.photoUrl} srcSet={manucuresGroup?.srcSet} sizes="(min-width: 768px) 40vw, 80vw" alt={manucuresGroup?.photoAlt || ""} />
                     </div>
                     <div className="manucure-section__second-division--presta-bloc">
                         {prestations.filter((p) => p.group === manucuresGroup?._id).map((presta) => (
@@ -392,7 +393,7 @@ export default function HandsAndFoots() {
                                             {(group.role === "pose-depose-comblages" || group.role === "vernis-motifs") &&
                                                 <div className="edit-list__item">
                                                     <label className="cares-modal-labels" htmlFor="hands-video-edit">Modifier la vidéo</label>
-                                                    <input className="cares-modal-inputs" type="file" id="hands-video-edit" onChange={(e) => setActualGroupVideo(e.target.files[0])}/>
+                                                    <input className="cares-modal-inputs" type="file" accept="image/*,video/*" id="hands-video-edit" onChange={(e) => setActualGroupVideo(e.target.files[0])}/>
                                                 </div>
                                             }
                                             <div className="edit-list__btn-bloc">

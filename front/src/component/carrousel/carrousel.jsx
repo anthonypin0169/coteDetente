@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react"
 import googleLogo from "../../assets/images/google-logo.webp"
 import "./carrousel.scss"
+import Media from "@/component/media/media"
 
 export default function Carrousel({images = [], reviews = [], slides = [], mode, className}) {
 
@@ -37,7 +38,7 @@ export default function Carrousel({images = [], reviews = [], slides = [], mode,
                 {slides.length > 0 ? (
                     <div className="carrousel__slide">{slides[currentIndex]}</div>
                 ) : images.length > 0 ? (
-                    <img
+                    <Media
                         src={typeof images[currentIndex] === "string" ? images[currentIndex] : images[currentIndex]?.url}
                         srcSet={typeof images[currentIndex] === "string" ? undefined : images[currentIndex]?.srcSet}
                         sizes="100vw"

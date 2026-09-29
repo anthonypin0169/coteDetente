@@ -2,8 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { getAllGroups, getGroupsBySousType, createGroup, updateGroup, deleteGroup } = require('../controllers/groupController')
 const protect = require('../middleware/authMiddleware')
-const upload = require('../middleware/upload')
-const uploadMedia = require('../middleware/uploadSousTypeMedia')
+const uploadMedia = require('../middleware/uploadMedia')
 
 /**
  * @swagger
@@ -63,7 +62,7 @@ router.get('/sous-type/:sousTypeId', getGroupsBySousType)
  *       201:
  *         description: Groupe créé
  */
-router.post('/', protect, upload.single('photo'), createGroup)
+router.post('/', protect, uploadMedia.single('photo'), createGroup)
 
 /**
  * @swagger

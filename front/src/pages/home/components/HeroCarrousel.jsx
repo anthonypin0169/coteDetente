@@ -6,6 +6,7 @@ import PhotoInput from "@/component/photoInput/photoInput"
 import PositionableTextEditor from "@/component/positionableTextEditor/positionableTextEditor"
 import { apiFetch } from "@/utils/api"
 import "./HeroCarrousel.scss"
+import Media from "@/component/media/media"
 
 const DEFAULT_TEXT_POSITIONS = {
     title: { x: 50, y: 40 },
@@ -146,8 +147,8 @@ export default function HeroCarrousel({ carrouselInstitut, setCarrouselInstitut 
         }
         return (
             <div className="hero-slide" key={photo._id}>
-                <img src={photo.url} alt="" aria-hidden="true" className="hero-slide__backdrop"/>
-                <img src={photo.url} srcSet={photo.srcSet} sizes="100vw" alt={photo.photoAlt || photo.title || ""} className="hero-slide__img" fetchPriority="high"/>
+                <Media src={photo.url} alt="" aria-hidden="true" className="hero-slide__backdrop"/>
+                <Media src={photo.url} srcSet={photo.srcSet} sizes="100vw" alt={photo.photoAlt || photo.title || ""} className="hero-slide__img" fetchPriority="high"/>
                 {photo.title &&
                     <h1
                         className="hero-slide__text hero-slide__text--title"
@@ -183,7 +184,7 @@ export default function HeroCarrousel({ carrouselInstitut, setCarrouselInstitut 
                         <div className="modal__list-vue--images-list">
                             {carrouselHero.map( photo => (
                                 <div key={photo._id} className="preview">
-                                    <img src={photo.url} alt={photo.photoAlt || photo.description}  className="preview__img"/>
+                                    <Media src={photo.url} alt={photo.photoAlt || photo.description}  className="preview__img"/>
                                     <button onClick={() => handleDelete(photo._id)} className="preview__btn">X</button>
                                     <button type="button" className="preview__edit-btn" onClick={() => openTextEditor(photo)}>Modifier le texte</button>
                                 </div>
@@ -195,7 +196,7 @@ export default function HeroCarrousel({ carrouselInstitut, setCarrouselInstitut 
                         <div className="modal__list-vue--images-list">
                             {carrouselInstitut.map( photo => (
                                 <div key={photo._id} className="preview">
-                                    <img src={photo.url} alt={photo.photoAlt || photo.description}  className="preview__img"/>
+                                    <Media src={photo.url} alt={photo.photoAlt || photo.description}  className="preview__img"/>
                                     <button onClick={ () => handleDelete(photo._id)} className="preview__btn">X</button>
                                 </div>
                             ))}

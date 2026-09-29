@@ -5,6 +5,7 @@ import { useSelector } from "react-redux"
 import { apiFetch } from "@/utils/api"
 import Modal from "@/component/modal/modal"
 import SeoHead from "@/component/seoHead/seoHead"
+import Media from "@/component/media/media"
 
 export default function Makeup() {
 
@@ -239,8 +240,8 @@ export default function Makeup() {
                                 <input className="cares-modal-inputs" type="text" id="presta-description-adding" placeholder="Description" value={actualPrestaDescription} onChange={(e) => setActualPrestaDescription(e.target.value)}/>
                             </div>
                             <div className="prestation-vue__new-add--input-bloc">
-                                <label className="cares-modal-labels" htmlFor="presta-video-adding">Choisir une vidéo</label>
-                                <input className="cares-modal-inputs" type="file" id="presta-video-adding" onChange={(e) => setActualPrestaVideo(e.target.files[0])}/>
+                                <label className="cares-modal-labels" htmlFor="presta-video-adding">Choisir une vidéo ou une photo</label>
+                                <input className="cares-modal-inputs" type="file" accept="video/*,image/*" id="presta-video-adding" onChange={(e) => setActualPrestaVideo(e.target.files[0])}/>
                             </div>
                             <div className="prestation-vue__new-add--btn-container">
                                 <button className="btn" type="button" onClick={() => setIsAddingPresta(false)}>Retour</button>
@@ -272,8 +273,8 @@ export default function Makeup() {
                                     </div>
                                     <button type="button" className="btn" onClick={() => handleAddExtraInfo()}>Ajouter des infos</button>
                                     <div className="modify-video-input-container">
-                                        <label className="cares-modal-labels" htmlFor="presta-video-modify">Modifier la vidéo</label>
-                                        <input className="cares-modal-inputs" type="file" id="presta-video-modify" onChange={(e) => setActualPrestaVideo(e.target.files[0])}/>
+                                        <label className="cares-modal-labels" htmlFor="presta-video-modify">Modifier la vidéo ou la photo</label>
+                                        <input className="cares-modal-inputs" type="file" accept="video/*,image/*" id="presta-video-modify" onChange={(e) => setActualPrestaVideo(e.target.files[0])}/>
                                     </div>
                                     <div className="edit-and-add-container__edit-presta--btn-bloc">
                                         <button type="button" className="btn" onClick={() => setEditingPrestaId(null)}>Retour</button>
@@ -304,7 +305,7 @@ export default function Makeup() {
 
             <section className="makup-list-section">
                 {presta.map((p)=>(
-                    <div key={p._id} className="makup-list-section__item" onMouseEnter={(e) => e.currentTarget.querySelector("video").play()} onMouseLeave={(e) => e.currentTarget.querySelector("video").pause()} onClick={(e) => {const video = e.currentTarget.querySelector("video"); video.paused ? video.play() : video.pause()}}>
+                    <div key={p._id} className="makup-list-section__item" onMouseEnter={(e) => e.currentTarget.querySelector("video")?.play()} onMouseLeave={(e) => e.currentTarget.querySelector("video")?.pause()} onClick={(e) => {const video = e.currentTarget.querySelector("video"); if (video) video.paused ? video.play() : video.pause()}}>
                         <div className="makup-list-section__item--presta-bloc">
                             <div className="item-preview">
                                 <div className="item-preview__name">
@@ -342,7 +343,7 @@ export default function Makeup() {
                             }
                         </div>
                         <div className="makup-list-section__item--video-container">
-                            <video src={p.videoUrl} className="makup-presta-video" muted playsInline preload="metadata"></video>
+                            <Media src={p.videoUrl} className="makup-presta-video" alt={p.name} videoProps={{ autoPlay: false, loop: false, preload: "metadata" }}/>
                         </div>
                     </div>
                 ))}

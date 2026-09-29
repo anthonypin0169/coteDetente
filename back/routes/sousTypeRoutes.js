@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { getAllSousTypes, getSousTypesByType, createSousType, updateSousType, deleteSousType } = require('../controllers/sousTypeController')
 const protect = require('../middleware/authMiddleware')
-const upload = require('../middleware/uploadSousTypeMedia')
+const upload = require('../middleware/uploadMedia')
 
 /**
  * @swagger

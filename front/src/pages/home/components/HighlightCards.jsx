@@ -6,6 +6,7 @@ import { Link } from "react-router-dom"
 import PhotoInput from "@/component/photoInput/photoInput"
 import { apiFetch } from "@/utils/api"
 import "./HighlightCards.scss"
+import Media from "@/component/media/media"
 
 export default function HighlightCards() {
 
@@ -77,7 +78,7 @@ export default function HighlightCards() {
                 {highlightCardList.map(highlightCard => (
                     <div className="card" key={highlightCard._id}>
                         <div className="card__front">
-                            <img src={highlightCard.photoUrl} srcSet={highlightCard.srcSet} sizes="(min-width: 1024px) 380px, (min-width: 768px) 320px, 275px" alt={highlightCard.photoAlt || highlightCard.frontTitle} className="card__front--img"/>
+                            <Media src={highlightCard.photoUrl} srcSet={highlightCard.srcSet} sizes="(min-width: 1024px) 380px, (min-width: 768px) 320px, 275px" alt={highlightCard.photoAlt || highlightCard.frontTitle} className="card__front--img"/>
                             <h2 className="card__front--title">{highlightCard.frontTitle}</h2>
                             <h3 className="card__front--text">{highlightCard.frontText}</h3>
                         </div>
@@ -113,7 +114,7 @@ export default function HighlightCards() {
                                     <h2 className="modal-card__content--title">{highlightCard.frontTitle}</h2>
                                     <h3 className="modal-card__content--text">{highlightCard.frontText}</h3>
                                 </div>
-                                <img src={highlightCard.photoUrl} alt={highlightCard.photoAlt || highlightCard.frontTitle} className="modal-card__img"/>
+                                <Media src={highlightCard.photoUrl} alt={highlightCard.photoAlt || highlightCard.frontTitle} className="modal-card__img"/>
                             </div>
                         ))}
                     </div>

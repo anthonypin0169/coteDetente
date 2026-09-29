@@ -1,5 +1,6 @@
 import { useRef, useState } from "react"
 import "./positionableTextEditor.scss"
+import { isVideo } from "@/component/media/media"
 
 export default function PositionableTextEditor({ imageUrl, elements, positions, onPositionsChange }) {
 
@@ -20,11 +21,12 @@ export default function PositionableTextEditor({ imageUrl, elements, positions, 
         <div
             className="positionable-editor"
             ref={containerRef}
-            style={{ backgroundImage: `url(${imageUrl})` }}
+            style={isVideo(imageUrl) ? undefined : { backgroundImage: `url(${imageUrl})` }}
             onMouseMove={updatePositionFromEvent}
             onMouseUp={() => setDraggingKey(null)}
             onMouseLeave={() => setDraggingKey(null)}
         >
+            {isVideo(imageUrl) && <video src={imageUrl} className="positionable-editor__video" autoPlay muted loop playsInline></video>}
             {elements.filter((el) => el.text).map((el) => (
                 <div
                     key={el.key}

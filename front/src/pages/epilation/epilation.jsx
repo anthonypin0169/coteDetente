@@ -7,6 +7,7 @@ import PhotoInput from "@/component/photoInput/photoInput"
 import Reveal from "@/component/reveal/reveal"
 import "./epilation.scss"
 import "../cares/cares.scss"
+import Media from "@/component/media/media"
 
 function PrestaDetails({ presta }) {
     if (!presta.description && !(presta.extraInfos && presta.extraInfos.length > 0)) return null
@@ -310,6 +311,7 @@ export default function Epilation() {
             <section className="epilation-section">
                 <Reveal className="epilation-section__presta-bloc">
                     <h2>Nos épilations</h2>
+                    {prestaGroup?.description && <p className="group-description">{prestaGroup.description}</p>}
                     {prestations.filter(p => p.group === prestaGroup?._id).map((presta) => (
                         <div key={presta._id} className="epilation-section__presta-bloc--item item-row">
                             <p className="item-title">{presta.name}</p>
@@ -323,6 +325,7 @@ export default function Epilation() {
                 </Reveal>
                 <div className="epilation-section__package-container">
                     <h2>Nos forfaits épilations</h2>
+                    {forfaitGroup?.description && <p className="group-description">{forfaitGroup.description}</p>}
                     <Reveal className="epilation-section__package-container--presta-bloc">
                         {prestations.filter(f => f.group === forfaitGroup?._id).map((presta) => (
                             <div key={presta._id} className="epilation-section__package-container--presta-bloc--item item-row">
@@ -336,7 +339,7 @@ export default function Epilation() {
                         ))}
                     </Reveal>
                     <div className="epilation-section__package-container--image-bloc">
-                        <img src={sousType.photoUrl} srcSet={sousType.srcSet} sizes="(min-width: 768px) 35vw, 80vw" alt={sousType.photoAlt || ""} className="epilation-section__package-container--image-bloc--photo"/>
+                        <Media src={sousType.photoUrl} srcSet={sousType.srcSet} sizes="(min-width: 768px) 35vw, 80vw" alt={sousType.photoAlt || ""} className="epilation-section__package-container--image-bloc--photo"/>
                     </div>
                 </div>
             </section>
@@ -356,7 +359,7 @@ export default function Epilation() {
                     ))}
                 </Reveal>
                 <div className="tanning-section__video-bloc">
-                    <video src={sousType.videoUrl} autoPlay muted loop playsInline preload="metadata" className="tanning-section__video-bloc--video"></video>
+                    <Media src={sousType.videoUrl} videoProps={{ preload: "metadata" }} alt="" className="tanning-section__video-bloc--video"/>
                 </div>
             </section>
 
@@ -378,7 +381,7 @@ export default function Epilation() {
                         </div>
                         <div className="media-vue__input-bloc--video">
                             <label className="cares-modal-labels" htmlFor="video-input">Ajouter ou modifier une Video</label>
-                            <input className="cares-modal-inputs" id="video-input" type="file" onChange={(e) => setNewSousTypeVideo(e.target.files[0])}/>
+                            <input className="cares-modal-inputs" id="video-input" type="file" accept="image/*,video/*" onChange={(e) => setNewSousTypeVideo(e.target.files[0])}/>
                         </div>
                     </div>
                     <div className="media-vue__btn-bloc">

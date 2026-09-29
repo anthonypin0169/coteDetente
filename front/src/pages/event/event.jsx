@@ -368,7 +368,7 @@ export default function Event() {
                                 </div>
                                 <div>
                                     <label htmlFor="event-photo" className="cares-modal-labels">Modifier la photo </label>
-                                    <PhotoInput id="event-photo" className="cares-modal-input" onChange={setActualPhoto}/>
+                                    <PhotoInput accept="image/*" id="event-photo" className="cares-modal-input" onChange={setActualPhoto}/>
                                 </div>
                                 <div>
                                     <label htmlFor="event-photo-alt" className="cares-modal-labels">Texte alternatif de la photo</label>
@@ -429,7 +429,7 @@ export default function Event() {
                             </div>
                             <div className="modal-vue-add__input-container">
                                 <label htmlFor="add-current-photo" className="cares-modal-labels">Choisir une photo</label>
-                                <PhotoInput id="add-current-photo" className="cares-modal-input" onChange={setNewPhoto}/>
+                                <PhotoInput accept="image/*" id="add-current-photo" className="cares-modal-input" onChange={setNewPhoto}/>
                             </div>
                             <div className="modal-vue-add__input-container">
                                 <label htmlFor="add-current-photo-alt" className="cares-modal-labels">Texte alternatif de la photo</label>
@@ -462,7 +462,7 @@ export default function Event() {
                             </div>
                             <div className="modal-vue-add-light__label-container">
                                 <label htmlFor="add-past-photo" className="cares-modal-labels">Choisir une photo</label>
-                                <PhotoInput id="add-past-photo" className="cares-modal-input" onChange={setLightPhoto}/>
+                                <PhotoInput accept="image/*" id="add-past-photo" className="cares-modal-input" onChange={setLightPhoto}/>
                             </div>
                             <div className="modal-vue-add-light__label-container">
                                 <label htmlFor="add-past-photo-alt" className="cares-modal-labels">Texte alternatif de la photo</label>

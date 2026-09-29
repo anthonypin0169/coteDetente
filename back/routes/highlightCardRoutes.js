@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { getAllHighlightCards, createHighlightCard, updateHighlightCard, deleteHighlightCard } = require('../controllers/highlightCardController')
 const protect = require('../middleware/authMiddleware')
-const upload = require('../middleware/upload')
+const upload = require('../middleware/uploadMedia')
 
 /**
  * @swagger

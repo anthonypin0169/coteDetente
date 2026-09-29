@@ -33,6 +33,17 @@ async function saveResponsiveImage(buffer, { maxWidth = 1200, quality = 60 } = {
   return { url, srcSet }
 }
 
+/* Photo -> pipeline responsive ; vidéo -> enregistrée telle quelle (srcSet vide) */
+async function saveMedia(file, options) {
+  const ext = path.extname(file.originalname).toLowerCase()
+  if (/mp4|webm|mov/.test(ext)) {
+    const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`
+    fs.writeFileSync(path.join('uploads', filename), file.buffer)
+    return { url: `/uploads/${filename}`, srcSet: '' }
+  }
+  return saveResponsiveImage(file.buffer, options)
+}
+
 /* Supprime tous les fichiers référencés par une url + son srcSet */
 function deleteResponsiveImage(url, srcSet) {
   const urls = new Set()
@@ -49,4 +60,4 @@ function deleteResponsiveImage(url, srcSet) {
   })
 }
 
-module.exports = { saveResponsiveImage, deleteResponsiveImage }
+module.exports = { saveResponsiveImage, saveMedia, deleteResponsiveImage }

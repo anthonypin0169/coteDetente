@@ -1,5 +1,5 @@
 const ContactPage = require('../models/contactPage')
-const { saveResponsiveImage, deleteResponsiveImage } = require('../utils/imagePipeline')
+const { saveMedia, deleteResponsiveImage } = require('../utils/imagePipeline')
 
 exports.getContactPage = async (req, res) => {
   try {
@@ -18,7 +18,7 @@ exports.updateContactPage = async (req, res) => {
     let srcSet = contactPage?.srcSet
     if (req.file) {
       deleteResponsiveImage(photoUrl, srcSet)
-      const image = await saveResponsiveImage(req.file.buffer, { maxWidth: 1600 })
+      const image = await saveMedia(req.file, { maxWidth: 1600 })
       photoUrl = image.url
       srcSet = image.srcSet
     }

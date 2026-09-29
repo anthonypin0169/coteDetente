@@ -2,7 +2,7 @@ const Group = require('../models/group')
 const Prestation = require('../models/prestation')
 const path = require('path')
 const fs = require('fs')
-const { saveResponsiveImage, deleteResponsiveImage } = require('../utils/imagePipeline')
+const { saveMedia, deleteResponsiveImage } = require('../utils/imagePipeline')
 
 exports.getAllGroups = async (req, res) => {
   try {
@@ -27,7 +27,7 @@ exports.createGroup = async (req, res) => {
     let photoUrl = null
     let srcSet = null
     if (req.file) {
-      const image = await saveResponsiveImage(req.file.buffer, { maxWidth: 1200 })
+      const image = await saveMedia(req.file, { maxWidth: 1200 })
       photoUrl = image.url
       srcSet = image.srcSet
     }
@@ -46,7 +46,7 @@ exports.updateGroup = async (req, res) => {
     const photoFile = req.files?.photo?.[0]
     if (photoFile) {
       deleteResponsiveImage(group.photoUrl, group.srcSet)
-      const image = await saveResponsiveImage(photoFile.buffer, { maxWidth: 1200 })
+      const image = await saveMedia(photoFile, { maxWidth: 1200 })
       group.photoUrl = image.url
       group.srcSet = image.srcSet
     }

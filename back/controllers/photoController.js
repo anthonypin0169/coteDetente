@@ -1,5 +1,5 @@
 const Photo = require('../models/photo');
-const { saveResponsiveImage, deleteResponsiveImage } = require('../utils/imagePipeline');
+const { saveMedia, deleteResponsiveImage } = require('../utils/imagePipeline');
 
 exports.getPhotosByCategory = async (req, res) => {
   try {
@@ -23,7 +23,7 @@ exports.createPhoto = async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ message: 'Aucun fichier reçu' });
 
-    const image = await saveResponsiveImage(req.file.buffer, { maxWidth: 1200 });
+    const image = await saveMedia(req.file, { maxWidth: 1200 });
 
     const photo = await Photo.create({ ...req.body, url: image.url, srcSet: image.srcSet });
     res.status(201).json(photo);
@@ -39,7 +39,7 @@ exports.updatePhoto = async (req, res) => {
 
     if (req.file) {
       deleteResponsiveImage(photo.url, photo.srcSet);
-      const image = await saveResponsiveImage(req.file.buffer, { maxWidth: 1200 });
+      const image = await saveMedia(req.file, { maxWidth: 1200 });
       photo.url = image.url;
       photo.srcSet = image.srcSet;
     }
