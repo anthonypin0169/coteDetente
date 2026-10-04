@@ -1,15 +1,15 @@
 const mongoose = require('mongoose')
 
 const eventSchema = new mongoose.Schema({
-  title: { type: String, required: true },
+  title: { type: String },
   startDate: { type: String },
   endDate: { type: String },
   employeeName: { type: String },
   description: { type: String },
-  recapDescription: { type: String },
+  recapDescription: { type: String, required: true },
   isCurrent: { type: Boolean, default: false },
   photoUrl: { type: String },
-  photoAlt: { type: String },
+  photoAlt: { type: String, required: true },
   srcSet: { type: String },
   textColor: { type: String, enum: ['white', 'black'], default: 'white' },
   textPositions: {

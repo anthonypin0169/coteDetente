@@ -66,13 +66,14 @@
         flex-direction: column;
         width: 80%;
         &--item{
-           display: flex;
-           justify-content: space-between;
-           background: var(--color-bg);
-           padding: 0 1vw;
-           margin: 1vw 0;
-           border-radius: 5px;
-           box-shadow: 1px 1px 3px;
+            display: flex;
+            justify-content: space-between;
+            background: var(--color-bg);
+            padding: 0 1vw;
+            margin: 1vw 0;
+            border-radius: 5px;
+            box-shadow: 1px 1px 3px;
+            padding: 0 15px;
         }
     }
     &__package-container{
@@ -156,7 +157,7 @@
 .item-text{
     width: 40%;
     display: flex;
-    justify-content: space-between;
+    justify-content: end;
     &--price{
 
     }
@@ -297,7 +298,6 @@
     .item-text{
         width: 30%;
         display: flex;
-        justify-content: space-between;
         &--price{
 
         }

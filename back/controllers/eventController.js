@@ -25,20 +25,29 @@ exports.createEvent = async (req, res) => {
     }
     const isCurrent = req.body.isCurrent === 'true'
 
-    if (isCurrent) {
-      await Event.updateMany({ isCurrent: true }, { isCurrent: false })
-    }
-
     const eventData = { ...req.body, isCurrent, photoUrl, srcSet }
     if (req.body.textPositions !== undefined) {
       try {
         eventData.textPositions = JSON.parse(req.body.textPositions)
       } catch {
+        deleteResponsiveImage(photoUrl, srcSet)
         return res.status(400).json({ message: 'textPositions doit être un JSON valide' })
       }
     }
 
-    const event = await Event.create(eventData)
+    // Créer d'abord : si la création échoue, l'ancien évènement courant reste en place
+    let event
+    try {
+      event = await Event.create(eventData)
+    } catch (error) {
+      deleteResponsiveImage(photoUrl, srcSet)
+      return res.status(400).json({ message: error.message })
+    }
+
+    if (isCurrent) {
+      await Event.updateMany({ _id: { $ne: event._id }, isCurrent: true }, { isCurrent: false })
+    }
+
     res.status(201).json(event)
   } catch (error) {
     res.status(500).json({ message: error.message })

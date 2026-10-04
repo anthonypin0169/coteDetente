@@ -1,0 +1,1 @@
+.awb-testimonials-grid{grid-template-columns:repeat(var(--awb-columns-small,1),minmax(0,1fr));gap:var(--awb-column-spacing-small,var(--awb-column-spacing-medium,var(--awb-column-spacing,30px)))}

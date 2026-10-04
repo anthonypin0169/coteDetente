@@ -363,7 +363,7 @@ export default function Event() {
                                     <input type="text" id="event-description" className="cares-modal-input" value={actualDescription} onChange={(e) => setActualDescription(e.target.value)}/>
                                 </div>
                                 <div>
-                                    <label htmlFor="event-recap-description" className="cares-modal-labels">Modifier le texte récap (liste)</label>
+                                    <label htmlFor="event-recap-description" className="cares-modal-labels">Modifier le texte récap (liste) (obligatoire)</label>
                                     <input type="text" id="event-recap-description" className="cares-modal-input" value={actualRecapDescription} onChange={(e) => setActualRecapDescription(e.target.value)}/>
                                 </div>
                                 <div>
@@ -371,7 +371,7 @@ export default function Event() {
                                     <PhotoInput accept="image/*" id="event-photo" className="cares-modal-input" onChange={setActualPhoto}/>
                                 </div>
                                 <div>
-                                    <label htmlFor="event-photo-alt" className="cares-modal-labels">Texte alternatif de la photo</label>
+                                    <label htmlFor="event-photo-alt" className="cares-modal-labels">Texte alternatif de la photo (obligatoire)</label>
                                     <input type="text" id="event-photo-alt" className="cares-modal-input" value={actualPhotoAlt} onChange={(e) => setActualPhotoAlt(e.target.value)}/>
                                 </div>
                                 <div className="modal-vue-edit__second-bloc--color-choice">
@@ -386,7 +386,7 @@ export default function Event() {
                                 </div>
                                 <div className="modal-vue-edit__second-bloc--btn-container">
                                     <button type="button" className="btn" onClick={() => setModalVue("list")}>Retour</button>
-                                    <button type="button" className="btn" onClick={() => handleUpdateEvent(editingEventId)}>Valider</button>
+                                    <button type="button" className="btn" disabled={!actualRecapDescription?.trim() || !actualPhotoAlt?.trim()} onClick={() => handleUpdateEvent(editingEventId)}>Valider</button>
                                 </div>
                             </div>
                         </div>
@@ -424,7 +424,7 @@ export default function Event() {
                                 <input type="text" id="add-current-description" className="cares-modal-input" value={newDescription} onChange={(e) => setNewDescription(e.target.value)}/>
                             </div>
                             <div className="modal-vue-add__input-container">
-                                <label htmlFor="add-current-recap" className="cares-modal-labels">Texte récap (pour plus tard, liste)</label>
+                                <label htmlFor="add-current-recap" className="cares-modal-labels">Texte récap (pour plus tard, liste) (obligatoire)</label>
                                 <input type="text" id="add-current-recap" className="cares-modal-input" value={newRecapDescription} onChange={(e) => setNewRecapDescription(e.target.value)}/>
                             </div>
                             <div className="modal-vue-add__input-container">
@@ -432,7 +432,7 @@ export default function Event() {
                                 <PhotoInput accept="image/*" id="add-current-photo" className="cares-modal-input" onChange={setNewPhoto}/>
                             </div>
                             <div className="modal-vue-add__input-container">
-                                <label htmlFor="add-current-photo-alt" className="cares-modal-labels">Texte alternatif de la photo</label>
+                                <label htmlFor="add-current-photo-alt" className="cares-modal-labels">Texte alternatif de la photo (obligatoire)</label>
                                 <input type="text" id="add-current-photo-alt" className="cares-modal-input" value={newPhotoAlt} onChange={(e) => setNewPhotoAlt(e.target.value)}/>
                             </div>
                             <div className="modal-vue-add__color-choice">
@@ -447,7 +447,7 @@ export default function Event() {
                             </div>
                             <div className="modal-vue-add__btn-container">
                                 <button type="button" className="btn" onClick={() => setModalVue("list")}>Retour</button>
-                                <button type="button" className="btn" onClick={() => handleCreateCurrentEvent()}>Valider</button>
+                                <button type="button" className="btn" disabled={!newRecapDescription.trim() || !newPhotoAlt.trim()} onClick={() => handleCreateCurrentEvent()}>Valider</button>
                             </div>
                         </div>
                     :modalVue === "addPast" ?
@@ -457,7 +457,7 @@ export default function Event() {
                                 <input type="text" id="add-past-title" className="cares-modal-input" value={lightTitle} onChange={(e) => setLightTitle(e.target.value)}/>
                             </div>
                             <div className="modal-vue-add-light__label-container">
-                                <label htmlFor="add-past-recap" className="cares-modal-labels">Texte récap</label>
+                                <label htmlFor="add-past-recap" className="cares-modal-labels">Texte récap (obligatoire)</label>
                                 <input type="text" id="add-past-recap" className="cares-modal-input" value={lightRecapDescription} onChange={(e) => setLightRecapDescription(e.target.value)}/>
                             </div>
                             <div className="modal-vue-add-light__label-container">
@@ -465,12 +465,12 @@ export default function Event() {
                                 <PhotoInput accept="image/*" id="add-past-photo" className="cares-modal-input" onChange={setLightPhoto}/>
                             </div>
                             <div className="modal-vue-add-light__label-container">
-                                <label htmlFor="add-past-photo-alt" className="cares-modal-labels">Texte alternatif de la photo</label>
+                                <label htmlFor="add-past-photo-alt" className="cares-modal-labels">Texte alternatif de la photo (obligatoire)</label>
                                 <input type="text" id="add-past-photo-alt" className="cares-modal-input" value={lightPhotoAlt} onChange={(e) => setLightPhotoAlt(e.target.value)}/>
                             </div>
                             <div className="modal-vue-add-light__btn-container">
                                 <button type="button" className="btn" onClick={() => setModalVue("list")}>Retour</button>
-                                <button type="button" className="btn" onClick={() => handleCreatePastEvent()}>Valider</button>
+                                <button type="button" className="btn" disabled={!lightRecapDescription.trim() || !lightPhotoAlt.trim()} onClick={() => handleCreatePastEvent()}>Valider</button>
                             </div>
                         </div>
                     :modalVue === "confirmInstagram" ?

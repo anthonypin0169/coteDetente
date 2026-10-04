@@ -29,7 +29,7 @@ router.get('/', getAllEvents)
  *         multipart/form-data:
  *           schema:
  *             type: object
- *             required: [title]
+ *             required: [recapDescription, photoAlt]
  *             properties:
  *               title:
  *                 type: string

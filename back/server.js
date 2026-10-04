@@ -57,6 +57,13 @@ app.get('/', (req, res) => {
   res.send('API Côté Détente opérationnelle');
 });
 
+// Erreurs d'upload (fichier trop lourd, format refusé) renvoyées en JSON
+app.use((err, req, res, next) => {
+  if (err.code === 'LIMIT_FILE_SIZE') return res.status(413).json({ message: 'Fichier trop lourd (50 Mo max)' })
+  if (err.message?.startsWith('Format')) return res.status(400).json({ message: err.message })
+  next(err)
+})
+
 app.listen(process.env.PORT, () => {
   console.log(`Serveur démarré sur le port ${process.env.PORT}`);
 });
