@@ -8,6 +8,7 @@ import PhotoInput from "@/component/photoInput/photoInput"
 import { apiFetch } from "@/utils/api"
 import Reveal from "@/component/reveal/reveal"
 import Media from "@/component/media/media"
+import BeforeAfter from "@/component/beforeAfter/beforeAfter"
 
 export default function Cares() {
 
@@ -359,12 +360,15 @@ export default function Cares() {
                     <button type="button" onClick={() => setModalIsOpen(true)} className="btn">Modifier</button>
                 }
                 {groups.map((bloc, i) => (
-                    <Reveal slide className="cares__section--type" key={bloc._id}>
+                        <Reveal slide className="cares__section--type" key={bloc._id}>
                         <div className="presenting">
                             <h3>{bloc.name}</h3>
                             <h4>{bloc.description}</h4>
                         </div>
-                        <div className={`content-bloc ${i % 2 === 0 ? "content-bloc--reverse" : ""}`}>
+                        {bloc.role === "avant-apres" &&
+                                <BeforeAfter />
+                        }
+                        <div className={`content-bloc ${i % 2 === 0 ? "content-bloc--reverse" : ""} ${bloc.role === "avant-apres" ? "content-bloc--centered" : ""}`}>
                             <div className="prestation-list-container">
                                 {prestations.filter(p => p.group === bloc._id).map(presta => (
                                     <div className="content-bloc__prestations" key={presta._id}>
@@ -394,8 +398,11 @@ export default function Cares() {
                                         }
                                     </div>
                                 ))}
+                            
                             </div>   
-                            <Media src={bloc.photoUrl} srcSet={bloc.srcSet} sizes="(min-width: 768px) 320px, 80vw" alt={bloc.photoAlt || ""} className="content-bloc__img"/>
+                            {bloc.role !== "avant-apres" &&
+                                <Media src={bloc.photoUrl} srcSet={bloc.srcSet} sizes="(min-width: 768px) 320px, 80vw" alt={bloc.photoAlt || ""} className="content-bloc__img"/>
+                            }
                         </div>
                     </Reveal>
                 ))}
