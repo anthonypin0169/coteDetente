@@ -8,29 +8,33 @@
     box-shadow: 0 5px 15px rgba(43, 47, 42, 0.12);
     position: fixed;
     z-index: 100;
-    &__left{
-        width: auto;
+    padding: 0 5vw;
+    box-sizing: border-box;
+    &__left,
+    &__right{
         display: flex;
-        justify-content: flex-start;
         align-items: center;
-        gap: 45px;
-        margin-left: 5vw;
+    }
+    &__left{
         &--search-bar{
             background: transparent;
             border: none;
             cursor: pointer;
         }
         &--home,
-        &--services,
-        &--event{
+        &--services{
             display: none;
         }
     }
+    /*Logo sorti du flux et centré sur le header : sa position ne dépend plus
+    de la largeur des blocs gauche/droite*/
     &__center{
-        width: auto;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
         height: 100%;
         display: flex;
-        justify-content: center;
         align-items: center;
         &--logo{
             height: 70%;
@@ -39,11 +43,7 @@
         }
     }
     &__right{
-        width: auto;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        margin-right: 5vw;
+        &--event,
         &--gift-card{
             display: none;
         }
@@ -125,34 +125,35 @@ button.header__right--shopping-card{
     bascule sur la version dépliée (liens + carte cadeau visibles dans le
     header) ; la modale de recherche ne sert plus alors qu'à la recherche.*/
     .header{
-        padding: 0;
-        justify-content: space-between;
-        background: var(--color-surface-glass);
         width: 95%;
         left: 0;
         right: 0;
         margin: 0 auto;
         top: 3vh;
+        padding: 0 2vw;
+        background: var(--color-surface-glass);
         border-radius: 15px;
+        /*Chaque bloc occupe l'espace entre le bord et le logo, les liens
+        s'y répartissent seuls : pas de gap fixe qui déborde sur le logo*/
+        &__left,
+        &__right{
+            width: calc(50% - 90px);
+            justify-content: space-evenly;
+            white-space: nowrap;
+        }
         &__left{
-            gap: 6%;
-            justify-content: center;
             &--home,
-            &--services,
-            &--event{
+            &--services{
                 display: inline-block;
             }
         }
         &__center{
-            position: relative;
-            left: 20px;
             &--logo{
                 height: 90%;
             }
         }
         &__right{
-            gap: 3%;
-            white-space: nowrap;
+            &--event,
             &--gift-card{
                 display: inline-block;
             }
@@ -160,6 +161,10 @@ button.header__right--shopping-card{
                 margin-bottom: 7px;
             }
         }
+    }
+    /*Police des liens réduite dans le header seulement : 4 éléments + logo centré*/
+    .header .links{
+        font-size: 15px;
     }
     .modal__search-links{
         display: none;
@@ -173,14 +178,8 @@ button.header__right--shopping-card{
     }
 }
 @media (min-width: 1024px){
-    .header{
-        &__left{
-            gap: 10%;
-        }
-        &__right{
-            white-space: nowrap;
-            gap: 10%;
-        }
+    .header .links{
+        font-size: 18px;
     }
     button.header__left--search-bar,
     button.header__right--shopping-card{
@@ -188,13 +187,8 @@ button.header__right--shopping-card{
     }
 }
 @media (min-width: 1440px){
-    .header{
-        &__left{
-            gap: 20%;
-        }
-        &right{
-            gap: 20%;
-        }
+    .header .links{
+        font-size: 22px;
     }
     button.header__left--search-bar,
     button.header__right--shopping-card{

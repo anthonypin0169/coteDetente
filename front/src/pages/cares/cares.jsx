@@ -361,7 +361,7 @@ export default function Cares() {
                 }
                 {groups.map((bloc, i) => (
                         <Reveal slide className="cares__section--type" key={bloc._id}>
-                        <div className="presenting">
+                        <div className="presenting" id={bloc._id}>
                             <h3>{bloc.name}</h3>
                             <h4>{bloc.description}</h4>
                         </div>

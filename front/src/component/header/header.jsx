@@ -160,7 +160,7 @@ export default function Header() {
                 <button type="button" aria-label="Menu" className="header__left--search-bar fa-solid fa-bars links" onClick={() => setIsSearchOpen(true)}></button>
                 <NavLink text="Accueil" to="/" className="header__left--home links"/>
                 <NavLink text="Prestations" to="/prestations" className="header__left--services links"/>
-                
+                <NavLink text="Ménopause" to="/prestations" className="header__left--services links"/>
             </div>
 
             <div className="header__center">
@@ -168,7 +168,7 @@ export default function Header() {
             </div>
 
             <div className="header__right">
-                <NavLink text="Évènements" to="/evenements" className="header__left--event links"/>
+                <NavLink text="Évènements" to="/evenements" className="header__right--event links"/>
                 <NavLink text="Carte cadeau" to="/carte-cadeau" className="header__right--gift-card links"/>
                 <button type="button" aria-label="Voir le panier" className="header__right--shopping-card fa-solid fa-basket-shopping links" onClick={handleOpenBasket}></button>
             </div>

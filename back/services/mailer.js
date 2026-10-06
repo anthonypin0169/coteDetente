@@ -24,6 +24,25 @@ const sendContactEmail = async ({ fullName, email, message }) => {
   })
 }
 
+const sendMenopauseEmail = async ({ fullName, email, phone, message }) => {
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+    throw new Error('Configuration email manquante (EMAIL_USER / EMAIL_PASSWORD)')
+  }
+
+  await transporter.sendMail({
+    from: process.env.EMAIL_USER,
+    to: process.env.CONTACT_RECEIVER_EMAIL,
+    replyTo: email,
+    subject: `Demande de RDV ménopause - ${fullName}`,
+    text: `Nom : ${fullName}
+Email : ${email}
+Téléphone : ${phone}
+
+Message :
+${message || '-'}`
+  })
+}
+
 const sendGiftCardEmails = async ({ senderName, senderEmail, senderPhone, recipientName, amount, message, templatePath }) => {
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
     throw new Error('Configuration email manquante (EMAIL_USER / EMAIL_PASSWORD)')
@@ -46,4 +65,4 @@ const sendGiftCardEmails = async ({ senderName, senderEmail, senderPhone, recipi
   })
 }
 
-module.exports = { sendContactEmail, sendGiftCardEmails }
+module.exports = { sendContactEmail, sendMenopauseEmail, sendGiftCardEmails }
