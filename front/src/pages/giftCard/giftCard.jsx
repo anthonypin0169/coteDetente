@@ -176,7 +176,7 @@ export default function GiftCard() {
                             <label htmlFor="client-infos-message">Entrez un message</label>
                             <textarea name="" id="client-infos-message" value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
                         </div>
-                        <button className="gift-second-section__form--btn btn" type="button" onClick={() => handleGoToPayment()}>Payer</button>
+                        <button className="gift-second-section__form--btn btn" type="button" disabled={!senderName.trim() || !senderMail.trim() || !senderPhone.trim() || !recipientName.trim()} onClick={() => handleGoToPayment()}>Payer</button>
                     </div>
                 </section>
             </div>

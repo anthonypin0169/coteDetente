@@ -13,6 +13,7 @@ const Cares = lazy(() => import("./pages/cares/cares"))
 const Epilation = lazy(() => import("./pages/epilation/epilation"))
 const HandsAndFoots = lazy(() => import("./pages/handsAndFoots/handsAndFoots"))
 const Makeup = lazy(() => import("./pages/makeup/makeup"))
+const Menopause = lazy(() => import ("./pages/menopause/menopause"))
 const Event = lazy(() => import("./pages/event/event"))
 const GiftCard = lazy(() => import("./pages/giftCard/giftCard"))
 const Contact = lazy(() => import("./pages/contact/contact"))
@@ -36,6 +37,7 @@ return (
         <Route path="/epilation" element={<Epilation />} />
         <Route path="/mains-et-pieds" element={<HandsAndFoots />} />
         <Route path="/maquillage" element={<Makeup />} />
+        <Route path="/menopause" element={<Menopause />} />
 
         <Route path="/evenements" element={<Event />} />
         <Route path="/carte-cadeau" element={<GiftCard />} />

@@ -98,6 +98,7 @@ export default function Header() {
                 <nav className="modal__search-links">
                     <NavLink text="Accueil" to="/" className="modal__search-links--modal-L links" onClick={() => setIsSearchOpen(false)}/>
                     <NavLink text="Prestations" to="/prestations" className="modal__search-links--modal-L links" onClick={() => setIsSearchOpen(false)}/>
+                    <NavLink text="Ménopause" to="/menopause" className="modal__search-links--modal-L links" onClick={() => setIsSearchOpen(false)}/>
                     <NavLink text="Évènements" to="/evenements" className="modal__search-links--modal-L links" onClick={() => setIsSearchOpen(false)}/>
                     <NavLink text="Carte cadeau" to="/carte-cadeau" className="modal__search-links--modal-L links" onClick={() => setIsSearchOpen(false)}/>
                 </nav>
@@ -160,7 +161,7 @@ export default function Header() {
                 <button type="button" aria-label="Menu" className="header__left--search-bar fa-solid fa-bars links" onClick={() => setIsSearchOpen(true)}></button>
                 <NavLink text="Accueil" to="/" className="header__left--home links"/>
                 <NavLink text="Prestations" to="/prestations" className="header__left--services links"/>
-                <NavLink text="Ménopause" to="/prestations" className="header__left--services links"/>
+                <NavLink text="Ménopause" to="/menopause" className="header__left--services links"/>
             </div>
 
             <div className="header__center">

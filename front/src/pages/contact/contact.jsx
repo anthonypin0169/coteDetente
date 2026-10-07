@@ -120,7 +120,7 @@ export default function Contact() {
                             <label htmlFor="contact-message">Votre message</label>
                             <textarea name="" id="contact-message" value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
                         </div>
-                        <button type="button" onClick={() => handleSendMessage()} className="btn content-section__form--btn">Envoyer</button>
+                        <button type="button" disabled={!fullName.trim() || !email.trim()} onClick={() => handleSendMessage()} className="btn content-section__form--btn">Envoyer</button>
                     </form>
                 }
                 

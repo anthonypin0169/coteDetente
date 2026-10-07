@@ -214,7 +214,7 @@
     }
     .gift-first-section{
         width: 55%;
-        height: 42vw;
+        height: 48vw;
         padding: 0;
         margin-top: 0;
         border-radius: 12px 0 0 12px;
@@ -227,11 +227,13 @@
             &--first-bloc{
                 width: 60%;
                 height: 95%;
+                justify-content: space-between;
                 .gift-photo-container{
                     width: 90%;
-                    height: 65%;
+                    height: 55%;
                     aspect-ratio: auto;
                     margin-top: 0;
+                    margin-bottom: 60px;
                 }
                 .gift-photo-overlay{
                     gap: 0.5vw;
@@ -265,7 +267,7 @@
         margin-top: 0;
         transition: width 0.4s ease 0.1s, opacity 1s ease 0.1s;
         &.second-section--visible{
-            height: 42vw;
+            height: 48vw;
             width: 40%;
             max-height: none;
             margin-top: 0;
@@ -293,13 +295,13 @@
         width: 45%;
     }
     .gift-first-section{
-        width: 50%;
-        height: 34vw;    
+        width: 55%;
+        height: 40vw;    
     }
     .gift-second-section{
         &.second-section--visible{
-            width: 35%;
-            height: 34vw;
+            width: 40%;
+            height: 40vw;
         }
     }
 }
