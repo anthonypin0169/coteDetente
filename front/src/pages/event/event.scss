@@ -2,13 +2,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 8vw;
+    padding-top: 90px;
 }
 .first-section{
     width: 90%;
     aspect-ratio: 16 / 9;
     position: relative;
-    margin-top: 15vw;
+    margin-top: 8vw;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 2px 2px 5px;
@@ -265,6 +265,9 @@
     }
 }
 @media (min-width : 768px){
+    .main-event{
+        padding-top: 50px;
+    }
     .modal-vue-add-light{
         &__label-container{
             width: 60%;
@@ -279,13 +282,5 @@
     }
     .second-section__event-list-container .item{
         flex: 0 0 22.75%;
-    }
-}
-@media (min-width : 1024px){
-
-}
-@media (min-width : 1440px){
-    .first-section{
-        margin-top: 0;
     }
 }

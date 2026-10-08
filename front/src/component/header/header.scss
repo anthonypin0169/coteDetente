@@ -1,6 +1,6 @@
 .header{
     width: 100%;
-    height: 10vh;
+    height: 70px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -129,7 +129,7 @@ button.header__right--shopping-card{
         left: 0;
         right: 0;
         margin: 0 auto;
-        top: 3vh;
+        top: 17px;
         padding: 0 2vw;
         background: var(--color-surface-glass);
         border-radius: 15px;

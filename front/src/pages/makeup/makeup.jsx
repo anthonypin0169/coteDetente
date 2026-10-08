@@ -7,6 +7,55 @@ import Modal from "@/component/modal/modal"
 import SeoHead from "@/component/seoHead/seoHead"
 import Media from "@/component/media/media"
 
+/* Carte d'une prestation, partagée par la liste maquillage et la liste soins du regard */
+function PrestaCard({ p }) {
+    return (
+        <div className="makup-list-section__item" onMouseEnter={(e) => e.currentTarget.querySelector("video")?.play()} onMouseLeave={(e) => e.currentTarget.querySelector("video")?.pause()} onClick={(e) => {const video = e.currentTarget.querySelector("video"); if (video) video.paused ? video.play() : video.pause()}}>
+            <div className="makup-list-section__item--presta-bloc">
+                <div className="item-preview">
+                    <div className="item-preview__name">
+                        {p.name}
+                    </div>
+                    <div className="item-preview__infos">
+                        <div className="item-preview__infos--price">
+                            {p.price}
+                        </div>
+                        <div className="item-preview__infos--duration">
+                            {p.duration}  
+                        </div>
+                    </div>
+                </div>
+                {(p.description || (p.extraInfos && p.extraInfos.length > 0)) &&
+                    <div className="item-details">
+                        {p.description &&
+                            <p className="item-details__description">{p.description}</p>
+                        }
+                        {p.extraInfos && p.extraInfos.length > 0 &&
+                            <div className="item-details__extra-infos">
+                                {p.extraInfos.map((info, i) => (
+                                    <div className="item-details__extra-infos--item" key={i}>
+                                        {info.name && <p className="item-details__extra-infos--item--name">{info.name}</p>}
+                                        <div className="item-details__extra-infos--item--infos">
+                                            {info.duration && <p>{info.duration} :</p>}
+                                            <p>{info.price}</p>
+                                        </div>
+                                        {info.description && <p className="item-details__extra-infos--item--description">{info.description}</p>}
+                                    </div>
+                                ))}
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+            {p.videoUrl &&
+                <div className="makup-list-section__item--video-container">
+                    <Media src={p.videoUrl} className="makup-presta-video" alt={p.name} videoProps={{ autoPlay: false, loop: false, preload: "metadata" }}/>
+                </div>
+            }
+        </div>
+    )
+}
+
 export default function Makeup() {
 
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
@@ -62,7 +111,8 @@ export default function Makeup() {
 
     /* Récuperer les groupes */
     const [groups, setGroups] = useState([])
-    const actualGroupId = groups._id
+    const makeupGroup = groups.find((g) => g.role === "maquillage")
+    const regardGroup = groups.find((g) => g.role === "regard")
 
     useEffect(() => {
         if (!actualSousTypeId) return
@@ -74,7 +124,7 @@ export default function Makeup() {
                 if (!data){
                     throw new Error("Erreur lors de la résuperation des groupes")
                 }
-                setGroups(data[0])
+                setGroups(data)
             }catch(error){
                 (error.message)
             }
@@ -87,25 +137,28 @@ export default function Makeup() {
     const [presta, setPresta] = useState([])
 
     useEffect(() => {
-        if (!actualGroupId) return
+        if (groups.length === 0) return
 
         const loadPrestations = async () => {
             try{
-                const { data } = await apiFetch(`/api/prestations/group/${actualGroupId}`)
+                const results = await Promise.all(groups.map((g) => apiFetch(`/api/prestations/group/${g._id}`)))
 
-                if (!data){
+                if (results.some((r) => !r.data)){
                     throw new Error("Erreur lors de la récuperation des prestations")
                 }
 
-                setPresta(data)
+                setPresta(results.flatMap((r) => r.data))
 
             }catch(error){
                 (error.message)
             }
         }
         loadPrestations()
-    },[actualGroupId])
+    },[groups])
 
+
+    const makeupPresta = presta.filter((p) => p.group === makeupGroup?._id)
+    const regardPresta = presta.filter((p) => p.group === regardGroup?._id)
 
     /* Boite modale */
     const [modalIsOpen, setModalIsOpen] = useState(false)
@@ -115,6 +168,7 @@ export default function Makeup() {
     const [newPricePresta, setNewPricePresta] = useState("")
     const [newPrestaDuration, setNewPrestaDuration] = useState("")
     const [isAddingPresta, setIsAddingPresta] = useState(false)
+    const [newPrestaGroupId, setNewPrestaGroupId] = useState("")
 
     const handleCreatePresta = async () => {
         const formData = new FormData()
@@ -122,7 +176,7 @@ export default function Makeup() {
         formData.append("price", newPricePresta)
         formData.append("duration", newPrestaDuration)
         formData.append("description", actualPrestaDescription)
-        formData.append("group", actualGroupId)
+        formData.append("group", newPrestaGroupId || makeupGroup?._id)
         if (actualPrestaVideo) formData.append("video", actualPrestaVideo)
 
         try{
@@ -224,6 +278,12 @@ export default function Makeup() {
                     {isAddingPresta ? 
                         <div className="prestation-vue__new-add">
                             <div className="prestation-vue__new-add--input-bloc">
+                                <label className="cares-modal-labels" htmlFor="presta-group-adding">Catégorie</label>
+                                <select className="cares-modal-inputs" id="presta-group-adding" value={newPrestaGroupId || makeupGroup?._id || ""} onChange={(e) => setNewPrestaGroupId(e.target.value)}>
+                                    {groups.map((g) => <option key={g._id} value={g._id}>{g.name}</option>)}
+                                </select>
+                            </div>
+                            <div className="prestation-vue__new-add--input-bloc">
                                 <label className="cares-modal-labels" htmlFor="presta-name-adding">Entrer un nom</label>
                                 <input className="cares-modal-inputs" type="text" id="presta-name-adding" placeholder="Nom" value={newNamePresta} onChange={(e) => setNewNamePresta(e.target.value)}/>
                             </div>
@@ -250,7 +310,10 @@ export default function Makeup() {
                         </div>
                     : 
                         <div className="prestation-vue__edit-and-add">
-                        {presta.map((presta) => (
+                        {groups.map((g) => (
+                            <div key={g._id}>
+                            <h3 className="makup-modal-group-title">{g.name}</h3>
+                        {presta.filter((p) => p.group === g._id).map((presta) => (
                             <div className="edit-and-add-container" key={presta._id}>
                                 {editingPrestaId === presta._id ?
                                 <div className="edit-and-add-container__edit-presta">
@@ -294,6 +357,8 @@ export default function Makeup() {
                                 }
                             </div>
                         ))}
+                            </div>
+                        ))}
                             <div className="prestation-vue__edit-and-add--btn-container">   
                                 <button className="btn" type="button" onClick={() => {setModalIsOpen(false); setActualPrestaDescription(""); setActualPrestaVideo(null)}}>Retour</button>
                                 <button className="btn" type="button" onClick={() => {setIsAddingPresta(true); setActualPrestaDescription(""); setActualPrestaVideo(null)}}>Ajouter une prestation</button>
@@ -304,49 +369,12 @@ export default function Makeup() {
             </Modal>
 
             <section className="makup-list-section">
-                {presta.map((p)=>(
-                    <div key={p._id} className="makup-list-section__item" onMouseEnter={(e) => e.currentTarget.querySelector("video")?.play()} onMouseLeave={(e) => e.currentTarget.querySelector("video")?.pause()} onClick={(e) => {const video = e.currentTarget.querySelector("video"); if (video) video.paused ? video.play() : video.pause()}}>
-                        <div className="makup-list-section__item--presta-bloc">
-                            <div className="item-preview">
-                                <div className="item-preview__name">
-                                    {p.name}
-                                </div>
-                                <div className="item-preview__infos">
-                                    <div className="item-preview__infos--price">
-                                        {p.price}
-                                    </div>
-                                    <div className="item-preview__infos--duration">
-                                        {p.duration}  
-                                    </div>
-                                </div>
-                            </div>
-                            {(p.description || (p.extraInfos && p.extraInfos.length > 0)) &&
-                                <div className="item-details">
-                                    {p.description &&
-                                        <p className="item-details__description">{p.description}</p>
-                                    }
-                                    {p.extraInfos && p.extraInfos.length > 0 &&
-                                        <div className="item-details__extra-infos">
-                                            {p.extraInfos.map((info, i) => (
-                                                <div className="item-details__extra-infos--item" key={i}>
-                                                    {info.name && <p className="item-details__extra-infos--item--name">{info.name}</p>}
-                                                    <div className="item-details__extra-infos--item--infos">
-                                                        {info.duration && <p>{info.duration} :</p>}
-                                                        <p>{info.price}</p>
-                                                    </div>
-                                                    {info.description && <p className="item-details__extra-infos--item--description">{info.description}</p>}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    }
-                                </div>
-                            }
-                        </div>
-                        <div className="makup-list-section__item--video-container">
-                            <Media src={p.videoUrl} className="makup-presta-video" alt={p.name} videoProps={{ autoPlay: false, loop: false, preload: "metadata" }}/>
-                        </div>
-                    </div>
-                ))}
+                {makeupPresta.map((p) => <PrestaCard key={p._id} p={p}/>)}
+            </section>
+
+            <h2 className="makup-section-title">Soins du regard</h2>
+            <section className="makup-list-section makup-list-section--regard">
+                {regardPresta.map((p) => <PrestaCard key={p._id} p={p}/>)}
             </section>
         </main>
     )

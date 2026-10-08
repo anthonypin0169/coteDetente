@@ -379,14 +379,14 @@ export default function Cares() {
                                                 <p>{presta.price}</p>
                                             </div>
                                         </div>
-                                        {(presta.description || (presta.extraInfos && presta.extraInfos.length > 0)) &&
+                                        {(presta.description || presta.extraInfos?.some(info => info.price || info.duration)) &&
                                             <div className="content-bloc__prestations--details">
                                                 {presta.description &&
                                                     <p className="content-bloc__prestations--details--description">{presta.description}</p>
                                                 }
-                                                {presta.extraInfos && presta.extraInfos.length > 0 &&
+                                                {presta.extraInfos?.some(info => info.price || info.duration) &&
                                                     <div className="content-bloc__prestations--details--extra-infos">
-                                                        {presta.extraInfos.map((info, i) => (
+                                                        {presta.extraInfos.filter(info => info.price || info.duration).map((info, i) => (
                                                             <div className="content-bloc__prestations--details--extra-infos--item" key={i}>
                                                                 {info.duration && <p>{info.duration} :</p>}
                                                                 <p>{info.price}</p>

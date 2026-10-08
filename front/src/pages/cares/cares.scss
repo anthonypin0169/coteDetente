@@ -57,12 +57,16 @@
             & p{
                 margin: 1vw 0;
             }
+            /*Même largeur et même répartition que les lignes du survol (durée à
+            gauche, prix à droite) ; un prix seul reste centré*/
             &--infos{
                 width: 70%;
                 display: flex;
-                justify-content: center;
-                gap: 30%;
-                flex-wrap: wrap;
+                justify-content: space-between;
+                gap: 8px;
+                & p:only-child{
+                    margin: 1vw auto;
+                }
             }
         }
         &--details{
@@ -70,7 +74,9 @@
             flex-direction: column;
             justify-content: space-between;
             gap: 2vw;
-            padding: 0 1vw;
+            /*Pas de padding horizontal : le bloc garde la même largeur que la ligne
+            du dessus, donc la colonne des prix au survol tombe sous le prix principal*/
+            padding: 0;
             max-height: 0;
             overflow: hidden;
             transition: max-height ease-in-out 0.4s;
@@ -78,6 +84,7 @@
                 order: 1;
                 text-align: left;
                 margin: 0;
+                padding: 0 1vw;
             }
             &--extra-infos{
                 width: 70%;
@@ -99,7 +106,7 @@
         }
         &:hover &--details{
             max-height: 180px;
-            padding: 0 1vw 1vw 1vw;
+            padding: 0 0 1vw 0;
         }
     }
     &__img{
@@ -367,7 +374,7 @@
 
 @media (min-width: 768px){
     .cares{
-        padding-top: 110px;
+        padding-top: 130px;
     }
     .prestation-vue__new-add--input-bloc{
         width: 60%;
@@ -413,30 +420,45 @@
                 justify-content: space-between;
                 white-space: nowrap;
                 width: 100%;
+                /*Durée et prix sur une seule ligne (à 25 % ils passaient l'un sous l'autre)*/
+                /*Prix toujours collé à droite, même sans durée : la durée (si elle
+                existe) est poussée à gauche par sa marge auto*/
                 &--infos{
-                    width: 25%;
+                    width: 40%;
                     display: flex;
-                    flex-wrap: wrap;
-                    gap: 0;
-                    justify-content: space-between;
+                    flex-wrap: nowrap;
+                    gap: 8px;
+                    justify-content: flex-end;
+                    p:first-child:not(:last-child){
+                        margin-right: auto;
+                    }
                 }
             }
             &--details{
                 flex-direction: row;
                 align-items: flex-start;
+                /*La description prend la place restante : la colonne des prix garde
+                sa largeur (identique à celle du dessus) au lieu d'être rétrécie*/
                 &--description{
-                    width: 65%;
+                    flex: 1;
                     order: 0;
                 }
                 &--extra-infos{
-                    width: 25%;
+                    width: 40%;
+                    margin-left: auto;
+                    flex-shrink: 0;
                     order: 1;
                     align-self: start;
                     white-space: unset;
                     &--item{
-                        flex-wrap: wrap;
+                        flex-wrap: nowrap;
+                        gap: 8px;
+                        justify-content: flex-end;
                         p{
                             margin: 0;
+                        }
+                        p:first-child:not(:last-child){
+                            margin-right: auto;
                         }
                     }
                 }
@@ -457,9 +479,6 @@
     }
 }
 @media (min-width: 1024px){
-    .cares{
-        padding-top: 8vw;
-    }
     .content-bloc{
 
         &--reverse{

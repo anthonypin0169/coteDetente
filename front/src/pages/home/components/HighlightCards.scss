@@ -278,3 +278,24 @@ a.home__services--link{
         }
     }
 }
+
+/*Recto des cartes : h3 plus petit et marge sous le h2 réduite pour que le texte
+tienne sans toucher à la taille des photos (le texte n'apparaît qu'à partir de 892px)*/
+@media (min-width: 892px){
+    .home__services--card-group .card__front--title{
+        margin-bottom: 0.5em;
+    }
+    .home__services--card-group .card__front--text{
+        font-size: 18px;
+    }
+}
+@media (min-width: 1024px){
+    .home__services--card-group .card__front--text{
+        font-size: 20px;
+    }
+}
+@media (min-width: 1440px){
+    .home__services--card-group .card__front--text{
+        font-size: 22px;
+    }
+}

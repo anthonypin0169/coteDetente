@@ -197,7 +197,7 @@
 }
 @media(min-width: 768px){
     .epilation-main{
-        padding-top: 100px;
+        padding-top: 130px;
     }
     #photo-input{
         margin-right: 2.7vw;
@@ -269,6 +269,9 @@
                     height: 100%;
                     object-fit: contain;
                     margin: 0;
+                    /*Pas d'agrandissement : le bloc a overflow hidden, l'image était rognée*/
+                    transform: none;
+                    display: block;
                 }
             }
         }
@@ -307,9 +310,6 @@
     }
 }
 @media(min-width: 1024px){
-    .epilation-main{
-        padding-top: 8vw;
-    }
     #photo-input{
         margin-right: 1.2vw;
     }
