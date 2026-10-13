@@ -48,20 +48,19 @@
     &__event-list-container{
         width: 80%;
         display: flex;
+        flex-direction: column;
         justify-content: center;
-        gap: 3%;
-        flex-wrap: wrap;
+        gap: 15px;
         padding: 6vw 5vw 2vw 5vw;
         margin-bottom: 8vw;
         box-shadow: 2px 2px 5px;
         border-radius: 15px;
         background: var(--color-surface);
         .item{
-            flex: 0 0 48.5%;
             margin-bottom: 3vw;
             &__bloc{
                 width: 85%;
-                aspect-ratio: 1 / 1;
+                aspect-ratio: 16 / 9;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -75,7 +74,7 @@
                     height: 100%;
                     object-fit: cover;
                     filter: brightness(1);
-                    transition: brightness 0.3s ease-in-out;
+                    transition: filter 0.3s ease-in-out;
                 }
                 &--description{
                     position: absolute;
@@ -89,6 +88,11 @@
             }
             &__title{
                 justify-self: center;
+            }
+            &__text{
+                &--description{
+                    display: none;
+                }
             }
         }
         .item__bloc:hover .item__bloc--photo {
@@ -280,7 +284,45 @@
         width: 70%;
         margin-top: 5vw;
     }
-    .second-section__event-list-container .item{
-        flex: 0 0 22.75%;
+    /*Une ligne par évènement : photo 16:9 à gauche, titre + récap à droite.
+    Le glissement vient de la gauche, côté photo*/
+    .second-section__event-list-container{
+        max-width: 1000px;
+        gap: 40px;
+        padding: 4vw;
+        .item{
+            --reveal-offset: -4vw;
+            display: flex;
+            align-items: center;
+            gap: 4%;
+            margin-bottom: 0;
+            &__bloc{
+                width: 50%;
+                flex-shrink: 0;
+                margin: 0;
+                &--description{
+                    display: none;
+                }
+            }
+            &__text{
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                &--description{
+                    display: block;
+                    margin: 0;
+                }
+            }
+            &__title{
+                font-family: "Fraunces", Georgia, serif;
+                font-size: 22px;
+                font-weight: 600;
+            }
+        }
+        /*Le récap n'est plus sur la photo : pas d'assombrissement au survol*/
+        .item__bloc:hover .item__bloc--photo{
+            filter: brightness(1);
+        }
     }
 }

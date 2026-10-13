@@ -274,10 +274,15 @@ export default function Event() {
                     {pastEvents.map((event) => (
                         <Reveal key={event._id} className="item">
                             <div className="item__bloc">
-                                <img className="item__bloc--photo" src={event.photoUrl} srcSet={event.srcSet} sizes="(min-width: 768px) 19vw, 41vw" alt={event.photoAlt || ""} />
+                                <img className="item__bloc--photo" src={event.photoUrl} srcSet={event.srcSet} sizes="(min-width: 768px) 40vw, 70vw" alt={event.photoAlt || ""} />
+                                {/* Récap sur la photo au survol (mobile) */}
                                 <div className="item__bloc--description">{event.recapDescription}</div>
                             </div>
-                            <div className="item__title">{event.title}</div>
+                            <div className="item__text">
+                                <div className="item__title">{event.title}</div>
+                                {/* Récap à droite de la photo (desktop) */}
+                                <p className="item__text--description">{event.recapDescription}</p>
+                            </div>
                         </Reveal>
                     ))}
                 </div>
