@@ -84,7 +84,7 @@ export default function HighlightCards() {
                         </div>
                         <div className="card__back">
                             <h2 className="card__back--title">{highlightCard.backTitle}</h2>
-                            <h3 className="card__back--text">{highlightCard.backText}</h3>
+                            <h4 className="card__back--text">{highlightCard.backText}</h4>
                             <Link to={highlightCard.redirectTo || ""} className="btn card__back--btn">Découvrir</Link>
                         </div>
                     </div>

@@ -159,8 +159,28 @@
             }
             &__title{
                 position: absolute;
-                bottom: 10%;
-                left: 40%;
+                bottom: 52px;
+                left: 0;
+                right: 0;
+                margin: 0 auto;
+                width: fit-content;
+                max-width: 90%;
+                text-align: center;
+                /*Étiquette claire : titre lisible quelle que soit la photo*/
+                background: var(--color-surface-glass);
+                padding: 2px 8px;
+                border-radius: 4px;
+            }
+            /*Bouton "Modifier" centré en bas de l'aperçu*/
+            &__edit-btn.btn{
+                position: absolute;
+                bottom: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: auto;
+                height: 32px;
+                padding: 0 16px;
+                margin: 0;
             }
             &--btn{
                 width: 25px;

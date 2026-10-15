@@ -213,6 +213,43 @@ export default function Event() {
     }
 
 
+    /* Modifier un évènement passé (titre + récap) */
+    const [editingPastId, setEditingPastId] = useState(null)
+    const [pastTitle, setPastTitle] = useState("")
+    const [pastRecap, setPastRecap] = useState("")
+    const [pastPhotoAlt, setPastPhotoAlt] = useState("")
+    const editingPastEvent = events.find((e) => e._id === editingPastId)
+
+    const openPastEdit = (event) => {
+        setEditingPastId(event._id)
+        setPastTitle(event.title || "")
+        setPastRecap(event.recapDescription || "")
+        setPastPhotoAlt(event.photoAlt || "")
+        setModalVue("editPast")
+    }
+
+    const handleUpdatePastEvent = async () => {
+        const formData = new FormData()
+        formData.append("title", pastTitle)
+        formData.append("recapDescription", pastRecap)
+        formData.append("photoAlt", pastPhotoAlt)
+
+        try{
+            const { ok, data : updatedEvent } = await apiFetch(`/api/events/${editingPastId}`,{
+                method : "PUT",
+                body : formData,
+                token
+            })
+            if(ok){
+                setEvents(prev => prev.map(e => e._id === updatedEvent._id ? updatedEvent : e))
+                setEditingPastId(null)
+                setModalVue("list")
+            }
+        }catch(error){
+            (error.message)
+        }
+    }
+
     /* Supprimer un évènement */
 
     const handleDeleteEvent = async (id) => {
@@ -326,6 +363,7 @@ export default function Event() {
                                         <img className="preview-event__photo" src={event.photoUrl} alt={event.photoAlt || ""} />
                                         <button type="button" className="preview-event__btn" onClick={() => handleDeleteEvent(event._id)}>X</button>
                                         <div className="preview-event__title">{event.title}</div>
+                                        <button type="button" className="preview-event__edit-btn btn" onClick={() => openPastEdit(event)}>Modifier</button>
                                 </div>
                             ))}
                         </div>
@@ -476,6 +514,28 @@ export default function Event() {
                             <div className="modal-vue-add-light__btn-container">
                                 <button type="button" className="btn" onClick={() => setModalVue("list")}>Retour</button>
                                 <button type="button" className="btn" disabled={!lightRecapDescription.trim() || !lightPhotoAlt.trim()} onClick={() => handleCreatePastEvent()}>Valider</button>
+                            </div>
+                        </div>
+                    :modalVue === "editPast" ?
+                        <div className="modal-vue-add-light">
+                            <div className="modal-vue-add-light__label-container">
+                                <label htmlFor="edit-past-title" className="cares-modal-labels">Modifier le titre</label>
+                                <input type="text" id="edit-past-title" className="cares-modal-input" value={pastTitle} onChange={(e) => setPastTitle(e.target.value)}/>
+                            </div>
+                            <div className="modal-vue-add-light__label-container">
+                                <label htmlFor="edit-past-recap" className="cares-modal-labels">Modifier le texte récap (obligatoire)</label>
+                                <input type="text" id="edit-past-recap" className="cares-modal-input" value={pastRecap} onChange={(e) => setPastRecap(e.target.value)}/>
+                            </div>
+                            {/* Seulement pour un ancien évènement sans texte alternatif (obligatoire pour enregistrer) */}
+                            {!editingPastEvent?.photoAlt &&
+                                <div className="modal-vue-add-light__label-container">
+                                    <label htmlFor="edit-past-photo-alt" className="cares-modal-labels">Texte alternatif de la photo (obligatoire)</label>
+                                    <input type="text" id="edit-past-photo-alt" className="cares-modal-input" value={pastPhotoAlt} onChange={(e) => setPastPhotoAlt(e.target.value)}/>
+                                </div>
+                            }
+                            <div className="modal-vue-add-light__btn-container">
+                                <button type="button" className="btn" onClick={() => {setEditingPastId(null); setModalVue("list")}}>Retour</button>
+                                <button type="button" className="btn" disabled={!pastRecap.trim() || !pastPhotoAlt.trim()} onClick={() => handleUpdatePastEvent()}>Valider</button>
                             </div>
                         </div>
                     :modalVue === "confirmInstagram" ?
