@@ -13,51 +13,32 @@
         text-align: center;
         align-self: center;
     }
+    /*Flèches placées d'après la largeur des cartes (fixe en px) et non en %
+    du carrousel : elles restent collées aux cartes à toutes les largeurs.
+    Sous 1024px : une carte de 320px, flèche (18px) juste à côté (tient dès 360px)*/
     &--carrousel{
         height: 300px;
         margin: 16px auto;
         overflow: visible;
-        .carrousel__btn--prev{
-            top: 115%;
-            left: -30px;
+        .carrousel__btn--prev,
+        .carrousel__btn--next{
+            top: 50%;
+            width: 18px;
+            padding: 0;
             transform: translateY(-50%);
         }
+        .carrousel__btn--prev{
+            left: calc(50% - 160px - 20px);
+        }
         .carrousel__btn--next{
-            top: 115%;
-            right: -30px;
-            transform: translateY(-50%);
+            right: calc(50% - 160px - 20px);
         }
     }
 }
 @media (min-width: 768px){
     .home__customers-review{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 24px;
-        position: relative;
-        z-index: 89;
-        box-shadow: 0 -5px 10px -5px;
-        padding: 40px 20px 80px 20px;
-        &--reviews{
-            order: 1;
-            text-align: center;
-            align-self: center;
-        }
         &--carrousel{
             height: 340px;
-            margin: 16px auto;
-            overflow: visible;
-            .carrousel__btn--prev{
-                top: 115%;
-                left: -30px;
-                transform: translateY(-50%);
-            }
-            .carrousel__btn--next{
-                top: 115%;
-                right: -30px;
-                transform: translateY(-50%);
-            }
         }
     }
 }
@@ -75,15 +56,29 @@
             max-width: none;
             height: 360px;
             margin: 50px 0;
+            /*Flèche (50px) centrée sur le bord extérieur des cartes latérales (cartes de 380px :
+            la gauche finit à 483px du centre, la droite à 513px, le coverflow n'est pas symétrique)*/
+            .carrousel__btn--prev,
+            .carrousel__btn--next{
+                width: 50px;
+            }
             .carrousel__btn--prev{
-                left: -95%;
-                top: 50%;
+                left: calc(50% - 483px - 25px);
             }
             .carrousel__btn--next{
-                right: -103%;
-                top: 50%;
+                right: calc(50% - 513px - 25px);
             }
         }
+    }
+}
+/*Entre 1024 et 1079px, les cartes touchent presque le bord de l'écran :
+flèches posées juste à l'intérieur des cartes pour ne pas sortir de l'écran*/
+@media (min-width: 1024px) and (max-width: 1079px){
+    .home__customers-review--carrousel .carrousel__btn--prev{
+        left: calc(50% - 483px);
+    }
+    .home__customers-review--carrousel .carrousel__btn--next{
+        right: calc(50% - 513px);
     }
 }
 @media (min-width: 1440px){
@@ -94,10 +89,10 @@
             height: 350px;
         }
     }
-    .home__customers-review--carrousel .carrousel__btn--next{
-        right: -120%;  
-    }
     .home__customers-review--carrousel .carrousel__btn--prev{
-            left: -110%;
+        left: calc(50% - 533px - 25px);
+    }
+    .home__customers-review--carrousel .carrousel__btn--next{
+        right: calc(50% - 567px - 25px);
     }
 }
