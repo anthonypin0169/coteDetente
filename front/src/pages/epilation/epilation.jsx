@@ -294,6 +294,7 @@ export default function Epilation() {
     const prestaGroup = groups.find(g => g.role === "presta")
     const forfaitGroup = groups.find(g => g.role === "forfait")
     const bronzageGroup = groups.find(g => g.role === "bronzage")
+    const electrolyseGroup = groups.find(g => g.role === "electrolyse")
 
 
 
@@ -338,11 +339,26 @@ export default function Epilation() {
                             </div>
                         ))}
                     </Reveal>
-                    <div className="epilation-section__package-container--image-bloc">
-                        <Media src={sousType.photoUrl} srcSet={sousType.srcSet} sizes="(min-width: 768px) 35vw, 80vw" alt={sousType.photoAlt || ""} className="epilation-section__package-container--image-bloc--photo"/>
-                    </div>
                 </div>
             </section>
+
+            {/* Prestation mise en avant (groupe "electrolyse") avec la photo de la page */}
+            <Reveal className="electrolysis-section">
+                <div className="electrolysis-section__text">
+                    {prestations.filter(p => p.group === electrolyseGroup?._id).map((presta) => (
+                        <div key={presta._id} className="electrolysis-section__text--presta">
+                            <h2>{presta.name}</h2>
+                            {(presta.price || presta.duration) &&
+                                <p className="electrolysis-section__text--price">{[presta.duration, presta.price].filter(Boolean).join(" : ")}</p>
+                            }
+                            {presta.description && <p className="electrolysis-section__text--description">{presta.description}</p>}
+                        </div>
+                    ))}
+                </div>
+                <div className="electrolysis-section__image-bloc">
+                    <Media src={sousType.photoUrl} srcSet={sousType.srcSet} sizes="(min-width: 768px) 35vw, 85vw" alt={sousType.photoAlt || ""} className="electrolysis-section__image-bloc--photo"/>
+                </div>
+            </Reveal>
 
             <section className="tanning-section">
                 <h2>Bronzage par brumisation</h2>
