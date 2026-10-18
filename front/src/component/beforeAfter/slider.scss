@@ -15,6 +15,7 @@
         object-fit: cover;
         user-select: none;
         border-radius: 8px;
+        transition: filter 0.5s ease-out;
     }
     &__photo-ap{
         display: block;
@@ -23,6 +24,42 @@
         object-fit: cover;
         user-select: none;
         border-radius: 8px;
+        transition: filter 0.5s ease-out;
+    }
+    /*Voile "Faites glisser" : laisse passer les clics vers le curseur (input dessous)*/
+    &__hint{
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        background: rgba(0, 0, 0, 0.35);
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 500;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.5s ease-out;
+        i{
+            font-size: 20px;
+        }
+    }
+    /*Tant que l'indication est visible : photos grisées + voile affiché*/
+    &--hint{
+        .img-container__photo-av,
+        .img-container__photo-ap{
+            filter: grayscale(1);
+        }
+        .img-container__hint{
+            opacity: 1;
+        }
+        /*Ligne masquée pendant l'indication pour ne pas couper le texte*/
+        .img-container__line{
+            opacity: 0;
+        }
     }
     &__line{
         position: absolute;
@@ -32,6 +69,7 @@
         transform: translateX(-50%);
         background: rgba(245, 245, 245, 0.437);
         pointer-events: none;
+        transition: opacity 0.5s ease-out;
         &::after{
             position: absolute;
             content: "";
