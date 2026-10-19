@@ -29,7 +29,9 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
+/* En production, le front et l'API sont sur le même domaine : seul FRONTEND_URL
+peut appeler l'API depuis un autre site (en local, le proxy Vite évite le problème) */
+app.use(cors({ origin: process.env.FRONTEND_URL }));
 /* Le webhook Stripe a besoin du corps brut (non parsé en JSON) pour vérifier la signature,
 il doit donc être déclaré avant express.json() */
 app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), handleWebhook);
@@ -52,7 +54,10 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/menopause', menopauseRoutes);
 app.use('/api/gift-card-page', giftCardPageRoutes);
 app.use('/api/stripe', stripeRoutes);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+/* Documentation de l'API : seulement en local, pas exposée publiquement en production */
+if (process.env.NODE_ENV !== 'production') {
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+}
 
 
 app.get('/', (req, res) => {
