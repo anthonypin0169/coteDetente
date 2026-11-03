@@ -1,15 +1,32 @@
 const GiftCard = require('../models/giftCard');
 const GiftCardPage = require('../models/giftCardPage');
+const Counter = require('../models/counter');
 const path = require('path');
 const fs = require('fs');
 const { sendGiftCardEmails } = require('../services/mailer');
 const { generateGiftCardImage } = require('../services/giftCardImage');
 
-exports.finalizePaidGiftCard = async (data) => {
+// Le premier bon porte le numéro 10422
+const FIRST_GIFT_CARD_NUMBER = 10422;
+
+const nextGiftCardNumber = async () => {
+  const counter = await Counter.findOneAndUpdate(
+    { _id: 'giftCard' },
+    { $inc: { seq: 1 } },
+    { upsert: true, new: true }
+  );
+  return FIRST_GIFT_CARD_NUMBER - 1 + counter.seq;
+};
+
+exports.finalizePaidGiftCard = async (data, stripeSessionId) => {
   let generatedImagePath = null;
 
   try {
-    const giftCard = await GiftCard.create({ ...data, isPaid: true });
+    // Webhook déjà traité pour ce paiement : rien à refaire
+    if (stripeSessionId && await GiftCard.exists({ stripeSessionId })) return null;
+
+    const number = await nextGiftCardNumber();
+    const giftCard = await GiftCard.create({ ...data, number, stripeSessionId, isPaid: true });
 
     const giftCardPage = await GiftCardPage.findOne();
     let templatePath = giftCardPage?.photoUrl
@@ -19,12 +36,14 @@ exports.finalizePaidGiftCard = async (data) => {
     if (templatePath) {
       generatedImagePath = await generateGiftCardImage(templatePath, {
         amount: giftCard.amount,
-        recipientName: giftCard.recipientName
+        recipientName: giftCard.recipientName,
+        message: giftCard.message
       });
       templatePath = generatedImagePath;
     }
 
     await sendGiftCardEmails({
+      number: giftCard.number,
       senderName: giftCard.senderName,
       senderEmail: giftCard.senderEmail,
       senderPhone: giftCard.senderPhone,

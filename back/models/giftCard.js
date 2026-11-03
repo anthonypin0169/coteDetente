@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
 const giftCardSchema = new mongoose.Schema({
+  number: { type: Number, unique: true, sparse: true },
+  // Session Stripe à l'origine du bon : évite de créer deux bons si Stripe renvoie le webhook
+  stripeSessionId: { type: String, unique: true, sparse: true },
   senderName: { type: String, required: true },
   senderEmail: { type: String, required: true },
   senderPhone: { type: String },

@@ -6,6 +6,7 @@ import SeoHead from "@/component/seoHead/seoHead"
 import PhotoInput from "@/component/photoInput/photoInput"
 import { apiFetch } from "@/utils/api"
 import { getGiftCardDraft, saveGiftCardDraft, clearGiftCardDraft } from "@/utils/giftCardDraft"
+import { GIFT_MESSAGE_MAX_LENGTH, wrapGiftMessage } from "@/utils/giftCardLayout"
 import "./giftCard.scss"
 
 export default function GiftCard() {
@@ -141,8 +142,10 @@ export default function GiftCard() {
                             <div className="gift-photo-container">
                                 <img src={giftPageInfos?.photoUrl} srcSet={giftPageInfos?.srcSet} sizes="(min-width: 768px) 300px, 80vw" alt={giftPageInfos?.photoAlt || ""}  className="gift-photo"/>
                                 <div className="gift-photo-overlay">
-                                    {price && <p className="gift-photo-overlay--price">{price} €</p>}
+                                    {/* Même placement que l'image envoyée par mail (back/services/giftCardImage.js) */}
+                                    {price && <p className="gift-photo-overlay--price">d'une valeur de : {price} €</p>}
                                     {recipientName && <p className="gift-photo-overlay--recipient">Pour {recipientName}</p>}
+                                    {message.trim() && <p className="gift-photo-overlay--message">{wrapGiftMessage(message).join("\n")}</p>}
                                 </div>
                             </div>
                         </div>
@@ -174,7 +177,8 @@ export default function GiftCard() {
                         </div>
                         <div className="gift-second-section__form--bloc-text">
                             <label htmlFor="client-infos-message">Entrez un message</label>
-                            <textarea name="" id="client-infos-message" value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
+                            <textarea name="" id="client-infos-message" maxLength={GIFT_MESSAGE_MAX_LENGTH} value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
+                            <p className="gift-message-counter">{message.length} / {GIFT_MESSAGE_MAX_LENGTH}</p>
                         </div>
                         <button className="gift-second-section__form--btn btn" type="button" disabled={!senderName.trim() || !senderMail.trim() || !senderPhone.trim() || !recipientName.trim()} onClick={() => handleGoToPayment()}>Payer</button>
                     </div>

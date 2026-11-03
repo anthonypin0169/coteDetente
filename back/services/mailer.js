@@ -57,15 +57,15 @@ ${message || '-'}`
   })
 }
 
-const sendGiftCardEmails = async ({ senderName, senderEmail, senderPhone, recipientName, amount, message, templatePath }) => {
+const sendGiftCardEmails = async ({ number, senderName, senderEmail, senderPhone, recipientName, amount, message, templatePath }) => {
   checkMailConfig()
 
   await transporter.sendMail({
     from: mailFrom,
     to: process.env.CONTACT_RECEIVER_EMAIL,
     replyTo: senderEmail,
-    subject: `Nouvelle commande de carte cadeau - ${senderName}`,
-    text: `Acheteur : ${senderName}\nEmail : ${senderEmail}\nTéléphone : ${senderPhone || '-'}\nDestinataire : ${recipientName}\nMontant : ${amount} €\nMessage : ${message || '-'}`
+    subject: `Nouvelle commande de carte cadeau n°${number} - ${senderName}`,
+    text: `Bon n° : ${number}\nAcheteur : ${senderName}\nEmail : ${senderEmail}\nTéléphone : ${senderPhone || '-'}\nDestinataire : ${recipientName}\nMontant : ${amount} €\nMessage : ${message || '-'}`
   })
 
   await transporter.sendMail({

@@ -1,5 +1,6 @@
 const stripe = require('../config/stripe');
 const { finalizePaidGiftCard } = require('./giftCardController');
+const { GIFT_MESSAGE_MAX_LENGTH } = require('../utils/giftCardLayout');
 
 exports.createCheckoutSession = async (req, res) => {
   try {
@@ -26,7 +27,7 @@ exports.createCheckoutSession = async (req, res) => {
         },
         quantity: 1
       }],
-      metadata: { senderName, senderEmail, senderPhone: senderPhone || '', recipientName, message: message || '', amount: String(amount) },
+      metadata: { senderName, senderEmail, senderPhone: senderPhone || '', recipientName, message: (message || '').slice(0, GIFT_MESSAGE_MAX_LENGTH), amount: String(amount) },
       success_url: `${frontendUrl}/carte-cadeau?paiement=succes`,
       cancel_url: `${frontendUrl}/carte-cadeau?paiement=annule`
     });
@@ -58,7 +59,7 @@ exports.handleWebhook = async (req, res) => {
     const { senderName, senderEmail, senderPhone, recipientName, message, amount } = session.metadata;
 
     try {
-      await finalizePaidGiftCard({ senderName, senderEmail, senderPhone, recipientName, message, amount: Number(amount) });
+      await finalizePaidGiftCard({ senderName, senderEmail, senderPhone, recipientName, message, amount: Number(amount) }, session.id);
     } catch (error) {
       console.error('Erreur lors de la création de la carte cadeau après paiement :', error.message);
     }
