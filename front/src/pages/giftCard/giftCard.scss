@@ -1,6 +1,6 @@
 .gift-main{
     width: 100%;
-    padding: 90px 0 8vw 0;
+    padding: 90px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -85,9 +85,10 @@
                     margin: 0;
                     transform: translateY(-50%);
                 }
+                /*Calé à droite : le prix finit juste à gauche du centre de la carte*/
                 &--price{
-                    left: 3%;
-                    top: 45%;
+                    right: 53%;
+                    top: 44.2%;
                     font-size: 3.4cqw;
                     color: #000000;
                     white-space: nowrap;
@@ -227,7 +228,7 @@
         }
     }
     .gift-main{
-        padding-top: 130px;
+        padding: 130px 0;
     }
     .total-card-container{
         width: 100%;

@@ -23,6 +23,14 @@
         max-width: 320px;
         height: 420px;
         overflow: visible;
+        /*Calée sur la carte la plus haute (Sabine) : la hauteur ne change pas d'une carte à l'autre.
+        À réajuster si un texte plus long est ajouté (la carte grandit alors seule)*/
+        .profile-card{
+            min-height: 385px;
+            @media (min-width: 768px){
+                min-height: 402px;
+            }
+        }
         .carrousel__btn--prev{
             position: relative;
             bottom: 55%;

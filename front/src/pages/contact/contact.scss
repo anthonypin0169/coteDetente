@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 90px;
+    padding: 90px 0;
     isolation: isolate;
 }
 .bg-img{
@@ -30,7 +30,7 @@
     align-items: center;
     &__form{
         width: 350px;
-        margin: 100px 0 120px 0;
+        margin: 0;
         padding-bottom: 10px;
         aspect-ratio: 3 / 3;
         display: flex;
@@ -109,7 +109,7 @@
 }
 @media (min-width : 768px){
     .main-contact{
-        padding-top: 130px;
+        padding: 130px 0;
     }
     .contact-modal{
         &__container{
@@ -123,10 +123,8 @@
         }
     }
     .content-section{
-        min-height: calc(100vh - 8vw);
         &__form{
             width: 430px;
-            margin-top: 8vw;
             &--input-container{
                 flex-direction: row;
                 margin-top: 32px;
@@ -154,7 +152,6 @@
     .content-section{
         &__form{
             width: 40%;
-            margin-top: 40px;
             &--input-container{
                 margin-top: 3vw;
                 input{

@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 90px;
+    padding: 90px 0;
 }
 .makup-list-section{
     width: 100%;
@@ -28,6 +28,10 @@
 .makup-section-title{
     text-align: center;
     margin: 0;
+}
+/*Le bas de page vient du padding de .makeup-main*/
+.makup-list-section:last-child{
+    padding-bottom: 0;
 }
 /*Double classe : passe devant les padding-top de .makup-list-section des media queries*/
 .makup-list-section.makup-list-section--regard{
@@ -100,6 +104,8 @@
     margin-top: 2vw;
     aspect-ratio: 4 / 3;
     overflow: hidden;
+    /*Coins du bas : même arrondi que la carte (.makup-list-section__item)*/
+    border-radius: 0 0 15px 15px;
     .makup-presta-video{
         display: block;
         width: 100%;
@@ -123,7 +129,7 @@ padding-top: 2vw;
 }
 @media (min-width : 768px){
     .makeup-main{
-        padding-top: 130px;
+        padding: 130px 0;
     }
     .makup-list-section{
         padding-top: 8vw;

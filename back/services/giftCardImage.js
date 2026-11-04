@@ -37,7 +37,7 @@ const generateGiftCardImage = async (basePhotoPath, { amount, recipientName, mes
           <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
       </defs>
-      <text x="${width * 0.03}" y="${height * 0.45}" dominant-baseline="middle" ${font} font-size="${valueSize}" fill="#000000">d'une valeur de : ${escapeXml(`${amount} €`)}</text>
+      <text x="${width * 0.47}" y="${height * 0.442}" dominant-baseline="middle" text-anchor="end" ${font} font-size="${valueSize}" fill="#000000">d'une valeur de : ${escapeXml(`${amount} €`)}</text>
       <text x="50%" y="${height * 0.57}" dominant-baseline="middle" text-anchor="middle" ${font} font-size="${recipientSize}" font-weight="bold" fill="#ffffff" filter="url(#shadow)">Pour ${escapeXml(recipientName)}</text>
       <text text-anchor="middle" dominant-baseline="middle" ${font} font-size="${messageSize}" fill="#ffffff" filter="url(#shadow)">${messageTspans}</text>
     </svg>

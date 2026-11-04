@@ -2,6 +2,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    /*Espace minimum : les photos ne se touchent jamais, même quand elles rétrécissent*/
+    gap: 12px;
     width: 100%;
 }
 @media (min-width : 768px) {

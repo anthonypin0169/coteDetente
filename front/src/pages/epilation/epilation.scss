@@ -1,5 +1,5 @@
 .epilation-main{
-    padding-top: 90px;
+    padding: 90px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -158,7 +158,7 @@
     margin-top: 8vw;
     padding: 5vw 0;
     background: var(--color-surface);
-    border-radius: 5px 5px 0 0;
+    border-radius: 5px;
     box-shadow: 1px 1px 3px;
     &__presta-bloc{
         width: 80%;
@@ -234,7 +234,7 @@
 }
 @media(min-width: 768px){
     .epilation-main{
-        padding-top: 130px;
+        padding: 130px 0;
     }
     #photo-input{
         margin-right: 2.7vw;

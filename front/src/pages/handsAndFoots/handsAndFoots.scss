@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 90px;
+    padding: 90px 0;
 }
 .item-row{
     position: relative;
@@ -109,7 +109,6 @@
     display: flex;
     flex-direction: column;
     padding: 5vw 4vw;
-    margin-bottom: 8.5vw;
     background: var(--color-surface);
     border-radius: 5px;
     box-shadow: 1px 1px 3px;
@@ -193,7 +192,7 @@
 }
 @media( min-width : 768px ){
     .H-and-F-section{
-        padding-top: 130px;
+        padding: 130px 0;
     }
     .gel-section__first-division{
         flex-direction: row;
