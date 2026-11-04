@@ -1,0 +1,155 @@
+.menopause-main{
+    padding-top: 90px;
+}
+.intro-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    &__global-container{
+        width: 90%;    
+        &.intro-section__global-container h2{
+            font-size: 20px;
+        }
+        &--content-container{
+
+        }
+    }
+    &__text-container{
+        width: 90%;
+        margin: 30px 0;
+        text-align: center;
+    }
+}
+.media-icon{
+
+}
+.section1{
+    &__bloc{
+        &--photo{
+            width: 100%;
+            aspect-ratio: 16/9;
+            position: relative;
+        }
+        &--text{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .section1__bloc--text p{
+            width: 85%;
+            text-align: center;
+        }
+    }
+}
+.section1-btn1{
+    position: absolute;
+    top: 3%;
+    right: 3%;
+}
+.section1-btn2{
+    display: flex;
+}
+.section2{
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+    &__text{
+        width: 90%;
+        text-align: center;
+    }
+}
+.section3{
+    &__ban{
+        width: 100%;
+        height: 80px;
+    }
+    &__bloc{
+        &--photo{
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            position: relative;
+        }
+        &--text{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            padding-top: 70px;
+        }
+        .section3__bloc--text p{
+            width: 85%;
+            text-align: center;
+        }
+        &--presenting-text{
+            width: 85%;
+            display: flex;
+            flex-direction: column;
+            justify-self: center;
+            text-align: center;
+        }
+        &--profile-photo{
+            width: 70%;
+            aspect-ratio: 3/4;
+            display: flex;
+            justify-self: center;
+            border-radius: 5px;
+            box-shadow: 2px 2px 3px;
+            margin-top: 30px;
+        }
+    }
+}
+.section3-btn1{
+    position: absolute;
+    top: 3%;
+    right: 3%;
+}  
+.section3-btn2{
+  
+}  
+.section4{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 30px 0;
+}
+.section4-btn{
+  
+}  
+.section5{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &__bloc{
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        &--prices{
+            position: relative;
+            padding-bottom: 80px;
+        }
+        &--parting-line{
+            width: 80%;
+            height: 2px;
+            margin: 30px 0;
+            background: black;
+        }
+        &--condition{
+
+        }
+        &--title{
+            font-size: 30px;
+        }
+        &--faq-bloc{
+
+        }
+    }
+}
+.section5-btn{
+  width: 200px;
+  height: 45px;
+  position: absolute;
+  bottom: 3%;
+  right: 3%;
+}  
