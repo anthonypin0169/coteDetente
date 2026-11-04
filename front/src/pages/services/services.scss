@@ -93,6 +93,7 @@
             clip-path: polygon(0 0, 100% 10%, 100% 100%, 0% 100%);
         }
         &:not(:first-child):not(:last-child){
+            text-align: center;
             height: 65vw;
             clip-path: polygon(0 0, 100% 10%, 100% 100%, 0% 91%);
         }
