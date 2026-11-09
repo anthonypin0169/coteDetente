@@ -6,8 +6,8 @@ import { useEffect, useRef } from "react"
 de chaque côté (10 %) est la distance maximale du déplacement*/
 const PHOTO_SCALE = 1.8
 
-export default function ReverseBloc ({ photo, title, text, reverse, linkPosition }) {
-    const link = (className) => <Link to="/menopause/contact" className={`${className} btn`}>15 min offert</Link>
+export default function ReverseBloc ({ photo, title, text, paragraph, textBtn, reverse, linkPosition }) {
+    const link = (className) => <Link to="/menopause/contact" className={`${className} menopause-btn`}>{textBtn}</Link>
     const photoContainerRef = useRef()
     const photoRef = useRef()
 
@@ -56,6 +56,7 @@ export default function ReverseBloc ({ photo, title, text, reverse, linkPosition
                 {linkPosition === "text-top" && link("btn1")}
                 {title && <h4>{title}</h4>}
                 <p>{text}</p>
+                <p>{paragraph}</p>
                 {linkPosition === "text-bottom" && link("btn2")}
             </div>
         </div>

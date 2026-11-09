@@ -7,6 +7,7 @@
     flex-direction: column;
     align-items: center;
     position: relative;
+    padding-bottom: 30px;
     &__global-container{
         width: 90%;
         position: relative;
@@ -26,10 +27,16 @@
             margin: 5px 0;
         }
     }
-    &__text-container{
+    .intro-section p{
+        max-width: 80%;
+    }
+    &__intro-title{
         width: 80%;
         margin: 30px 0;
         text-align: center;
+    }
+    &__intro-text{
+        max-width: 90%;
     }
 }
 .media-container{
@@ -187,18 +194,33 @@
     }
 }
 .section5-btn{
-  width: 200px;
-  height: 45px;
-  margin-top: 30px;
   justify-self: center;
 }
 .li-container{
     padding-left: 18px;
 }
-/*Remplace la marge en vw de .btn : elle décalait les liens selon la largeur de la fenêtre*/
-.menopause-main .btn{
-    margin: 30px 0;
+/*Bouton de la page : reprend .btn (index.css) mais en violet, avec une largeur
+qui suit le texte et une marge fixe (celle en vw de .btn décalait les liens)*/
+.menopause-btn{
+    width: max-content;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    text-decoration: none;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
     background: #493971;
+    color: var(--color-surface);
+    box-shadow: 1px 2px 4px rgb(95, 95, 95);
+    margin: 30px 0;
+    align-self: center;
+    transition: background 0.15s ease;
+    &:hover{
+        background: #372b56;
+    }
 }
 .menopause-main .btn1{
     margin: 0;
@@ -301,9 +323,10 @@
             }
         }
     }
+    .menopause-btn{
+        height: 40px;
+    }
     .section5-btn{
-    width: 200px;
-    height: 45px;
     position: absolute;
     bottom: 3%;
     right: 3%;
@@ -316,6 +339,9 @@
     }
 }
 @media(min-width : 1024px) {
+    .menopause-btn{
+        height: 45px;
+    }
     /*Coverflow, 3 cartes visibles : flèche (50px) centrée sur le bord extérieur des
     cartes latérales (cartes de 380px : la gauche finit à 483px du centre, la droite
     à 513px, le coverflow n'est pas symétrique)*/
@@ -366,6 +392,9 @@ flèches posées juste à l'intérieur des cartes pour ne pas sortir de l'écran
 }
 /*Cartes de 420x380 à partir de 1440px (carrousel.scss)*/
 @media (min-width: 1440px){
+    .menopause-btn{
+        height: 50px;
+    }
     .section4__carrousel{
         height: 350px;
     }

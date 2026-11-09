@@ -64,6 +64,10 @@
 .section3 .bloc:last-child .bloc--text{
     padding-top: 25px;
 }
+/*Bloc juste après la zone de présentation*/
+.section3 .section3__bloc + .bloc .bloc--text{
+    padding-top: 20px;
+}
 .bloc{
     display: flex;
     flex-direction: column;

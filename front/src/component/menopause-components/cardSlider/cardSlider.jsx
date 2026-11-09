@@ -44,7 +44,8 @@ export default function CardSlider ({ top, children }) {
             }
         }
 
-        /*Formules 1 et 2 : au chargement et quand la fenêtre change de taille*/
+        /*Formules 1 et 2 : dès que la rangée ou la zone figée change de taille
+        (chargement, fenêtre redimensionnée, CSS rechargé après une sauvegarde)*/
         const handleResize = () => {
             distance = Math.max(0, rangee.scrollWidth - stickyZone.clientWidth)
             stickyTop = parseFloat(getComputedStyle(stickyZone).top)
@@ -53,12 +54,13 @@ export default function CardSlider ({ top, children }) {
             handleScroll()
         }
 
-        handleResize()
-        window.addEventListener("resize", handleResize)
+        const observer = new ResizeObserver(handleResize)
+        observer.observe(rangee)
+        observer.observe(stickyZone)
         window.addEventListener("scroll", handleScroll, { passive: true })
 
         return () => {
-            window.removeEventListener("resize", handleResize)
+            observer.disconnect()
             window.removeEventListener("scroll", handleScroll)
             cancelAnimationFrame(frame)
         }
