@@ -1,0 +1,50 @@
+.slider-container{
+    width: 100%;
+    /*Hauteur du header : la zone figée commence juste en dessous*/
+    --sticky-top: 70px;
+    /*Zone figée : remplit tout l'écran sous le header, pour que rien d'autre
+    ne bouge pendant le défilement horizontal. Le contenu passé en children
+    (la bannière) reste visible sous les cartes*/
+    &__sticky-zone{
+        display: flex;
+        flex-direction: column;
+        position: sticky;
+        top: var(--sticky-top);
+        height: calc(100vh - var(--sticky-top));
+        overflow: hidden;
+        &--rangee{
+            flex: 1;
+            /*Largeur = cartes + paddings : sans ça, la rangée fait la largeur de l'écran
+            et scrollWidth ne compte pas le padding de droite (dernière carte décentrée)*/
+            width: max-content;
+            display: flex;
+            align-items: center;
+            gap: 70px;
+            padding-left: calc(50% - 120px);
+            padding-right: calc(50% - 120px);
+            will-change: transform;
+        }
+    }
+}
+.slider-card{
+    width: 240px;
+    height: 320px;
+    border-radius: 8px;
+    flex-shrink: 0;
+    background: #F2F2F7;
+    box-shadow: 2px 2px 3px;
+}
+@media (min-width: 768px) {
+    .slider-container{
+        /*Header flottant : 17px du haut + 70px de hauteur*/
+        --sticky-top: 87px;
+        &__sticky-zone{
+            &--rangee{
+                padding-left: 100%;
+                /*Groupe centré quand il tient à l'écran, sinon dernière carte à 70px
+                du bord (même espace que le gap)*/
+                padding-right: max(70px, calc((100% - 1480px) / 2));
+            }
+        }
+    }
+}

@@ -1,5 +1,6 @@
 .menopause-main{
     padding-top: 90px;
+    background: #ffffff;
 }
 .intro-section{
     display: flex;
@@ -7,88 +8,88 @@
     align-items: center;
     position: relative;
     &__global-container{
-        width: 90%;    
-        &.intro-section__global-container h2{
-            font-size: 20px;
+        width: 90%;
+        position: relative;
+        &--contact-container{
+            margin-top: 30px;
         }
-        &--content-container{
-
+        &--logo{
+            height: 120px;
+            float: right;
+            margin: 0 0 10px 15px;
+        }
+        &.intro-section__global-container h2{
+            font-size: 18px;
+            margin: 15px 0;
+        }
+        &.intro-section__global-container h3{
+            margin: 5px 0;
         }
     }
     &__text-container{
-        width: 90%;
+        width: 80%;
         margin: 30px 0;
         text-align: center;
     }
 }
-.media-icon{
-
-}
-.section1{
-    &__bloc{
-        &--photo{
-            width: 100%;
-            aspect-ratio: 16/9;
-            position: relative;
-        }
-        &--text{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .section1__bloc--text p{
-            width: 85%;
-            text-align: center;
-        }
-    }
-}
-.section1-btn1{
-    position: absolute;
-    top: 3%;
-    right: 3%;
-}
-.section1-btn2{
+.media-container{
+    width: 100%;
     display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 30px;
+    &__icon{
+        color: #ffffff;
+        font-size: 18px;
+        background: #493971;
+        border: none;
+        border-radius: 3px;
+        box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.503);
+        padding: 10px 25px; 
+    }
 }
 .section2{
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    margin: 30px 0;
+    /*Pas de marge en bas : la bannière (dans le slider) est collée à la section 3*/
+    margin: 30px 0 0;
+    /*Dans la zone figée du slider (en colonne) : centré et garde sa hauteur*/
     &__text{
         width: 90%;
         text-align: center;
+        align-self: center;
+        flex-shrink: 0;
+    }
+}
+.ban{
+    width: 100%;
+    height: 80px;
+    /*Dans la zone figée du slider (en colonne) : garde ses 80px*/
+    flex-shrink: 0;
+    overflow: hidden;
+    &__img{
+        width: 100%;
+        object-fit: cover;
     }
 }
 .section3{
-    &__ban{
-        width: 100%;
-        height: 80px;
-    }
     &__bloc{
-        &--photo{
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            position: relative;
-        }
-        &--text{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            padding-top: 70px;
-        }
-        .section3__bloc--text p{
-            width: 85%;
-            text-align: center;
-        }
+        width: 85%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-self: center;
+        background: #F2F2F7;
+        padding: 30px 15px 50px 15px;
+        margin: 80px 0;
+        border-radius: 15px;
+        box-shadow: 2px 2px 3px;
         &--presenting-text{
-            width: 85%;
-            display: flex;
-            flex-direction: column;
-            justify-self: center;
             text-align: center;
         }
-        &--profile-photo{
+        &--profile-photo-container{
             width: 70%;
             aspect-ratio: 3/4;
             display: flex;
@@ -96,40 +97,76 @@
             border-radius: 5px;
             box-shadow: 2px 2px 3px;
             margin-top: 30px;
+            overflow: hidden;
+            &--img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
         }
     }
 }
-.section3-btn1{
-    position: absolute;
-    top: 3%;
-    right: 3%;
-}  
-.section3-btn2{
-  
-}  
+.section3-btn2{ 
+    justify-self: center;
+}
 .section4{
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 30px 0;
+    /*À 1024px, la carte de droite dépasse d'1px : coupé ici pour éviter le scroll horizontal*/
+    overflow-x: clip;
+    &__btn{
+    
+    }
+    /*Les avis sont en position absolute : sans taille donnée ici, le carrousel
+    fait 0x0 et cache tout. Valeurs reprises de CustomerReviews.scss (accueil).
+    Flèches placées d'après la largeur des cartes (fixe en px), à côté d'elles :
+    sous 1024px, une carte de 320px et une flèche de 18px*/
+    &__carrousel{
+        width: 100%;
+        height: 300px;
+        margin: 16px 0;
+        overflow: visible;
+        .carrousel__review{
+            background: #F2F2F7;
+        }
+
+        .carrousel__btn--prev,
+        .carrousel__btn--next{
+            top: 50%;
+            width: 18px;
+            padding: 0;
+            transform: translateY(-50%);
+            background: #F2F2F7;
+            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.627);
+        }
+        .carrousel__btn--prev{
+            left: calc(50% - 160px - 20px);
+        }
+        .carrousel__btn--next{
+            right: calc(50% - 160px - 20px);
+        }
+    }
 }
-.section4-btn{
-  
-}  
 .section5{
     display: flex;
     flex-direction: column;
     align-items: center;
     &__bloc{
-        width: 90%;
+        width: 85%;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        padding: 20px 15px;
+        background: #F2F2F7;
+        margin: 0 0 20px 0;
+        border-radius: 15px;
+        box-shadow: 2px 2px 3px;
         &--prices{
             position: relative;
-            padding-bottom: 80px;
         }
         &--parting-line{
+            align-self: center;
             width: 80%;
             height: 2px;
             margin: 30px 0;
@@ -138,18 +175,204 @@
         &--condition{
 
         }
+    }
+    &__faq{
         &--title{
             font-size: 30px;
+            align-self: center;
         }
-        &--faq-bloc{
-
+        &--items{
+    
         }
     }
 }
 .section5-btn{
   width: 200px;
   height: 45px;
-  position: absolute;
-  bottom: 3%;
-  right: 3%;
-}  
+  margin-top: 30px;
+  justify-self: center;
+}
+.li-container{
+    padding-left: 18px;
+}
+/*Remplace la marge en vw de .btn : elle décalait les liens selon la largeur de la fenêtre*/
+.menopause-main .btn{
+    margin: 30px 0;
+    background: #493971;
+}
+.menopause-main .btn1{
+    margin: 0;
+}
+.menopause-main .section5-btn{
+    margin: 30px 0 0;
+}
+
+
+@media(min-width:768px) {
+    .menopause-main{
+        padding-top: 130px;
+    }
+    .intro-section{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        &__global-container{
+            &--content-container,
+            &--contact-container{
+                flex: 1;
+            }
+            &--logo{
+                height: 200px;
+                order: 1;
+                flex-shrink: 0;
+                margin: 0 30px;
+            }
+            &--contact-container{
+                order: 2;
+            }
+            &--contact-container{
+                margin-top: 30px;
+            }
+            &.intro-section__global-container h2{
+                font-size: 20px;
+                margin: 15px 0;
+            }
+            &.intro-section__global-container h3{
+                margin: 5px 0;
+            }
+        }
+        &__text-container{
+            width: 80%;
+            margin: 30px 0;
+            text-align: center;
+        }
+    }
+    .section3{
+        &__bloc{
+            flex-direction: row;
+            justify-content: space-around;
+            &--presenting-text{
+                width: 50%;
+            }
+            &--profile-photo-container{
+                width: 35%;
+                &--img{
+
+                }
+            }
+        }
+    }
+    .section4__carrousel{
+        height: 340px;
+    }
+    .section5{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        &__bloc{
+            width: auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            &--prices{
+                position: relative;
+                padding-bottom: 80px;
+                width: 40%;
+            }
+            &--parting-line{
+                align-self: center;
+                width: 2px;
+                height: 160px;
+                margin: 30px 0;
+                background: black;
+            }
+            &--condition{
+                width: 40%;
+            }
+        }
+        &__faq{
+            &--title{
+                font-size: 50px;
+                align-self: center;
+            }
+            &--items{
+    
+            }
+        }
+    }
+    .section5-btn{
+    width: 200px;
+    height: 45px;
+    position: absolute;
+    bottom: 3%;
+    right: 3%;
+    }
+    .menopause-main .section5-btn{
+        margin: 0;
+    }
+    .li-container{
+        padding-left: 18px;
+    }
+}
+@media(min-width : 1024px) {
+    /*Coverflow, 3 cartes visibles : flèche (50px) centrée sur le bord extérieur des
+    cartes latérales (cartes de 380px : la gauche finit à 483px du centre, la droite
+    à 513px, le coverflow n'est pas symétrique)*/
+    .intro-section__global-container{
+        display: flex;
+        align-items: center;
+    }
+    .section4__carrousel{
+        height: 360px;
+        margin: 50px 0;
+        .carrousel__btn--prev,
+        .carrousel__btn--next{
+            width: 50px;
+        }
+        .carrousel__btn--prev{
+            left: calc(50% - 483px - 25px);
+        }
+        .carrousel__btn--next{
+            right: calc(50% - 513px - 25px);
+        }
+    }
+    .section3{
+        &__bloc{
+            margin: 100px 0;
+            &--profile-photo-container{
+                width: 28%;
+                &--img{
+
+                }
+            }
+        }
+    }
+    .intro-section__global-container h3{
+        margin: 5px 0;
+        width: 390px;
+        justify-self: center;
+    }
+}
+/*Entre 1024 et 1079px, les cartes touchent presque le bord de l'écran :
+flèches posées juste à l'intérieur des cartes pour ne pas sortir de l'écran*/
+@media (min-width: 1024px) and (max-width: 1079px){
+    .section4__carrousel .carrousel__btn--prev{
+        left: calc(50% - 483px);
+    }
+    .section4__carrousel .carrousel__btn--next{
+        right: calc(50% - 513px);
+    }
+}
+/*Cartes de 420x380 à partir de 1440px (carrousel.scss)*/
+@media (min-width: 1440px){
+    .section4__carrousel{
+        height: 350px;
+    }
+    .section4__carrousel .carrousel__btn--prev{
+        left: calc(50% - 533px - 25px);
+    }
+    .section4__carrousel .carrousel__btn--next{
+        right: calc(50% - 567px - 25px);
+    }
+}
