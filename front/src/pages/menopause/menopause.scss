@@ -37,6 +37,7 @@
     }
     &__intro-text{
         max-width: 90%;
+        text-align: center;
     }
 }
 .media-container{
@@ -71,16 +72,11 @@
     }
 }
 .ban{
-    width: 100%;
-    height: 80px;
-    /*Dans la zone figée du slider (en colonne) : garde ses 80px*/
-    flex-shrink: 0;
-    overflow: hidden;
-    &__img{
         width: 100%;
-        object-fit: cover;
+        height: 60px;
+        background: #F2F2F7;
+        box-shadow: 0 -7px 15px #eaeaec;
     }
-}
 .section3{
     &__bloc{
         width: 85%;
@@ -184,9 +180,12 @@
         }
     }
     &__faq{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         &--title{
             font-size: 30px;
-            align-self: center;
+            margin-bottom: 60px;
         }
         &--items{
     
@@ -202,12 +201,13 @@
 /*Bouton de la page : reprend .btn (index.css) mais en violet, avec une largeur
 qui suit le texte et une marge fixe (celle en vw de .btn décalait les liens)*/
 .menopause-btn{
-    width: max-content;
+    width: 250px;
     height: 35px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 20px;
+    text-align: center;
+    padding: 5px 20px;
     text-decoration: none;
     font-weight: 500;
     border: none;
@@ -316,14 +316,11 @@ qui suit le texte et une marge fixe (celle en vw de .btn décalait les liens)*/
         &__faq{
             &--title{
                 font-size: 50px;
-                align-self: center;
-            }
-            &--items{
-    
             }
         }
     }
     .menopause-btn{
+        width: max-content;
         height: 40px;
     }
     .section5-btn{

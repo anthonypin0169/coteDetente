@@ -1,0 +1,71 @@
+.faq-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 60px 0;
+    background: #F2F2F7;
+    &__item{
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 15px;
+        padding: 10px 0;
+        box-shadow: 2px 2px 3px;
+        background: #ffffff;
+        &--question{
+            width: 90%;
+            text-align: center;
+        }
+        /*Fermé : une ligne de 0fr, la réponse ne prend aucune place.
+        Ouvert : 1fr, la ligne prend la hauteur exacte de la réponse*/
+        &--anwser-container{
+            width: 85%;
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.4s ease;
+        }
+        /*overflow + min-height : 0 laissent la réponse descendre à 0 de hauteur.
+        Pas de marge ni de padding ici, ils resteraient visibles une fois fermé :
+        l'espace sous le texte est fait avec un pseudo-élément*/
+        &--anwser{
+            min-height: 0;
+            overflow: hidden;
+            margin: 0;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            &::after{
+                content: "";
+                display: block;
+                height: 15px;
+            }
+        }
+    }
+}
+.faq-container__item:hover .faq-container__item--anwser-container{grid-template-rows: 1fr;}
+.faq-container__item:hover .faq-container__item--anwser{opacity: 1; transition-delay: 0.15s;}
+@media (prefers-reduced-motion: reduce){
+    .faq-container__item--anwser-container,
+    .faq-container__item--anwser{transition: none;}
+}
+
+@media (min-width : 768px) {
+    .faq-container{
+        width: 80%;
+        background: #F2F2F7;
+        margin: 0 0 90px 0;
+        border-radius: 15px;
+        box-shadow: 2px 2px 3px;
+        &__item{
+            &--question{
+
+            }
+            &--anwser{
+
+            }
+        }
+    }
+}

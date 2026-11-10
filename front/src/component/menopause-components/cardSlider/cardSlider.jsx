@@ -2,7 +2,7 @@ import "./cardSlider.scss"
 import { useEffect, useRef } from "react"
 
 /*top : affiché au-dessus des cartes, children : en dessous. Les deux restent visibles pendant le défilement horizontal*/
-export default function CardSlider ({ top, children }) {
+export default function CardSlider ({ top, children, cardData }) {
     const containerRef = useRef()
     const stickyZoneRef = useRef()
     const rangeeRef = useRef()
@@ -71,11 +71,17 @@ export default function CardSlider ({ top, children }) {
             <div className="slider-container__sticky-zone" ref={stickyZoneRef}>
                 {top}
                 <div className="slider-container__sticky-zone--rangee" ref={rangeeRef}>
-                    <div className="slider-card"></div>
-                    <div className="slider-card"></div>
-                    <div className="slider-card"></div>
-                    <div className="slider-card"></div>
-                    <div className="slider-card"></div>
+                    {cardData.map((card)=>(
+                        <button type="button" key={card.id} className="slider-card">
+                            <img className="slider-card__img" src={card.img.src} alt={card.img.alt} />
+                            <div className="slider-card__content">
+                                <div className="slider-card__content--title-container">
+                                    <h3 className="slider-card__content--title-container--h3">{card.title}</h3>
+                                </div>
+                                <p className="slider-card__content--text">{card.description}</p>
+                            </div>
+                        </button>
+                    ))}
                 </div>
                 {children}
             </div>
