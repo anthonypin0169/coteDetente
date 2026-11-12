@@ -4,13 +4,16 @@
         position: relative;
         overflow: hidden;
         box-shadow: 1px 1px 2px black;
+        /*Plus haute que son conteneur (et pas agrandie avec un scale, qui rendait la photo floue) :
+        les 20 % cachés en haut et en bas sont la place du défilement à contre-sens.
+        Pour un effet plus ou moins fort, changer height et top ensemble (top = -(height - 100%) / 2)*/
         &--img{
+            position: absolute;
+            left: 0;
+            top: -30%;
             width: 100%;
-            height: 100%;
+            height: 160%;
             object-fit: cover;
-            /*Agrandie (PHOTO_SCALE dans reverseBloc.jsx) : la marge cachée laisse la place
-            au défilement à contre-sens, sans changer la taille du conteneur*/
-            transform: scale(1.2);
             will-change: transform;
         }
     }
@@ -23,7 +26,7 @@
         box-shadow: 1px 1px 2px black;
     }
     .bloc--text p{
-        width: 85%;
+        width: 75%;
         text-align: center;
     }
     &--presenting-text{
@@ -33,6 +36,77 @@
         justify-self: center;
         text-align: center;
     }
+}
+/*Bulles de symptômes : posées en vrac (position absolute) au-dessus du texte, elles
+apparaissent une à une quand le bloc arrive à l'écran (classe --visible ajoutée par reverseBloc.jsx)*/
+.bloc--bubbles{
+    /*Largeur fixe : les positions en % tombent toujours au même endroit, sans chevauchement*/
+    width: min(94%, 360px);
+    height: 400px;
+    position: relative;
+    list-style: none;
+    padding: 0;
+    margin: 30px 0 10px;
+    &--item{
+        position: absolute;
+        /*left/top = centre de la bulle (cf. listes de positions plus bas)*/
+        translate: -50% -50%;
+        white-space: nowrap;
+        /*Ovale (50 %) plutôt que pilule : forme de bulle*/
+        padding: 13px 16px;
+        border-radius: 50%;
+        background: #ffffff;
+        color: #493971;
+        font-size: 13px;
+        font-weight: 600;
+        box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.25);
+        opacity: 0;
+        /*Légère inclinaison variable. rotate/translate (et pas transform) pour ne pas
+        être écrasés par l'animation*/
+        &:nth-child(3n+1){ rotate: -3deg; }
+        &:nth-child(3n+2){ rotate: 2deg; }
+        &:nth-child(4n){ rotate: 4deg; }
+        &:nth-child(5n){ rotate: -5deg; }
+    }
+    /*"backwards" et pas "both" : une fois finie, l'animation ne laisse pas de transform sur la bulle
+    (sinon elle reste sur un calque à part et le texte incliné devient flou). L'opacité finale
+    vient donc de cette règle*/
+    &--visible .bloc--bubbles--item{
+        opacity: 1;
+        animation: bubble-pop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--order) * 0.35s) backwards;
+    }
+}
+/*Centre de chaque bulle (x, y en % de la zone), dans l'ordre de la liste des symptômes.
+Calculées pour être le plus espacées possible (au moins 20px entre deux bulles), sans alignement visible*/
+$bubbles-mobile: (74% 42%), (22% 73%), (29% 27%), (87% 94%), (19% 6%), (46% 94%), (19% 51%), (79% 24%), (73% 6%), (74% 59%), (78% 77%);
+$bubbles-desktop: (18% 64%), (49% 92%), (89% 36%), (91% 64%), (44% 8%), (14% 92%), (13% 8%), (56% 50%), (84% 92%), (79% 8%), (16% 37%);
+@each $pos in $bubbles-mobile{
+    $i: index($bubbles-mobile, $pos);
+    .bloc--bubbles--item:nth-child(#{$i}){ left: nth($pos, 1); top: nth($pos, 2); }
+}
+/*Grands écrans (la colonne de texte fait au moins 640px) : zone plus large et bulles plus grandes*/
+@media (min-width: 1280px){
+    .bloc--bubbles{
+        width: 590px;
+        height: 330px;
+        margin: 40px 0 30px;
+        &--item{
+            font-size: 14px;
+            padding: 15px 20px;
+        }
+    }
+    @each $pos in $bubbles-desktop{
+        $i: index($bubbles-desktop, $pos);
+        .bloc--bubbles--item:nth-child(#{$i}){ left: nth($pos, 1); top: nth($pos, 2); }
+    }
+}
+@keyframes bubble-pop{
+    from{ opacity: 0; transform: scale(0.5); }
+    to{ opacity: 1; transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce){
+    .bloc--bubbles--item{ opacity: 1; }
+    .bloc--bubbles--visible .bloc--bubbles--item{ animation: none; }
 }
 .btn1{
     position: absolute;
@@ -72,7 +146,8 @@
     display: flex;
     flex-direction: column;
 }
-.bloc--photo-container--img{
+/*Le ratio est sur le conteneur : l'image, en absolute, ne lui donne plus sa hauteur*/
+.bloc--photo-container{
     aspect-ratio: 3/2;
 }
 @media(max-width:767px) {
@@ -81,7 +156,7 @@
     }
 }
 @media(min-width:768px) {
-    .section3 .bloc--photo-container--img{
+    .section3 .bloc--photo-container{
         aspect-ratio: 5/3;
     }
     .bloc{
@@ -92,9 +167,7 @@
         }
         &--photo-container{
             width: 50%;
-            &--img{
-                aspect-ratio: 1/1;
-            }
+            aspect-ratio: 1/1;
         }
         &--text{
             width: 50%;

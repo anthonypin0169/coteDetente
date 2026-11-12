@@ -35,10 +35,6 @@
         margin: 30px 0;
         text-align: center;
     }
-    &__intro-text{
-        max-width: 90%;
-        text-align: center;
-    }
 }
 .media-container{
     width: 100%;
@@ -56,6 +52,17 @@
         padding: 10px 25px; 
     }
 }
+.banner{
+    width: 100%;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &__text{
+        max-width: 70%;
+        text-align: center;
+    }
+}
 .section2{
     display: flex;
     flex-direction: column;
@@ -65,18 +72,24 @@
     margin: 30px 0 0;
     /*Dans la zone figée du slider (en colonne) : centré et garde sa hauteur*/
     &__text{
-        width: 90%;
+        width: 80%;
         text-align: center;
         align-self: center;
         flex-shrink: 0;
     }
 }
 .ban{
-        width: 100%;
-        height: 60px;
-        background: #F2F2F7;
-        box-shadow: 0 -7px 15px #eaeaec;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #F2F2F7;
+    box-shadow: 0 -7px 15px #eaeaec;
+    &__txt{
+
     }
+}
 .section3{
     &__bloc{
         width: 85%;
@@ -119,6 +132,9 @@
     margin: 30px 0;
     /*À 1024px, la carte de droite dépasse d'1px : coupé ici pour éviter le scroll horizontal*/
     overflow-x: clip;
+    &__title{
+        text-align: center;
+    }
     &__btn{
     
     }
@@ -268,6 +284,18 @@ qui suit le texte et une marge fixe (celle en vw de .btn décalait les liens)*/
             width: 80%;
             margin: 30px 0;
             text-align: center;
+        }
+    }
+    .ban{
+        width: 100%;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #F2F2F7;
+        box-shadow: 0 -7px 15px #eaeaec;
+        &__txt{
+            font-size: 34px;
         }
     }
     .section3{
