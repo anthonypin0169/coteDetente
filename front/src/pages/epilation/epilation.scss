@@ -1,5 +1,7 @@
 .epilation-main{
     padding: 90px 0;
+    /*Garde le footer sous l'écran pendant le chargement des prestations*/
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -1,6 +1,6 @@
 import { useRef, useState } from "react"
 import "./positionableTextEditor.scss"
-import { isVideo } from "@/component/media/media"
+import { isVideo } from "@/utils/isVideo"
 
 export default function PositionableTextEditor({ imageUrl, elements, positions, onPositionsChange }) {
 

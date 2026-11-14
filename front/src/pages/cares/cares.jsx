@@ -360,8 +360,8 @@ export default function Cares() {
                     <button type="button" onClick={() => setModalIsOpen(true)} className="btn">Modifier</button>
                 }
                 {groups.map((bloc, i) => (
-                        <Reveal slide className="cares__section--type" key={bloc._id}>
-                        <div className="presenting" id={bloc._id}>
+                        <Reveal slide stagger ready={prestations.length > 0} className="cares__section--type" key={bloc._id}>
+                        <div className="presenting reveal__item" id={bloc._id}>
                             <h3>{bloc.name}</h3>
                             <h4>{bloc.description}</h4>
                         </div>
@@ -370,8 +370,8 @@ export default function Cares() {
                         }
                         <div className={`content-bloc ${i % 2 === 0 ? "content-bloc--reverse" : ""} ${bloc.role === "avant-apres" ? "content-bloc--centered" : ""}`}>
                             <div className="prestation-list-container">
-                                {prestations.filter(p => p.group === bloc._id).map(presta => (
-                                    <div className="content-bloc__prestations" key={presta._id}>
+                                {prestations.filter(p => p.group === bloc._id).map((presta, j) => (
+                                    <div className="content-bloc__prestations reveal__item" style={{ "--i": j + 1 }} key={presta._id}>
                                         <div className="content-bloc__prestations--text">
                                             <p>{presta.name}</p>
                                             <div className="content-bloc__prestations--text--infos">
@@ -401,7 +401,7 @@ export default function Cares() {
                             
                             </div>   
                             {bloc.role !== "avant-apres" &&
-                                <Media src={bloc.photoUrl} srcSet={bloc.srcSet} sizes="(min-width: 768px) 320px, 80vw" alt={bloc.photoAlt || ""} className="content-bloc__img"/>
+                                <Media src={bloc.photoUrl} srcSet={bloc.srcSet} sizes="(min-width: 768px) 320px, 80vw" alt={bloc.photoAlt || ""} className="content-bloc__img reveal__item" style={{ "--i": 1 }}/>
                             }
                         </div>
                     </Reveal>

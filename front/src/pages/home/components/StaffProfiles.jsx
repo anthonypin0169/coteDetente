@@ -1,15 +1,22 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useSelector } from "react-redux"
 import Carrousel from "@/component/carrousel/carrousel"
 import StaffProfile from "@/component/staffProfile/staffProfile"
 import Modal from "@/component/modal/modal"
 import PhotoInput from "@/component/photoInput/photoInput"
 import { apiFetch } from "@/utils/api"
+import useParallax from "@/utils/useParallax"
+import Wallpaper from "@/assets/ImagesPro/Home_bg_staff-2.jpg"
+import WallpaperSmall from "@/assets/ImagesPro/Home_bg_staff-2-1000.jpg"
 import "./StaffProfiles.scss"
 
 export default function StaffProfiles() {
 
     const isAuthenticated = useSelector((state)=> state.auth.isAuthenticated)
+    const sectionRef = useRef()
+    const bgRef = useRef()
+    /*Fond : même parallax que les photos de la page ménopause*/
+    useParallax(sectionRef, bgRef)
     const token = useSelector((state) => state.auth.token)
 
     const [isStaffModalOpen, setIsStaffModalOpen] = useState(false)
@@ -121,7 +128,8 @@ export default function StaffProfiles() {
     }
 
     return (
-        <section className="home__staff-profile">
+        <section className="home__staff-profile" ref={sectionRef}>
+            <img src={Wallpaper} srcSet={`${WallpaperSmall} 1000w, ${Wallpaper} 2400w`} sizes="100vw" alt="" className="home__staff-profile--bg" ref={bgRef} loading="lazy" decoding="async"/>
 
             {isAuthenticated ? <button onClick={() => {setStaffCreateModalIsOpen(true); setStaffName(""); setStaffSpeciality(""); setStaffText(""); setStaffPhotoAlt("")}} type="button" className="home__staff-profile--add-member-btn btn">Ajouter un membre</button> : null }
 

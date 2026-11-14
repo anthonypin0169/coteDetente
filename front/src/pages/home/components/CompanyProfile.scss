@@ -25,7 +25,9 @@
     }
 }
 .company-carrousel-container{
-    width: auto;
+    /*100 % (et pas auto) : sans image chargée, auto donnait 0 de large, donc 0 de haut malgré
+    l'aspect-ratio, et le carrousel poussait tout vers le bas en apparaissant*/
+    width: 100%;
     max-width: 320px;
     margin: 16px auto;
     aspect-ratio: 3 / 4;
@@ -78,4 +80,7 @@
     .company-text-container{
         width: 50%;
     }
+}
+.home__company-profile--loading{
+    min-height: 100vh;
 }

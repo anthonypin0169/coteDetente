@@ -7,6 +7,7 @@ import SeoHead from "@/component/seoHead/seoHead"
 import "./handsAndFoots.scss"
 import "../cares/cares.scss"
 import Media from "@/component/media/media"
+import Reveal from "@/component/reveal/reveal"
 
 function PrestaDetails({ presta }) {
     if (!presta.description && !(presta.extraInfos && presta.extraInfos.length > 0)) return null
@@ -294,9 +295,9 @@ export default function HandsAndFoots() {
                     <div className="gel-section__first-division--video-bloc">
                         <Media src={posesDeposeComblagesGroup?.videoUrl} alt=""/>
                     </div>
-                    <div className="gel-section__first-division--presta-bloc">
-                        {prestations.filter((p) => p.group === posesDeposeComblagesGroup?._id).map((presta) => (
-                            <div key={presta._id} className="gel-section__first-division--presta-bloc--item item-row">
+                    <Reveal stagger ready={prestations.length > 0 && groups.length > 0} className="gel-section__first-division--presta-bloc">
+                        {prestations.filter((p) => p.group === posesDeposeComblagesGroup?._id).map((presta, i) => (
+                            <div key={presta._id} className="gel-section__first-division--presta-bloc--item item-row reveal__item" style={{ "--i": i }}>
                                 <p className="item-title">{presta.name}</p>
                                 <div className="item-text">
                                     <p className="item-text--price">{presta.price}</p>
@@ -305,7 +306,7 @@ export default function HandsAndFoots() {
                                 <PrestaDetails presta={presta}/>
                             </div>
                         ))}
-                    </div>
+                    </Reveal>
                 </div>
                 {isAuthenticated &&
                     <button className="btn" onClick={() => { setActualGroupDescription(posesDeposeComblagesGroup?.description || ""); setActualGroupName(posesDeposeComblagesGroup?.name || "") ; setEditTextIsOpen(true) }}>Modifier</button>
@@ -325,9 +326,9 @@ export default function HandsAndFoots() {
             </section>
             <section className="manucure-section">
                 <div className="manucure-section__first-division">
-                    <div className="manucure-section__first-division--presta-bloc">
-                        {prestations.filter((p) => p.group === vernisMotifsGroup?._id).map((presta) => (
-                            <div key={presta._id} className="manucure-section__first-division--presta-bloc--item item-row">
+                    <Reveal stagger ready={prestations.length > 0 && groups.length > 0} className="manucure-section__first-division--presta-bloc">
+                        {prestations.filter((p) => p.group === vernisMotifsGroup?._id).map((presta, i) => (
+                            <div key={presta._id} className="manucure-section__first-division--presta-bloc--item item-row reveal__item" style={{ "--i": i }}>
                                 <p className="item-title">{presta.name}</p>
                                 <div className="item-text">
                                     <p className="item-text--price">{presta.price}</p>
@@ -336,7 +337,7 @@ export default function HandsAndFoots() {
                                 <PrestaDetails presta={presta}/>
                             </div>
                         ))}
-                    </div>
+                    </Reveal>
                     <div className="manucure-section__first-division--video-bloc">
                         <Media src={vernisMotifsGroup?.videoUrl} alt=""/>
                     </div>
@@ -348,9 +349,9 @@ export default function HandsAndFoots() {
                     <div className="manucure-section__second-division--photo-bloc">
                         <Media src={manucuresGroup?.photoUrl} srcSet={manucuresGroup?.srcSet} sizes="(min-width: 768px) 40vw, 80vw" alt={manucuresGroup?.photoAlt || ""} />
                     </div>
-                    <div className="manucure-section__second-division--presta-bloc">
-                        {prestations.filter((p) => p.group === manucuresGroup?._id).map((presta) => (
-                            <div key={presta._id} className="manucure-section__second-division--presta-bloc--item item-row">
+                    <Reveal stagger ready={prestations.length > 0 && groups.length > 0} className="manucure-section__second-division--presta-bloc">
+                        {prestations.filter((p) => p.group === manucuresGroup?._id).map((presta, i) => (
+                            <div key={presta._id} className="manucure-section__second-division--presta-bloc--item item-row reveal__item" style={{ "--i": i }}>
                                 <p className="item-title">{presta.name}</p>
                                 <div className="item-text">
                                     <p className="item-text--price">{presta.price}</p>
@@ -359,7 +360,7 @@ export default function HandsAndFoots() {
                                 <PrestaDetails presta={presta}/>
                             </div>
                         ))}
-                    </div>
+                    </Reveal>
                 </div>
             </section>
 

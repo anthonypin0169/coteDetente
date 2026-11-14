@@ -3,7 +3,7 @@ import { useSelector } from "react-redux"
 import Modal from "@/component/modal/modal"
 import SeoHead from "@/component/seoHead/seoHead"
 import PhotoInput from "@/component/photoInput/photoInput"
-import { isVideo } from "@/component/media/media"
+import { isVideo } from "@/utils/isVideo"
 import { apiFetch } from "@/utils/api"
 import "./contact.scss"
 

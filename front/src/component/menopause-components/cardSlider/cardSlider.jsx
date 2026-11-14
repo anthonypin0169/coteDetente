@@ -73,7 +73,7 @@ export default function CardSlider ({ top, children, cardData }) {
                 <div className="slider-container__sticky-zone--rangee" ref={rangeeRef}>
                     {cardData.map((card)=>(
                         <button type="button" key={card.id} className="slider-card">
-                            <img className="slider-card__img" src={card.img.src} alt={card.img.alt} />
+                            <img className="slider-card__img" src={card.img.src} alt={card.img.alt} loading="lazy" decoding="async" />
                             <div className="slider-card__content">
                                 <div className="slider-card__content--title-container">
                                     <h3 className="slider-card__content--title-container--h3">{card.title}</h3>

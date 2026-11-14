@@ -1,13 +1,25 @@
 import "./reverseBloc.scss"
 import { Link } from "react-router-dom"
 import { useEffect, useRef, useState } from "react"
+import useParallax from "@/utils/useParallax"
 
-export default function ReverseBloc ({ photo, title, text, paragraph, textBtn, reverse, linkPosition, bubbles }) {
+/*photoSrcSet (facultatif) : versions de la photo par largeur, le navigateur prend la plus petite
+qui suffit (l'image fait ~110 % de la largeur de l'écran en mobile et ~80 % en desktop, cf. parallax)*/
+export default function ReverseBloc ({ photo, photoSrcSet, title, text, paragraph, textBtn, reverse, linkPosition, bubbles, className }) {
     const link = (className) => <Link to="/menopause/contact" className={`${className} menopause-btn`}>{textBtn}</Link>
     const photoContainerRef = useRef()
     const photoRef = useRef()
     const bubblesRef = useRef()
     const [bubblesVisible, setBubblesVisible] = useState(false)
+    /*Rang d'apparition de chaque bulle, mélangé au hasard (Fisher-Yates) une seule fois au montage*/
+    const [bubblesOrder] = useState(() => {
+        const order = (bubbles ?? []).map((_, i) => i)
+        for (let i = order.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [order[i], order[j]] = [order[j], order[i]]
+        }
+        return order
+    })
 
     /*Bulles : l'apparition se lance une seule fois, quand la liste arrive à l'écran*/
     useEffect(() => {
@@ -26,56 +38,22 @@ export default function ReverseBloc ({ photo, title, text, paragraph, textBtn, r
     }, [])
 
     /*Défilement à contre-sens : quand le bloc monte dans l'écran, la photo descend dans son conteneur*/
-    useEffect(() => {
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
-
-        const container = photoContainerRef.current
-        const img = photoRef.current
-        let frame = null
-
-        const update = () => {
-            frame = null
-            const rect = container.getBoundingClientRect()
-            /*-1 : bloc en bas de l'écran, 0 : centré, 1 : en haut*/
-            const progression = (window.innerHeight / 2 - (rect.top + rect.height / 2)) / (window.innerHeight / 2 + rect.height / 2)
-            /*Distance maximale : la partie cachée de chaque côté (l'image est plus haute que le conteneur, cf. SCSS)*/
-            const margin = (img.offsetHeight - rect.height) / 2
-            const shift = Math.min(1, Math.max(-1, progression)) * margin
-
-            img.style.transform = `translateY(${shift}px)`
-        }
-
-        const handleScroll = () => {
-            if (frame === null) {
-                frame = requestAnimationFrame(update)
-            }
-        }
-
-        update()
-        window.addEventListener("scroll", handleScroll, { passive: true })
-        window.addEventListener("resize", handleScroll)
-
-        return () => {
-            window.removeEventListener("scroll", handleScroll)
-            window.removeEventListener("resize", handleScroll)
-            cancelAnimationFrame(frame)
-        }
-    }, [])
+    useParallax(photoContainerRef, photoRef)
 
     return(
-        <div className={`bloc ${reverse ? "bloc--reverse" : ""}`}>
-            <div className="bloc--photo-container" ref={photoContainerRef}>
+        <div className={`bloc ${reverse ? "bloc--reverse" : ""} ${className ?? ""}`}>
+            <div className="bloc__photo-container" ref={photoContainerRef}>
                 {linkPosition === "photo" && link("btn1")}
-                <img className="bloc--photo-container--img" src={photo} alt="" ref={photoRef} />
+                <img className="bloc__photo" src={photo} srcSet={photoSrcSet} sizes={photoSrcSet ? "(min-width: 768px) 80vw, 110vw" : undefined} alt="" ref={photoRef} loading="lazy" decoding="async" />
             </div>
-            <div className="bloc--text">
+            <div className="bloc__text">
                 {linkPosition === "text-top" && link("btn1")}
-                {/*--order : rang d'apparition mélangé (i × 7 modulo le nombre de bulles), pour qu'elles
+                {/*--order : rang d'apparition mélangé (cf. bubblesOrder), pour qu'elles
                 n'apparaissent pas dans l'ordre de lecture*/}
                 {bubbles && (
-                    <ul className={`bloc--bubbles ${bubblesVisible ? "bloc--bubbles--visible" : ""}`} ref={bubblesRef}>
+                    <ul className={`bloc__bubbles ${bubblesVisible ? "bloc__bubbles--visible" : ""}`} ref={bubblesRef}>
                         {bubbles.map((bubble, i) => (
-                            <li key={bubble} className="bloc--bubbles--item" style={{ "--order": (i * 7) % bubbles.length }}>{bubble}</li>
+                            <li key={bubble} className="bloc__bubble" style={{ "--order": bubblesOrder[i] }}>{bubble}</li>
                         ))}
                     </ul>
                 )}

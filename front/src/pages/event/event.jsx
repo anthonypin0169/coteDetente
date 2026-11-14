@@ -309,13 +309,13 @@ export default function Event() {
             <section className="second-section">
                 <div className="second-section__event-list-container">
                     {pastEvents.map((event) => (
-                        <Reveal key={event._id} className="item">
-                            <div className="item__bloc">
+                        <Reveal stagger key={event._id} className="item">
+                            <div className="item__bloc reveal__item">
                                 <img className="item__bloc--photo" src={event.photoUrl} srcSet={event.srcSet} sizes="(min-width: 768px) 40vw, 70vw" alt={event.photoAlt || ""} />
                                 {/* Récap sur la photo au survol (mobile) */}
                                 <div className="item__bloc--description">{event.recapDescription}</div>
                             </div>
-                            <div className="item__text">
+                            <div className="item__text reveal__item" style={{ "--i": 1 }}>
                                 <div className="item__title">{event.title}</div>
                                 {/* Récap à droite de la photo (desktop) */}
                                 <p className="item__text--description">{event.recapDescription}</p>

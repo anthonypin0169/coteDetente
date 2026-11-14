@@ -132,14 +132,19 @@
         }
     }
 }
-.banner:hover .banner__div{
-    filter: brightness(0.4);
-}
-.banner:hover .banner__div:hover{
-    filter: brightness(1);
-    transform: scale(1.4);
-    position: relative;
-    z-index: 1;
+/*Survol réservé aux appareils avec une vraie souris : sur écran tactile, le :hover reste
+collé après un toucher (en arrivant sur la page, le doigt est déjà sur la bannière)
+et tout restait assombri jusqu'au toucher suivant*/
+@media (hover: hover) and (pointer: fine){
+    .banner:hover .banner__div{
+        filter: brightness(0.4);
+    }
+    .banner:hover .banner__div:hover{
+        filter: brightness(1);
+        transform: scale(1.4);
+        position: relative;
+        z-index: 1;
+    }
 }
 
 @media (min-width: 768px){

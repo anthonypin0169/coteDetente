@@ -37,7 +37,10 @@
     padding: 0;
     flex-shrink: 0;
     background: #F2F2F7;
-    box-shadow: 2px 2px 3px;
+    /*Couleurs explicites : sur iPhone, le texte d'un <button> est bleu par défaut
+    et une ombre sans couleur reprend celle du texte*/
+    color: black;
+    box-shadow: 2px 2px 3px black;
     overflow: hidden;
     &__img{
         align-self: center;
@@ -66,7 +69,7 @@
         }
         &--text{
             width: 85%;
-            justify-self: center;
+            margin: 0 auto;
             opacity: 0;
             transition: opacity 0.25s ;
         }

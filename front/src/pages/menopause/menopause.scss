@@ -16,6 +16,7 @@
         }
         &--logo{
             height: 120px;
+            width: auto;
             float: right;
             margin: 0 0 10px 15px;
         }
@@ -36,6 +37,18 @@
         text-align: center;
     }
 }
+.intro-amovible-h2{
+    &__logo-container{
+        display: inline-block;
+        vertical-align: middle;
+        &--img{
+            height: 3em;
+            /*width/height du HTML : réservent la place (ratio) avant le chargement, la taille vient d'ici*/
+            width: auto;
+            display: block;
+        }
+    }
+}
 .media-container{
     width: 100%;
     display: flex;
@@ -52,15 +65,38 @@
         padding: 10px 25px; 
     }
 }
-.banner{
+/*Photo en fond avec le même parallax que les blocs (useParallax) : plus haute que la bannière,
+la partie cachée en haut et en bas est la place du défilement. Voile sombre pour lire le texte.
+Nom propre à la page : .banner existe aussi sur Prestations, et le CSS d'une page reste chargé
+après l'avoir quittée (le voile et la largeur passaient sur la bannière de Prestations)*/
+.menopause-banner{
     width: 100%;
     height: 250px;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    overflow: hidden;
+    /*Mobile : fond uni, la photo et le voile sombre ne s'affichent qu'à partir de 768px*/
+    background: #F2F2F7;
+    &__img{
+        display: none;
+        position: absolute;
+        left: 0;
+        top: -30%;
+        width: 100%;
+        height: 160%;
+        object-fit: cover;
+        /*Cadré sur le visage de la dame aux cheveux blancs (premier rang à droite) :
+        100 % = bord droit en mobile (photo rognée sur les côtés), 25 % = visible page tout en haut*/
+        object-position: 100% 25%;
+        will-change: transform;
+    }
     &__text{
         max-width: 70%;
         text-align: center;
+        position: relative;
+        z-index: 1;
     }
 }
 .section2{
@@ -71,23 +107,29 @@
     /*Pas de marge en bas : la bannière (dans le slider) est collée à la section 3*/
     margin: 30px 0 0;
     /*Dans la zone figée du slider (en colonne) : centré et garde sa hauteur*/
+    /*Pas de marge en bas : les cartes sont centrées entre le titre et la bannière*/
     &__text{
         width: 80%;
         text-align: center;
         align-self: center;
         flex-shrink: 0;
+        font-size: 20px;
+        margin: 20px 0 0;
     }
 }
+/*flex-shrink 0 : sur petit écran, la bannière garde sa hauteur au lieu d'être écrasée par les cartes*/
 .ban{
     width: 100%;
-    height: 80px;
+    height: 64px;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     background: #F2F2F7;
     box-shadow: 0 -7px 15px #eaeaec;
     &__txt{
-
+        font-size: 18px;
+        margin: 0;
     }
 }
 .section3{
@@ -96,10 +138,10 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-self: center;
         background: #F2F2F7;
         padding: 30px 15px 50px 15px;
-        margin: 80px 0;
+        /*Centré par les marges auto : justify-self est ignoré hors grille par Safari (iPhone)*/
+        margin: 80px auto;
         border-radius: 15px;
         box-shadow: 2px 2px 3px;
         &--presenting-text{
@@ -108,22 +150,22 @@
         &--profile-photo-container{
             width: 70%;
             aspect-ratio: 3/4;
-            display: flex;
-            justify-self: center;
+            position: relative;
             border-radius: 5px;
             box-shadow: 2px 2px 3px;
             margin-top: 30px;
             overflow: hidden;
+            /*Absolute : Safari (iPhone) ne calcule pas height: 100% d'après la hauteur
+            donnée par aspect-ratio, la photo ne remplissait pas le cadre*/
             &--img{
+                position: absolute;
+                inset: 0;
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
             }
         }
     }
-}
-.section3-btn2{ 
-    justify-self: center;
 }
 .section4{
     display: flex;
@@ -149,6 +191,25 @@
         overflow: visible;
         .carrousel__review{
             background: #F2F2F7;
+        }
+        /*Pas de logo Google ici : ce ne sont pas des avis Google (le composant est partagé avec l'accueil)*/
+        .carrousel__review--google{
+            display: none;
+        }
+        /*Pas d'étoiles sur ces avis : la zone est retirée pour ne pas laisser de vide*/
+        .carrousel-review-rating{
+            display: none;
+        }
+        /*Avis longs : le texte défile dans la carte (max-height = hauteur de la carte - en-tête
+        et marges) et se fond vers le bas. Le padding-bottom laisse la dernière ligne
+        remonter au-dessus du fondu une fois le texte défilé jusqu'au bout*/
+        .carrousel-review-text{
+            box-sizing: border-box;
+            max-height: 180px;
+            overflow-y: auto;
+            padding: 0 8px 40px 0;
+            scrollbar-width: thin;
+            mask-image: linear-gradient(to bottom, #000 calc(100% - 50px), transparent);
         }
 
         .carrousel__btn--prev,
@@ -208,9 +269,6 @@
         }
     }
 }
-.section5-btn{
-  justify-self: center;
-}
 .li-container{
     padding-left: 18px;
 }
@@ -231,7 +289,8 @@ qui suit le texte et une marge fixe (celle en vw de .btn décalait les liens)*/
     background: #493971;
     color: var(--color-surface);
     box-shadow: 1px 2px 4px rgb(95, 95, 95);
-    margin: 30px 0;
+    /*auto : centré aussi quand le parent n'est pas en flex (Safari ignore justify-self)*/
+    margin: 30px auto;
     align-self: center;
     transition: background 0.15s ease;
     &:hover{
@@ -242,13 +301,35 @@ qui suit le texte et une marge fixe (celle en vw de .btn décalait les liens)*/
     margin: 0;
 }
 .menopause-main .section5-btn{
-    margin: 30px 0 0;
+    margin: 30px auto 0;
 }
 
 
+/*Écrans peu hauts (iPhone SE 1re gén.) : titre plus petit pour que cartes et bannière tiennent dans la zone figée*/
+@media (max-height: 600px){
+    .section2__text{
+        font-size: 18px;
+        margin-top: 10px;
+    }
+}
 @media(min-width:768px) {
     .menopause-main{
         padding-top: 130px;
+    }
+    .menopause-banner{
+        &::after{
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+        }
+        &__img{
+            display: block;
+        }
+        &__text{
+            color: #ffffff;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+        }
     }
     .intro-section{
         display: flex;
@@ -286,16 +367,13 @@ qui suit le texte et une marge fixe (celle en vw de .btn décalait les liens)*/
             text-align: center;
         }
     }
+    .section2__text{
+        font-size: 24px;
+    }
     .ban{
-        width: 100%;
-        height: 100px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #F2F2F7;
-        box-shadow: 0 -7px 15px #eaeaec;
+        height: 80px;
         &__txt{
-            font-size: 34px;
+            font-size: 26px;
         }
     }
     .section3{
@@ -315,21 +393,27 @@ qui suit le texte et une marge fixe (celle en vw de .btn décalait les liens)*/
     }
     .section4__carrousel{
         height: 340px;
+        .carrousel-review-text{
+            max-height: 210px;
+        }
     }
     .section5{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         &__bloc{
+            width: 600px;
+            align-items: center;
+            /* 
             width: auto;
             display: flex;
             flex-direction: row;
             justify-content: space-around;
+            */
             &--prices{
+                //width: 40%;
+                width: 90%;
                 position: relative;
                 padding-bottom: 80px;
-                width: 40%;
             }
+            /*
             &--parting-line{
                 align-self: center;
                 width: 2px;
@@ -340,6 +424,7 @@ qui suit le texte et une marge fixe (celle en vw de .btn décalait les liens)*/
             &--condition{
                 width: 40%;
             }
+            */
         }
         &__faq{
             &--title{
@@ -367,6 +452,15 @@ qui suit le texte et une marge fixe (celle en vw de .btn décalait les liens)*/
     .menopause-btn{
         height: 45px;
     }
+    .section2__text{
+        font-size: 28px;
+    }
+    .ban{
+        height: 84px;
+        &__txt{
+            font-size: 28px;
+        }
+    }
     /*Coverflow, 3 cartes visibles : flèche (50px) centrée sur le bord extérieur des
     cartes latérales (cartes de 380px : la gauche finit à 483px du centre, la droite
     à 513px, le coverflow n'est pas symétrique)*/
@@ -377,6 +471,9 @@ qui suit le texte et une marge fixe (celle en vw de .btn décalait les liens)*/
     .section4__carrousel{
         height: 360px;
         margin: 50px 0;
+        .carrousel-review-text{
+            max-height: 210px;
+        }
         .carrousel__btn--prev,
         .carrousel__btn--next{
             width: 50px;
@@ -390,7 +487,7 @@ qui suit le texte et une marge fixe (celle en vw de .btn décalait les liens)*/
     }
     .section3{
         &__bloc{
-            margin: 100px 0;
+            margin: 100px auto;
             &--profile-photo-container{
                 width: 28%;
                 &--img{
@@ -400,9 +497,8 @@ qui suit le texte et une marge fixe (celle en vw de .btn décalait les liens)*/
         }
     }
     .intro-section__global-container h3{
-        margin: 5px 0;
+        margin: 5px auto;
         width: 390px;
-        justify-self: center;
     }
 }
 /*Entre 1024 et 1079px, les cartes touchent presque le bord de l'écran :
@@ -420,8 +516,20 @@ flèches posées juste à l'intérieur des cartes pour ne pas sortir de l'écran
     .menopause-btn{
         height: 50px;
     }
+    .section2__text{
+        font-size: 30px;
+    }
+    .ban{
+        height: 90px;
+        &__txt{
+            font-size: 30px;
+        }
+    }
     .section4__carrousel{
         height: 350px;
+        .carrousel-review-text{
+            max-height: 235px;
+        }
     }
     .section4__carrousel .carrousel__btn--prev{
         left: calc(50% - 533px - 25px);

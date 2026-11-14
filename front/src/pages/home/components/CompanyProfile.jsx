@@ -12,6 +12,7 @@ export default function CompanyProfile({ carrouselInstitut }) {
 
     const [titleState, setTitleState] = useState("")
     const [paragraphState, setParagraphState] = useState([])
+    const [isLoaded, setIsLoaded] = useState(false)
 
     const [editModalIsOpen,setEditModalIsOpen] = useState(false)
     const [editTitle, setEditTitle] = useState("")
@@ -33,6 +34,8 @@ export default function CompanyProfile({ carrouselInstitut }) {
 
             }catch(error){
                     return(error.message)
+            }finally{
+                setIsLoaded(true)
             }
         }
         loadText()
@@ -64,7 +67,10 @@ export default function CompanyProfile({ carrouselInstitut }) {
 
     return (
         <>
-            <section className="home__company-profile">
+            {/*--loading : place réservée (hauteur d'écran) et contenu affiché seulement une fois le texte
+            reçu, sinon son arrivée repoussait le carrousel et le bas de la page (décalage de mise en page)*/}
+            <section className={`home__company-profile ${isLoaded ? "" : "home__company-profile--loading"}`}>
+                {isLoaded && <>
                 <h2 className="home__company-profile--h2" >{titleState}</h2>
                 {isAuthenticated ? <button onClick={() => {setEditModalIsOpen(true); setEditTitle(titleState); setEditParagraph(paragraphState.join("\n\n"))}} className="home__company-profile--btn btn">Modifier</button> : null}
 
@@ -76,6 +82,7 @@ export default function CompanyProfile({ carrouselInstitut }) {
                     </div>
                     <Carrousel images={carrouselInstitut} mode="auto" className="company-carrousel-container"/>
                 </div>
+                </>}
             </section>
 
             <Modal isOpen={editModalIsOpen} onClose={() => setEditModalIsOpen(false)} variant ="modify">

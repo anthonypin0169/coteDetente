@@ -10,5 +10,40 @@
     &--slide{
         --reveal-offset: -4vw;
     }
+    /*Successif : le bloc reste affiché, ses éléments arrivent l'un après l'autre*/
+    &--stagger{
+        opacity: 1;
+        transform: none;
+    }
 }
-
+/*Animation (et pas transition) : ne remplace pas les transitions propres aux éléments, et
+"backwards" ne laisse pas de transform une fois finie (sinon texte flou sur certains écrans)*/
+.reveal--stagger:not(.reveal--visible) .reveal__item{
+    opacity: 0;
+}
+.reveal--stagger.reveal--visible .reveal__item{
+    animation: reveal-item 0.8s ease-out calc(var(--i, 0) * 0.15s) backwards;
+}
+/*slide + stagger : les éléments arrivent depuis la gauche (décalage fixe en px, bien visible sur mobile)*/
+.reveal--stagger.reveal--slide.reveal--visible .reveal__item{
+    animation-name: reveal-item-slide;
+}
+@keyframes reveal-item{
+    from{ opacity: 0; transform: translateY(20px); }
+    to{ opacity: 1; transform: translateY(0); }
+}
+@keyframes reveal-item-slide{
+    from{ opacity: 0; transform: translateX(-40px); }
+    to{ opacity: 1; transform: translateX(0); }
+}
+@media (prefers-reduced-motion: reduce){
+    .reveal,
+    .reveal--stagger:not(.reveal--visible) .reveal__item{
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+    .reveal--stagger.reveal--visible .reveal__item{
+        animation: none;
+    }
+}

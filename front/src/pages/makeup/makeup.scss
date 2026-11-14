@@ -154,6 +154,8 @@ padding-top: 2vw;
         margin-top: 0;
         aspect-ratio: auto;
         height: 120px;
+        /*Photo à droite de la carte : coins de droite arrondis (comme la carte), les autres droits*/
+        border-radius: 0 15px 15px 0;
         transition: height 0.3s ease-in-out;
     }
     .makup-list-section__item:hover .item-details {

@@ -29,7 +29,9 @@ return (
     <ScrollToTop />
     <Header />
 
-    <Suspense fallback={null}>
+    {/*Pendant le chargement d'une page : un bloc de la hauteur de l'écran, pour que le footer
+    ne remonte pas en haut puis redescende (gros décalage de mise en page, mauvais pour le SEO)*/}
+    <Suspense fallback={<div className="page-loading" />}>
     <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/prestations" element={<Services />} />

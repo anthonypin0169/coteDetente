@@ -298,6 +298,10 @@ export default function Epilation() {
 
 
 
+    /*Sections affichées une fois les données reçues : vides, elles s'affichaient puis étaient
+    repoussées vers le bas à l'arrivée des prestations (décalage de mise en page)*/
+    const isLoaded = prestations.length > 0 && groups.length > 0
+
     return (
         <main className="epilation-main">
             <SeoHead
@@ -309,12 +313,13 @@ export default function Epilation() {
                 <button className="btn" onClick={() => setModalIsOpen(true)}>Modifier</button>
             }
             
+            {isLoaded && <>
             <section className="epilation-section">
-                <Reveal className="epilation-section__presta-bloc">
+                <Reveal stagger ready={isLoaded} className="epilation-section__presta-bloc">
                     <h2>Nos épilations</h2>
                     {prestaGroup?.description && <p className="group-description">{prestaGroup.description}</p>}
-                    {prestations.filter(p => p.group === prestaGroup?._id).map((presta) => (
-                        <div key={presta._id} className="epilation-section__presta-bloc--item item-row">
+                    {prestations.filter(p => p.group === prestaGroup?._id).map((presta, i) => (
+                        <div key={presta._id} className="epilation-section__presta-bloc--item item-row reveal__item" style={{ "--i": i }}>
                             <p className="item-title">{presta.name}</p>
                             <div className="item-text">
                                 <p className="item-text__price">{presta.price}</p>
@@ -327,9 +332,9 @@ export default function Epilation() {
                 <div className="epilation-section__package-container">
                     <h2>Nos forfaits épilations</h2>
                     {forfaitGroup?.description && <p className="group-description">{forfaitGroup.description}</p>}
-                    <Reveal className="epilation-section__package-container--presta-bloc">
-                        {prestations.filter(f => f.group === forfaitGroup?._id).map((presta) => (
-                            <div key={presta._id} className="epilation-section__package-container--presta-bloc--item item-row">
+                    <Reveal stagger ready={isLoaded} className="epilation-section__package-container--presta-bloc">
+                        {prestations.filter(f => f.group === forfaitGroup?._id).map((presta, i) => (
+                            <div key={presta._id} className="epilation-section__package-container--presta-bloc--item item-row reveal__item" style={{ "--i": i }}>
                                 <p className="item-title">{presta.name}</p>
                                 <div className="item-text">
                                     <p className="item-text__price">{presta.price}</p>
@@ -343,7 +348,7 @@ export default function Epilation() {
             </section>
 
             {/* Prestation mise en avant (groupe "electrolyse") avec la photo de la page */}
-            <Reveal className="electrolysis-section">
+            <Reveal ready={isLoaded} className="electrolysis-section">
                 <div className="electrolysis-section__text">
                     {prestations.filter(p => p.group === electrolyseGroup?._id).map((presta) => (
                         <div key={presta._id} className="electrolysis-section__text--presta">
@@ -362,9 +367,9 @@ export default function Epilation() {
 
             <section className="tanning-section">
                 <h2>Bronzage par brumisation</h2>
-                <Reveal className="tanning-section__presta-bloc">
-                    {prestations.filter(f => f.group === bronzageGroup?._id).map((presta) => (
-                        <div key={presta._id} className="tanning-section__presta-bloc--item item-row">
+                <Reveal stagger ready={isLoaded} className="tanning-section__presta-bloc">
+                    {prestations.filter(f => f.group === bronzageGroup?._id).map((presta, i) => (
+                        <div key={presta._id} className="tanning-section__presta-bloc--item item-row reveal__item" style={{ "--i": i }}>
                             <p className="item-title">{presta.name}</p>
                             <div className="item-text">
                                 <p className="item-text__price">{presta.price}</p>
@@ -378,6 +383,7 @@ export default function Epilation() {
                     <Media src={sousType.videoUrl} videoProps={{ preload: "metadata" }} alt="" className="tanning-section__video-bloc--video"/>
                 </div>
             </section>
+            </>}
 
             <Modal isOpen={modalIsOpen} onClose={() => {setModalIsOpen(false) ; setModalVue("media")}} variant="modify">
                 
