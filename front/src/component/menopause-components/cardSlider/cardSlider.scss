@@ -1,30 +1,34 @@
+/*Mobile : rangée qui glisse au doigt, une carte centrée à la fois (scroll-snap),
+la suivante dépasse sur le côté pour montrer qu'on peut faire glisser*/
 .slider-container{
     width: 100%;
-    /*Hauteur du header : la zone figée commence juste en dessous*/
-    --sticky-top: 70px;
-    /*Zone figée : remplit tout l'écran sous le header, pour que rien d'autre
-    ne bouge pendant le défilement horizontal. Le contenu passé en children
-    (la bannière) reste visible sous les cartes*/
     &__sticky-zone{
         display: flex;
         flex-direction: column;
-        position: sticky;
-        top: var(--sticky-top);
-        height: calc(100vh - var(--sticky-top));
-        overflow: hidden;
         &--rangee{
-            flex: 1;
-            /*Largeur = cartes + paddings : sans ça, la rangée fait la largeur de l'écran
-            et scrollWidth ne compte pas le padding de droite (dernière carte décentrée)*/
-            width: max-content;
             display: flex;
             align-items: center;
-            gap: 70px;
-            padding-left: calc(50% - 120px);
-            padding-right: calc(50% - 120px);
-            will-change: transform;
+            gap: 20px;
+            /*Place pour l'ombre des cartes (coupée sinon par l'overflow)*/
+            padding: 30px 0;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            &::-webkit-scrollbar{
+                display: none;
+            }
+            /*Marges de début et de fin : première et dernière carte centrées.
+            En pseudo-éléments plutôt qu'en padding, que Safari ignore à la fin d'une zone qui défile*/
+            &::before,
+            &::after{
+                content: "";
+                flex: 0 0 calc(50% - 140px);
+            }
         }
     }
+}
+.slider-card{
+    scroll-snap-align: center;
 }
 .slider-card{
     width: 240px;
@@ -78,16 +82,38 @@
 .slider-card:hover .slider-card__content { height: 100%; }
 .slider-card:hover .slider-card__content--text { opacity: 1; transition-delay: 0.15s;}
 
+/*Desktop : le scroll vertical fait défiler les cartes (cf. cardSlider.jsx)*/
 @media (min-width: 768px) {
     .slider-container{
         /*Header flottant : 17px du haut + 70px de hauteur*/
         --sticky-top: 87px;
+        /*Zone figée : remplit tout l'écran sous le header, pour que rien d'autre
+        ne bouge pendant le défilement horizontal. Le contenu passé en children
+        (la bannière) reste visible sous les cartes*/
         &__sticky-zone{
+            position: sticky;
+            top: var(--sticky-top);
+            height: calc(100vh - var(--sticky-top));
+            overflow: hidden;
             &--rangee{
+                flex: 1;
+                /*Largeur = cartes + paddings : sans ça, la rangée fait la largeur de l'écran
+                et scrollWidth ne compte pas le padding de droite (dernière carte décentrée)*/
+                width: max-content;
+                gap: 70px;
+                overflow: visible;
+                scroll-snap-type: none;
+                will-change: transform;
+                padding-top: 0;
+                padding-bottom: 0;
                 padding-left: 100%;
                 /*Groupe centré quand il tient à l'écran, sinon dernière carte à 70px
                 du bord (même espace que le gap)*/
                 padding-right: max(1px, calc((100% - 1480px) / 2));
+                &::before,
+                &::after{
+                    content: none;
+                }
             }
         }
     }

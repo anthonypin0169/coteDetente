@@ -7,8 +7,29 @@ export default function CardSlider ({ top, children, cardData }) {
     const stickyZoneRef = useRef()
     const rangeeRef = useRef()
 
-    /*Les refs ne sont remplies qu'après l'affichage : les calculs se font donc dans le useEffect*/
+    /*Desktop seulement (même seuil que cardSlider.scss) : le scroll vertical fait défiler les cartes.
+    En mobile, les cartes glissent au doigt (overflow-x en CSS), plus intuitif sur écran tactile*/
     useEffect(() => {
+        const desktop = window.matchMedia("(min-width: 768px)")
+        let stopScrollEffect = null
+
+        const update = () => {
+            stopScrollEffect?.()
+            stopScrollEffect = desktop.matches ? startScrollEffect() : null
+        }
+
+        update()
+        desktop.addEventListener("change", update)
+
+        return () => {
+            desktop.removeEventListener("change", update)
+            stopScrollEffect?.()
+        }
+    }, [])
+
+    /*Les refs ne sont remplies qu'après l'affichage : les calculs se font donc depuis le useEffect.
+    Renvoie la fonction qui arrête l'effet et retire les styles posés en JS*/
+    const startScrollEffect = () => {
         const container = containerRef.current
         const stickyZone = stickyZoneRef.current
         const rangee = rangeeRef.current
@@ -63,8 +84,10 @@ export default function CardSlider ({ top, children, cardData }) {
             observer.disconnect()
             window.removeEventListener("scroll", handleScroll)
             cancelAnimationFrame(frame)
+            container.style.height = ""
+            rangee.style.transform = ""
         }
-    }, [])
+    }
 
     return(
         <div className="slider-container" ref={containerRef}>
